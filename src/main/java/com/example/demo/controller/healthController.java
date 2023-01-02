@@ -13,4 +13,8 @@ public class healthController {
 	public String main(Model m) {
 		return "html/freeboard";
 	}
+	@GetMapping("/test")
+	public String test(Model m) {
+		return "html/test/test";
+	}
 }
