@@ -7,12 +7,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Data //get,set , equals.... 생략가능
+@Data 
 @ToString
-@EqualsAndHashCode(exclude= {"pwd","email","phone",})
-@AllArgsConstructor //모든생성자
-@NoArgsConstructor //기본생성자
-public class myPage {
+@EqualsAndHashCode(exclude= {"pwd","email","phone","birth","nickname"})
+@AllArgsConstructor 
+@NoArgsConstructor
+public class UserJoin {
 	
 	private String userid;
 	private String pwd;

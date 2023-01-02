@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>mypage edit</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function editUserInfo()
+{
+	var obj =$('#editUserInfo').serialize();
+	alert(obj);
+	$.ajax({
+		url:'/health/userEdit',
+		method:'post',
+		data:obj,
+		cache:false,
+		dataType:'json',
+		success:function(res){
+		alert(res);
+			if(res.edited)
+			{
+				alert("수정성공");
+				location.href="/health/userlist";
+			}
+		else
+			{
+				alert("수정실패");
+				
+			}
+		},
+		error : function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+	return false;
+}
+</script>
+</head>
+<body>
+<form id="editUserInfo" onsubmit="return editUserInfo();">
+<h3>내정보관리</h3>
+<table>
+<tbody>
+<tr>
+<th scope="row">계정</th>
+<td>[[${user.userid}]]</td>
+</tr>			
+<tr>
+<th scope="row">닉네임</th>
+<td><input type='text' id="userid" name="userid" th:value="${user.nickname}"></input></td>
+</tr>
+<tr>
+<th scope="row">전화번호</th>
+<td><input type='text'id="pwd" name="pwd" th:value="${user.email}"></input></td>
+</tr>
+<tr>
+<th scope="row">이메일</th>
+<td> <input type='text' id="phone" name="phone" th:value="${user.phone}"></input></td>
+</tr>
+</tbody>
+</table>
+<br>
+<button type="submit">확인</button>
+<button type="reset">취소</button><br>
+<a th:href="'/health/deleteuser/'+${user.userid}">회원탈퇴</a>
+</form>
+</body>
+</html>
