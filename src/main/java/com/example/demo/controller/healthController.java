@@ -52,6 +52,7 @@ public class healthController {
 	{
 		Map<String,Object> map= new HashMap<>();
 		System.out.println("userid: "+ userid);
+		System.out.println("svc.useredit(userid):"+svc.useredit(userid));
 		map.put("edited",svc.useredit(userid));
 		System.out.println("SYSTEM:  "+svc.useredit(userid));
 		return map;
