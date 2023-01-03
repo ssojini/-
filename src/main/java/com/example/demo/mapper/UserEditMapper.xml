@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserEditMapper">
+
+<select id="userlist" resultType="com.example.demo.vo.UserJoin">
+	SELECT * FROM userjoin
+</select>
+<select id="userinfo" parameterType="string" resultType="com.example.demo.vo.UserJoin">
+		SELECT * FROM userjoin WHERE userid=#{userid, jdbcType=VARCHAR}
+</select>
+<update id="useredit" parameterType="string">
+	UPDATE userjoin SET nickname=#{nickname, jdbcType=VARCHAR}, email=#{email,jdbcType=VARCHAR}, 
+	phone=#{phone,jdbcType=VARCHAR} WHERE userid=#{userid,jdbcType=VARCHAR}
+</update>
+<delete id="deleteuser" parameterType="string">
+	DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
+</delete>
+</mapper>
