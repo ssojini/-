@@ -5,10 +5,10 @@
 <title>mypage edit</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
 function editUserInfo()
 {
 	var obj =$('#editUserInfo').serialize();
-	alert(obj);
 	$.ajax({
 		url:'/health/userEdit',
 		method:'post',
@@ -16,18 +16,13 @@ function editUserInfo()
 		cache:false,
 		dataType:'json',
 		success:function(res){
-		alert(res);
 			if(res.edited)
 			{
-				alert(res.edited);
 				alert("수정성공");
 				location.href="/health/";
 			}
 		else
-			{
 				alert("수정실패");
-				
-			}
 		},
 		error : function(xhr,status,err){
 			alert('에러:' + err);
@@ -38,33 +33,88 @@ function editUserInfo()
 </script>
 </head>
 <body>
-<form id="editUserInfo" onsubmit="return editUserInfo();">
-<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
-<h3>내정보관리</h3>
-<table>
-<tbody>
-<tr>
-<th scope="row">계정</th>
-<td>[[${user.userid}]]</td>
-</tr>			
-<tr>
-<th scope="row">닉네임</th>
-<td><input type='text' id="nickname" name="nickname" th:value="${user.nickname}"></input></td>
-</tr>
-<tr>
-<th scope="row">전화번호</th>
-<td><input type='text'id="phone" name="phone" th:value="${user.phone}"></input></td>
-</tr>
-<tr>
-<th scope="row">이메일</th>
-<td> <input type='text' id="email" name="email" th:value="${user.email}"></input></td>
-</tr>
-</tbody>
-</table>
-<br>
-<button type="submit">확인</button>
-<button type="reset">취소</button><br>
-<a th:href="'/health/deleteuser/'+${user.userid}">회원탈퇴</a>
+<div id="leftbox" style="float:left; width: 300px; height: 200px;">
+<div class="profile_area" style="widt">
+        <div class="profile_inner">
+            <a href="#" onclick="changeImage()" class="photo">
+                <img th:src="${user.profile}" width="84"
+                     height="84" alt="프로필 이미지">
+                <span class="photo_edit"></span>
+            </a>
+            <div class="profile">
+                <p class="useid">[[${user.userid}]]</p>
+                <p class="usemail">[[${user.email}]]</p>
+            </div>
+        </div>    
+</div>
+
+    <div id="headerLeft" class="header_left">
+
+        <ul class="left_menu" role="menu">
+            <li>
+                <a href="/user2/help/myInfoV2?m=viewProfile&lang=ko_KR" class="left_item" role="menuitem" onclick="clickcr(this,'lnb.info','','',event)"
+                   aria-current="true">
+                    <div class="menu_text on">내프로필</div>
+                </a>
+            </li>
+            <li>
+                <a href="/user2/help/myInfoV2?m=viewSecurity&lang=ko_KR" class="left_item" role="menuitem" onclick="clickcr(this,'lnb.protect','','',event)"
+                   aria-current=>
+                    <div class="menu_text ">개인정보</div>
+                </a>
+            </li>
+            <li>
+                <a href="" class="left_item"
+                   role="menuitem" onclick="clickcr(this,'lnb.history','','',event)"
+                   aria-current=>
+                    <div class="menu_text ">게시글 관리</div>
+                </a>
+            </li>
+        </ul>
+        <ul class="left_link">
+            <li><a href="https://nca.naver.com/chat/account/view" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)">
+                    <div class="link_text">스마트봇 상담</div>
+                </a></li>
+        </ul>
+	</div>
+</div>
+
+
+
+
+
+<form id="editUserInfo" onsubmit="return editUserInfo();" style="float:right; width: 900px; height: 200px; ">
+	<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
+	<h3>내정보관리</h3>
+	<table>
+		<tbody>
+			<tr>
+				<th scope="row">계정</th>
+				<td>[[${user.userid}]]</td>
+			</tr>
+			<tr>
+				<th scope="row">프로필사진</th>
+				<td><input type='text' id="profile" name="profile" th:value="${user.profile}"></input></td>
+			</tr>			
+			<tr>
+				<th scope="row">닉네임</th>
+				<td><input type='text' id="nickname" name="nickname" th:value="${user.nickname}"></input></td>
+			</tr>
+			<tr>
+				<th scope="row">전화번호</th>
+				<td><input type='text'id="phone" name="phone" th:value="${user.phone}"></input></td>
+			</tr>
+			<tr>
+				<th scope="row">이메일</th>
+				<td> <input type='text' id="email" name="email" th:value="${user.email}"></input></td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<button type="submit">확인</button>
+	<button type="reset">취소</button><br>
+	<a th:href="'/health/deleteuser/'+${user.userid}">회원탈퇴</a>
 </form>
+
 </body>
 </html>

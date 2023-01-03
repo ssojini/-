@@ -15,7 +15,7 @@ public interface UserEditMapper {
 	
 	public UserJoin userinfo(String userid);
 	
-	public int useredit(String userid);
+	public int useredit(UserJoin userjoin);
 	
 	public int deleteuser(String userid);
 	
