@@ -19,8 +19,9 @@ function editUserInfo()
 		alert(res);
 			if(res.edited)
 			{
+				alert(res.edited);
 				alert("수정성공");
-				location.href="/health/userlist";
+				location.href="/health/";
 			}
 		else
 			{
@@ -38,6 +39,7 @@ function editUserInfo()
 </head>
 <body>
 <form id="editUserInfo" onsubmit="return editUserInfo();">
+<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
 <h3>내정보관리</h3>
 <table>
 <tbody>
@@ -47,15 +49,15 @@ function editUserInfo()
 </tr>			
 <tr>
 <th scope="row">닉네임</th>
-<td><input type='text' id="userid" name="userid" th:value="${user.nickname}"></input></td>
+<td><input type='text' id="nickname" name="nickname" th:value="${user.nickname}"></input></td>
 </tr>
 <tr>
 <th scope="row">전화번호</th>
-<td><input type='text'id="pwd" name="pwd" th:value="${user.email}"></input></td>
+<td><input type='text'id="phone" name="phone" th:value="${user.phone}"></input></td>
 </tr>
 <tr>
 <th scope="row">이메일</th>
-<td> <input type='text' id="phone" name="phone" th:value="${user.phone}"></input></td>
+<td> <input type='text' id="email" name="email" th:value="${user.email}"></input></td>
 </tr>
 </tbody>
 </table>

@@ -32,7 +32,7 @@ public class healthController {
 	@Autowired
 	private mypageService svc;
 	
-	@GetMapping("/userlist/")
+	@GetMapping("/")
 	@ResponseBody
 	public String userlist()
 	{	
@@ -51,7 +51,9 @@ public class healthController {
 	public Map<String,Object> useredit(String userid) 
 	{
 		Map<String,Object> map= new HashMap<>();
+		System.out.println("userid: "+ userid);
 		map.put("edited",svc.useredit(userid));
+		System.out.println("SYSTEM:  "+svc.useredit(userid));
 		return map;
 		
 	}
@@ -62,6 +64,8 @@ public class healthController {
 		m.addAttribute("user", svc.userinfo(userid));
 		return "html/DeleteUser";
 	}
+	
+	
 	
 	
 }
