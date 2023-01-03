@@ -14,7 +14,7 @@
 	UPDATE userjoin SET nickname=#{nickname, jdbcType=VARCHAR}, email=#{email,jdbcType=VARCHAR}, 
 	phone=#{phone,jdbcType=VARCHAR} WHERE userid=#{userid,jdbcType=VARCHAR}
 </update>
-<delete id="deleteuser" parameterType="string">
+<delete id="deleteuser" parameterType="com.example.demo.vo.UserJoin">
 	DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
 </delete>
 </mapper>

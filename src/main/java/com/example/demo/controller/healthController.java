@@ -37,6 +37,8 @@ public class healthController {
 	public String userlist()
 	{	
 		return svc.userlist().toString();
+		
+		//return svc.userinfo(userid).toString();
 	}
 	
 	@GetMapping("/useredit/{userid}") 
@@ -48,13 +50,12 @@ public class healthController {
 	
 	@PostMapping("/userEdit")
 	@ResponseBody
-	public Map<String,Object> useredit(String userid) 
+	public Map<String,Object> useredit(UserJoin userjoin) 
 	{
 		Map<String,Object> map= new HashMap<>();
-		System.out.println("userid: "+ userid);
-		System.out.println("svc.useredit(userid):"+svc.useredit(userid));
-		map.put("edited",svc.useredit(userid));
-		System.out.println("SYSTEM:  "+svc.useredit(userid));
+		//System.out.println("userid: "+ userid);
+		map.put("edited",svc.useredit(userjoin));
+		System.out.println("SYSTEM:  "+svc.useredit(userjoin));
 		return map;
 		
 	}

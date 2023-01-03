@@ -27,9 +27,9 @@ public class mypageService {
 		return map.userinfo(userid);
 	}
 	
-	public boolean useredit(String userid)
+	public boolean useredit(UserJoin userjoin)
 	{
-		int edit =  map.useredit(userid);
+		int edit =  map.useredit(userjoin);
 		System.out.println("edit: " + edit);
 		boolean editted = false;
 		if(edit>0)
