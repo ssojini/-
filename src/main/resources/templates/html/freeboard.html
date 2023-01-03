@@ -11,11 +11,13 @@
 			<th>제목</th>
 			<th>저자</th>
 		</tr>
-		<tr th:eath="freeboard : ${freeboardList}">
+		<tr th:each="freeboard : ${freeboardList}">
 			<td>[[${freeboard.fbnum}]]</td>
 			<td>[[${freeboard.title}]]</td>
 			<td>[[${freeboard.author}]]</td>
+			<td>[[${freeboard.contents}]]</td>
 		</tr>
 	</table>
+	[[${freeboardList}]]
 </body>
 </html>
