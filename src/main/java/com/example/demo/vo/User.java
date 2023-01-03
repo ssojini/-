@@ -27,6 +27,6 @@ public class User
 	private String phone;
 	//이메일
 	private String email;
-	//약관동의
-	private String agree;
+	//프로필사진
+	private String profile;
 }
