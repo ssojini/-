@@ -54,10 +54,16 @@ public class healthController {
 
 	@GetMapping("/")
 	@ResponseBody
-	public String userlist() {
+	public String userlist()
+	{	
 		return ms.userlist().toString();
+<<<<<<< HEAD
 
 		// return svc.userinfo(userid).toString();
+=======
+		
+		//return svc.userinfo(userid).toString();
+>>>>>>> refs/remotes/origin/hyeonchu
 	}
 
 	@GetMapping("/useredit/{userid}")
