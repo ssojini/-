@@ -37,53 +37,56 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/health")
 @Slf4j
 public class healthController {
+	/* 다루한 */
 	@Autowired
 	private FreeboardService fs;
-	
+
 	@GetMapping("/freeboard")
 	public String main(Model m) {
 		List<Freeboard> freeboardList = fs.getFreeboardList();
 		m.addAttribute("freeboardList", freeboardList);
 		return "html/freeboard";
 	}
-	
+	/* 다루한 */
+
+	/* 현주 */
 	private mypageService ms;
-	
+
 	@GetMapping("/")
 	@ResponseBody
-	public String userlist()
-	{	
+	public String userlist() {
 		return ms.userlist().toString();
 	}
-	
-	@GetMapping("/useredit/{userid}") 
-	public String addboardform(@PathVariable(value ="userid", required =false) String userid, Model m)
-	{	
+
+	@GetMapping("/useredit/{userid}")
+	public String addboardform(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", ms.userinfo(userid));
 		return "html/EditUser";
 	}
-	
+
 	@PostMapping("/userEdit")
 	@ResponseBody
-	public Map<String,Object> useredit(String userid) 
-	{
-		Map<String,Object> map= new HashMap<>();
-		System.out.println("userid: "+ userid);
-		System.out.println("ms.useredit(userid):"+ms.useredit(userid));
-		map.put("edited",ms.useredit(userid));
-		System.out.println("SYSTEM:  "+ms.useredit(userid));
+	public Map<String, Object> useredit(String userid) {
+		Map<String, Object> map = new HashMap<>();
+		System.out.println("userid: " + userid);
+		System.out.println("ms.useredit(userid):" + ms.useredit(userid));
+		map.put("edited", ms.useredit(userid));
+		System.out.println("SYSTEM:  " + ms.useredit(userid));
 		return map;
-		
+
 	}
-	
-	@GetMapping("/deleteuser/{userid}") 
-	public String deleteuser(@PathVariable(value ="userid", required =false) String userid, Model m)
-	{	
+
+	@GetMapping("/deleteuser/{userid}")
+	public String deleteuser(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", ms.userinfo(userid));
 		return "html/DeleteUser";
 	}
-	
-	
-	
-	
+	/* 현주 */
+
+	/* 종빈 */
+	@GetMapping("/test")
+	public String test(Model m) {
+		return "html/test/test";
+	}
+	/* 종빈 */
 }
