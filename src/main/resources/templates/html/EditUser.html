@@ -30,15 +30,47 @@ function editUserInfo()
 	});
 	return false;
 }
+/*
+function readURL(input) {
+	 if (input.files && input.files[0]) {
+	  var reader = new FileReader();
+	  
+	  reader.onload = function (e) {
+	   $('#profile').attr('src', e.target.result);  
+	  }
+	  
+	  reader.readAsDataURL(input.files[0]);
+	  }
+	}
+	 
+	// 이벤트를 바인딩해서 input에 파일이 올라올때 (input에 change를 트리거할때) 위의 함수를 this context로 실행합니다.
+	
+	$("#profile").change(function(){
+	   readURL(this);
+	});
+	*/
+	//test
+	function preview_image(event) 
+	{
+	 var reader = new FileReader();
+	 reader.onload = function(event)
+	 {
+	  var output = document.getElementById('profile');
+	  output.setAttribute("th:src",event.target.result);
+	  document.querySelector("img#def_profile").appendChild(output);
+	 };
+	 reader.readAsDataURL(output);
+	}
+	</script>
+
 </script>
 </head>
 <body>
-<div id="leftbox" style="float:left; width: 300px; height: 200px;">
+<div id="leftbox" style="float:left; width: 200px; height: 200px;">
 <div class="profile_area" style="widt">
         <div class="profile_inner">
             <a href="#" onclick="changeImage()" class="photo">
-                <img th:src="${user.profile}" width="84"
-                     height="84" alt="프로필 이미지">
+                <img th:src="${user.profile}" width="84" height="84" alt="프로필 이미지">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
@@ -83,7 +115,7 @@ function editUserInfo()
 
 
 
-<form id="editUserInfo" onsubmit="return editUserInfo();" style="float:right; width: 900px; height: 200px; ">
+<form id="editUserInfo" onsubmit="return editUserInfo();" enctype="multipart/form-data" style="float:right; width: 700px; height: 200px; ">
 	<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
 	<h3>내정보관리</h3>
 	<table>
@@ -94,7 +126,9 @@ function editUserInfo()
 			</tr>
 			<tr>
 				<th scope="row">프로필사진</th>
-				<td><input type='text' id="profile" name="profile" th:value="${user.profile}"></input></td>
+				<td><img th:src="${user.profile}" id="def_profile"  width="84" height="84" alt="프로필 이미지"
+						onchange="preview_image(event)"> </td>
+				<td><input type='file' id="profile" name="profile"></input></td>
 			</tr>			
 			<tr>
 				<th scope="row">닉네임</th>

@@ -121,6 +121,7 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> check(User user)
 	{
+		//System.err.println("useremail: "+user.getEmail());
 		return svc.check(user.getUserid(),user.getEmail());
 	}
 	@PostMapping("/reset")
