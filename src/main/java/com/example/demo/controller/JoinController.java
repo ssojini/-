@@ -2,12 +2,15 @@ package com.example.demo.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.interfaces.JoinRepository;
@@ -32,6 +35,15 @@ public class JoinController
 	public String showjoinForm2()
 	{
 		return "html/thymeleaf/userJoin2";
+	}
+	@PostMapping("/idcheck")
+	@ResponseBody
+	public int idCheck(@RequestParam("userid")User user, Model m)
+	{
+		Optional<User> op = repo.findById(user.getUserid());
+		int cnt = 0;
+		m.addAttribute("cnt" ,op.get().getUserid());
+		return cnt;
 	}
 	@PostMapping("/join")
 	@ResponseBody

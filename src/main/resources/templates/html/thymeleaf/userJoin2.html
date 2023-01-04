@@ -61,27 +61,24 @@ $(function(){
 	        error[0].style.color = "#08A600";
 	        error[0].style.display = "block";
 	    }
-	    
-	/*     $.ajax({
-            type:"GET",
-            url: "/team/join2Ajax?m=checkId&id=" + userid,
-            success : function(data) {
-                var result = data.substr(4);
-
-                if (result == "Y") {
-                    if (event == "first") {
-                        showSuccessMsg(oMsg, "멋진 아이디네요!");
-                    } else {
-                        hideMsg(oMsg);
-                    }
-                    idFlag = true;
-                } else {
-                    showErrorMsg(oMsg, "이미 사용중이거나 탈퇴한 아이디입니다.");
-                    setFocusToInputObject(oInput);
-                }
-            }
+	     $.ajax({
+            url: "/team/idcheck",
+            type:'post',
+            dateType:'josn',
+           	data:{"userid":userid},
+           	success:function(res){
+           		if(res.idcheck){
+           			error[0].innerHTML="사용중인 아이디입니다"
+           			error[0].style.display = "block";
+        	        error[0].style.color = "red"; 
+           		}else{
+           			error[0].innerHTML = "멋진 아이디네요!";
+     	       	 	error[0].style.color = "#08A600";
+     	       	 	error[0].style.display = "block"; 
+           		}
+           	}
         });
-        return true; */
+       return false;
 	}
 
 	//비밀번호
