@@ -87,9 +87,9 @@ public class healthController {
 	/* 현주 */
 
 	/* 종빈 */
-	@GetMapping("/test")
+	@GetMapping("/main")
 	public String test(Model m) {
-		return "html/test/test";
+		return "html/mainPage";
 	}
 	/* 종빈 */
 }
