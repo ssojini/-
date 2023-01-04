@@ -21,6 +21,10 @@ public class UserService
 	public HttpSession session;
 	@Autowired
 	private UserRepository repo;
+	@Autowired
+	private EmailService esvc;
+	
+	
 	public Map<String, Object> login(String userid, String pwd) {
 		Map<String,Object> map = new HashMap<>();
 		User user = repo.findByUseridAndPwd(userid,pwd);
@@ -44,7 +48,10 @@ public class UserService
 		if(user!=null) {
 			map.put("userid", user.getUserid());
 			//System.err.println(user.getUserid());
-			map.put("msg", "checked");
+			session.setAttribute("email", email);		
+									
+			// 이메일 발송			
+			map.put("msg", esvc.checkmail(session));
 			map.put("checked", true);
 		}else {
 			map.put("checked", false);
