@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,7 +50,7 @@ public class JoinController
 		Map<String,Object> map = new HashMap<>();
 		Optional<User> op = repo.findById(user.getUserid());
 		log.info("1:"+op);
-		map.put("idcheck", op.get().getUserid());
+		map.put("idcheck", op.isPresent()?true:false);
 		return map;
 	}
 	@PostMapping("/join")
@@ -61,6 +62,28 @@ public class JoinController
 		map.put("join", repo.save(user));
 		return map;
 	}
+	@GetMapping("/test")
+	@ResponseBody
+	public String sendTestMail()
+	{
+	    
+	    boolean isSent = svc.sendHTMLMessage();
+	    
+	    return isSent ? "메일 보내기 성공":"메일 보내기 실패";
+	}
+	   
+	 @GetMapping("/auth/{code}")  // 보낸 메일에서 이용자가 인증 링크를 클릭했을 때
+	 @ResponseBody
+	 public String index(@PathVariable("code")String code,HttpSession session)
+	 {
+	 String scode = (String)session.getAttribute("cer");
+	 if(code.equals(scode))
+	 {
+		 return "인증완료 코드확인=" + code;
+	 }
+		 log.info("인증코드 확인={}", code);
+		 return "인증실패 인증코드확인="+code;
+	 }
 	
 	/*----------------- [상욱] ----------------- */
 	
