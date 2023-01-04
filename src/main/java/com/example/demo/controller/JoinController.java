@@ -43,6 +43,4 @@ public class JoinController
 		map.put("join", repo.save(user));
 		return map;
 	}
-	
-	
 }
