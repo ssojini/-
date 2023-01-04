@@ -22,7 +22,7 @@ $(function(){
 	var mm = document.querySelector('#mm');
 	var dd = document.querySelector('#dd');
 
-	var email = document.querySelector('#email');
+	var email1 = document.querySelector('#email1');
 	//var email2 = document.querySelector('#email2');
 
 	var phone = document.querySelector('#phone');
@@ -42,7 +42,7 @@ $(function(){
 	dd.addEventListener("focusout", isBirthCompleted);
 
 	phone.addEventListener("focusout", checkPhoneNum);
-	email.addEventListener("focusout", isEmailCorrect);
+	email1.addEventListener("focusout", isEmailCorrect);
 	//email2.addEventListener("change", isEmailCorrect);
 
 	//아이디 체크
@@ -61,27 +61,24 @@ $(function(){
 	        error[0].style.color = "#08A600";
 	        error[0].style.display = "block";
 	    }
-	    
-	    $.ajax({
-            type:"GET",
-            url: "/team/join2Ajax?m=checkId&id=" + userid,
-            success : function(data) {
-                var result = data.substr(4);
-
-                if (result == "Y") {
-                    if (event == "first") {
-                        showSuccessMsg(oMsg, "멋진 아이디네요!");
-                    } else {
-                        hideMsg(oMsg);
-                    }
-                    idFlag = true;
-                } else {
-                    showErrorMsg(oMsg, "이미 사용중이거나 탈퇴한 아이디입니다.");
-                    setFocusToInputObject(oInput);
-                }
-            }
+	     $.ajax({
+            url: "/team/idcheck",
+            type:'post',
+            dateType:'josn',
+           	data:{"userid":userid},
+           	success:function(res){
+           		if(res.idcheck){
+           			error[0].innerHTML="사용중인 아이디입니다"
+           			error[0].style.display = "block";
+        	        error[0].style.color = "red"; 
+           		}else{
+           			error[0].innerHTML = "멋진 아이디네요!";
+     	       	 	error[0].style.color = "#08A600";
+     	       	 	error[0].style.display = "block"; 
+           		}
+           	}
         });
-        return true;
+       return false;
 	}
 
 	//비밀번호
@@ -214,11 +211,11 @@ $(function(){
 	function isEmailCorrect() {
 	    var emailPattern = /[a-z0-9]{2,}/;
 
-	    if(email.value === ""){ 
+	    if(email1.value === ""){ 
 	    	error[6].innerHTML = "필수 정보입니다.";
 	        error[6].style.display = "none"; 
 	        error[6].style.color="red";
-	    } else if(!emailPattern.test(email.value)) {
+	    } else if(!emailPattern.test(email1.value)) {
 	    	error[6].innerHTML = "형식에 맞지 않는 메일입니다.";
 	        error[6].style.display = "block";
 	        error[6].style.color="red";
@@ -227,46 +224,40 @@ $(function(){
 	    }
 	}
 	//이메일 input선택
-	function selectEmail(ele){
-	    var $ele = $(ele);
-	    var $email2 = $('input[name=email2]');
 
-	    // '1'인 경우 직접입력
-	    if($ele.val() == "1"){
-	        $email2.attr('readonly', false);
-	        $email2.val('');
-	    } else {
-	        $email2.attr('readonly', true);
-	        $email2.val($ele.val());
-	    }
-	}
-
-	/*
-	 function sendData()
-	 {
-	var email1 = $('#email1').val()
-	var email2 = $('#email2').val()
-
-	var obj = {};
-	obj.email =email1+'@'+email2
-	 }
-	 */
 });
+function selectEmail(ele){
+    var $ele = $(ele);
+    var $email2 = $('input[name=email2]');
+
+    // '1'인 경우 직접입력
+    if($ele.val() == "1"){
+        $email2.attr('readonly', false);
+        $email2.val('');
+    } else {
+        $email2.attr('readonly', true);
+        $email2.val($ele.val());
+    }
+}
 
 function joinUser()
 {
 	var email1 = $('#email1').val();
 	var email2 = $('#email2').val();
 	var obj = {};
-	obj.email = email+'@'+email2;
+	obj.email = email1 + '@' + email2;
 	
 	var yy = $('#yy').val();
 	var mm = $('#mm').val();
 	var dd = $('#dd').val();
-	var obj2= {};
-	obj2.birth = yymmdd;
+	obj.birth = yy+"-"+mm+"-"+dd;
 	
-	var obj = $('#joinUser').serialize();
+	obj.userid = $("#userid").val();
+	obj.pwd = $("#pwd").val();
+	obj.phone = $("#phone").val();
+	obj.nickname = $("#nickname").val();
+	obj.profile = $('#profile').val();
+	
 	$.ajax({
 		url:'/team/join',
 		method:'post',
@@ -274,13 +265,8 @@ function joinUser()
 		cache : false,
 		dataType:'json',
 		success : function(res){
-			alert(res.join ? '환영합니다! 회원가입을 축하합니다' :'저장실패');
-			/* if(res.add) {
-				location.href = '/jpaemp/list';
-			}else {
-				alert(res.msg);
-				location.href = res.url;
-			} */
+			alert(res.join ? '저장성공' :'저장실패');
+			
 		},
         error : function(xhr, status, err)
         {
@@ -290,6 +276,7 @@ function joinUser()
 	});	
 	return false;
 }
+
 </script>
 </head>
 <body>
@@ -298,8 +285,7 @@ function joinUser()
 <!-- 아이디, 비밀번호 -->
 	<div>
 		<label for="userid">아이디</label>
-			 <span class="ps_box int_id">
-				<input type="text" name="userid" id="userid" maxlength="20">
+				<input type="text" name="userid" id="userid" maxlength="20" value="smith">
 				<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
 	
 	</div>
@@ -323,9 +309,10 @@ function joinUser()
 	<div>
 		<label for="yy">생년월일</label>
 			<!-- 생년 -->
-			<input type="text" name="birth" id="yy" placeholder="년(4자)" aria-label="년(4자)" maxlength="4">
+			<input type="hidden" name="birth">
+			<input type="text" name="birth1" id="yy" placeholder="년(4자)" aria-label="년(4자)" maxlength="4" value="1992">
 			<!-- 월 -->
-			<select name="birth" id="mm" aria-label="월">
+			<select name="birth2" id="mm" aria-label="월">
 				<option value="">월</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -341,20 +328,20 @@ function joinUser()
 					<option value="12">12</option>
 			</select>
 			<!-- 일 -->
-			<input type="text" name="birth" id="dd" placeholder="일" aria-label="일" maxlength="2">
+			<input type="text" name="birth3" id="dd" placeholder="일" aria-label="일" maxlength="2" value="24">
 	</div>
 		<span class="error_next_box"></span>  
 	<!-- 핸드폰번호 -->
 	<div>
-		<label for="phone">전화번호</label></h3>
-		<input type="text" name="phone" id="phone" placeholder="전화번호입력" maxlength="16">
+		<label for="phone">전화번호</label>
+		<input type="text" name="phone" id="phone" placeholder="전화번호입력" maxlength="16" value="01090270848">
 		<span class="error_next_box"></span>  
 	</div>
 	
 	<!-- 이메일 -->
 	<div>
-		<label for="email">이메일</label></h3>
-		<input type="text" name="email" id="email" placeholder="이메일 아이디" maxlength="21">
+		<label for="email">이메일</label>
+		<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" value="meroro">
 		@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
 		<span class="error_next_box"></span>  
 			<select name="select_email" onChange="selectEmail(this)">
@@ -366,14 +353,9 @@ function joinUser()
 		        <option value="1">직접입력</option>
 			</select>
 	</div>
-	<div class="input-group-addon">
-		<button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
-	</div>
-	<div class="mail-check-box">
-		<input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
-	</div>
-	<span id="mail-check-warn"></span>
-	<div> 
+	<!-- 프로필 -->
+	<input type="hidden" name="profile" id="profile" value="/profile/default.png">
+	<div>
 		<button type="button" id="submit" onclick="joinUser()">회원가입</button>
 		<button type="reset">취소</button>
 	</div>
