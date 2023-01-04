@@ -50,20 +50,21 @@ public class healthController {
 	/* 다루한 */
 
 	/* 현주 */
-	private mypageService ms;
+	@Autowired
+	private mypageService mp_svc;
 
 	@GetMapping("/")
 	@ResponseBody
 	public String userlist()
 	{	
-		return ms.userlist().toString();
+		return mp_svc.userlist().toString();
 		
 		//return svc.userinfo(userid).toString();
 	}
 
 	@GetMapping("/useredit/{userid}")
 	public String addboardform(@PathVariable(value = "userid", required = false) String userid, Model m) {
-		m.addAttribute("user", ms.userinfo(userid));
+		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/EditUser";
 	}
 
@@ -73,18 +74,19 @@ public class healthController {
 	{
 		Map<String,Object> map= new HashMap<>();
 		//System.out.println("userid: "+ userid);
-		map.put("edited",ms.useredit(userjoin));
-		System.out.println("SYSTEM:  "+ms.useredit(userjoin));
+		map.put("edited",mp_svc.useredit(userjoin));
+		System.out.println("SYSTEM:  "+mp_svc.useredit(userjoin));
 		return map;
 
 	}
 
 	@GetMapping("/deleteuser/{userid}")
 	public String deleteuser(@PathVariable(value = "userid", required = false) String userid, Model m) {
-		m.addAttribute("user", ms.userinfo(userid));
+		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/DeleteUser";
 	}
 	/* 현주 */
+	
 
 	/* 종빈 */
 	@GetMapping("/test")
