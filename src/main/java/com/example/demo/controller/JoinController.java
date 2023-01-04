@@ -7,11 +7,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.interfaces.JoinRepository;
@@ -46,18 +44,18 @@ public class JoinController
 	}
 	@PostMapping("/idcheck")
 	@ResponseBody
-	public int idCheck(@RequestParam("userid")User user, Model m)
+	public Map<String,Object> idCheck(User user)
 	{
+		Map<String,Object> map = new HashMap<>();
 		Optional<User> op = repo.findById(user.getUserid());
-		int cnt = 0;
-		m.addAttribute("cnt" ,op.get().getUserid());
-		return cnt;
+		log.info("1:"+op);
+		map.put("idcheck", op.get().getUserid());
+		return map;
 	}
 	@PostMapping("/join")
 	@ResponseBody
 	public Map<String,Object> join(User user)
 	{
-		log.info("1");
 		Map<String,Object> map = new HashMap<>();
 		log.info(user.toString());
 		map.put("join", repo.save(user));
