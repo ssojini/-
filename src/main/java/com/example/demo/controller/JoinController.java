@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,25 +19,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/team")
 public class JoinController 
-{
+{	
 	@Autowired
 	private JoinRepository repo;
 	
 	@GetMapping("/join1")
 	public String showjoinForm1()
 	{
-		return "thymeleaf/userJoin1";
+		return "html/thymeleaf/userJoin1";
 	}
 	@GetMapping("/join2")
 	public String showjoinForm2()
 	{
-		return "thymeleaf/userJoin2";
+		return "html/thymeleaf/userJoin2";
 	}
 	@PostMapping("/join")
 	@ResponseBody
-	public Map<String,Object> join(@PathVariable User user)
+	public Map<String,Object> join(User user)
 	{
+		log.info("1");
 		Map<String,Object> map = new HashMap<>();
+		log.info(user.toString());
 		map.put("join", repo.save(user));
 		return map;
 	}
