@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +54,9 @@ public class healthController {
 	/* 현주 */
 	@Autowired
 	private mypageService mp_svc;
+	
+	@Autowired
+	ResourceLoader resourceLoader;
 
 	@GetMapping("/")
 	@ResponseBody
@@ -70,8 +75,28 @@ public class healthController {
 
 	@PostMapping("/userEdit")
 	@ResponseBody
-	public Map<String,Object> useredit(UserJoin userjoin) 
+	public Map<String,Object> useredit(@RequestParam("file")MultipartFile[] mfiles, 
+											HttpServletRequest request, UserJoin userjoin) 
 	{
+		ServletContext context = request.getServletContext();
+		String savePath = context.getRealPath("/WEB-INF/user_profile");
+		log.info("savePath:   "+ savePath);
+		List<String>list = new ArrayList<>();
+		
+		log.info(mfiles[0].getOriginalFilename());
+		
+		try {
+			for(int i=0;i<mfiles.length;i++) {
+            mfiles[i].transferTo(
+  	              new File(savePath+"/"+mfiles[i].getOriginalFilename())); 
+		}
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
+		
+		 String fname= mfiles[0].getOriginalFilename();
+         log.info("fname:  "+ fname);
+         userjoin.setProfile(fname);
 		Map<String,Object> map= new HashMap<>();
 		//System.out.println("userid: "+ userid);
 		map.put("edited",mp_svc.useredit(userjoin));
