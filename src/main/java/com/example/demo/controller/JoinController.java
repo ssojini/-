@@ -46,6 +46,8 @@ public class JoinController
 	{
 		return "html/thymeleaf/userJoin2";
 	}
+	
+	//중복확인
 	@PostMapping("/idcheck")
 	@ResponseBody
 	public Map<String,Object> idCheck(User user)
@@ -56,6 +58,18 @@ public class JoinController
 		map.put("idcheck", op.isPresent()?true:false);
 		return map;
 	}
+	@PostMapping("/nickcheck")
+	@ResponseBody
+	public Map<String, Object> nickCheck(User user)
+	{
+		Map<String,Object> map = new HashMap<>();
+		User nick = repo.findByNickname(user.getNickname());
+		map.put("nickcheck", nick);
+		
+		return map;
+	}
+		
+	//가입
 	@PostMapping("/join")
 	@ResponseBody
 	public Map<String,Object> join(User user)
