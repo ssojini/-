@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.interfaces.JoinRepository;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
 
@@ -31,6 +32,8 @@ public class JoinController
 	public HttpSession session;
 	@Autowired
 	public UserService us;
+	@Autowired
+	public EmailService es;
 	
 	
 	@GetMapping("/join1")
@@ -67,7 +70,7 @@ public class JoinController
 	public String sendTestMail()
 	{
 	    
-	    boolean isSent = us.sendHTMLMessage();
+	    boolean isSent = es.sendHTMLMessage();
 	    
 	    return isSent ? "메일 보내기 성공":"메일 보내기 실패";
 	}
