@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -68,25 +67,7 @@ public class JoinController
 		
 		return map;
 	}
-	
-	//이메일인증
-	@GetMapping("/emailAuth")
-	@ResponseBody
-	public String sendEmail(@PathVariable("code")String code, HttpSession session)
-	{
-		 boolean isSent = es.sendEmail(session);
-
-		String ser = (String) session.getAttribute("cer");
-		System.out.println("ser:  "+ ser);
-		if (code.equals(ser))
-		{
-			return "인증완료 인증코드확인=" + code;
-		}
-	    log.info("인증코드 확인={}", code);
-	    return "인증실패 인증코드확인=" + code;
-	}
-	
-	
+		
 	//가입
 	@PostMapping("/join")
 	@ResponseBody
