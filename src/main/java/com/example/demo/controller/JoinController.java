@@ -30,7 +30,7 @@ public class JoinController
 	@Autowired
 	public HttpSession session;
 	@Autowired
-	public UserService svc;
+	public UserService us;
 	
 	
 	@GetMapping("/join1")
@@ -67,7 +67,7 @@ public class JoinController
 	public String sendTestMail()
 	{
 	    
-	    boolean isSent = svc.sendHTMLMessage();
+	    boolean isSent = us.sendHTMLMessage();
 	    
 	    return isSent ? "메일 보내기 성공":"메일 보내기 실패";
 	}
@@ -105,7 +105,7 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> loginProc(User user)
 	{					
-		return svc.login(user.getUserid(),user.getPwd());
+		return us.login(user.getUserid(),user.getPwd());
 	}
 	@GetMapping("/findLoginInfo")
 	public String findLoginInfo()
@@ -122,20 +122,20 @@ public class JoinController
 	public Map<String,Object> check(User user)
 	{
 		//System.err.println("useremail: "+user.getEmail());
-		return svc.check(user.getUserid(),user.getEmail());
+		return us.check(user.getUserid(),user.getEmail());
 	}
 	@PostMapping("/reset")
 	@ResponseBody
 	public Map<String,Object> reset(User user)
 	{
 		//System.err.println(user);
-		return svc.reset(user.getUserid(),user.getPwd());
+		return us.reset(user.getUserid(),user.getPwd());
 	}
 	@PostMapping("/find")
 	@ResponseBody
 	public Map<String,Object> find(User user)
 	{
-		return svc.find(user.getPhone(),user.getEmail());
+		return us.find(user.getPhone(),user.getEmail());
 	}
 	@GetMapping("/logout")
 	public String logout()
