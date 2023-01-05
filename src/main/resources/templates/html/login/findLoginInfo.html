@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Find Information</title>
+</head>
+<style type="text/css">
+@import url(https://fonts.googleapis.com/css?family=Gudea:400,700);
+body {
+  perspective: 800px;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  font-family: "Gudea", sans-serif;
+  background: #ea5c54;
+  /* Old browsers */
+  /* FF3.6+ */
+  /* Chrome,Safari4+ */
+  /* Chrome10+,Safari5.1+ */
+  /* Opera 11.10+ */
+  /* IE10+ */
+  background: linear-gradient(135deg, #ea5c54 0%, #bb6dec 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#EA5C54 ", endColorstr="#bb6dec",GradientType=1 );
+  /* IE6-9 fallback on horizontal gradient */
+}
+body .form {
+  opacity: 1;
+  top: 20px;
+  -webkit-transition-timing-function: cubic-bezier(0.68, -0.25, 0.265, 0.85);
+  transition-property: transform, opacity, box-shadow, top, left;
+  transition-duration: 0.5s;
+  transform-origin: 161px 100%;
+  transform: rotateX(0deg);
+  position: relative;
+  width: 240px;
+  border-top: 2px solid #d8312a;
+  height: 500px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  padding: 100px 40px 40px 40px;
+  background: #35394a;
+  /* Old browsers */
+  /* FF3.6+ */
+  /* Chrome,Safari4+ */
+  /* Chrome10+,Safari5.1+ */
+  /* Opera 11.10+ */
+  /* IE10+ */
+  background: linear-gradient(45deg, #35394a 0%, #1f222e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#35394a", endColorstr="#1f222e",GradientType=1 );
+  /* IE6-9 fallback on horizontal gradient */
+}
+.sub_title{
+ margin: 5px;
+}
+
+.form {
+  color: #afb1be;
+  height: 60px;
+  text-align: left;
+  font-size: 16px;
+}
+body .form_title {
+  color: #afb1be;
+  height: 60px;
+  text-align: left;
+  font-size: 16px;
+}
+.change_pw {
+  height: 150px;
+  position: absolute;
+  left: 0;
+}
+body .find_id {
+  position: absolute;
+  top: 400px;
+  left: 0;
+  
+  right: 0;
+  margin: auto;
+}
+body .form input[type=text],
+body .form input[type=password] {
+  color: #afb1be;
+  width: 190px;
+  margin-top: -2px;
+  background: #32364a;
+  left: 0;
+  padding: 10px 65px;
+  border-top: 2px solid #393d52;
+  border-bottom: 2px solid #393d52;
+  border-right: none;
+  border-left: none;
+  outline: none;
+  font-family: "Gudea", sans-serif;
+  box-shadow: none;
+}
+
+body .login_fields__submit {
+  position: relative;
+  top: 35px;
+  left: 0;
+  width: 80%;
+  right: 0;
+  margin: auto;
+}
+body .login_fields__submit .forgot {
+  float: right;
+  font-size: 10px;
+  margin-top: 11px;
+  text-decoration: underline;
+}
+body .bttn .forgot a {
+  color: #606479;
+}
+body .bttn input {
+  border-radius: 50px;
+  background: transparent;
+  padding: 10px 50px;
+  border: 2px solid #dc6180;
+  color: #dc6180;
+  text-transform: uppercase;
+  font-size: 11px;
+  transition-property: background, color;
+  transition-duration: 0.2s;
+}
+body .bttn input:focus {
+  box-shadow: none;
+  outline: none;
+}
+body .bttn input:hover {
+  color: white;
+  background: #dc6180;
+  cursor: pointer;
+  transition-property: background, color;
+  transition-duration: 0.2s;
+}
+.bttn{
+margin: 10px;
+}
+
+
+</style>
+<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function check(){
+		var userid=$('#cp_mid').val();
+		var email=$('#cp_email').val();
+		//alert(userid+email);
+		$.ajax({
+			url:'/team/check',
+			method:'post',
+			cache:false,
+			data:{"userid":userid,"email":email},
+			dataType:'json',
+			success: function(res){
+				alert(res.msg);
+				$('#check').text(res.msg);
+				if(res.checked){
+				$('#checked').css('display','inline');					
+				$('#mpw').css('display','inline');	
+				var uid = res.uid;
+				$('#userid').prop('value',userid);
+				}				 
+			}, error: function(xhr,status,err){
+				alert("에러: "+err);
+			}
+		});
+	}
+	function reset(){
+		var pwd = $('#cp_mpw').val();
+		var userid = $('#userid').val();
+		alert(userid+"+"+pwd);
+		$.ajax({
+			url:'/team/reset',
+			method:'post',
+			cache:'false',
+			data:{'userid':userid,'pwd':pwd},
+			dataType:'json',
+			success:function(res){
+				alert(res.msg);
+				if(res.reset){
+					location.href='/team/login';
+				}
+			},error: function(xhr,status,err){
+				alert("에러: "+err);
+			}
+		});		
+	}
+	function find(){
+		var phone=$('#fi_phone').val();
+		var email=$('#fi_email').val();
+		alert(phone+email);
+		$.ajax({
+			url:'/team/find',
+			method:'post',
+			cache:false,
+			data:{"phone":phone,"email":email},
+			dataType:'json',
+			success: function(res){
+				if(res.found){
+					alert("ID: "+res.userid);
+					location.href='/team/login';
+				}else{
+					alert("회원정보가 없습니다.")
+				}								
+			}, error: function(xhr,status,err){
+				alert("에러: "+err);
+			}
+		});
+	}
+</script>
+<body>
+<div class="form">
+<div class='form_title'>
+				<span>Forgotten password / ID ?</span>
+			</div>
+		<div class="change_pw">
+			<hr>
+			<div class="sub_title">
+			&nbsp;&nbsp;Reset your password
+			</div>
+			<div>
+				<input id="cp_mid" placeholder='ID' type='text'>
+			</div>
+			<div>
+				<input id="cp_email" placeholder='email' type='text'>
+			</div>
+			<div id="check" align="center" style="color: #ea5c54"></div>
+			<div id="mpw" style="display: none">
+				<input id="cp_mpw" placeholder='new pssword' type='text'>
+			</div>
+			<div class="bttn">
+				<input type='submit' value='Check' onclick="check();">
+				<span id="checked" style="display: none">
+				<input type='submit' value='Reset' onclick="reset();">
+				<input type='hidden' id='userid'>
+				</span>
+
+			</div>
+		</div>
+
+		<div class="find_id">
+			<hr>
+			<div class="sub_title">
+			&nbsp;&nbsp;Find your ID
+			</div>
+			<div>
+				<input id="fi_phone" placeholder='Phone' type='text'>
+			</div>
+			<div>
+				<input id="fi_email" placeholder='email' type='text'>
+			</div>
+			<div class="bttn">
+				<input type='submit' value='Find' onclick="find();">
+
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
