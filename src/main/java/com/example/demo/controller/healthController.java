@@ -114,8 +114,14 @@ public class healthController {
 	
 
 	/* 종빈 */
-	@GetMapping("/main")
+	@GetMapping("/test")
 	public String test(Model m) {
+		return "html/test/test";
+	}
+	
+	/* 종빈 */
+	@GetMapping("/main")
+	public String main1(Model m) {
 		return "html/mainPage";
 	}
 	/* 종빈 */
