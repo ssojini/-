@@ -27,7 +27,6 @@ $(function(){
 
 	var phone = document.querySelector('#phone');
 
-	var error = document.querySelectorAll('.error_next_box');
 
 	//이벤트 핸들러 연결
 	userid.addEventListener("focusout", checkId);
@@ -44,9 +43,13 @@ $(function(){
 	phone.addEventListener("focusout", checkPhoneNum);
 	email1.addEventListener("focusout", isEmailCorrect);
 	//email2.addEventListener("change", isEmailCorrect);
+});
+	
 
 	//아이디 체크
 	function checkId() {
+		var userid = document.querySelector('#userid');
+		var error = document.querySelectorAll('.error_next_box');
 	    var idPattern = /[a-zA-Z0-9_-]{5,20}/;
 	    if(userid.value === "") {
 	        error[0].innerHTML = "필수 정보입니다.";
@@ -60,8 +63,8 @@ $(function(){
 	     $.ajax({
             url: "/team/idcheck",
             type:'post',
-            dateType:'josn',
-           	data:{"userid":userid},
+            dataType:'json',
+            data:{"userid" : userid.value},
            	success:function(res){
            		if(res.idcheck){
            			error[0].innerHTML="사용중인 아이디입니다"
@@ -74,11 +77,11 @@ $(function(){
            		}
            	}
         });
-       return false;
 	}
 
 	//비밀번호
 	function checkPw(){
+		var error = document.querySelectorAll('.error_next_box');
 		var pwPattern = /[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,16}/;
 		if(pwd1.value === ""){
 			error[1].innerHTML ="필수 정보입니다.";
@@ -104,6 +107,7 @@ $(function(){
 
 	//비밀번호 재확인
 	function checkPw2(){
+		var error = document.querySelectorAll('.error_next_box');
 		if(pwd.value===pwd1.value && pwd.value!=""){
 			error[2].style.display = "none";
 		}else if(pwd.value!==pwd1.value){
@@ -120,6 +124,7 @@ $(function(){
 
 	//닉네임 확인
 	function checkNick(){
+		var error = document.querySelectorAll('.error_next_box');
 		var namePattern = /[a-zA-Z가-힣]/;
 		if(nickname.value===""){
 			error[3].innerHTML = "필수 정보입니다.";
@@ -136,6 +141,7 @@ $(function(){
 
 	//생년월일
 	function isBirthCompleted() {
+		var error = document.querySelectorAll('.error_next_box');
 	    var yearPattern = /[0-9]{4}/;
 
 	    if(!yearPattern.test(yy.value)) {
@@ -148,6 +154,7 @@ $(function(){
 
 
 	    function isMonthSelected() {
+		var error = document.querySelectorAll('.error_next_box');
 	        if(mm.value === "월") {
 	            error[4].innerHTML = "태어난 월을 선택하세요.";
 	            error[4].style.color="red";
@@ -157,6 +164,7 @@ $(function(){
 	    }
 
 	    function isDateCompleted() {
+		var error = document.querySelectorAll('.error_next_box');
 	        if(dd.value === "") {
 	            error[4].innerHTML = "태어난 일(날짜) 2자리를 정확하게 입력하세요.";
 	            error[4].style.color="red";
@@ -167,6 +175,7 @@ $(function(){
 	}
 
 	function isBirthRight() {
+		var error = document.querySelectorAll('.error_next_box');
 	    var datePattern = /\d{1,2}/;
 	    if(!datePattern.test(dd.value) || Number(dd.value)<1 || Number(dd.value)>31) {
 	        error[4].innerHTML = "생년월일을 다시 확인해주세요.";
@@ -177,6 +186,7 @@ $(function(){
 	}
 
 	function checkAge() {
+		var error = document.querySelectorAll('.error_next_box');
 	    if(Number(yy.value) < 1920) {
 	        error[4].innerHTML = "정말이세요?";
 	        error[4].style.color="red";
@@ -189,6 +199,7 @@ $(function(){
 	}
 	//핸드폰번호
 	function checkPhoneNum() {
+		var error = document.querySelectorAll('.error_next_box');
 	    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
 
 	    if(phone.value === "") {
@@ -205,6 +216,7 @@ $(function(){
 	}
 	//이메일
 	function isEmailCorrect() {
+		var error = document.querySelectorAll('.error_next_box');
 	    var emailPattern = /[a-z0-9]{2,}/;
 
 	    if(email1.value === ""){ 
@@ -221,7 +233,6 @@ $(function(){
 	}
 	//이메일 input선택
 
-});
 function selectEmail(ele){
     var $ele = $(ele);
     var $email2 = $('input[name=email2]');
