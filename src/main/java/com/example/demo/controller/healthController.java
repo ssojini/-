@@ -63,14 +63,13 @@ public class healthController {
 	public String userlist()
 	{	
 		return mp_svc.userlist().toString();
-		
-		//return svc.userinfo(userid).toString();
+
 	}
 
 	@GetMapping("/useredit/{userid}")
 	public String addboardform(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
-		return "html/EditUser";
+		return "html/mypage/EditUser";
 	}
 
 	@PostMapping("/userEdit")
@@ -106,10 +105,38 @@ public class healthController {
 	}
 
 	@GetMapping("/deleteuser/{userid}")
-	public String deleteuser(@PathVariable(value = "userid", required = false) String userid, Model m) {
+	public String deleteuser_form(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
-		return "html/DeleteUser";
+		return "html/mypage/DeleteUser";
 	}
+	
+	@GetMapping("/deleteuser_check/{userid}")
+	public String deleteuser_check(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		
+		return "html/mypage/DeleteUser_Check";
+	}
+	
+	@PostMapping("/user_addinfo/{userid}")
+	@ResponseBody
+	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid, String pwd, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		Map<String, Object>map = new HashMap<>();
+		map.put("deleted", mp_svc.deleteuser(userid, pwd));
+		return map;
+	}
+	
+	@GetMapping("/user_addinfo/{userid}")
+	public String useraddinfo(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/UserDetail";
+	}
+	
+	@GetMapping("/test1")
+	public String test1() {
+		return "html/mypage/test.html";
+	}
+	
 	/* 현주 */
 	
 

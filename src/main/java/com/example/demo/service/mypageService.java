@@ -42,13 +42,17 @@ public class mypageService {
 		return editted;
 	}
 	
-	public boolean deleteuser(String userid)
+	public boolean deleteuser(String userid, String pwd)
 	{
-		int delete = map.deleteuser(userid);
+		UserJoin join = map.userinfo(userid);
 		boolean deleted=false;
-		if(delete>0)
+		if(join.getPwd().equals(pwd))
 		{
-			deleted=true;
+			int delete = map.deleteuser(userid);
+			if(delete>0)
+			{
+				deleted=true;
+			}
 		}
 		return deleted;
 	}
