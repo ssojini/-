@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.mapper.UserEditMapper;
 import com.example.demo.vo.UserJoin;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
