@@ -5,18 +5,21 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.interfaces.UserRepository;
 import com.example.demo.vo.User;
 
-
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UserService 
 {
-
+	@Autowired
+	private JavaMailSender sender;
 	@Autowired
 	public HttpSession session;
 	@Autowired
@@ -93,8 +96,4 @@ public class UserService
 		}
 		return map;
 	}
-
-		
-	
-	
 }
