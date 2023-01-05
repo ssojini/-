@@ -164,18 +164,45 @@ margin: 10px;
 				if(res.checked){
 				$('#checked').css('display','inline');					
 				$('#mpw').css('display','inline');	
-				var uid = res.uid;
+				var user = res.userid;				
 				$('#userid').prop('value',userid);
+				//var rdStr = res.rdStr;
+				//alert("rdStr: "+rdStr);
+				//$('#rdStr').prop('value',rdStr);
 				}				 
 			}, error: function(xhr,status,err){
 				alert("에러: "+err);
 			}
 		});
+	}	
+	function auth(){
+		//var rdStr=$('#rdStr').val();
+		//alert("인증검사");
+		$.ajax({
+			url:'/team/authEmail',
+			method:'post',
+			cache:false,
+			data:'',
+			dataType:'json',
+			success:function(res){
+				//alert(res);
+				if(res)
+				{
+					alert("인증되었습니다.");
+					reset();
+				}else{
+					alert("이메일 인증하세요.");						
+				}
+			},error: function(xhr,status,err){
+				alert("이메일 인증에러: "+err);
+			}
+		});
 	}
 	function reset(){
+		
 		var pwd = $('#cp_mpw').val();
 		var userid = $('#userid').val();
-		alert(userid+"+"+pwd);
+		//alert(userid+"+"+pwd);
 		$.ajax({
 			url:'/team/reset',
 			method:'post',
@@ -195,7 +222,7 @@ margin: 10px;
 	function find(){
 		var phone=$('#fi_phone').val();
 		var email=$('#fi_email').val();
-		alert(phone+email);
+		//alert(phone+email);
 		$.ajax({
 			url:'/team/find',
 			method:'post',
@@ -237,9 +264,10 @@ margin: 10px;
 			</div>
 			<div class="bttn">
 				<input type='submit' value='Check' onclick="check();">
-				<span id="checked" style="display: none">
-				<input type='submit' value='Reset' onclick="reset();">
+				<span id="checked" style="display: none;">
+				<input type='submit' value='Reset' onclick="auth();">
 				<input type='hidden' id='userid'>
+				<input type='hidden' id='rdStr'>
 				</span>
 
 			</div>

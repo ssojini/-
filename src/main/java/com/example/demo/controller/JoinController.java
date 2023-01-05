@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,6 +46,8 @@ public class JoinController
 	{
 		return "html/thymeleaf/userJoin2";
 	}
+	
+	//중복확인
 	@PostMapping("/idcheck")
 	@ResponseBody
 	public Map<String,Object> idCheck(User user)
@@ -55,6 +58,18 @@ public class JoinController
 		map.put("idcheck", op.isPresent()?true:false);
 		return map;
 	}
+	@PostMapping("/nickcheck")
+	@ResponseBody
+	public Map<String, Object> nickCheck(User user)
+	{
+		Map<String,Object> map = new HashMap<>();
+		User nick = repo.findByNickname(user.getNickname());
+		map.put("nickcheck", nick);
+		
+		return map;
+	}
+		
+	//가입
 	@PostMapping("/join")
 	@ResponseBody
 	public Map<String,Object> join(User user)
@@ -73,7 +88,7 @@ public class JoinController
 	public String add()
 	{
 		Date date = Date.valueOf("2022-12-31");
-		User member = new User("smith","1234","clinamen",date,"010-1234-5678","smith@ezen.com","testID");
+		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","asdf@asdf.com","testID");
 		User added = repo.save(member);
 		return added.toString();
 	}
@@ -123,6 +138,42 @@ public class JoinController
 	{
 		session.setAttribute("userid", null);
 		return "html/login/login";
+	}
+	
+	//---------------이메일 인증------------------
+	
+	//이메일에서 인증버튼 눌러서 인증을 한다.
+	@GetMapping("/auth/{rdStr}")
+	@ResponseBody
+	public String authCheck(@PathVariable("rdStr")String rdStrCheck)
+	{		
+		
+		if(rdStrCheck.equals(session.getAttribute("rdStr")))
+		{
+			session.setAttribute("authCheck", "1");
+			return "인증완료";
+		}
+		
+		session.setAttribute("authCheck", "0");
+		return "인증실패";
+	}
+	
+	//
+	@PostMapping("/authEmail")
+	@ResponseBody
+	public boolean authorizedEmail()	
+	{
+		//System.err.println("here");		
+		if(session.getAttribute("authCheck")==""||session.getAttribute("authCheck")==null) {
+			session.setAttribute("authCheck", "0");
+		}
+		//System.err.println(session.getAttribute("authCheck"));
+		String authCheck = (String) session.getAttribute("authCheck");
+		//System.err.println("string: "+authCheck);
+		
+		if(authCheck.equals("1")) return true;
+		
+		return false;
 	}
 	
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.FileDataSource;
@@ -86,21 +85,50 @@ public class EmailService
       return false;
    }
    
+   //소진
+   public boolean sendEmail(HttpSession session)
+   {
+	  MimeMessage mimeMessage = sender.createMimeMessage();
+	  try {
+		  InternetAddress[] addressTo = new InternetAddress[1];
+	      addressTo[0] = new InternetAddress("emailadd@gmail.com");
+	      
+	      mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
+
+	      mimeMessage.setSubject("마임 메시지(HTML) 테스트");
+	         
+	      String ser = createRandomStr();
+	      mimeMessage.setContent("<a href='http://localhost/mail/"+ser+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+	      session.setAttribute("cer", ser);
+	                 
+	       sender.send(mimeMessage);
+	       return true;
+	   } catch (MessagingException e) {
+	       log.error("에러={}", e);
+	   }
+
+	  return false;
+   }
+   
+   
    public boolean checkmail(HttpSession session)
    {
 	  String email = (String) session.getAttribute("email");
 	  System.err.println("email: "+email);
+	  String rdStr =createRandomStr();
+	  session.setAttribute("rdStr", rdStr);
+	  
       MimeMessage mimeMessage = sender.createMimeMessage();
 
       try {
          InternetAddress[] addressTo = new InternetAddress[1];
-         addressTo[0] = new InternetAddress("siesta_w@naver.com");
+         addressTo[0] = new InternetAddress(email);
 
          mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
 
-         mimeMessage.setSubject("마임 메시지(HTML) 테스트");
+         mimeMessage.setSubject("팀프로젝트 메일 확인");
          
-         mimeMessage.setContent("<a href='http://localhost/mail/auth/"+createRandomStr()+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+         mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
          
          sender.send(mimeMessage);
          return true;

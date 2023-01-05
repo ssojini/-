@@ -47,6 +47,8 @@ public class UserService
 	public Map<String, Object> check(String userid, String email) 
 	{
 		Map<String,Object> map = new HashMap<>();
+		session.setAttribute("rdStr", "");
+		session.setAttribute("authCheck", "0");
 		User user = repo.findByUseridAndEmail(userid,email);
 		if(user!=null) {
 			map.put("userid", user.getUserid());
@@ -54,8 +56,11 @@ public class UserService
 			session.setAttribute("email", email);		
 									
 			// 이메일 발송			
-			map.put("msg", esvc.checkmail(session));
-			map.put("checked", true);
+			map.put("msg", esvc.checkmail(session)?"메일발송":"메일발송실패");
+			String rdStr = (String) session.getAttribute("rdStr");
+			session.setAttribute("rdStr", rdStr);
+			map.put("rdStr",rdStr);
+			map.put("checked", "send email");
 		}else {
 			map.put("checked", false);
 			map.put("userid", null);
