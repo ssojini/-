@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.vo.Freeboard;
 
@@ -125,4 +126,27 @@ public class healthController {
 		return "html/mainPage";
 	}
 	/* 종빈 */
+	
+	/*엘라 */
+	@Autowired 
+	private AdminBoardSerivce absvc;
+	
+	@GetMapping("/admin")
+	public String admin()
+	{
+		return "html/admin/adminBoard";
+	}
+	
+	@GetMapping("/writeAdmin")
+	public String writeAdmin()
+	{
+		
+		return "html/admin/writeBoard_admin";
+	}
+	
+	@GetMapping("/qaList")
+	public String qaList()
+	{
+		return null;
+	}
 }
