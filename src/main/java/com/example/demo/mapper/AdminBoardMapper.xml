@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.AdminBoardMapper">
+
+	<select id="QAlist"
+		resultType="map">
+		SELECT q.qnum, q.title, q.author, q.qdate, q.content, q.hit, a.anum, a.title as atitle, a.author as a_author, a.adate, a.hit as ahit, a.content as a_content, attsize, attname, attid
+		FROM queBoard q LEFT OUTER JOIN ansBoard a
+		ON q.qnum = a. qnum 
+        LEFT OUTER JOIN attach c
+        ON q.qnum= c.qnum
+		ORDER BY q.qnum DESC, a.anum ASC;
+	</select>
+	
+</mapper>
