@@ -15,11 +15,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="freeboard")
-public class Freeboard {
+public class FreeBoard {
 	@Id
 	@SequenceGenerator(name="FREEBOARD_FBNUM_GEN",allocationSize=1,sequenceName="FREEBOARD_FBNUM_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FREEBOARD_FBNUM_GEN")
 	private Integer fbnum;
+	private String bname;
 	private String title;
 	private String author;
 	private String contents;
