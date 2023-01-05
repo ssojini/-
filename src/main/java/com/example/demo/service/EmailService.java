@@ -90,17 +90,20 @@ public class EmailService
    {
 	  String email = (String) session.getAttribute("email");
 	  System.err.println("email: "+email);
+	  String rdStr =createRandomStr();
+	  session.setAttribute("rdStr", rdStr);
+	  
       MimeMessage mimeMessage = sender.createMimeMessage();
 
       try {
          InternetAddress[] addressTo = new InternetAddress[1];
-         addressTo[0] = new InternetAddress("siesta_w@naver.com");
+         addressTo[0] = new InternetAddress(email);
 
          mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
 
-         mimeMessage.setSubject("마임 메시지(HTML) 테스트");
+         mimeMessage.setSubject("팀프로젝트 메일 확인");
          
-         mimeMessage.setContent("<a href='http://localhost/mail/auth/"+createRandomStr()+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+         mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
          
          sender.send(mimeMessage);
          return true;
