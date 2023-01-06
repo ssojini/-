@@ -42,7 +42,7 @@ public class healthController {
 			List<FreeBoard> listFreeBoard = fs.getFreeBoardList(bname);
 			m.addAttribute("listFreeBoard", listFreeBoard);
 		}
-		return "html/freeboard";
+		return "html/freeBoard";
 	}
 
 	@PostMapping("/getListMap")
@@ -50,6 +50,18 @@ public class healthController {
 	public List<Map<String, Object>> getListMap(Model m, String bname) {
 		List<Map<String, Object>> listMap = fs.getListFreeBoardToListMap(bname);
 		return listMap;
+	}
+	
+	@GetMapping("/addFreeBoard")
+	public String addFreeBoard(Model m) {
+		return "html/addFreeBoard";
+	}
+	@PostMapping("/addFreeBoard")
+	@ResponseBody
+	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeboard) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("result", "result");
+		return map;
 	}
 
 	/* 다루한 */

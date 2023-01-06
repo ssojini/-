@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>freeBoard</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
@@ -10,7 +10,9 @@
 <link rel="stylesheet" href="/css/freeboard.css">
 </head>
 <body>
-	<h1 id="titleH1">자유게시판</h1>
+	<header>
+		<h1 id="titleH1">자유게시판</h1>
+	</header>
 	<main>
 		<div id="menuDiv">
 			<select id="menu" onchange="changeBoard($('#menu').val());">
@@ -33,6 +35,9 @@
 					<td>[[${board.contents}]]</td>
 				</tr>
 			</table>
+		</div>
+		<div>
+			<button onclick="location.href='/health/addFreeBoard';">글 쓰기</button>
 		</div>
 	</main>
 </body>

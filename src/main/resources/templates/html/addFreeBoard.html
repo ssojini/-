@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>addFreeBoard</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+	crossorigin="anonymous"></script>
+<script src="/js/addFreeBoard.js"></script>
+<link href="/css/addFreeBoard.css">
+</head>
+<body>
+	<header>
+		<h1>글쓰기</h1>
+	</header>
+	<main>
+		<form id="addFreeBoardForm">
+			<div>
+				<input id="title" name="title">
+			</div>
+			<div>
+				<textarea id="contents" name="contents"></textarea>
+			</div>
+			<div>
+				<button onclick="addFreeBoard();">게시</button>
+			</div>
+		</form>
+	</main>
+</body>
+</html>
