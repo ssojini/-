@@ -3,19 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>freeBoard</title>
+<link rel="stylesheet" href="/css/freeBoard.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
-<script type="text/javascript" src="/js/freeboard.js"></script>
-<link rel="stylesheet" href="/css/freeboard.css">
+<script type="text/javascript" src="/js/freeBoard.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		var bname = "[[${bname}]]";
+		$("#bname").val(bname).prop("selected",true);
+	};
+</script>
 </head>
 <body>
 	<header>
-		<h1 id="titleH1">자유게시판</h1>
+		<h1 id="titleH1">회원게시판</h1>
 	</header>
 	<main>
 		<div id="menuDiv">
-			<select id="menu" onchange="changeBoard($('#menu').val());">
+			<select id="bname" onchange="changeBoard($('#bname').val());">
 				<option value="free">자유게시판</option>
 				<option value="meal">식단공유게시판</option>
 				<option value="beforafter">비포에프터게시판</option>
@@ -37,7 +43,7 @@
 			</table>
 		</div>
 		<div>
-			<button onclick="location.href='/health/addFreeBoard';">글 쓰기</button>
+			<button onclick="freeBoard();">글 쓰기</button>
 		</div>
 	</main>
 </body>

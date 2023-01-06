@@ -1,7 +1,3 @@
-
-window.onload = function() {
-};
-
 function changeBoard(bname) {
 	$.ajax({
 		url: "/health/getListMap",
@@ -13,7 +9,7 @@ function changeBoard(bname) {
 			$(".boardTr").remove("");
 			$("#boardTable").append($tr);
 			for (var i = 0; i < res.length; i++) {
-				var $tr = $("<tr class='boardTr'><td>"+res[i].fbnum+"</td><td>"+res[i].title+"</td><td>"+res[i].contents+"</td></tr>");
+				var $tr = $("<tr class='boardTr'><td>" + res[i].fbnum + "</td><td>" + res[i].title + "</td><td>" + res[i].contents + "</td></tr>");
 				$("#boardTable").append($tr);
 			}
 		},
@@ -21,4 +17,8 @@ function changeBoard(bname) {
 			alert(err);
 		}
 	});
+}
+
+function freeBoard() {
+	location.href = "/health/addFreeBoard?bname="+$("#bname").val();
 }

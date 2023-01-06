@@ -7,6 +7,13 @@
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
 <script src="/js/addFreeBoard.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		var bname = '[[${bname}]]';
+		$("#bname").val(bname).prop("selected", true);
+		$("#goBack").attr("onclick","location.href='/health/freeBoard?bname="+bname+"';");
+	};
+</script>
 <link href="/css/addFreeBoard.css">
 </head>
 <body>
@@ -16,13 +23,21 @@
 	<main>
 		<form id="addFreeBoardForm">
 			<div>
+				<select id="bname">
+					<option value="free">자유게시판</option>
+					<option value="meal">식단공유게시판</option>
+					<option value="beforafter">비포에프터게시판</option>
+				</select>
+			</div>
+			<div>
 				<input id="title" name="title">
 			</div>
 			<div>
 				<textarea id="contents" name="contents"></textarea>
 			</div>
 			<div>
-				<button onclick="addFreeBoard();">게시</button>
+				<button id="goBack" type="button">뒤로가기</button>
+				<button type="button" onclick="addFreeBoard();">게시</button>
 			</div>
 		</form>
 	</main>

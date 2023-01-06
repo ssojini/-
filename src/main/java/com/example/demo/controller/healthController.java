@@ -11,6 +11,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,27 +20,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
-import com.example.demo.service.FreeboardService;
+import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/health")
 @Slf4j
 public class healthController {
+	@Autowired HttpSession session;
+
 	/* 다루한 */
 	@Autowired
-	private FreeboardService fs;
+	private FreeBoardService fs;
 
-	@GetMapping("/freeboard")
-	public String freeboard(Model m, String bname) {
+	@GetMapping("/freeBoard")
+	public String freeBoard(Model m, String bname) {
 		if (bname != null) {
 			List<FreeBoard> listFreeBoard = fs.getFreeBoardList(bname);
+			if (bname != null)
+				m.addAttribute("bname",bname);
 			m.addAttribute("listFreeBoard", listFreeBoard);
 		}
 		return "html/freeBoard";
@@ -51,16 +57,18 @@ public class healthController {
 		List<Map<String, Object>> listMap = fs.getListFreeBoardToListMap(bname);
 		return listMap;
 	}
-	
+
 	@GetMapping("/addFreeBoard")
-	public String addFreeBoard(Model m) {
+	public String addFreeBoard(Model m, String bname) {
+		m.addAttribute("bname", bname);
 		return "html/addFreeBoard";
 	}
 	@PostMapping("/addFreeBoard")
 	@ResponseBody
-	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeboard) {
+	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
-		map.put("result", "result");
+		System.out.println("freeBoard:"+freeBoard);
+		map.put("result", fs.addFreeBoard(session,freeBoard));
 		return map;
 	}
 
@@ -136,24 +144,24 @@ public class healthController {
 		return "html/mainPage";
 	}
 	/* 종빈 */
-	
+
 	/*엘라 */
 	@Autowired 
 	private AdminBoardSerivce absvc;
-	
+
 	@GetMapping("/admin")
 	public String admin()
 	{
 		return "html/admin/adminBoard";
 	}
-	
+
 	@GetMapping("/writeAdmin")
 	public String writeAdmin()
 	{
-		
+
 		return "html/admin/writeBoard_admin";
 	}
-	
+
 	@GetMapping("/qaList")
 	public String qaList()
 	{

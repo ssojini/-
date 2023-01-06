@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.example.demo.interfaces.FreeboardRepository;
 import com.example.demo.vo.FreeBoard;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
-public class FreeboardService {
+public class FreeBoardService {
 	@Autowired
 	private FreeboardRepository repo;
 	
@@ -41,5 +43,9 @@ public class FreeboardService {
 		}
 		System.out.println("listMap:"+listMap);
 		return listMap;
+	}
+
+	public FreeBoard addFreeBoard(HttpSession session, FreeBoard freeBoard) {
+		return repo.save(freeBoard);
 	}
 }
