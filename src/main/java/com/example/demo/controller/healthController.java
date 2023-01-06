@@ -147,4 +147,12 @@ public class healthController {
 	{
 		return null;
 	}
+	
+	/*소진*/
+	@GetMapping("/bmi")
+	public String bmi()
+	{
+		return "html/thymeleaf/bmi";
+	}
+	
 }
