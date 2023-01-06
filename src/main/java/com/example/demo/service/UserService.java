@@ -96,4 +96,26 @@ public class UserService
 		}
 		return map;
 	}
+	
+	//소진
+	public Map<String, Object> sendEmail(String email) 
+	{
+		Map<String,Object> map = new HashMap<>();
+		
+		session.setAttribute("rdStr", "");
+		session.setAttribute("authCheck", "0");
+		
+		session.setAttribute("email", email);
+			
+		if(!(email==null))
+		{	
+			map.put("msg", esvc.checkmail(session)?"메일발송":"메일발송실패");
+			String rdStr = (String) session.getAttribute("rdStr");
+			session.setAttribute("rdStr", rdStr);
+			map.put("rdStr",rdStr);
+			map.put("checked", "send email");
+		}
+		
+		return map;
+	} 
 }

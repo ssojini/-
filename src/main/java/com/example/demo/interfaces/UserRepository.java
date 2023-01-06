@@ -15,8 +15,8 @@ public interface UserRepository extends JpaRepository<User, String>
 
 	User findByPhoneAndEmail(String phone, String email);
 
+	/*----소진-----*/
 	
-
-	
+	User findByNickname(String nickname);
 
 }

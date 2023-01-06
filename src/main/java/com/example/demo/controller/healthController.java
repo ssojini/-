@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,14 +11,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.example.demo.service.AdminBoardSerivce;
-import com.example.demo.service.FreeboardService;
-
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.service.AdminBoardSerivce;
+import com.example.demo.service.FreeboardService;
 import com.example.demo.service.mypageService;
-import com.example.demo.vo.FreeBoard;
+import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -47,7 +39,7 @@ public class healthController {
 	@GetMapping("/freeboard")
 	public String freeboard(Model m, String bname) {
 		if (bname != null) {
-			List<FreeBoard> listFreeBoard = fs.getFreeBoardList(bname);
+			List<Freeboard> listFreeBoard = fs.getFreeBoardList(bname);
 			m.addAttribute("listFreeBoard", listFreeBoard);
 		}
 		return "html/freeboard";

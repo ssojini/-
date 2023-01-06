@@ -134,24 +134,9 @@ $(function(){
 			error[3].innerHTML = "한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용불가)";
 			error[3].style.display="blokc";
 			error[3].style.color = "red";
-		} 
-		$.ajax({
-            url: "/team/nickcheck",
-            type:'post',
-            dataType:'json',
-            data:{"nickname" : nickname.value},
-           	success:function(res){
-           		if(res.nickcheck){
-           			error[3].innerHTML="사용중인 닉네임입니다"
-           			error[3].style.display = "block";
-        	        error[3].style.color = "red"; 
-           		}else{
-           			error[3].style.display="none";
-     	       	 	error[3].style.color = "#08A600";
-     	       	 	error[3].style.display = "block"; 
-           		}
-           	}
-        });
+		}else{
+			error[3].style.display="none";
+		}
 	}
 
 	//생년월일
@@ -242,10 +227,8 @@ $(function(){
 	    	error[6].innerHTML = "형식에 맞지 않는 메일입니다.";
 	        error[6].style.display = "block";
 	        error[6].style.color="red";
-	    } else{
-	    	error[6].style.display="none";
-	       	error[6].style.color = "#08A600";
-	       	error[6].style.display = "block"; 
+	    } else {
+	    	error[6].style.display = "none"; 
 	    }
 	}
 	//이메일 input선택
@@ -263,36 +246,54 @@ function selectEmail(ele){
         $email2.val($ele.val());
     }
 }
-
-function sendEmail(){
-	$(".email_auth_btn").click(function(){	 
-		
+//이메일 인증	
+function sendEmail()
+{
+	alert("이메일인증 시작");
 	var email1 = $('#email1').val();
 	var email2 = $('#email2').val();
-	var obj = {};
-	obj.email = email1 + '@' + email2;
-   	 
-   	 if(obj == ''){
-   	 	alert("이메일을 입력해주세요.");
-   	 	return false;
-   	 }
-   	 
-   	 $.ajax({
-			type : 'post',
-			url : "/team/emailAuth",
-			data : {obj : obj},
-			success: function(data){
-				alert("메일이 발송되었습니다.");
-				email_auth_cd = data;
-			},
-			error: function(data){
-				alert("메일 발송에 실패했습니다.");
-			}
-		}); 
+	var obj1 = {};
+	obj1.email = email1 + '@' + email2;
+	alert(obj1.email);
+	
+	$.ajax({
+		url : "/team/sendemail",
+		method : 'post',
+		data : obj1,
+		cache : false,
+		dataType:'json',
+		success : function(res) {
+			alert("이메일이 전송되었습니다.")
+			$('#error_next_box').text(res.msg);
+		},
+		error : function(e) {
+			alert("에러: "+err);
+		}
 	});
 }
 
-
+function auth()
+{
+	alert("인증시작");
+ 	$.ajax({
+		url : "/team/authEmail",
+		method : 'post',
+		cache : false,
+		dataType:'json',
+		success : function(res) {
+			if(res){
+				alert("인증되었습니다");
+				joinUser();
+			}else{
+				alert("이메일 인증하세요");
+			}
+		},
+		error : function(e) {
+			alert("에러: "+err);
+		}
+	}); 
+}
+//가입
 function joinUser()
 {
 	var email1 = $('#email1').val();
@@ -406,13 +407,13 @@ function joinUser()
 		        <option value="1">직접입력</option>
 			</select>
 	</div>
-	<div>
-		<button type="button" id="email_auth_btn" class="email_auth_btn">인증번호 받기</button>
+	<div class="email_send_buttton">
+		<input type='button' onclick="sendEmail();" value='이메일인증'>
 	</div>
 	<!-- 프로필 -->
 	<input type="hidden" name="profile" id="profile" value="/profile/default.png">
 	<div>
-		<button type="button" id="submit" onclick="joinUser()">회원가입</button>
+		<button type="button" id="submit" onclick="auth();">회원가입</button>
 		<button type="reset">취소</button>
 	</div>
 </form>

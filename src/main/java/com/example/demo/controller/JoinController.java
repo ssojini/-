@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.interfaces.JoinRepository;
+import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JoinController 
 {	
 	@Autowired
-	private JoinRepository repo;
+	private UserRepository repo;
 	@Autowired
 	public HttpSession session;
 	@Autowired
@@ -54,7 +54,6 @@ public class JoinController
 	{
 		Map<String,Object> map = new HashMap<>();
 		Optional<User> op = repo.findById(user.getUserid());
-		log.info("1:"+op);
 		map.put("idcheck", op.isPresent()?true:false);
 		return map;
 	}
@@ -75,11 +74,18 @@ public class JoinController
 	public Map<String,Object> join(User user)
 	{
 		Map<String,Object> map = new HashMap<>();
-		log.info(user.toString());
 		map.put("join", repo.save(user));
 		return map;
 	}
 	
+	//이메일인증
+	@PostMapping("/sendemail")
+	@ResponseBody
+	public Map<String,Object> sendEamil(String email)
+	{
+		log.info(email);
+		return us.sendEmail(email);
+	}
 	
 	/*----------------- [상욱] ----------------- */
 	
