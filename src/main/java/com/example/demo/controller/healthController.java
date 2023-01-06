@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.service.FileStorageService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.vo.Freeboard;
 
@@ -57,6 +58,11 @@ public class healthController {
 	
 	@Autowired
 	ResourceLoader resourceLoader;
+	
+
+	@Autowired
+	private FileStorageService fs_svc;
+
 
 	@GetMapping("/")
 	@ResponseBody
@@ -65,6 +71,24 @@ public class healthController {
 		return mp_svc.userlist().toString();
 
 	}
+	
+	@GetMapping("/calorie")
+	   public String cal()
+	   {
+	      return "health/calorie";
+	   }
+	
+	   @PostMapping("/cal")
+	   @ResponseBody
+	   public Map<String,Object> calculate(int height, int gender, int active)
+	   {
+	      Map<String, Object> map = new HashMap<>();
+	      float recommand = (float) ( (height-100)*0.9*((gender*5)+20) ); 
+	      //System.err.println(recommand+" Kcal");
+	      map.put("recommand",recommand);
+	      
+	      return map;
+	   }
 
 	@GetMapping("/useredit/{userid}")
 	public String addboardform(@PathVariable(value = "userid", required = false) String userid, Model m) {
@@ -74,32 +98,12 @@ public class healthController {
 
 	@PostMapping("/userEdit")
 	@ResponseBody
-	public Map<String,Object> useredit(@RequestParam("file")MultipartFile[] mfiles, 
+	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
 											HttpServletRequest request, UserJoin userjoin) 
 	{
-		ServletContext context = request.getServletContext();
-		String savePath = context.getRealPath("/WEB-INF/user_profile");
-		log.info("savePath:   "+ savePath);
-		List<String>list = new ArrayList<>();
-		
-		log.info(mfiles[0].getOriginalFilename());
-		
-		try {
-			for(int i=0;i<mfiles.length;i++) {
-            mfiles[i].transferTo(
-  	              new File(savePath+"/"+mfiles[i].getOriginalFilename())); 
-		}
-		} catch (Exception e) {
-		e.printStackTrace();
-		}
-		
-		 String fname= mfiles[0].getOriginalFilename();
-         log.info("fname:  "+ fname);
-         userjoin.setProfile(fname);
 		Map<String,Object> map= new HashMap<>();
-		//System.out.println("userid: "+ userid);
-		map.put("edited",mp_svc.useredit(userjoin));
-		System.out.println("SYSTEM:  "+mp_svc.useredit(userjoin));
+		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, userjoin));
+		map.put("edited", mp_svc.storeFile(mfiles,userjoin));
 		return map;
 
 	}
@@ -113,16 +117,16 @@ public class healthController {
 	@GetMapping("/deleteuser_check/{userid}")
 	public String deleteuser_check(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
-		
 		return "html/mypage/DeleteUser_Check";
 	}
+
 	
-	@PostMapping("/user_addinfo/{userid}")
+	@PostMapping("/deleteuser")
 	@ResponseBody
-	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid, String pwd, Model m) {
+	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid,  UserJoin userjoin, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		Map<String, Object>map = new HashMap<>();
-		map.put("deleted", mp_svc.deleteuser(userid, pwd));
+		map.put("deleted", mp_svc.deleteuser(userjoin));
 		return map;
 	}
 	
@@ -130,6 +134,18 @@ public class healthController {
 	public String useraddinfo(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/UserDetail";
+	}
+	
+	@GetMapping("/findpwd/{userid}")
+	public String findpwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/FindPwd";
+	}
+	
+	@PostMapping("/findpwd/{userid}")
+	public String changepwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/FindPwd";
 	}
 	
 	@GetMapping("/test1")

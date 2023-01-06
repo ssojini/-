@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <title>mypage edit</title>
 </head>
-
 <body>
+
 <div id="leftbox" style="float:left; width: 200px; height: 200px;">
 
 	<div class="profile_area" style="widt">
@@ -168,19 +168,6 @@ $(function(){
 	$('#btnedit').on('click', function(event){
 		event.preventDefault();
 		
-		var email1 = $('#email1').val();
-		var email2 = $('#email2').val();
-		var obj = {};
-		obj.email = email1 + '@' + email2;
-		
-		obj.phone = $("#phone").val();
-		obj.nickname = $("#nickname").val();
-		obj.profile = $('#profile').val();
-		
-		
-		
-		
-		
 		var form=$('#editUserInfo')[0];
 		var data = new FormData(form);
 		
@@ -214,9 +201,6 @@ $(function(){
 })
 
 </script>
-
-
-
 <form id="editUserInfo" encType="multipart/form-data" 
 		style="float:right; width: 1200px; height: 200px; ">
 	<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
@@ -230,7 +214,7 @@ $(function(){
 			<tr>
 				<th scope="row">프로필사진</th>
 				<td><img th:src="${user.profile}" id="image_section"  width="84" height="84" alt="프로필 이미지"> </td>
-			<td><input type='file' id="file" name="file"></input></td>
+			<td><input type='file' id="file" name="file" ></input></td>
 		</tr>			
 			<tr>
 				<th scope="row">닉네임</th>
@@ -269,5 +253,6 @@ $(function(){
 	<button type="reset">취소</button><br>
 	<a th:href="'/health/deleteuser/'+${user.userid}">회원탈퇴</a>
 </form>
+
 </body>
 </html>

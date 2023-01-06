@@ -151,7 +151,6 @@
 				</div>
 				<div class="btn_area_w">
 					<p class="btn_area">
-
   						<input type="button" onclick="is_checked()" value="동의"> 
 					</p>
 				</div>				
@@ -160,6 +159,7 @@
 	</div>
 	<hr />
 <script>
+var uid = '[[${user.userid}]]';
 function is_checked() {
 	  // checkbox element 찾기.
 	  const checkbox = document.getElementById('dropoutAgree');
@@ -170,7 +170,7 @@ function is_checked() {
 	  if(is_checked)
 		  {
 			var frm = document.form1;
-			frm.action = "/health/deleteuser_check/${user.userid}";
+			frm.action = "/health/deleteuser_check/"+uid;
 			frm.submit();
 		  }else
 			  {

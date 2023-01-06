@@ -19,4 +19,6 @@ public interface UserEditMapper {
 	
 	public int deleteuser(String userid);
 	
+	public int changepwd(String userid);
+	
 }
