@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.mypageService;
-import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.ServletContext;
@@ -39,7 +39,7 @@ public class healthController {
 	@GetMapping("/freeboard")
 	public String freeboard(Model m, String bname) {
 		if (bname != null) {
-			List<Freeboard> listFreeBoard = fs.getFreeBoardList(bname);
+			List<FreeBoard> listFreeBoard = fs.getFreeBoardList(bname);
 			m.addAttribute("listFreeBoard", listFreeBoard);
 		}
 		return "html/freeboard";
