@@ -13,18 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-<<<<<<< HEAD
-import com.example.demo.service.AdminBoardSerivce;
-import com.example.demo.service.FreeboardService;
-import com.example.demo.vo.Freeboard;
-import com.example.demo.vo.OneBoard;
-
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-=======
 import org.springframework.web.bind.annotation.ModelAttribute;
->>>>>>> branch 'master' of https://github.com/pastebean/EzenFinal.git
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +26,7 @@ import com.example.demo.service.FileStorageService;
 import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.FreeBoard;
+import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.ServletContext;
@@ -47,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/health")
 @Slf4j
-public class healthController {
+public class HealthController {
 	@Autowired HttpSession session;
 
 	/* 다루한 */
