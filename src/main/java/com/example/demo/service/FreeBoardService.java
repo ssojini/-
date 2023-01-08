@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,12 @@ public class FreeBoardService {
 	@Autowired
 	private FreeboardRepository repo;
 	
-	public List<FreeBoard> getFreeboardList() {
+	public FreeBoard getFreeBoardByFbnum(Integer fbnum) {
+		Optional<FreeBoard> freeBoard = repo.findById(fbnum);
+		return freeBoard.isPresent()?freeBoard.get():null;
+	}
+	
+	public List<FreeBoard> getFreeBoardList() {
 		return repo.findAll();
 	}
 	

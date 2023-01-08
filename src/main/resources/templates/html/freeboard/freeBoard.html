@@ -11,7 +11,8 @@
 <script type="text/javascript">
 	window.onload = function() {
 		var bname = "[[${bname}]]";
-		$("#bname").val(bname).prop("selected",true);
+		//$("#bname").val(bname).prop("selected",true);
+		changeBoard($("#bname").val());
 	};
 </script>
 </head>
@@ -36,9 +37,8 @@
 				</tr>
 				<tr class="boardTr" th:each="board : ${listFreeBoard}">
 					<td>[[${board.fbnum}]]</td>
-					<td>[[${board.title}]]</td>
+					<td><a th:href="@{/health/detailFreeBoard(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
 					<td>[[${board.author}]]</td>
-					<td>[[${board.contents}]]</td>
 				</tr>
 			</table>
 		</div>

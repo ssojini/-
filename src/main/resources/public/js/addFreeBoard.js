@@ -5,6 +5,7 @@ function addFreeBoard() {
 		data: {
 			"bname": $("#bname").val(),
 			"title": $("#title").val(),
+			"author": $("#author").val(),
 			"contents": $("#contents").val()
 		},
 		dataType: "json",
