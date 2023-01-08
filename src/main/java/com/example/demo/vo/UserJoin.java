@@ -9,7 +9,8 @@ import lombok.ToString;
 
 @Data 
 @ToString
-@EqualsAndHashCode(exclude= {"profile","pwd","email","phone","birth","nickname"})
+@EqualsAndHashCode(exclude= {"profile","pwd","email","email1","email2",
+					"phone","birth","nickname"})
 @AllArgsConstructor 
 @NoArgsConstructor
 public class UserJoin {
@@ -17,6 +18,8 @@ public class UserJoin {
 	private String userid;
 	private String pwd;
 	private String email;
+	private String email1;
+	private String email2;
 	private String phone;
 	private String birth;
 	private String nickname;

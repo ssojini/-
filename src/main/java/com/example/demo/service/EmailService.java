@@ -85,32 +85,6 @@ public class EmailService
       return false;
    }
    
-   //소진
-   public boolean sendEmail(HttpSession session)
-   {
-	  MimeMessage mimeMessage = sender.createMimeMessage();
-	  try {
-		  InternetAddress[] addressTo = new InternetAddress[1];
-	      addressTo[0] = new InternetAddress("emailadd@gmail.com");
-	      
-	      mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
-
-	      mimeMessage.setSubject("마임 메시지(HTML) 테스트");
-	         
-	      String ser = createRandomStr();
-	      mimeMessage.setContent("<a href='http://localhost/mail/"+ser+"'>메일주소 인증</a>", "text/html;charset=utf-8");
-	      session.setAttribute("cer", ser);
-	                 
-	       sender.send(mimeMessage);
-	       return true;
-	   } catch (MessagingException e) {
-	       log.error("에러={}", e);
-	   }
-
-	  return false;
-   }
-   
-   
    public boolean checkmail(HttpSession session)
    {
 	  String email = (String) session.getAttribute("email");

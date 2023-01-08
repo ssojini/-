@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>calorie</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function cal(){
+   var data=$('#calorieForm').serialize();
+   //alert(data);
+   $.ajax({
+      url:'/health/cal',
+      method:'post',
+      cache:false,
+      data: data,
+      dataType:'json',
+      success:function(res){
+         //alert(res.recommand+"Kacl");
+         $('#result').text("권장열량"+res.recommand+"Kcal");
+      }, error: function(xhr,status){
+         alert("에러 :"+err);
+      }
+      
+   });
+}
+</script>
+<body>
+<main>
+<div><h3>권장 칼로리 계산기</h3></div>
+<div><form id=calorieForm>
+<div>키:<input type="number" name="height"></div>
+<div>성별:    <input type="radio" name="gender" value="1">남
+         <input type="radio" name="gender" value="0">여
+      </div>
+   <div>활동지수
+   <select name="active">
+      <option value="1">비 활동
+      <option value="2">정적 활동
+      <option value="3">일반 활동
+      <option value="4">매우 활동
+   </select>
+      </div>
+      <input type="button" value="권장 칼로리 계산" onclick="cal();">
+</form></div>
+<div id="result"></div>      
+
+</main>
+
+</body>
+</html>
