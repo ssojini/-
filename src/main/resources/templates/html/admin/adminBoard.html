@@ -20,12 +20,12 @@
 	<th>조회수</th>
 	<th>작성일</th>
 </tr>
-<tr td:each="board: ${list}">
-	<tbody td:text="${board.qnum}"></tbody>
-	<tbody td:text="${board.title}"></tbody>
-	<tbody td:text="${board.author}"></tbody>
-	<tbody td:text="${board.hit}"></tbody>
-	<tbody td:text="${board.date}"></tbody>	
+<tr th:each="board: ${list}">
+	<td>[[${board.qnum}]]</td>
+	<td>[[${board.title}]]</td>
+	<td>[[${board.author}]]></td>
+	<td>[[${board.hit}]]</td>
+	<td>[[${board.qdate}]]></td>	
 </tr>
 </table>
 

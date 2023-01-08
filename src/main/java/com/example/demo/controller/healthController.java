@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.OneBoard;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -145,8 +146,30 @@ public class healthController {
 	}
 	
 	@GetMapping("/qaList")
-	public String qaList()
+	public String qaList(Model m)
 	{
-		return null;
+		m.addAttribute("list", absvc.qList());
+		log.info("컨트롤러 리스트"+ absvc.qList());
+		return "html/admin/adminBoard";
 	}
+	
+	@GetMapping("/writeQueB")
+	public String writeQueBForm(HttpSession session, Model m) 
+	{
+		session.setAttribute("userid", "smith");		//임의로 하드코딩 한 id
+		String id =(String)session.getAttribute("userid");
+		m.addAttribute("userid", id);
+		return "html/admin/writeQueB";
+	}
+	
+	@PostMapping("/writeQueB")
+	@ResponseBody
+	public Map<String, Object> writeQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
+	{
+		boolean uploaded = absvc.uploadQueB(request, oneb, mfiles);
+		Map<String, Object> map = new HashMap<>();
+		map.put("uploaded", uploaded);
+		return map;
+	}
+	
 }

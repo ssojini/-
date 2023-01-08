@@ -11,7 +11,48 @@
 		ON q.qnum = a. qnum 
         LEFT OUTER JOIN attach c
         ON q.qnum= c.qnum
-		ORDER BY q.qnum DESC, a.anum ASC;
+		ORDER BY q.qnum DESC, a.anum ASC
 	</select>
+	
+	<insert id="addQueBoard"
+		parameterType="com.example.demo.vo.OneBoard">
+		INSERT INTO queBoard(qnum, title, author, qdate, content, hit)
+		VALUES(QUEBOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit})
+		
+	</insert>
+		 
+	<insert id="saveAttach"
+		parameterType="com.example.demo.vo.AttachBoard">
+		
+INSERT INTO attach(attid, attsize, attname, qnum, anum)
+	SELECT ATTACH_SEQ.NEXTVAL, #{attsize, jdbcType=VARCHAR}, #{attname, jdbcType=VARCHAR}, 
+	(SELECT MAX(qnum) FROM queBoard) AS qnum, 
+	(SELECT MAX(anum) FROM ansBoard) AS anum FROM DUAL
+		</insert>
+	
+<!--	
+	<update id="saveAttach"
+	parameterType="list">
+	INSERT INTO attachtb (attid, attsize, attname, qnum, anum)
+	SELECT
+	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		 #{item.attsize} AS attsize, 
+		#{item.attname} AS attname, 
+			(SELECT MAX(qnum) FROM queBoard) AS qnum, 
+			(SELECT MAX(anum) FROM ansBoard) AS anum 
+	FROM DUAL
+		</foreach>
+	)t
+	</update> -->
+		
+	<insert id="addAnsBoard"
+		parameterType="com.example.demo.vo.OneBoard">
+		INSERT INTO queBoard(anum, title, author, adate, content, hit, qnum)
+		VALUES( ANSBOARD_SEQ.NEXTVAL, #{title}, #{author}, #{adate}, #{content},  #{hit}, #{qnum} )
+		
+	</insert>
 	
 </mapper>
