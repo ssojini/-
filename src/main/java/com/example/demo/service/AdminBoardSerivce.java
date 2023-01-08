@@ -31,6 +31,7 @@ public class AdminBoardSerivce
 	public List<OneBoard> qList()
 	{
 		List<Map<String, Object>> mlist = mapper.QAlist();
+		System.out.println("mlist:"+mlist);
 		List<OneBoard> list = new ArrayList<>();
 		for(int i=0; i<mlist.size(); i++)
 		{
@@ -68,8 +69,8 @@ public class AdminBoardSerivce
 				if(!found) list.add(oneb);
 			}
 			
+			log.info("서비스로 넘어오는 date:"+ list.get(0).getQdate());
 		}
-		log.info("서비스로 넘어오는 date:"+ list.get(0).getQdate());
 		return list;
 	}
 	
