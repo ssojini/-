@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EzenfinalApplication {
+public class EzenFinalApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EzenfinalApplication.class, args);
+		SpringApplication.run(EzenFinalApplication.class, args);
 	}
 
 }
