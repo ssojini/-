@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>deleteuser_check</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+function deleteuser()
+{
+	var pwd = document.getElementById("pwd").value;
+	var pwd2 =	document.getElementById("pwd2").value;
+	var obj=$('#usercheck').serialize();
+	
+		if(pwd==pwd2)
+		{
+			$.ajax({
+				url:'/health/deleteuser',
+				method:'post',
+				data:obj,
+				cache:false,
+				dataType:'json',
+				success:function(res){
+					if(res.deleted)
+						{
+							alert("삭제성공");
+							location.href="/health/";
+						}
+					else
+						{
+							alert("삭제실패");
+						}
+				},
+				error : function(xhr,status,err){
+					alert('에러:' + err);
+				}
+			});
+		}
+		else
+		{
+			alert("비밀번호가 일치하지 않습니다");
+		}
+}
+
+</script>
+<form id="usercheck" method="post" >
+<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
+	<table>
+		<tbody>
+			<tr>
+				<th scope="row">계정</th>
+				<td>[[${user.userid}]]</td>
+			</tr>
+			<tr>
+				<th scope="row">비밀번호</th>
+				<td><input type='password' id="pwd" name="pwd"></input></td>
+			</tr>
+			<tr>
+				<th scope="row">비밀번호 재확인</th>
+				<td><input type='password' id="pwd2" name="pwd2"></input></td>
+			</tr>
+		</tbody>
+	</table>
+	<button type="button" onclick="deleteuser();">삭제</button>
+</form> 
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>mypage edit</title>
+</head>
+<body>
+
+<div id="leftbox" style="float:left; width: 200px; height: 200px;">
+
+	<div class="profile_area" style="widt">
+	    <div class="profile_inner">
+	        <a href="#" onclick="changeImage()" class="photo">
+	            <img th:src="${user.profile}" width="84" height="84" alt="프로필 이미지">
+	            <span class="photo_edit"></span>
+	        </a>
+	        <div id="myp" class="profile">
+	            <p class="useid">[[${user.userid}]]</p>
+	            <p class="usemail">[[${user.email}]]</p>
+	        </div>
+	    </div>    
+	</div>
+
+    <div id="headerLeft" class="header_left">
+
+        <ul class="left_menu" role="menu">
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true">
+                    <div class="menu_text on">내정보</div>
+                </a>
+            </li>
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+                    <div class="menu_text ">개인정보 수정</div>
+                </a>
+            </li>
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+                    <div class="menu_text ">비밀번호 수정</div>
+                </a>
+            </li>
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+                    <div class="menu_text ">게시글 관리</div>
+                </a>
+            </li>
+        </ul>
+        <ul class="left_link">
+            <li><a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)">
+                    <div class="link_text">기타</div>
+                </a>
+            </li>
+        </ul>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(function(){
+	
+	//변수 선언하기
+	var error = document.querySelectorAll('.error_next_box');
+	var nickname = document.querySelector('#nickname');
+	var email1 = document.querySelector('#email1');
+	//var email2 = document.querySelector('#email2');
+	var phone = document.querySelector('#phone');
+
+
+	//이벤트 핸들러 연결
+	nickname.addEventListener("focusout", checkNick);
+	phone.addEventListener("focusout", checkPhoneNum);
+	email1.addEventListener("focusout", isEmailCorrect);
+	//email2.addEventListener("change", isEmailCorrect);
+});
+
+//닉네임 확인
+function checkNick(){
+	var error = document.querySelectorAll('.error_next_box');
+	var namePattern = /[a-zA-Z가-힣]/;
+	if(nickname.value===""){
+		error[0].innerHTML = "필수 정보입니다.";
+		error[0].style.display="block";
+		error[0].style.color = "red";
+	}else if(!namePattern.test(nickname.value) || nickname.value.indexOf(" ") > -1) {
+		error[0].innerHTML = "한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용불가)";
+		error[0].style.display="blokc";
+		error[0].style.color = "red";
+	}else{
+		error[0].style.display="none";
+	}
+}
+//핸드폰번호
+function checkPhoneNum() {
+	var error = document.querySelectorAll('.error_next_box');
+    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
+
+    if(phone.value === "") {
+    	error[1].innerHTML = "필수 정보입니다.";
+    	error[1].style.display = "block";
+    	error[1].style.color="red";
+    } else if(!isPhoneNum.test(phone.value)) {
+    	error[1].innerHTML = "형식에 맞지 않는 번호입니다.";
+    	error[1].style.display = "block";
+    	error[1].style.color="red";
+    } else {
+        error[1].style.display = "none";
+    }
+}
+//이메일
+function isEmailCorrect() {
+	var error = document.querySelectorAll('.error_next_box');
+    var emailPattern = /[a-z0-9]{2,}/;
+
+    if(email1.value === ""){ 
+    	error[2].innerHTML = "필수 정보입니다.";
+        error[2].style.display = "none"; 
+        error[2].style.color="red";
+    } else if(!emailPattern.test(email1.value)) {
+    	error[2].innerHTML = "형식에 맞지 않는 메일입니다.";
+        error[2].style.display = "block";
+        error[2].style.color="red";
+    } else {
+    	error[2].style.display = "none"; 
+    }
+}
+//이메일 input선택
+
+function selectEmail(ele){
+var $ele = $(ele);
+var $email2 = $('input[name=email2]');
+
+// '1'인 경우 직접입력
+if($ele.val() == "1"){
+    $email2.attr('readonly', false);
+    $email2.val('');
+} else {
+    $email2.attr('readonly', true);
+    $email2.val($ele.val());
+}
+}
+
+
+//사진 프리뷰
+function readURL(input) 
+{
+   if (input.files && input.files[0]) 
+   {
+      var reader = new FileReader();
+     
+      reader.onload = function (e) 
+      {
+         $('#image_section').attr('src', e.target.result);  
+      }
+     
+      reader.readAsDataURL(input.files[0]);
+   }
+}
+ 
+// 이벤트를 바인딩해서 input에 파일이 올라올때 (input에 change를 트리거할때) 위의 함수를 this context로 실행합니다.
+
+$(function(){
+   $("#file").change(function(){
+         readURL(this);
+   });
+});
+
+$(function(){
+	$('#btnedit').on('click', function(event){
+		event.preventDefault();
+		
+		var form=$('#editUserInfo')[0];
+		var data = new FormData(form);
+		
+		$('#btnedit').prop('disabled', true);
+		
+		$.ajax({
+			url:'/health/userEdit',
+			enctype: 'multipart/form-data',
+			method:'post',
+			data:data,
+			dataType:'json',
+			cache:false,
+			processData: false,
+			contentType: false,
+			timeout: 600000,
+			success:function(res){
+				if(res.edited)
+				{
+					alert("수정성공");
+					location.href="/health/";
+				}
+				else alert("수정실패");
+			},
+			error : function(xhr,status,err){
+				alert('에러:' + err);
+			}
+		});
+		
+	})
+	
+})
+
+</script>
+<form id="editUserInfo" encType="multipart/form-data" 
+		style="float:right; width: 1200px; height: 200px; ">
+	<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
+	<h3>내정보관리</h3>
+	<table>
+		<tbody>
+			<tr>
+				<th scope="row">계정</th>
+				<td>[[${user.userid}]]</td>
+			</tr>
+			<tr>
+				<th scope="row">프로필사진</th>
+				<td><img th:src="${user.profile}" id="image_section"  width="84" height="84" alt="프로필 이미지"> </td>
+			<td><input type='file' id="file" name="file" ></input></td>
+		</tr>			
+			<tr>
+				<th scope="row">닉네임</th>
+				<td>
+					<input type='text' id="nickname" name="nickname" th:value="${user.nickname}"></input>
+					<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">전화번호</th>
+				<td>
+					<input type='text' id="phone" name="phone" th:value="${user.phone}"></input>
+					<span class="error_next_box"></span>  
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">이메일</th>
+				<td> 
+					<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" value="meroro">
+					@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
+					<span class="error_next_box"></span>  
+					<select name="select_email" onChange="selectEmail(this)">
+				        <option value="" selected>선택하세요</option>
+				        <option value="naver.com">naver.com</option>
+				        <option value="gmail.com">gmail.com</option>
+				        <option value="hanmail.com">hanmail.com</option>
+				        <option value="nate.com">hanmail.com</option>
+				        <option value="1">직접입력</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<button type="submit" id="btnedit">확인</button>
+	<button type="reset">취소</button><br>
+	<a th:href="'/health/deleteuser/'+${user.userid}">회원탈퇴</a>
+</form>
+
+</body>
+</html>

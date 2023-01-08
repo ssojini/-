@@ -11,6 +11,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,56 +81,100 @@ public class healthController {
 
 	@Autowired
 	ResourceLoader resourceLoader;
+	
+
+	@Autowired
+	private FileStorageService fs_svc;
+
 
 	@GetMapping("/")
 	@ResponseBody
 	public String userlist() {
 		return mp_svc.userlist().toString();
-
-		// return svc.userinfo(userid).toString();
 	}
+	
+	@GetMapping("/calorie")
+	   public String cal()
+	   {
+	      return "health/calorie";
+	   }
+	
+	   @PostMapping("/cal")
+	   @ResponseBody
+	   public Map<String,Object> calculate(int height, int gender, int active)
+	   {
+	      Map<String, Object> map = new HashMap<>();
+	      float recommand = (float) ( (height-100)*0.9*((gender*5)+20) ); 
+	      //System.err.println(recommand+" Kcal");
+	      map.put("recommand",recommand);
+	      
+	      return map;
+	   }
 
 	@GetMapping("/useredit/{userid}")
 	public String addboardform(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
-		return "html/EditUser";
+		return "html/mypage/EditUser";
 	}
 
 	@PostMapping("/userEdit")
 	@ResponseBody
-	public Map<String, Object> useredit(@RequestParam("file") MultipartFile[] mfiles, HttpServletRequest request,
-			UserJoin userjoin) {
-		ServletContext context = request.getServletContext();
-		String savePath = context.getRealPath("/WEB-INF/user_profile");
-		log.info("savePath:   " + savePath);
-		List<String> list = new ArrayList<>();
 
-		log.info(mfiles[0].getOriginalFilename());
+	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
+											HttpServletRequest request, UserJoin userjoin) 
+	{
+		Map<String,Object> map= new HashMap<>();
+		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, userjoin));
+		map.put("edited", mp_svc.storeFile(mfiles,userjoin));
 
-		try {
-			for (int i = 0; i < mfiles.length; i++) {
-				mfiles[i].transferTo(new File(savePath + "/" + mfiles[i].getOriginalFilename()));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		String fname = mfiles[0].getOriginalFilename();
-		log.info("fname:  " + fname);
-		userjoin.setProfile(fname);
-		Map<String, Object> map = new HashMap<>();
-		// System.out.println("userid: "+ userid);
-		map.put("edited", mp_svc.useredit(userjoin));
-		System.out.println("SYSTEM:  " + mp_svc.useredit(userjoin));
 		return map;
-
 	}
 
 	@GetMapping("/deleteuser/{userid}")
-	public String deleteuser(@PathVariable(value = "userid", required = false) String userid, Model m) {
+	public String deleteuser_form(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
-		return "html/DeleteUser";
+		return "html/mypage/DeleteUser";
 	}
+	
+	@GetMapping("/deleteuser_check/{userid}")
+	public String deleteuser_check(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/DeleteUser_Check";
+	}
+
+	
+	@PostMapping("/deleteuser")
+	@ResponseBody
+	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid,  UserJoin userjoin, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		Map<String, Object>map = new HashMap<>();
+		map.put("deleted", mp_svc.deleteuser(userjoin));
+		return map;
+	}
+	
+	@GetMapping("/user_addinfo/{userid}")
+	public String useraddinfo(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/UserDetail";
+	}
+	
+	@GetMapping("/findpwd/{userid}")
+	public String findpwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/FindPwd";
+	}
+	
+	@PostMapping("/findpwd/{userid}")
+	public String changepwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/FindPwd";
+	}
+	
+	@GetMapping("/test1")
+	public String test1() {
+		return "html/mypage/test.html";
+	}
+	
 	/* 현주 */
 
 	/* 종빈 */
