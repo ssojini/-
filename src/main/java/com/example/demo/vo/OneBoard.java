@@ -13,17 +13,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OneBoard 
 {
-	
- public OneBoard(int qnum) {
-	 this.qnum= qnum;
- }
-private int qnum;
- private int anum;
- private String title;
- private String author;
- private java.sql.Date date;
- private int hit;
- private List<AttachBoard> attList = new ArrayList<>();
- 
- 
+
+	public OneBoard(int qnum) {
+		this.qnum= qnum;
+	}
+	private int qnum;
+	private int anum;
+	private String title;
+	private String author;
+	private java.sql.Timestamp qdate;
+	private java.sql.Timestamp adate;
+	private int hit;
+	private String content;
+	private List<AttachBoard> attList = new ArrayList<>();
+
+
 }

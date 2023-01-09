@@ -13,4 +13,5 @@ public class AttachBoard
 	private int qnum;
 	private String attname;
 	private long attsize;
+	private int attid;
 }
