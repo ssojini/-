@@ -96,10 +96,9 @@ public class mypageService {
 		    
 		    String email1 = userjoin.getEmail1();
 			String email2 = userjoin.getEmail2();
-			
 			String email = email1 + "@" + email2;
-			userjoin.setEmail(email);
 			
+			userjoin.setEmail(email);
 			userjoin.setProfile(fileName);
 
 			int edit =  map.useredit(userjoin);
