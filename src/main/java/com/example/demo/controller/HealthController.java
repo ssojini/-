@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
+import com.example.demo.service.FileStorageService;
 import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.FreeBoard;
@@ -34,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/health")
 @Slf4j
-public class healthController {
+public class HealthController {
 	@Autowired HttpSession session;
 
 	/* 다루한 */
