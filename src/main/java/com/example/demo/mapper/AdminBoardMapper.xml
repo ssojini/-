@@ -54,5 +54,5 @@ INSERT INTO attach(attid, attsize, attname, qnum, anum)
 		VALUES( ANSBOARD_SEQ.NEXTVAL, #{title}, #{author}, #{adate}, #{content},  #{hit}, #{qnum} )
 		
 	</insert>
-	
+
 </mapper>
