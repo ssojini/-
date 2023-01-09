@@ -12,7 +12,8 @@
 		var bname = '[[${bname}]]';
 		console.log($("#bname").val());
 		$("#bname").val(bname).prop("selected", true);
-		$("#goBack").attr("onclick","location.href='/health/freeBoard?bname="+bname+"';");
+		$("#goBack").attr("onclick",
+				"location.href='/health/freeBoard?bname=" + bname + "';");
 	};
 </script>
 <link href="/css/addFreeBoard.css">
@@ -34,10 +35,16 @@
 				<input id="title" name="title">
 			</div>
 			<div>
-				<input id="author" type="text" name="author" th:value="${userid}" readonly>
+				<input id="author" type="text" name="author" th:value="${userid}"
+					readonly>
 			</div>
 			<div>
 				<textarea id="contents" name="contents"></textarea>
+			</div>
+			<div>
+				<form id="uploadForm" action="" method="post" encType="multipart/form-data">
+					<input id="file" type="file" name="file" multiple="multiple">
+				</form>
 			</div>
 			<div>
 				<button id="goBack" type="button">뒤로가기</button>

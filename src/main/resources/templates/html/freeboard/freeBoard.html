@@ -37,7 +37,8 @@
 				</tr>
 				<tr class="boardTr" th:each="board : ${listFreeBoard}">
 					<td>[[${board.fbnum}]]</td>
-					<td><a th:href="@{/health/detailFreeBoard(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
+					<td><a
+						th:href="@{/health/detailFreeBoard(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
 					<td>[[${board.author}]]</td>
 				</tr>
 			</table>
