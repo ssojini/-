@@ -89,7 +89,7 @@ public class HealthController {
 
 	@Autowired
 	ResourceLoader resourceLoader;
-
+	
 
 	@Autowired
 	private FileStorageService fs_svc;
@@ -100,24 +100,24 @@ public class HealthController {
 	public String userlist() {
 		return mp_svc.userlist().toString();
 	}
-
+	
 	@GetMapping("/calorie")
-	public String cal()
-	{
-		return "health/calorie";
-	}
-
-	@PostMapping("/cal")
-	@ResponseBody
-	public Map<String,Object> calculate(int height, int gender, int active)
-	{
-		Map<String, Object> map = new HashMap<>();
-		float recommand = (float) ( (height-100)*0.9*((gender*5)+20) ); 
-		//System.err.println(recommand+" Kcal");
-		map.put("recommand",recommand);
-
-		return map;
-	}
+	   public String cal()
+	   {
+	      return "health/calorie";
+	   }
+	
+	   @PostMapping("/cal")
+	   @ResponseBody
+	   public Map<String,Object> calculate(int height, int gender, int active)
+	   {
+	      Map<String, Object> map = new HashMap<>();
+	      float recommand = (float) ( (height-100)*0.9*((gender*5)+20) ); 
+	      //System.err.println(recommand+" Kcal");
+	      map.put("recommand",recommand);
+	      
+	      return map;
+	   }
 
 	@GetMapping("/useredit/{userid}")
 	public String addboardform(@PathVariable(value = "userid", required = false) String userid, Model m) {
@@ -129,7 +129,7 @@ public class HealthController {
 	@ResponseBody
 
 	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
-			HttpServletRequest request, UserJoin userjoin) 
+											HttpServletRequest request, UserJoin userjoin) 
 	{
 		Map<String,Object> map= new HashMap<>();
 		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, userjoin));
@@ -143,14 +143,14 @@ public class HealthController {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/DeleteUser";
 	}
-
+	
 	@GetMapping("/deleteuser_check/{userid}")
 	public String deleteuser_check(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/DeleteUser_Check";
 	}
 
-
+	
 	@PostMapping("/deleteuser")
 	@ResponseBody
 	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid,  UserJoin userjoin, Model m) {
@@ -159,30 +159,30 @@ public class HealthController {
 		map.put("deleted", mp_svc.deleteuser(userjoin));
 		return map;
 	}
-
+	
 	@GetMapping("/user_addinfo/{userid}")
 	public String useraddinfo(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/UserDetail";
 	}
-
+	
 	@GetMapping("/findpwd/{userid}")
 	public String findpwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/FindPwd";
 	}
-
+	
 	@PostMapping("/findpwd/{userid}")
 	public String changepwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/FindPwd";
 	}
-
+	
 	@GetMapping("/test1")
 	public String test1() {
 		return "html/mypage/test.html";
 	}
-
+	
 	/* 현주 */
 
 	/* 종빈 */
