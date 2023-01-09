@@ -17,6 +17,7 @@
 <delete id="deleteuser" parameterType="com.example.demo.vo.UserJoin">
 	DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
 </delete>
+
 <update id="changepwd" parameterType="com.example.demo.vo.UserJoin">
 	UPDATE userjoin SET pwd=#{pwd,jdbcType=VARCHAR} WHERE userid=#{userid,jdbcType=VARCHAR}
 </update>

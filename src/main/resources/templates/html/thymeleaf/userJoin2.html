@@ -249,7 +249,6 @@ function selectEmail(ele){
 //이메일 인증	
 function sendEmail()
 {
-	alert("이메일인증 시작");
 	var email1 = $('#email1').val();
 	var email2 = $('#email2').val();
 	var obj1 = {};
@@ -264,7 +263,6 @@ function sendEmail()
 		dataType:'json',
 		success : function(res) {
 			alert("이메일이 전송되었습니다.")
-			$('#error_next_box').text(res.msg);
 		},
 		error : function(e) {
 			alert("에러: "+err);
@@ -274,7 +272,6 @@ function sendEmail()
 
 function auth()
 {
-	alert("인증시작");
  	$.ajax({
 		url : "/team/authEmail",
 		method : 'post',
@@ -282,7 +279,7 @@ function auth()
 		dataType:'json',
 		success : function(res) {
 			if(res){
-				alert("인증되었습니다");
+				alert("인증 되었습니다");
 				joinUser();
 			}else{
 				alert("이메일 인증하세요");
