@@ -29,4 +29,6 @@ public class User
 	private String email;
 	//프로필사진
 	private String profile;
+	//주소
+	private String address;
 }
