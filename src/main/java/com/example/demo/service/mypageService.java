@@ -129,7 +129,6 @@ public class mypageService {
 		return deleted;
 	}
 	
-<<<<<<< HEAD
 	public boolean changepwd(UserJoin userjoin)
 	{
 		boolean changed= false;
@@ -140,7 +139,4 @@ public class mypageService {
 		return changed;
 	}
 	
-=======
->>>>>>> branch 'master' of https://github.com/pastebean/EzenFinal.git
-
 }
