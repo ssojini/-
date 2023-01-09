@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -89,15 +88,16 @@ public class JoinController
 	
 	/*----------------- [상욱] ----------------- */
 	
-	@GetMapping("/add")
-	@ResponseBody
-	public String add()
-	{
-		Date date = Date.valueOf("2022-12-31");
-		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","asdf@asdf.com","testID");
-		User added = repo.save(member);
-		return added.toString();
-	}
+//	@GetMapping("/add")
+//	@ResponseBody
+//	public String add()
+//	{
+//		Date date = Date.valueOf("2022-12-31");
+//		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","asdf@asdf.com","testID");
+//		User added = repo.save(member);
+//		return added.toString();
+//	}
+	
 	@GetMapping({"/","/login"})
 	public String login()
 	{

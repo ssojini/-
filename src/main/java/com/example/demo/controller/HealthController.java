@@ -1,19 +1,14 @@
 package com.example.demo.controller;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +24,6 @@ import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
 
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -240,6 +234,12 @@ public class HealthController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("uploaded", uploaded);
 		return map;
+	}
+	
+	@GetMapping("/bmi")
+	public String bmi()
+	{
+		return "hrml/mypage/BMI_cul";
 	}
 	
 }
