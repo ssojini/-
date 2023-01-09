@@ -19,6 +19,10 @@ public interface UserEditMapper {
 	
 	public int deleteuser(String userid);
 	
+<<<<<<< HEAD
 	public int changepwd(UserJoin userjoin);
+=======
+	public int changepwd(String userid);
+>>>>>>> branch 'master' of https://github.com/pastebean/EzenFinal.git
 	
 }

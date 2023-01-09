@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.example.demo.vo;
 
 import lombok.AllArgsConstructor;
@@ -15,3 +16,22 @@ public class AttachBoard
 	private long attsize;
 	private int attid;
 }
+=======
+package com.example.demo.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class AttachBoard 
+{
+	private int anum;
+	private int qnum;
+	private String attname;
+	private long attsize;
+	private int attid;
+}
+>>>>>>> branch 'master' of https://github.com/pastebean/EzenFinal.git

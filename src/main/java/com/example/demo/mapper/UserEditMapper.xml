@@ -17,7 +17,11 @@
 <delete id="deleteuser" parameterType="com.example.demo.vo.UserJoin">
 	DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
 </delete>
+<<<<<<< HEAD
 <update id="changepwd" parameterType="com.example.demo.vo.UserJoin">
+=======
+<update id="changepwd" parameterType="string">
+>>>>>>> branch 'master' of https://github.com/pastebean/EzenFinal.git
 	UPDATE userjoin SET pwd=#{pwd,jdbcType=VARCHAR} WHERE userid=#{userid,jdbcType=VARCHAR}
 </update>
 </mapper>
