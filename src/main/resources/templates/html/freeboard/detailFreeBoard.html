@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>detailFreeBoard</title>
+</head>
+<body>
+	<main>
+		<div th:if="${freeBoard!=null}">
+			<div id="fbnum">[[${freeBoard.fbnum!=null?freeBoard.fbnum:''}]]</div>
+			<div id="title">[[${freeBoard.title!=null?freeBoard.title:''}]]</div>
+			<div id="author">[[${freeBoard.author!=null?freeBoard.author:''}]]</div>
+			<div id="contents">[[${freeBoard.contents!=null?freeBoard.contents:''}]]</div>
+		</div>
+	</main>
+</body>
+</html>

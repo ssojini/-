@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>user_detail</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script>
+			function bmi_view(){
+				if ($("#height").val().replace(/(^\s*)|(\s*$)/g, "") == ''){
+					alert("키를 입력해주세요.");
+					$("#stature").val("");
+					$("#stature").focus();
+					return;
+				}
+
+				if ($("#weight").val().replace(/(^\s*)|(\s*$)/g, "") == ''){
+					alert("몸무게를 입력해주세요.");
+					$("#weight").val("");
+					$("#weight").focus();
+					return;
+				}
+
+				var frm = document.frm;
+				frm.action = "/health/test1"
+				frm.submit();
+				
+				cm=Number($('#height').val());
+				cm=cm*0.01;
+
+				kg=Number($('#weight').val());
+				BMI=kg/(cm*cm);
+                                                BMI = Math.floor(BMI * 10) / 10;
+
+				var STTUS = "";
+
+				if(BMI > 25.0) {
+					STTUS = "비만";
+				}
+				else if((BMI > 23.0) && (BMI<=24.9)) {
+					STTUS = "과체중";
+				}
+				else if((BMI > 18.5) && (BMI<=22.9)) {
+					STTUS = "정상";
+				}
+				else if(BMI <= 18.5) {
+					STTUS = "저체중";
+				}
+				else {
+					alert(BMI+"올바른 신장과 몸무게를 입력하십시오.");
+					return false;
+				}
+
+				BMI = Math.round(BMI * 10) / 10.0; // 소수점 두째자리에서 반올림.
+
+				$('#guide_bmi1').text(BMI);
+				$('#guide_bmi2').text(BMI);
+				$('#guide_sttus').text(STTUS);
+
+				$('#result_box').show();
+				return false;
+			}
+			}
+		</script>
+<h3 class="box_title">비만도 측정(BMI지수)</h3>
+<p class="box_text">
+	BMI를 이용한 비만도 계산은 자신의 몸무게를 키의 제곱으로 나누는 것으로 공식은 kg/㎡. <br />
+		<em class="em_blue">BMI가 18.5 이하면 저체중</em> ／ <em class="em_blue">18.5 ~ 22.9 사이면 정상</em> ／ <em class="em_black">23.0 ~ 24.9 사이면 과체중</em> ／ <em class="em_red">25.0 이상부터는 비만으로 판정.</em> <br />
+		ex) 키 170㎝에 몸무게 73kg이면, 계산식 : 73 / (1.7×1.7) = 25.26 → 과체중
+</p>
+<div class="tbl-y-wrap r5">
+	<form name="frm" method="get">
+		<table class="tbl-y">
+			<colgroup>
+				<col style="width:144px"/>
+				<col style="width:auto"/>
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>신장</th>
+					<td>
+						<input type="text" class="ipt2" style="width:95px" id="height" name="height" onkeydown="this.value=this.value.replace(/[^0-9]/g,'')" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onblur="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="3" /><span class="dash"> cm</span>
+					</td>
+				</tr>
+				<tr>
+					<th>몸무게</th>
+					<td>
+						<input type="text" class="ipt2" style="width:95px" id="weight" name="weight" onkeydown="this.value=this.value.replace(/[^0-9]/g,'')" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onblur="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="3"  /><span class="dash"> kg</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+	<p class="space1 bul-exclamation f11bold"> 비만도 측정(BMI) 이란?<br/><span class="p-gray">나이, 신장(cm)과 체중(kg)만으로 비만을 판정하는 비만 지수</span></p>
+	<div class="btn-ac">
+				<button type="button" onclick="bmi_view();">확인</button>
+			</div>
+			<div id="result_box" class="inner_box" style="display:none">
+								<strong>MY BMI: <span id="guide_bmi1"></span></strong>
+								<!--
+									결과 상태에 따른 클래스 부여해주세요.
+									정상 : em_b_blue
+									과체중 : bold
+									비만 : em_b_red
+								-->
+								<p>나의BMI(신체질량지수)는 <em class="bold" id="guide_bmi2"></em> 이고, <em class="em_b_blue" id="guide_sttus">정상</em>입니다.</p>
+							</div>
+
+							<em class="em_blue">0 저체중 ／ 18.5 정상</em> | <em class="black">23 과체중 ／ 25 경도비만</em> | <em class="em_red">30 중등도비만 ／BMI</em>
+							<p class="margin_t_20">※신체질량지수(BMI : Body Mass Index)는 질병관리본부에서 제공하는 계산법입니다.</p>
+</body>
+</html>

@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.ezen.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EzenfinalApplicationTests {
+class EzenFInalApplicationTests {
 
 	@Test
 	void contextLoads() {
