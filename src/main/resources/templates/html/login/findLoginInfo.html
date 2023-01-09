@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: html-head">
 <meta charset="UTF-8">
 <title>Find Information</title>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">   
+$(document).ready( function() {
+
+$("#headers").load("html/header.html");  // 원하는 파일 경로를 삽입하면 된다
+
+});
+</script>
+
 </head>
 <style type="text/css">
 @import url(https://fonts.googleapis.com/css?family=Gudea:400,700);
@@ -242,7 +251,13 @@ margin: 10px;
 		});
 	}
 </script>
+
+<div id="headers"></div>
 <body>
+<div class="container">
+    <div th:replace="fragments/common :: header"></div>
+</div>
+
 <div class="form">
 <div class='form_title'>
 				<span>Forgotten password / ID ?</span>
