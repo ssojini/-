@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table>
+<tr>
+	<th>번호</th>
+	<th>제목</th>
+	<th>작성자</th>
+	<th>조회수</th>
+	<th>작성일</th>
+</tr>
+<tr th:each="Shop: ${list}">
+	<td>[[${shop.userid}]]</td>
+	<td>[[${shop.address}]]</td>
+	<td>[[${shop.itemid}]]></td>
+	<td>[[${shop.price}]]</td>
+	<td>[[${shop.itemnum}]]></td>
+	<td>[[${shop.delivery}]]></td>
+	<td>[[${shop.itemnum}*${shop.price}]]></td>
+</tr>
+</table>
+</body>
+</html>
