@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: html-head">
 <meta charset="UTF-8">
 <title>Log-in</title>
 </head>
@@ -12,14 +12,12 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: "Gudea", sans-serif;
-  background: #ea5c54;
   /* Old browsers */
   /* FF3.6+ */
   /* Chrome,Safari4+ */
   /* Chrome10+,Safari5.1+ */
   /* Opera 11.10+ */
   /* IE10+ */
-  background: linear-gradient(135deg, #ea5c54 0%, #bb6dec 100%);
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#EA5C54 ", endColorstr="#bb6dec",GradientType=1 );
   /* IE6-9 fallback on horizontal gradient */
@@ -233,6 +231,9 @@ body .login_fields__submit input:hover {
 	}
 </script>
 <body>
+<div class="container">
+    <div th:replace="fragments/common :: header"></div>
+</div>
 	<main>
 		<div class='login'>
 			<div class='login_title'>
