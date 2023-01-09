@@ -108,11 +108,42 @@
 			<version>1.1.1</version>
 		</dependency>
 		
+<<<<<<< HEAD
+=======
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+	         <groupId>org.springframework.boot</groupId>
+	         <artifactId>spring-boot-devtools</artifactId>
+	         <scope>runtime</scope>
+	         <optional>true</optional>
+        </dependency>
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		<!-- Thymeleaf -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
+		
+>>>>>>> branch 'jongbin' of https://github.com/pastebean/EzenFinal.git
 		<!-- gmail -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		<!-- Thymeleaf -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
 		
 		<!-- localTIme -->
 		<dependency>
