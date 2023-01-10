@@ -22,4 +22,5 @@ public class Shop
 	private String delivery;
 	private int num;
 	
+	
 }

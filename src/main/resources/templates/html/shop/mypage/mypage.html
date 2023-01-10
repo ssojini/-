@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+    text-align: center
+  }
+</style>
+</head>
+<body>
+<table>
+<tr>
+	<th>주소</th>
+	<th>상품번호</th>
+	<th>가격</th>
+	<th>구매개수</th>
+	<th>배송상태</th>
+</tr>
+<tr  th:each="shop : ${list}">
+	<td>[[${shop.address}]]</td>
+	<td><a th:href="@{'/' + ${url} + '/' + ${shop.userid} + '/' + ${shop.itemid}}">[[${shop.itemid}]]</a></td>
+	<td>[[${shop.price}]]</td>
+	<td>[[${shop.itemnum}]]</td>
+	<td>[[${shop.delivery}]]</td>
+
+</tr>
+</table>
+</body>
+</html>

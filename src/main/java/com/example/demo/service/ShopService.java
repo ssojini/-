@@ -21,5 +21,9 @@ public class ShopService
 	
 		return mapper.list(userid);
 	}
-
+	
+	public Shop shopDetail(String userid, int itemid){
+		return mapper.detail(userid,itemid);
+	}
+ 
 }
