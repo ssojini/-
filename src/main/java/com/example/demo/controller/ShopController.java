@@ -29,17 +29,8 @@ public class ShopController
 	@Autowired
 	private GoodsRepository repo;
 	
-	@GetMapping("/mypage/{userid}")
-	public String ShopMyPage(@PathVariable String userid, Model m) {
-		
-		m.addAttribute("list", svc.mypagelist(userid));
-		m.addAttribute("url","shop/mypage/itemdetail");
-		return "html/shop/mypage/mypage";
-		
-	}
 	
 	/*--------------------- 상욱 ----------------------*/
-	
 	
 	@GetMapping("/detail/{goodsnum}")	
 	public String detail(@PathVariable("goodsnum") int goodsnum, Model m)
@@ -67,14 +58,21 @@ public class ShopController
 	}
 	
 	/* 종빈 */
+	
+	@GetMapping("/mypage/{userid}")
+	public String ShopMyPage(@PathVariable String userid, Model m) {
+		m.addAttribute("list", svc.mypagelist(userid));
+		m.addAttribute("url","shop/mypage/itemdetail");
+		return "html/shop/mypage/mypage";
+		
+	}
+	
 	@GetMapping("/mypage/itemdetail/{userid}/{itemid}")
 	@ResponseBody
 	public String ShopDetail(@PathVariable String userid, @PathVariable Integer itemid) {
 		//m.addAttribute("detail", svc.shopDetail(userid, itemid));
 		//return "html/shop/mypage/detail";
-		log.info("1");
 		Shop list = svc.shopDetail(userid, itemid);
-		log.info(list.toString());
 		return list.toString();
 	}
 }
