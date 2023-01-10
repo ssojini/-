@@ -7,10 +7,17 @@
 <body>
 	<main>
 		<div th:if="${freeBoard!=null}">
-			<div id="fbnum">[[${freeBoard.fbnum!=null?freeBoard.fbnum:''}]]</div>
-			<div id="title">[[${freeBoard.title!=null?freeBoard.title:''}]]</div>
-			<div id="author">[[${freeBoard.author!=null?freeBoard.author:''}]]</div>
-			<div id="contents">[[${freeBoard.contents!=null?freeBoard.contents:''}]]</div>
+			<div id="fbnum">[[${freeBoard.fbnum}]]</div>
+			<div id="title">[[${freeBoard.title}]]</div>
+			<div id="author">[[${freeBoard.author}]]</div>
+			<div id="contents">[[${freeBoard.contents}]]</div>
+			<div th:if="${listAttach!=null}">
+				<div th:each="item, i : ${listAttach}">
+					<span>[[${item.anum}]]</span> <span><a
+						th:href="@{/health/downloadFile(fbnum=${freeBoard.fbnum},aname=${item.aname})}">[[${item.aname}]]</a></span>
+					<span>[[${item.asize}]]</span>
+				</div>
+			</div>
 		</div>
 	</main>
 </body>

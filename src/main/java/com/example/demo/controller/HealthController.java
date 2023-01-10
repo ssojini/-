@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import com.example.demo.service.AttachService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
+import com.example.demo.vo.Attach;
 import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
@@ -68,25 +71,32 @@ public class HealthController {
 	@ResponseBody
 	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
-		map.put("result", fbs.addFreeBoard(session,freeBoard) != null ? "저장 성공" : "저장 실패");
+		FreeBoard freeboard = fbs.addFreeBoard(session,freeBoard);
+		map.put("result", freeboard!=null?"true":"false");
+		map.put("fbnum", freeboard.getFbnum());
 		return map;
 	}
 	
 	@PostMapping("/uploadFiles")
 	@ResponseBody
-	public Map<String,Object> uploadFiles(HttpServletRequest request, Model m, MultipartFile[] files) {
+	public Map<String,Object> uploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum) {
 		Map<String,Object> map = new HashMap<>();
-		System.out.println("files:"+files);
-		boolean result = as.saveAttach(request, files);
+		boolean result = as.saveAttach(request, files, fbnum);
 		map.put("result", result);
 		return map;
 	}
+	@GetMapping("/downloadFile")
+	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
+		Resource resource = resourceLoader.getResource("WEB-INF/files/" + fbnum + "_" + aname);
+		return as.donwloadAttach(request, resource);
+	}
 
 	@GetMapping("/detailFreeBoard")
-	public String detailFreeBoard(Model m, Integer fbnum) {
+	public String detailFreeBoard(Model m,Integer fbnum) {
 		FreeBoard freeBoard = fbs.getFreeBoardByFbnum(fbnum);
-		System.out.println("freeBoard:"+freeBoard);
 		m.addAttribute("freeBoard",freeBoard);
+		List<Attach> listAttach = as.getListAttach(fbnum);
+		m.addAttribute("listAttach",listAttach);
 		return "html/freeboard/detailFreeBoard";
 	}
 

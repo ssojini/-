@@ -17,9 +17,10 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Attach {
 	@Id
-	@SequenceGenerator(name="ATTACH_FNUM_GEN",allocationSize=1,sequenceName="ATTACH_FNUM_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ATTACH_FNUM_GEN")
+	@SequenceGenerator(name="ATTACH_ANUM_GEN",allocationSize=1,sequenceName="ATTACH_ANUM_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ATTACH_ANUM_GEN")
 	private Integer anum;
+	private Integer fbnum;
 	private String aname;
 	private long asize;
 }
