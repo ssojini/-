@@ -1,7 +1,4 @@
 function addFreeBoard() {
-	uploadFiles();
-
-	/*
 	$.ajax({
 		url: "/health/addFreeBoard",
 		method: "post",
@@ -14,18 +11,22 @@ function addFreeBoard() {
 		dataType: "json",
 		cache: false,
 		success: function(res) {
-			alert(res.result);
+			if (res.result) {
+				uploadFiles(parseInt(res.fbnum));
+			} else {
+				alert("저장 실패");
+			}
 		},
 		error: function(xhs, status, err) {
 			alert(err);
 		}
 	});
-	*/
 }
 
-function uploadFiles() {
+function uploadFiles(fbnum) {
 	var data = getFormData();
-
+	data.append("fbnum",fbnum);
+	if (data != null) {
 	$.ajax({
 		url: "/health/uploadFiles",
 		method: "post",
@@ -37,12 +38,13 @@ function uploadFiles() {
 		contentType: false,
 		timeout: 600000,
 		success: function(res) {
-			alert(res.result);
+			alert(res.result?"저장 성공":"저장 실패");
 		},
 		error: function(xhs, status, err) {
 			alert(err);
 		}
 	});
+	}
 }
 
 function getFormData() {
@@ -52,8 +54,7 @@ function getFormData() {
 	console.log("files.length: ", files.files.length);
 
 	if (files.files.length === 0) {
-		alert("파일은 선택해주세요");
-		return;
+		return null;
 	}
 	const formData = new FormData();
 	for (var i = 0; i < files.files.length; i++) {
