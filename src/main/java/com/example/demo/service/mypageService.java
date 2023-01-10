@@ -43,7 +43,7 @@ public class mypageService {
 	@Autowired
 	  public mypageService(Environment env) 
 	  {
-	    this.fileStorageLocation = Paths.get("./src/main/resources/public/profile")
+	    this.fileStorageLocation = Paths.get("./src/main/resources/static/images/profile")
 	        .toAbsolutePath().normalize();
 	    try {
 	      Files.createDirectories(this.fileStorageLocation);

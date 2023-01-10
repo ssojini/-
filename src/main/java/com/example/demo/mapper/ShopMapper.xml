@@ -5,6 +5,18 @@
 	<select id="admininfo"  parameterType="string" resultType="com.example.demo.vo.Admin">
 		SELECT * FROM Admin WHERE adminid=#{adminid, jdbcType=VARCHAR}
 	</select>
-	<update id="dd">
+	<update id="addgoods" parameterType="com.example.demo.vo.Goods">
+		INSERT INTO goods(goodsnum,goodsname,price,description,category,seller) 
+		VALUES(addgoods_SEQ.NEXTVAL,#{goodsname},#{price},#{description},#{category},#{seller})
+	</update>
+	<update id="addgoods_att" parameterType="list">
+		INSERT INTO addgoods_att(goodspho_seq,goodsnum,mainpic_original,mainpic_server,detail_original,detail_server)
+		SELECT addgoods_att_SEQ.NEXTVAL AS goodspho_seq, t.* FROM
+		(
+		<foreach collection="list" item="item" index="index" separator="union all">
+			SELECT (SELECT MAX(goodsnum)FROM goods) AS goodsnum, 
+			#{mainpic_original}, #{mainpic_server},#{detail_original},#{detail_server} FROM DUAL
+		</foreach>
+		)t;
 	</update>
 </mapper>

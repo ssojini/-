@@ -2,19 +2,210 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Summernote</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+  <title>add_goods</title>
+<!-- include libraries(jQuery, bootstrap) -->
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- include summernote css/js -->
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
+
+<script type="text/javascript"> 
+
+$(function(){
+	var price = document.querySelector('#price');
+	var file = document.querySelector('#file');
+	var goodsname = document.querySelector('#goodsname');
+	var description = document.querySelector('#description');
+	price.addEventListener("focusout", checkprice);
+	file.addEventListener("focusout", checkfile);
+	goodsname.addEventListener("focusout", checkgoodsname);
+	description.addEventListener("focusout", checkdescription);
+});
+
+//상품명
+function checkgoodsname() {
+	var error = document.querySelectorAll('.error_next_box');
+
+    if(goodsname.value === "") {
+    	error[0].innerHTML = "필수 정보입니다.";
+    	error[0].style.display = "block";
+    	error[0].style.color="red";
+    }
+}
+
+//가격확인
+function checkprice() {
+	var error = document.querySelectorAll('.error_next_box');
+    var isprice = /([0-9])/;
+
+    if(price.value === "") {
+    	error[1].innerHTML = "필수 정보입니다.";
+    	error[1].style.display = "block";
+    	error[1].style.color="red";
+    } else if(!isprice.test(price.value)) {
+    	error[1].innerHTML = "숫자만 입력가능합니다.";
+    	error[1].style.display = "block";
+    	error[1].style.color="red";
+    } else {
+        error[1].style.display = "none";
+    }
+}
+
+//메인사진확인
+function checkfile() {
+	var error = document.querySelectorAll('.error_next_box');
+
+    if(file.value === "") {
+    	error[2].innerHTML = "필수 정보입니다.";
+    	error[2].style.display = "block";
+    	error[2].style.color="red";
+    }else {
+        error[2].style.display = "none";
+    }
+}
+
+//상품설명확인
+function checkdescription() {
+	var error = document.querySelectorAll('.error_next_box');
+
+    if(description.value === "") {
+    	error[3].innerHTML = "필수 정보입니다.";
+    	error[3].style.display = "block";
+    	error[3].style.color="red";
+    }else {
+        error[3].style.display = "none";
+    }
+}
+
+//사진 프리뷰
+function readURL(input) 
+{
+   if (input.files && input.files[0]) 
+   {
+      var reader = new FileReader();
+     
+      reader.onload = function (e) 
+      {
+         $('#image_section').attr('src', e.target.result);  
+      }
+     
+      reader.readAsDataURL(input.files[0]);
+   }
+}
+ 
+// 이벤트를 바인딩해서 input에 파일이 올라올때 (input에 change를 트리거할때) 위의 함수를 this context로 실행합니다.
+$(function(){
+   $("#file").change(function(){
+         readURL(this);
+   });
+});
+/*
+function saveContent() {
+	
+	$("#content").html(data.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,'"').replace(/&#40;/g,'(').replace(/&#41;/g,')').replace(/&#35;/g,'#'));
+    //값 가져오기
+    var summernoteContent = $('#summernote').summernote('code');        //썸머노트(설명)
+    console.log("summernoteContent : " + summernoteContent);
+	
+}*/
+
+
+function saveContent()
+{
+	var form=$('#addgoods')[0];
+	var data = new FormData(form);
+	//const content = $('#summernote').summernote('code');
+	
+	$.ajax({
+		url:'/shop/addgoods',
+		enctype: 'multipart/form-data',
+		method:'post',
+		data:data,
+		dataType:'json',
+		cache:false,
+		processData: false,
+		contentType: false,
+		timeout: 600000,
+		success:function(res){
+			if(res.added)
+			{
+				alert("등록성공");
+				location.href="/health/";
+			}
+			else alert("등록실패");
+		},
+		error : function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});	
+}
+
+</script>
 <body>
-  <div id="summernote"><p>Hello Summernote</p></div>
+<h2>상품등록</h2>
+<form id="addgoods" enctype="multipart/form-data" >
+<input type="hidden" id="seller" name="seller" th:value="${admin.adminid}">
+<table>
+	<tbody>
+		<tr>
+		<th scope="row">상품명</th>
+			<td>
+				<input type='text' id="goodsname" name="goodsname"></input>
+				<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
+			</td>
+		</tr>
+		<tr>
+		<th scope="row">카테고리</th>
+			<td> 
+				<select name="category" >
+					<option value="" selected>선택하세요</option>
+			 		<option value="건강기능식품">건강기능식품</option>
+					<option value="건강보조식품">건강보조식품</option>
+			   		<option value="식품">식품</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+		<th scope="row">가격</th>
+			<td>
+				<input type='text' id="price" name="price"></input>
+				<span class="error_next_box"></span>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">상품사진</th>
+			<td><img src="#" id="image_section" width="84" height="84" alt="상품사진">
+			<span class="error_next_box"></span></td>
+			<td><input type='file' id="file" name="file" multiple="multiple"></input></td>
+			 
+		</tr>	
+		<tr>
+		<th scope="row">상품설명</th>
+			<td>
+				<textarea id="description" name="description"></textarea>
+				<span class="error_next_box"></span></td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<!-- 
+<p><div>상품상세설명</div><p>
+ <div id="summernote"></div>
   <script>
     $(document).ready(function() {
-        $('#summernote').summernote();
+        $('#summernote').summernote({
+        	height:300,
+        	lang : 'ko-KR'
+        });
     });
-  </script>
+  </script> -->
+  <button type="reset">취소</button>
+  <button type="button" onclick="saveContent();">확인</button>
+</form>
 </body>
 </html>
