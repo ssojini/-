@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
+import com.example.demo.service.AttachService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
@@ -40,6 +41,8 @@ public class HealthController {
 	/* 다루한 */
 	@Autowired
 	private FreeBoardService fbs;
+	@Autowired
+	private AttachService as;
 
 	@GetMapping("/freeBoard")
 	public String freeBoard(Model m, String bname) {
@@ -71,9 +74,10 @@ public class HealthController {
 	
 	@PostMapping("/uploadFiles")
 	@ResponseBody
-	public Map<String,Object> uploadFiles(Model m, @RequestParam("file") MultipartFile[] file) {
+	public Map<String,Object> uploadFiles(HttpServletRequest request, Model m, MultipartFile[] files) {
 		Map<String,Object> map = new HashMap<>();
-		System.out.println("file:"+file);
+		System.out.println("files:"+files);
+		as.saveAttach(request, files);
 		map.put("result", true);
 		return map;
 	}
