@@ -6,7 +6,7 @@ function addFreeBoard() {
 			"bname": $("#bname").val(),
 			"title": $("#title").val(),
 			"author": $("#author").val(),
-			"contents": $("#contents").val()
+			"contents": $("#contents").text()
 		},
 		dataType: "json",
 		cache: false,
@@ -68,4 +68,42 @@ function getFormData() {
 		console.log("value: ", value);
 	}
 	return formData;
+}
+
+function changeFile() {
+	const files = $("#files")[0];
+	console.log(files.files);
+	$("#fileListDiv *").remove("");
+	for (var i = 0; i < files.files.length; i++) {
+		console.log(files.files[i]);
+		$("#fileListDiv").append($("<span><input type='checkbox' value='"+files.files[i].name+"'>"+files.files[i].name+"</span>"));
+	}
+}
+
+function isImage(file) {
+	if (file.type == "image/png") {
+		return true;
+	}
+	if (file.type == "image/jpeg") {
+		return true;
+	}
+	return false;
+}
+
+function insertFile() {
+	const inputs = $("#fileListDiv").children();
+	console.log(inputs);
+	for (var i = 0; i < inputs.length; i++) {
+		console.log(inputs[i]);
+		console.log(inputs[i].children[0]);
+		//$("#contents").append(inputs[i].val());
+	}
+}
+
+function showImage(file, id) {
+	var fr = new FileReader();
+	fr.onload = function() {
+		document.getElementById(id).src = fr.result;
+	}
+	fr.readAsDataURL(file);
 }
