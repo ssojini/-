@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class AttachService {
 	public void saveAttach(HttpServletRequest request, MultipartFile[] files) {
-		String savePath = request.getServletContext().getRealPath("/static/images");
+		String savePath = request.getServletContext().getRealPath("../resources");
 		System.out.println("savePath:"+savePath);
 	}
 }
