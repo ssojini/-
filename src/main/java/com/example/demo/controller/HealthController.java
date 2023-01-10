@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
+import com.example.demo.service.AttachService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
@@ -34,13 +35,18 @@ import lombok.extern.slf4j.Slf4j;
 public class HealthController {
 	@Autowired HttpSession session;
 
+	@Autowired
+	private FileStorageService fss;
+	
 	/* 다루한 */
 	@Autowired
-	private FreeBoardService fs;
+	private FreeBoardService fbs;
+	@Autowired
+	private AttachService as;
 
 	@GetMapping("/freeBoard")
 	public String freeBoard(Model m, String bname) {
-		List<FreeBoard> listFreeBoard = fs.getFreeBoardList(bname);
+		List<FreeBoard> listFreeBoard = fbs.getFreeBoardList(bname);
 		m.addAttribute("listFreeBoard", listFreeBoard);
 		m.addAttribute("bname",bname);
 		return "html/freeboard/freeBoard";
@@ -49,7 +55,7 @@ public class HealthController {
 	@PostMapping("/getListMap")
 	@ResponseBody
 	public List<Map<String, Object>> getListMap(Model m, String bname) {
-		List<Map<String, Object>> listMap = fs.getListFreeBoardToListMap(bname);
+		List<Map<String, Object>> listMap = fbs.getListFreeBoardToListMap(bname);
 		return listMap;
 	}
 
@@ -62,14 +68,23 @@ public class HealthController {
 	@ResponseBody
 	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
-		System.out.println("freeBoard:"+freeBoard);
-		map.put("result", fs.addFreeBoard(session,freeBoard));
+		map.put("result", fbs.addFreeBoard(session,freeBoard) != null ? "저장 성공" : "저장 실패");
+		return map;
+	}
+	
+	@PostMapping("/uploadFiles")
+	@ResponseBody
+	public Map<String,Object> uploadFiles(HttpServletRequest request, Model m, MultipartFile[] files) {
+		Map<String,Object> map = new HashMap<>();
+		System.out.println("files:"+files);
+		as.saveAttach(request, files);
+		map.put("result", true);
 		return map;
 	}
 
 	@GetMapping("/detailFreeBoard")
 	public String detailFreeBoard(Model m, Integer fbnum) {
-		FreeBoard freeBoard = fs.getFreeBoardByFbnum(fbnum);
+		FreeBoard freeBoard = fbs.getFreeBoardByFbnum(fbnum);
 		System.out.println("freeBoard:"+freeBoard);
 		m.addAttribute("freeBoard",freeBoard);
 		return "html/freeboard/detailFreeBoard";
@@ -83,35 +98,30 @@ public class HealthController {
 
 	@Autowired
 	ResourceLoader resourceLoader;
-	
-
-	@Autowired
-	private FileStorageService fs_svc;
-
 
 	@GetMapping("/")
 	@ResponseBody
 	public String userlist() {
 		return mp_svc.userlist().toString();
 	}
-	
+
 	@GetMapping("/calorie")
-	   public String cal()
-	   {
-	      return "health/calorie";
-	   }
-	
-	   @PostMapping("/cal")
-	   @ResponseBody
-	   public Map<String,Object> calculate(int height, int gender, int active)
-	   {
-	      Map<String, Object> map = new HashMap<>();
-	      float recommand = (float) ( (height-100)*0.9*((gender*5)+20) ); 
-	      //System.err.println(recommand+" Kcal");
-	      map.put("recommand",recommand);
-	      
-	      return map;
-	   }
+	public String cal()
+	{
+		return "health/calorie";
+	}
+
+	@PostMapping("/cal")
+	@ResponseBody
+	public Map<String,Object> calculate(int height, int gender, int active)
+	{
+		Map<String, Object> map = new HashMap<>();
+		float recommand = (float) ( (height-100)*0.9*((gender*5)+20) ); 
+		//System.err.println(recommand+" Kcal");
+		map.put("recommand",recommand);
+
+		return map;
+	}
 
 	@GetMapping("/useredit/{userid}")
 	public String addboardform(@PathVariable(value = "userid", required = false) String userid, Model m) {
@@ -123,7 +133,7 @@ public class HealthController {
 	@ResponseBody
 
 	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
-											HttpServletRequest request, UserJoin userjoin) 
+			HttpServletRequest request, UserJoin userjoin) 
 	{
 		Map<String,Object> map= new HashMap<>();
 		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, userjoin));
@@ -137,14 +147,14 @@ public class HealthController {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/DeleteUser";
 	}
-	
+
 	@GetMapping("/deleteuser_check/{userid}")
 	public String deleteuser_check(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/DeleteUser_Check";
 	}
 
-	
+
 	@PostMapping("/deleteuser")
 	@ResponseBody
 	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid,  UserJoin userjoin, Model m) {
@@ -153,30 +163,30 @@ public class HealthController {
 		map.put("deleted", mp_svc.deleteuser(userjoin));
 		return map;
 	}
-	
+
 	@GetMapping("/user_addinfo/{userid}")
 	public String useraddinfo(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/UserDetail";
 	}
-	
+
 	@GetMapping("/findpwd/{userid}")
 	public String findpwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/FindPwd";
 	}
-	
+
 	@PostMapping("/findpwd/{userid}")
 	public String changepwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/FindPwd";
 	}
-	
+
 	@GetMapping("/test1")
 	public String test1() {
 		return "html/mypage/test.html";
 	}
-	
+
 	/* 현주 */
 
 	/* 종빈 */
@@ -216,7 +226,7 @@ public class HealthController {
 		log.info("컨트롤러 리스트"+ absvc.qList());
 		return "html/admin/adminBoard";
 	}
-	
+
 	@GetMapping("/writeQueB")
 	public String writeQueBForm(HttpSession session, Model m) 
 	{
@@ -225,7 +235,7 @@ public class HealthController {
 		m.addAttribute("userid", id);
 		return "html/admin/writeQueB";
 	}
-	
+
 	@PostMapping("/writeQueB")
 	@ResponseBody
 	public Map<String, Object> writeQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
@@ -235,11 +245,11 @@ public class HealthController {
 		map.put("uploaded", uploaded);
 		return map;
 	}
-	
+
 	@GetMapping("/bmi")
 	public String bmi()
 	{
 		return "hrml/mypage/BMI_cul";
 	}
-	
+
 }
