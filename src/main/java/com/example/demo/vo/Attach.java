@@ -21,5 +21,5 @@ public class Attach {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ATTACH_FNUM_GEN")
 	private Integer anum;
 	private String aname;
-	private BigDecimal asize;
+	private long asize;
 }

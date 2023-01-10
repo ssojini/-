@@ -77,8 +77,8 @@ public class HealthController {
 	public Map<String,Object> uploadFiles(HttpServletRequest request, Model m, MultipartFile[] files) {
 		Map<String,Object> map = new HashMap<>();
 		System.out.println("files:"+files);
-		as.saveAttach(request, files);
-		map.put("result", true);
+		boolean result = as.saveAttach(request, files);
+		map.put("result", result);
 		return map;
 	}
 
