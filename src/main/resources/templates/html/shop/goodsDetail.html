@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: html-head">
+<meta charset="UTF-8">
+<title>상품 세부내용</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function total(){
+		var price = parseInt("[[${goods.getPrice}]]");
+		var num = parseInt($('#prod_cnt').val());
+		$('#sum').val(price*num);		
+	}
+	
+	function addBasket(){
+		var goodsnum = "[[${goods.getGoodsnum}]]";
+		var goodsprice = "[[${goods.getPrice}]]";
+		var proc_cnt = $('#prod_cnt').val();
+		alert("장바구니 \n 상품번호: "+goodsnum+" 상품가격: "+goodsprice+" 수량: "+proc_cnt);
+	}
+	
+	function buyNow(){
+		var goodsnum = "[[${goods.getGoodsnum}]]";
+		var goodsprice = "[[${goods.getPrice}]]";
+		var proc_cnt = $('#prod_cnt').val();
+		alert("즉시구매\n 상품번호: "+goodsnum+" 상품가격: "+goodsprice+" 수량: "+proc_cnt);
+	}
+	
+	
+</script>
+<body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
+
+<main>
+<h3>구매-상품 상세보기</h3>
+<div>상품사진</div>
+<div><img alt="mainpic" th:src="${goods.getMainpic}"></div>
+<div>카테고리: <span th:text="${goods.getCategory}"></span></div>
+<div>상품명: 
+<span>[[${goods.getGoodsnum}]]</span>
+<span th:text="${goods.getTitle}"></span>
+</div>
+<div>가격: <span>[[${goods.getPrice}]]</span>
+</div>
+<div>수량: <input type="number" id="prod_cnt" min="1" value="1" onchange="total()"></div>
+<div>합계: <input id="sum" type="text" th:value="${goods.getPrice}"> </div>
+<div><input type="button" value="장바구니 담기" onclick="addBasket()"></div>
+<div><input type="button" value="즉시구매" onclick="buyNow()"></div>
+<div>상품설명</div>
+<div th:text="${goods.getDescription}"></div>
+<div>상품세부</div>
+<div th:text="${goods.getGoods_detail}"></div>
+
+
+</main>
+</body>
+</html>
