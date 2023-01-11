@@ -42,9 +42,6 @@ public class Goods
 	private String category;
 
 	private String seller;
-	
-	//private List<AddGoods_Att> attlist = new ArrayList<>();
-	
 }
 
 	

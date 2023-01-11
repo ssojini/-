@@ -6,7 +6,7 @@ function addFreeBoard() {
 			"bname": $("#bname").val(),
 			"title": $("#title").val(),
 			"author": $("#author").val(),
-			"contents": $("#contents").text()
+			"contents": $("#contents").html()
 		},
 		dataType: "json",
 		cache: false,
@@ -72,12 +72,14 @@ function getFormData() {
 
 function changeFile() {
 	const files = $("#files")[0];
-	console.log(files.files);
 	$("#fileListDiv *").remove("");
 	for (var i = 0; i < files.files.length; i++) {
-		console.log(files.files[i]);
-		$("#fileListDiv").append($("<span><input type='checkbox' value='"+files.files[i].name+"'>"+files.files[i].name+"</span>"));
+		const file = files.files[i];
+		if (isImage(file)) {
+			$("#fileListDiv").append($("<span><input type='checkbox' value='"+files.files[i].name+"'>"+files.files[i].name+"</span>"));
+		}
 	}
+	$("#contents > img").remove();
 }
 
 function isImage(file) {
@@ -90,23 +92,49 @@ function isImage(file) {
 	return false;
 }
 
-function insertFile() {
-	const files = $("#files")[0];
-	for (var i = 0; i < files.files.length; i++) {
-		var file = files.files[i];
-		console.log(file);
-		var $img = $("<img id='img_"+i+"' src=''></img>")
-		$("#contents").append($img);
-		showImage(file,"img_"+i);
+function insertImg() {
+	var input = $("input[type=checkbox]");
+	for (var i = 0; i < input.length; i++) {
+		if (input[i].checked == true) {
+			appendImage(getFileByName(input[i].value));
+		}
 	}
 }
 
-function showImage(file, id) {
+function getFileByName(filename) {
+	var files = $("#files")[0].files;
+	for (var i = 0; i < files.length; i++) {
+		if (files[i].name == filename) {
+			return files[i];
+		}
+	}
+	return null;
+}
+
+function appendImage(file) {
+	if (document.getElementById(file.name)) {
+		var i = 0;
+		while (true) {
+			var filename = file.name + "_" + i;
+			if (document.getElementById(filename)) {
+				++i;
+			} else {
+				var $img = $("<img id='" + filename + "' class='"+file.name+"'>");
+				$("#contents").append($img);
+				showImage(file,filename);
+				break;
+			}
+		}
+	} else {
+		var $img = $("<img id='" + file.name + "' class='"+file.name+"'>");
+		$("#contents").append($img);
+		showImage(file,file.name);
+	}
+}
+
+function showImage(file,id) {
 	var fr = new FileReader();
 	fr.onload = function() {
-		console.log(id);
-		console.log(document.getElementById(id));
-		console.log(fr.result);
 		document.getElementById(id).src = fr.result;
 	}
 	fr.readAsDataURL(file);

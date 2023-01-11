@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -68,7 +69,7 @@ public class ShopController
 	@ResponseBody
 	public String testAdd()
 	{
-		Goods goods = new Goods(1,"영양제","/images/goods.png",5000,"건강에 좋음","상품에 관한 상세설명","","카테고리1","");
+		Goods goods = new Goods(1,"영양제","/images/goods.png",5000,"건강에 좋음","상품에 관한 상세설명","","카테고리1","asdf");
 		Goods added = repo.save(goods);
 		return added.toString();
 	}
