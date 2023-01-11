@@ -68,7 +68,7 @@ public class ShopController
 	@ResponseBody
 	public String testAdd()
 	{
-		Goods goods = new Goods(1,"영양제","/images/goods.png",5000,"건강에 좋음","상품에 관한 상세설명","","카테고리1");
+		Goods goods = new Goods(1,"영양제","/images/goods.png",5000,"건강에 좋음","상품에 관한 상세설명","","카테고리1","");
 		Goods added = repo.save(goods);
 		return added.toString();
 	}

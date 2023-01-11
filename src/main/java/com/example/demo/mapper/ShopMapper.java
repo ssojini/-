@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
+import com.example.demo.vo.Shop;
 
 @Mapper
 public interface ShopMapper {

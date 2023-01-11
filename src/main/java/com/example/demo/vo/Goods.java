@@ -43,7 +43,7 @@ public class Goods
 
 	private String seller;
 	
-	private List<AddGoods_Att> attlist = new ArrayList<>();
+	//private List<AddGoods_Att> attlist = new ArrayList<>();
 	
 }
 
