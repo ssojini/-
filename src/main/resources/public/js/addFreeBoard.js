@@ -13,7 +13,7 @@ function addFreeBoard() {
 		success: function(res) {
 			if (res.result) {
 				if ($("#files")[0].files.length != 0) {
-					uploadFiles(parseInt(res.fbnum));
+					uploadFiles(res.fbnum);
 				} else {
 					alert("저장 성공");
 				}
@@ -27,9 +27,18 @@ function addFreeBoard() {
 	});
 }
 
+function srcChange(fbnum) {
+	var img = $("#contents > img");
+	for (var i = 0; i < img.length; i++) {
+		img[i].src = "/images/freeboard/" + fbnum + "_" + img[i].className;
+	}
+}
+
 function uploadFiles(fbnum) {
 	var data = getFormData();
 	data.append("fbnum",fbnum);
+	srcChange(fbnum);
+	data.append("contents",$("#contents").html());
 	if (data != null) {
 	$.ajax({
 		url: "/health/uploadFiles",

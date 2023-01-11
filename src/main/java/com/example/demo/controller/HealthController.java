@@ -79,9 +79,10 @@ public class HealthController {
 	
 	@PostMapping("/uploadFiles")
 	@ResponseBody
-	public Map<String,Object> uploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum) {
+	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum, String contents) {
 		Map<String,Object> map = new HashMap<>();
 		boolean result = as.saveAttach(request, files, fbnum);
+		FreeBoard updateFreeBoard = fbs.updateContents(fbnum, contents);
 		map.put("result", result);
 		return map;
 	}

@@ -57,4 +57,14 @@ public class FreeBoardService {
 		System.out.println("freeBoard:"+freeBoard);
 		return freeBoard;
 	}
+	
+	public FreeBoard updateContents(Integer fbnum, String contents) {
+		Optional<FreeBoard> freeBoard = repo.findById(fbnum);
+		if (freeBoard.isPresent()) {
+			freeBoard.get().setContents(contents);
+			return repo.save(freeBoard.get());
+		} else {
+			return null;
+		}
+	}
 }
