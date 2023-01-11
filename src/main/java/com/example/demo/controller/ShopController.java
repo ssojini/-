@@ -29,7 +29,6 @@ import com.example.demo.service.ShopService;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Goods;
 import com.example.demo.vo.UserJoin;
-import com.google.gson.JsonObject;
 import com.example.demo.vo.Goods;
 import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.Shop;
