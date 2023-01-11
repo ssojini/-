@@ -91,18 +91,22 @@ function isImage(file) {
 }
 
 function insertFile() {
-	const inputs = $("#fileListDiv").children();
-	console.log(inputs);
-	for (var i = 0; i < inputs.length; i++) {
-		console.log(inputs[i]);
-		console.log(inputs[i].children[0]);
-		//$("#contents").append(inputs[i].val());
+	const files = $("#files")[0];
+	for (var i = 0; i < files.files.length; i++) {
+		var file = files.files[i];
+		console.log(file);
+		var $img = $("<img id='img_"+i+"' src=''></img>")
+		$("#contents").append($img);
+		showImage(file,"img_"+i);
 	}
 }
 
 function showImage(file, id) {
 	var fr = new FileReader();
 	fr.onload = function() {
+		console.log(id);
+		console.log(document.getElementById(id));
+		console.log(fr.result);
 		document.getElementById(id).src = fr.result;
 	}
 	fr.readAsDataURL(file);
