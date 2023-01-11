@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,9 +8,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,14 +21,41 @@ import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
 import com.example.demo.vo.UserJoin;
+import com.example.demo.interfaces.GoodsRepository;
+import com.example.demo.vo.Shop;
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Service
-@Slf4j
-public class ShopService {
-	
+public class ShopService 
+{
+	/* 상욱 */
 	@Autowired
+	private GoodsRepository repo;
+	
+	public Goods getGoods(int goodsnum) 
+	{
+		Optional<Goods> goods = repo.findById(goodsnum);
+		//System.out.println(goods.get());
+		return goods.isPresent()?goods.get():null;
+	}
+	/* 종빈 */
+	@Autowired
+	private ShopMapper mapper;
+	
+	public List<Shop> mypagelist(String userid) {
+	
+		return mapper.list(userid);
+	}
+	
+	public Shop shopDetail(String userid, int itemid){
+		return mapper.detail(userid,itemid);
+	}
+  
+  /* 현주 */
+  
+  @Autowired
 	private ShopMapper map;
 	
 	private Path fileStorageLocation;
@@ -89,5 +119,5 @@ public class ShopService {
 			}
 			return added;
 		 }
-
+ 
 }

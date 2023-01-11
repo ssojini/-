@@ -98,6 +98,7 @@ public class JoinController
 		User added = repo.save(member);
 		return added.toString();
 	}
+	
 	@GetMapping({"/","/login"})
 	public String login()
 	{

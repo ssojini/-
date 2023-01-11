@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.example.demo.mapper.ShopMapper">
+
 	<select id="admininfo"  parameterType="string" resultType="com.example.demo.vo.Admin">
 		SELECT * FROM Admin WHERE adminid=#{adminid, jdbcType=VARCHAR}
 	</select>
@@ -19,4 +21,17 @@
 		</foreach>
 		)t;
 	</update>
+
+	<select id="list" parameterType="string" resultType="com.example.demo.vo.Shop">
+		SELECT * 
+		FROM addgoods
+		WHERE userid=#{userid, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="detail" parameterType="com.example.demo.vo.Shop" resultType="com.example.demo.vo.Shop">
+		SELECT * 
+		FROM addgoods
+		WHERE userid=#{userid, jdbcType=VARCHAR} AND itemid=#{itemid}
+	</select>
+	
 </mapper>

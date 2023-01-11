@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
 
@@ -15,4 +16,9 @@ public interface ShopMapper {
 	public int addgoods(Goods goods);
 	
 	public int addgoods_att(List list);
+
+	public List<Shop> list(String userid);
+  
+	public Shop detail(String userid, int itemid);
+
 }
