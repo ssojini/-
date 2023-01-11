@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +29,6 @@ import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Goods;
 import com.example.demo.vo.UserJoin;
 import com.example.demo.vo.Goods;
-import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.Shop;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +61,7 @@ public class ShopController
 	{
 		return "Shop Index";
 	}
+	
 	//초기 테스트 데이터 생성 메소드
 	@GetMapping("/add")	
 	@ResponseBody
@@ -93,6 +92,12 @@ public class ShopController
 	}
 
 	/* 종빈 */
+	@GetMapping("/main")
+	public String main()
+	{
+		return "html/shop/main";
+	}
+	
 	
 	@GetMapping("/mypage/{userid}")
 	public String ShopMyPage(@PathVariable String userid, Model m) {
@@ -102,13 +107,12 @@ public class ShopController
 		
 	}
 	
-	@GetMapping("/mypage/itemdetail/{userid}/{itemid}")
-	@ResponseBody
-	public String ShopDetail(@PathVariable String userid, @PathVariable Integer itemid) {
+	@GetMapping("/mypage/itemdetail/{ordernum}")
+	public String ShopDetail(@PathVariable String ordernum, Model m) {
 		//m.addAttribute("detail", svc.shopDetail(userid, itemid));
 		//return "html/shop/mypage/detail";
-		Shop list = svc.shopDetail(userid, itemid);
-		return list.toString();
+		m.addAttribute("detail",svc.shopDetail(ordernum));
+		return "html/shop/mypage/detail";
 	}
 
 }
