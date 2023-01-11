@@ -87,8 +87,7 @@ public class HealthController {
 	}
 	@GetMapping("/downloadFile")
 	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
-		Resource resource = resourceLoader.getResource("WEB-INF/files/" + fbnum + "_" + aname);
-		return as.donwloadAttach(request, resource);
+		return as.donwloadAttach(request, fbnum, aname);
 	}
 
 	@GetMapping("/detailFreeBoard")

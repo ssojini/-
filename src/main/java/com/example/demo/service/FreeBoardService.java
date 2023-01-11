@@ -53,8 +53,8 @@ public class FreeBoardService {
 	}
 
 	public FreeBoard addFreeBoard(HttpSession session, FreeBoard freeBoard) {
-		//return repo.save(freeBoard);
+		freeBoard = repo.save(freeBoard);
 		System.out.println("freeBoard:"+freeBoard);
-		return new FreeBoard();
+		return freeBoard;
 	}
 }

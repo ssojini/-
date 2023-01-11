@@ -12,7 +12,11 @@ function addFreeBoard() {
 		cache: false,
 		success: function(res) {
 			if (res.result) {
-				uploadFiles(parseInt(res.fbnum));
+				if ($("#files")[0].files.length != 0) {
+					uploadFiles(parseInt(res.fbnum));
+				} else {
+					alert("저장 성공");
+				}
 			} else {
 				alert("저장 실패");
 			}
