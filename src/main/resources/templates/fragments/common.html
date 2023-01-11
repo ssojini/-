@@ -69,10 +69,10 @@
                     >
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="/shop/main">Shop</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Activities</a>
+                    <a class="nav-link" href="/health/freeBoard">community</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">Company</a>
@@ -136,6 +136,11 @@
       let videoSec;
 
       $(function() {
+   	  		if (detectIE()) {
+             alert(
+               "Please use the latest version of Edge, Chrome, or Firefox for best browsing experience."
+             );
+           }
         const mainNav = $("#tmMainNav");
         mainNav.singlePageNav({
           filter: ":not(.external)",

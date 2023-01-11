@@ -30,12 +30,11 @@ public class ShopService
 	private ShopMapper mapper;
 	
 	public List<Shop> mypagelist(String userid) {
-	
 		return mapper.list(userid);
 	}
 	
-	public Shop shopDetail(String userid, int itemid){
-		return mapper.detail(userid,itemid);
+	public Shop shopDetail(String ordernum){
+		return mapper.detail(ordernum);
 	}
  
 }

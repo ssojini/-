@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: head">
 <meta charset="UTF-8">
 <title>detailFreeBoard</title>
 </head>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 	<main>
 		<div th:if="${freeBoard!=null}">
 			<div id="fbnum">[[${freeBoard.fbnum!=null?freeBoard.fbnum:''}]]</div>

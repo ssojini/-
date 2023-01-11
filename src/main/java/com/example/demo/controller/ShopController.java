@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.interfaces.GoodsRepository;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.Goods;
-import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.Shop;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +43,7 @@ public class ShopController
 	{
 		return "Shop Index";
 	}
+	
 	//초기 테스트 데이터 생성 메소드
 	@GetMapping("/add")	
 	@ResponseBody
@@ -58,6 +55,12 @@ public class ShopController
 	}
 	
 	/* 종빈 */
+	@GetMapping("/main")
+	public String main()
+	{
+		return "html/shop/main";
+	}
+	
 	
 	@GetMapping("/mypage/{userid}")
 	public String ShopMyPage(@PathVariable String userid, Model m) {
@@ -67,12 +70,11 @@ public class ShopController
 		
 	}
 	
-	@GetMapping("/mypage/itemdetail/{userid}/{itemid}")
-	@ResponseBody
-	public String ShopDetail(@PathVariable String userid, @PathVariable Integer itemid) {
+	@GetMapping("/mypage/itemdetail/{ordernum}")
+	public String ShopDetail(@PathVariable String ordernum, Model m) {
 		//m.addAttribute("detail", svc.shopDetail(userid, itemid));
 		//return "html/shop/mypage/detail";
-		Shop list = svc.shopDetail(userid, itemid);
-		return list.toString();
+		m.addAttribute("detail",svc.shopDetail(ordernum));
+		return "html/shop/mypage/detail";
 	}
 }
