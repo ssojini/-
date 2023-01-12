@@ -138,5 +138,4 @@ public class ShopController
 		m.addAttribute("detail",svc.shopDetail(ordernum));
 		return "html/shop/mypage/detail";
 	}
-	
 }
