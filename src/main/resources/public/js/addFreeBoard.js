@@ -13,9 +13,10 @@ function addFreeBoard() {
 		success: function(res) {
 			if (res.result) {
 				if ($("#files")[0].files.length != 0) {
-					uploadFiles(res.fbnum);
+					uploadFiles(res.freeBoard.fbnum);
 				} else {
 					alert("저장 성공");
+					location.href = "/health/freeBoard";
 				}
 			} else {
 				alert("저장 실패");
@@ -52,6 +53,9 @@ function uploadFiles(fbnum) {
 		timeout: 600000,
 		success: function(res) {
 			alert(res.result?"저장 성공":"저장 실패");
+			if (res.result) {
+				location.href = '/health/freeBoard';
+			}
 		},
 		error: function(xhs, status, err) {
 			alert(err);

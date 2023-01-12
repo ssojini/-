@@ -7,7 +7,7 @@
 <script src="/js/detailFreeBoard.js"></script>
 <script type="text/javascript">
 window.onload = function() {
-	$("#contents").html($("#contents").text());
+	document.getElementById("contents").innerHTML = document.getElementById("contents").innerText;
 }
 </script>
 </head>
@@ -18,12 +18,11 @@ window.onload = function() {
 			<div id="title">[[${freeBoard.title}]]</div>
 			<div id="author">[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
-			<div th:if="${listAttach!=null}">
-				<div th:each="item, i : ${listAttach}">
-					<span>[[${item.anum}]]</span> <span><a
-						th:href="@{/health/downloadFile(fbnum=${freeBoard.fbnum},aname=${item.aname})}">[[${item.aname}]]</a></span>
-					<span>[[${item.asize}]]</span>
-				</div>
+			<div>
+				<button type="button" th:onclick="deleteFreeBoard([[${freeBoard.fbnum}]]);">삭제</button>
+			</div>
+			<div>
+				<button type="button" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 			</div>
 		</div>
 	</main>

@@ -88,4 +88,9 @@ public class AttachService {
 		List<Attach> listAttach = repo.findAllByFbnum(fbnum);
 		return listAttach;
 	}
+	
+	public boolean deleteAttach(Integer fbnum) {
+		repo.deleteByFbnum(fbnum);
+		return true;
+	}
 }

@@ -67,4 +67,9 @@ public class FreeBoardService {
 			return null;
 		}
 	}
+	
+	public boolean deleteFreeBoard(Integer fbnum) {
+		repo.deleteById(fbnum);
+		return true;
+	}
 }

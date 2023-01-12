@@ -71,9 +71,9 @@ public class HealthController {
 	@ResponseBody
 	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
-		FreeBoard freeboard = fbs.addFreeBoard(session,freeBoard);
-		map.put("result", freeboard!=null?"true":"false");
-		map.put("fbnum", freeboard.getFbnum());
+		FreeBoard addFreeBoard = fbs.addFreeBoard(session,freeBoard);
+		map.put("result", addFreeBoard!=null?"true":"false");
+		map.put("freeBoard", addFreeBoard);
 		return map;
 	}
 	
@@ -95,9 +95,20 @@ public class HealthController {
 	public String detailFreeBoard(Model m,Integer fbnum) {
 		FreeBoard freeBoard = fbs.getFreeBoardByFbnum(fbnum);
 		m.addAttribute("freeBoard",freeBoard);
-		List<Attach> listAttach = as.getListAttach(fbnum);
-		m.addAttribute("listAttach",listAttach);
 		return "html/freeboard/detailFreeBoard";
+	}
+	
+	@PostMapping("/deleteFreeBoard")
+	@ResponseBody
+	public Map<String,Object> deleteFreeBoard(Model m, Integer fbnum) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("result",fbs.deleteFreeBoard(fbnum)&&as.deleteAttach(fbnum));
+		return map;
+	}
+	
+	@GetMapping("/editFreeBoard")
+	public String editFreeBoard() {
+		return "";
 	}
 
 	/* 다루한 */
