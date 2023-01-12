@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head th:replace="fragments/common :: html-head">
 <meta charset="UTF-8">
 <title>상품 세부내용</title>
@@ -13,43 +13,63 @@
 	}
 	
 	function addCart(){
-		var goodsnum = "[[${goods.getGoodsnum}]]";
-		var goodsprice = "[[${goods.getPrice}]]";
-		var proc_cnt = $('#prod_cnt').val();
-		alert("장바구니 \n 상품번호: "+goodsnum+" 상품가격: "+goodsprice+" 수량: "+proc_cnt);
+		var price = parseInt("[[${goods.getPrice}]]");
+		var num = parseInt($('#prod_cnt').val());
+		var cart = $('#cartForm').serialize();		
+		cart +="&sum="+price*num;
+		cart +="&userid="+"asdf";
+		console.log(cart);
+		$.ajax({
+			url: '/shop/cart',
+			method:'post',
+			cache:false,
+			data: cart,
+			dataType:'json',
+			success:function(res){
+				alert(res.msg);
+				if(res.added){
+					if(confirm("장바구니 보러가기?")){
+						location.href='/shop/cart';
+					}else{
+						false;
+					}					
+				}
+			},error:function(xhr,status,err){
+				alert("에러: "+err);
+			}			
+		});
 	}
 	
 	function buyNow(){
+		
 		var goodsnum = "[[${goods.getGoodsnum}]]";
 		var goodsprice = "[[${goods.getPrice}]]";
 		var proc_cnt = $('#prod_cnt').val();
-		alert("즉시구매\n 상품번호: "+goodsnum+" 상품가격: "+goodsprice+" 수량: "+proc_cnt);
+		alert("상품번호: "+goodsnum+" 상품가격: "+goodsprice+" 수량: "+proc_cnt);
 	}
 	
 	
 </script>
-<style type="text/css">
-.main{
- 	left: 100px;
-}
-</style>
 <body>
+<main>
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
 
-<main>
+<form id="cartForm">
 <h3>구매-상품 상세보기</h3>
 <div>상품사진</div>
-<div><img alt="mainpic" th:src="${goods.getMainpic}"></div>
+<div><input type="hidden" name="mainpic" th:value="${goods.getMainpic}">
+	<img alt="mainpic" th:src="${goods.getMainpic}"></div>
+<input type="hidden" name="goodsnum" th:value="${goods.getGoodsnum}">
+<input type="hidden" name=category th:value="${goods.getCategory}">
 <div>카테고리: <span th:text="${goods.getCategory}"></span></div>
-<div>상품명: 
-<span>[[${goods.getGoodsnum}]]</span>
-<span th:text="${goods.getTitle}"></span>
+<div><input type="hidden" name="goodsname" th:value="${goods.getGoodsname}">상품명: 
+<span th:text="${goods.getGoodsname}"></span>
 </div>
-<div>가격: <span>[[${goods.getPrice}]]</span>
+<div><input type="hidden" name="price" th:value="${goods.getPrice}">가격: <span>[[${goods.getPrice}]]</span>
 </div>
-<div>수량: <input type="number" id="prod_cnt" min="1" value="1" onchange="total()"></div>
+<div>수량: <input id="prod_cnt" name="prod_cnt" type="number" min="1" value="1" onchange="total()"></div>
 <div>합계: <span id="sum" th:text="${goods.getPrice}"></span> </div>
 <div><input type="button" value="장바구니 담기" onclick="addCart()"></div>
 <div><input type="button" value="즉시구매" onclick="buyNow()"></div>
@@ -57,7 +77,7 @@
 <div th:text="${goods.getDescription}"></div>
 <div>상품세부</div>
 <div th:text="${goods.getGoods_detail}"></div>
-
+</form>
 
 </main>
 </body>
