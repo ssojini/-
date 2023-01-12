@@ -6,63 +6,61 @@
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script>
-			function bmi_view(){
-				if ($("#height").val().replace(/(^\s*)|(\s*$)/g, "") == ''){
-					alert("키를 입력해주세요.");
-					$("#stature").val("");
-					$("#stature").focus();
-					return;
-				}
+<script type="text/javascript">
+function bmi_view(){
+	if ($("#height").val().replace(/(^\s*)|(\s*$)/g, "") == ''){
+		alert("키를 입력해주세요.");
+		$("#stature").val("");
+		$("#stature").focus();
+		return;
+	}
 
-				if ($("#weight").val().replace(/(^\s*)|(\s*$)/g, "") == ''){
-					alert("몸무게를 입력해주세요.");
-					$("#weight").val("");
-					$("#weight").focus();
-					return;
-				}
+	if ($("#weight").val().replace(/(^\s*)|(\s*$)/g, "") == ''){
+		alert("몸무게를 입력해주세요.");
+		$("#weight").val("");
+		$("#weight").focus();
+		return;
+	}
 
-				var frm = document.frm;
-				frm.action = "/health/test1"
-				frm.submit();
+	var frm = document.frm;
 				
-				cm=Number($('#height').val());
-				cm=cm*0.01;
+	cm=Number($('#height').val());
+	cm=cm*0.01;
 
-				kg=Number($('#weight').val());
-				BMI=kg/(cm*cm);
-                                                BMI = Math.floor(BMI * 10) / 10;
+	kg=Number($('#weight').val());
+	BMI=kg/(cm*cm);
+	BMI = Math.floor(BMI * 10) / 10;
 
-				var STTUS = "";
+	var STTUS = "";
 
-				if(BMI > 25.0) {
-					STTUS = "비만";
-				}
-				else if((BMI > 23.0) && (BMI<=24.9)) {
-					STTUS = "과체중";
-				}
-				else if((BMI > 18.5) && (BMI<=22.9)) {
-					STTUS = "정상";
-				}
-				else if(BMI <= 18.5) {
-					STTUS = "저체중";
-				}
-				else {
-					alert(BMI+"올바른 신장과 몸무게를 입력하십시오.");
-					return false;
-				}
+	if(BMI > 25.0) {
+		STTUS = "비만";
+	}
+	else if((BMI > 23.0) && (BMI<=24.9)) {
+		STTUS = "과체중";
+	}
+	else if((BMI > 18.5) && (BMI<=22.9)) {
+		STTUS = "정상";
+	}
+	else if(BMI <= 18.5) {
+		STTUS = "저체중";
+	}
+	else {
+		alert(BMI+"올바른 신장과 몸무게를 입력하십시오.");
+		return false;
+	}
 
-				BMI = Math.round(BMI * 10) / 10.0; // 소수점 두째자리에서 반올림.
+	BMI = Math.round(BMI * 10) / 10.0; // 소수점 두째자리에서 반올림.
 
-				$('#guide_bmi1').text(BMI);
-				$('#guide_bmi2').text(BMI);
-				$('#guide_sttus').text(STTUS);
-
-				$('#result_box').show();
-				return false;
-			}
-			}
-		</script>
+	$('#guide_bmi1').text(BMI);
+	$('#guide_bmi2').text(BMI);
+	$('#guide_sttus').text(STTUS);
+	
+	$('#result_box').show();
+	return false;
+	
+}
+</script>
 <h3 class="box_title">비만도 측정(BMI지수)</h3>
 <p class="box_text">
 	BMI를 이용한 비만도 계산은 자신의 몸무게를 키의 제곱으로 나누는 것으로 공식은 kg/㎡. <br />
@@ -80,13 +78,13 @@
 				<tr>
 					<th>신장</th>
 					<td>
-						<input type="text" class="ipt2" style="width:95px" id="height" name="height" onkeydown="this.value=this.value.replace(/[^0-9]/g,'')" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onblur="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="3" /><span class="dash"> cm</span>
+						<input type="text" class="ipt2" style="width:95px" id="height" name="height" value="160" onkeydown="this.value=this.value.replace(/[^0-9]/g,'')" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onblur="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="3" /><span class="dash"> Cm</span>
 					</td>
 				</tr>
 				<tr>
 					<th>몸무게</th>
 					<td>
-						<input type="text" class="ipt2" style="width:95px" id="weight" name="weight" onkeydown="this.value=this.value.replace(/[^0-9]/g,'')" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onblur="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="3"  /><span class="dash"> kg</span>
+						<input type="text" class="ipt2" style="width:95px" id="weight" name="weight" value="50" onkeydown="this.value=this.value.replace(/[^0-9]/g,'')" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onblur="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="3"  /><span class="dash"> Kg</span>
 					</td>
 				</tr>
 			</tbody>
