@@ -1,6 +1,11 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+=======
+<html>
+<head th:replace="fragments/common :: head">
+>>>>>>> refs/remotes/origin/master
 <meta charset="UTF-8">
 <title>detailFreeBoard</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -12,6 +17,9 @@ window.onload = function() {
 </script>
 </head>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 	<main>
 		<div th:if="${freeBoard!=null}">
 			<div id="fbnum">[[${freeBoard.fbnum}]]</div>

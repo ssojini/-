@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: head">
 <meta charset="UTF-8">
 <title>calorie</title>
 </head>
@@ -26,6 +26,9 @@ function cal(){
 }
 </script>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 <main>
 <div><h3>권장 칼로리 계산기</h3></div>
 <div><form id=calorieForm>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Pro Line - Bootstrap v4.1.3 Template</title>
+    <title>건강한 한끼 : 건끼</title>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
@@ -69,10 +69,10 @@
                     >
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="/shop/main">Shop</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Activities</a>
+                    <a class="nav-link" href="/health/freeBoard">community</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">Company</a>
@@ -136,6 +136,11 @@
       let videoSec;
 
       $(function() {
+   	  		if (detectIE()) {
+             alert(
+               "Please use the latest version of Edge, Chrome, or Firefox for best browsing experience."
+             );
+           }
         const mainNav = $("#tmMainNav");
         mainNav.singlePageNav({
           filter: ":not(.external)",
