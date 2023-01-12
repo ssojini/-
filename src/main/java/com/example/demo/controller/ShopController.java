@@ -138,11 +138,4 @@ public class ShopController
 		m.addAttribute("detail",svc.shopDetail(ordernum));
 		return "html/shop/mypage/detail";
 	}
-	
-	@GetMapping("/cart")
-	public String cart()
-	{
-		return "html/shop/cart";
-	}
-	
 }
