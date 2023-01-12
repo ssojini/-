@@ -27,7 +27,7 @@ public class FreeBoard {
 	private String bname;
 	private String title;
 	private String author;
-	@Column(length = 50000000)
+	@Column(length = 50000000) // 50MB
 	private String contents;
 	@CreationTimestamp
 	private LocalDateTime dateTime;
