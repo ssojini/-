@@ -43,7 +43,7 @@ public class mypageService {
 	@Autowired
 	  public mypageService(Environment env) 
 	  {
-	    this.fileStorageLocation = Paths.get("./src/main/resources/public/profile")
+	    this.fileStorageLocation = Paths.get("./src/main/resources/static/images/profile")
 	        .toAbsolutePath().normalize();
 	    try {
 	      Files.createDirectories(this.fileStorageLocation);
@@ -93,10 +93,9 @@ public class mypageService {
 		    
 		    String email1 = userjoin.getEmail1();
 			String email2 = userjoin.getEmail2();
-			
 			String email = email1 + "@" + email2;
-			userjoin.setEmail(email);
 			
+			userjoin.setEmail(email);
 			userjoin.setProfile(fileName);
 
 			int edit =  map.useredit(userjoin);

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: head">
 <meta charset="utf-8">
 <title>mypage edit</title>
 </head>
 <body>
-
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 <div id="leftbox" style="float:left; width: 200px; height: 200px;">
 
-<<<<<<< HEAD
 	<div class="profile_area" style="width">
 	    <div class="profile_inner">
 	        <a href="#" onclick="changeImage()" class="photo">
@@ -158,7 +159,6 @@ function readURL(input)
 }
  
 // 이벤트를 바인딩해서 input에 파일이 올라올때 (input에 change를 트리거할때) 위의 함수를 this context로 실행합니다.
-
 $(function(){
    $("#file").change(function(){
          readURL(this);
@@ -204,7 +204,7 @@ $(function(){
 </script>
 <form id="editUserInfo" encType="multipart/form-data" 
 		style="float:right; width:1200px; height:200px; ">
-=======
+
 	<div class="profile_area" style="widt">
 	    <div class="profile_inner">
 	        <a href="#" onclick="changeImage()" class="photo">
@@ -249,7 +249,7 @@ $(function(){
             </li>
         </ul>
 	</div>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -398,9 +398,7 @@ $(function(){
 })
 
 </script>
-<form id="editUserInfo" encType="multipart/form-data" 
-		style="float:right; width: 1200px; height: 200px; ">
->>>>>>> branch 'master' of https://github.com/pastebean/EzenFinal.git
+<form id="editUserInfo" encType="multipart/form-data" style="float:right; width: 1200px; height: 200px; ">
 	<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
 	<h3>내정보관리</h3>
 	<table>
@@ -412,8 +410,8 @@ $(function(){
 			<tr>
 				<th scope="row">프로필사진</th>
 				<td><img th:src="${user.profile}" id="image_section"  width="84" height="84" alt="프로필 이미지"> </td>
-			<td><input type='file' id="file" name="file" ></input></td>
-		</tr>			
+				<td><input type='file' id="file" name="file" ></input></td>
+			</tr>			
 			<tr>
 				<th scope="row">닉네임</th>
 				<td>

@@ -6,7 +6,7 @@ function addFreeBoard() {
 			"bname": $("#bname").val(),
 			"title": $("#title").val(),
 			"author": $("#author").val(),
-			"contents": $("#contents").val()
+			"contents": $("#contents").html()
 		},
 		dataType: "json",
 		cache: false,
@@ -68,4 +68,74 @@ function getFormData() {
 		console.log("value: ", value);
 	}
 	return formData;
+}
+
+function changeFile() {
+	const files = $("#files")[0];
+	$("#fileListDiv *").remove("");
+	for (var i = 0; i < files.files.length; i++) {
+		const file = files.files[i];
+		if (isImage(file)) {
+			$("#fileListDiv").append($("<span><input type='checkbox' value='"+files.files[i].name+"'>"+files.files[i].name+"</span>"));
+		}
+	}
+	$("#contents > img").remove();
+}
+
+function isImage(file) {
+	if (file.type == "image/png") {
+		return true;
+	}
+	if (file.type == "image/jpeg") {
+		return true;
+	}
+	return false;
+}
+
+function insertImg() {
+	var input = $("input[type=checkbox]");
+	for (var i = 0; i < input.length; i++) {
+		if (input[i].checked == true) {
+			appendImage(getFileByName(input[i].value));
+		}
+	}
+}
+
+function getFileByName(filename) {
+	var files = $("#files")[0].files;
+	for (var i = 0; i < files.length; i++) {
+		if (files[i].name == filename) {
+			return files[i];
+		}
+	}
+	return null;
+}
+
+function appendImage(file) {
+	if (document.getElementById(file.name)) {
+		var i = 0;
+		while (true) {
+			var filename = file.name + "_" + i;
+			if (document.getElementById(filename)) {
+				++i;
+			} else {
+				var $img = $("<img id='" + filename + "' class='"+file.name+"'>");
+				$("#contents").append($img);
+				showImage(file,filename);
+				break;
+			}
+		}
+	} else {
+		var $img = $("<img id='" + file.name + "' class='"+file.name+"'>");
+		$("#contents").append($img);
+		showImage(file,file.name);
+	}
+}
+
+function showImage(file,id) {
+	var fr = new FileReader();
+	fr.onload = function() {
+		document.getElementById(id).src = fr.result;
+	}
+	fr.readAsDataURL(file);
 }

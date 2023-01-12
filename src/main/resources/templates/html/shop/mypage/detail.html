@@ -3,8 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+    text-align: center
+  }
+</style>
 </head>
 <body>
-
+<table>
+	<tr>
+		<th>유저이름</th>
+		<th>주문번호</th>
+		<th>상품명</th>
+		<th>제품사진</th>
+		<th>가격</th>
+		<th>개수</th>
+		<th>총금액</th>
+		<th>구입날짜</th>
+		<th>주소</th>
+		<th>적립포인트</th>
+		<th>주문상태</th>
+	</tr>
+	<tr>
+		<th>[[${detail.userid}]]</th>
+		<th>[[${detail.ordernum}]]</th>
+		<th>[[${detail.itemname}]]</th>
+		<th><img src="/img/img-01.jpg">[[${detail.itemimg}]]</th>
+		<th>[[${detail.price}]]</th>
+		<th>[[${detail.quantity}]]</th>
+		<th>[[${detail.totalprice}]]</th>
+		<th>[[${detail.pdate}]]</th>
+		<th>[[${detail.address}]]</th>
+		<th>[[${detail.itempoint}]]</th>
+		<th>[[${detail.status}]]</th>
+	</tr>
+</table>
 </body>
 </html>
