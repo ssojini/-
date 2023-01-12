@@ -9,10 +9,10 @@
 	function total(){
 		var price = parseInt("[[${goods.getPrice}]]");
 		var num = parseInt($('#prod_cnt').val());
-		$('#sum').val(price*num);		
+		$('#sum').text(price*num);		
 	}
 	
-	function addBasket(){
+	function addCart(){
 		var goodsnum = "[[${goods.getGoodsnum}]]";
 		var goodsprice = "[[${goods.getPrice}]]";
 		var proc_cnt = $('#prod_cnt').val();
@@ -50,8 +50,8 @@
 <div>가격: <span>[[${goods.getPrice}]]</span>
 </div>
 <div>수량: <input type="number" id="prod_cnt" min="1" value="1" onchange="total()"></div>
-<div>합계: <input id="sum" type="text" th:value="${goods.getPrice}"> </div>
-<div><input type="button" value="장바구니 담기" onclick="addBasket()"></div>
+<div>합계: <span id="sum" th:text="${goods.getPrice}"></span> </div>
+<div><input type="button" value="장바구니 담기" onclick="addCart()"></div>
 <div><input type="button" value="즉시구매" onclick="buyNow()"></div>
 <div>상품설명</div>
 <div th:text="${goods.getDescription}"></div>
