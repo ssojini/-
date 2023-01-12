@@ -1,6 +1,7 @@
 package com.example.demo.vo;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ private int qnum;
  private int anum;
  private String title;
  private String author;
- private java.sql.Timestamp qdate;
- private java.sql.Timestamp adate;
+ private LocalDateTime qdate;
+ private LocalDateTime adate;
  private int hit;
  private String content;
  private List<AttachBoard> attList = new ArrayList<>();

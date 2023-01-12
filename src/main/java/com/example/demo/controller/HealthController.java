@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/health")
 @Slf4j
-public class healthController {
+public class HealthController {
 	@Autowired HttpSession session;
 
 	@Autowired

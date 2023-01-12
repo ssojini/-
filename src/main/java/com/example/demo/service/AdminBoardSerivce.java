@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class AdminBoardSerivce
 				e.printStackTrace();
 			}
 			*/
-			Timestamp jts = (Timestamp)map.get("QDATE");
+			LocalDateTime jts = ((LocalDateTime)map.get("QDATE"));
 			oneb.setQdate(jts);
 			log.info("QDATE={}", jts);
 			
