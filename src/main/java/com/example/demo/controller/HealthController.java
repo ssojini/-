@@ -107,8 +107,10 @@ public class HealthController {
 	}
 	
 	@GetMapping("/editFreeBoard")
-	public String editFreeBoard() {
-		return "";
+	public String editFreeBoard(Model m, Integer fbnum) {
+		m.addAttribute("freeBoard",fbs.getFreeBoardByFbnum(fbnum));
+		m.addAttribute("listAttach", as.getListAttach(fbnum));
+		return "html/freeBoard/editFreeBoard";
 	}
 
 	/* 다루한 */

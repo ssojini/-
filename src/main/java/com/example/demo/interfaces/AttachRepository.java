@@ -11,5 +11,5 @@ import jakarta.transaction.Transactional;
 public interface AttachRepository extends JpaRepository<Attach,Integer> {
 	public List<Attach> findAllByFbnum(Integer fbnum);
 	@Transactional
-	public Integer deleteByFbnum(Integer fbnum);
+	public List<Attach> deleteByFbnum(Integer fbnum);
 }
