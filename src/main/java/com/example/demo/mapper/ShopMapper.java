@@ -20,6 +20,5 @@ public interface ShopMapper {
 
 	public List<Shop> list(String userid);
   
-	public Shop detail(String userid, int itemid);
-
+	public Shop detail(String ordernum);
 }

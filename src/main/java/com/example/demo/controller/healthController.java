@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/health")
 @Slf4j
-public class HealthController {
+public class healthController {
 	@Autowired HttpSession session;
 
 	@Autowired
@@ -71,33 +71,46 @@ public class HealthController {
 	@ResponseBody
 	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
-		FreeBoard freeboard = fbs.addFreeBoard(session,freeBoard);
-		map.put("result", freeboard!=null?"true":"false");
-		map.put("fbnum", freeboard.getFbnum());
+		FreeBoard addFreeBoard = fbs.addFreeBoard(session,freeBoard);
+		map.put("result", addFreeBoard!=null?"true":"false");
+		map.put("freeBoard", addFreeBoard);
 		return map;
 	}
 	
 	@PostMapping("/uploadFiles")
 	@ResponseBody
-	public Map<String,Object> uploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum) {
+	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum, String contents) {
 		Map<String,Object> map = new HashMap<>();
 		boolean result = as.saveAttach(request, files, fbnum);
+		FreeBoard updateFreeBoard = fbs.updateContents(fbnum, contents);
 		map.put("result", result);
 		return map;
 	}
 	@GetMapping("/downloadFile")
 	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
-		Resource resource = resourceLoader.getResource("WEB-INF/files/" + fbnum + "_" + aname);
-		return as.donwloadAttach(request, resource);
+		return as.donwloadAttach(request, fbnum, aname);
 	}
 
 	@GetMapping("/detailFreeBoard")
 	public String detailFreeBoard(Model m,Integer fbnum) {
 		FreeBoard freeBoard = fbs.getFreeBoardByFbnum(fbnum);
 		m.addAttribute("freeBoard",freeBoard);
-		List<Attach> listAttach = as.getListAttach(fbnum);
-		m.addAttribute("listAttach",listAttach);
 		return "html/freeboard/detailFreeBoard";
+	}
+	
+	@PostMapping("/deleteFreeBoard")
+	@ResponseBody
+	public Map<String,Object> deleteFreeBoard(Model m, Integer fbnum) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("result",fbs.deleteFreeBoard(fbnum)&&as.deleteAttach(fbnum));
+		return map;
+	}
+	
+	@GetMapping("/editFreeBoard")
+	public String editFreeBoard(Model m, Integer fbnum) {
+		m.addAttribute("freeBoard",fbs.getFreeBoardByFbnum(fbnum));
+		m.addAttribute("listAttach", as.getListAttach(fbnum));
+		return "html/freeBoard/editFreeBoard";
 	}
 
 	/* 다루한 */

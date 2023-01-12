@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: head">
 <meta charset="UTF-8">
 <title>freeBoard</title>
 <link rel="stylesheet" href="/css/freeBoard.css">
@@ -17,6 +17,9 @@
 </script>
 </head>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 	<header>
 		<h1 id="titleH1">회원게시판</h1>
 	</header>

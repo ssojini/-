@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html>
+<<<<<<< HEAD
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+=======
+<html>
+<head th:replace="fragments/common :: head">
+>>>>>>> refs/remotes/origin/master
 <meta charset="UTF-8">
 <title>addFreeBoard</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -19,6 +24,9 @@
 <link href="/css/addFreeBoard.css">
 </head>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 	<header>
 		<h1>글쓰기</h1>
 	</header>
@@ -29,6 +37,9 @@
 				<option value="meal">식단공유게시판</option>
 				<option value="beforafter">비포에프터게시판</option>
 			</select>
+		</div>
+		<div>
+			<input type="hidden" name="fbnum" th:value="${fbnum}">
 		</div>
 		<div>
 			<input id="title" name="title">
@@ -42,13 +53,11 @@
 		</div>
 		<div id="fileListDiv"></div>
 		<div>
-			<button type="button" onclick="insertFile();">파일 넣기</button>
+			<button type="button" onclick="insertImg();">이미지 넣기</button>
 		</div>
 		<div>
-			<form id="uploadForm" encType="multipart/form-data">
 				<input id="files" type="file" onchange="changeFile();"
 					multiple="multiple">
-			</form>
 		</div>
 		<div>
 			<button id="goBack" type="button">뒤로가기</button>

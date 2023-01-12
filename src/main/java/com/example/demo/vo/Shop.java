@@ -15,12 +15,30 @@ public class Shop
 {
 	@Id
 	private String userid;
-	private String address;
+	
+	private int ordernum;
+	
 	private int itemid;
+	
+	private String itemname;
+	
+	private String totalprice;
+	
 	private String price;
-	private int itemnum;
-	private String delivery;
-	private int num;
+	
+	private int quantity;
+	
+	private String pdate;
+	
+	private String mypoint;
+	
+	private String itempoint;
+	
+	private String itemimg;
+	
+	private String address;
+	
+	private String status;
 	
 	
 }

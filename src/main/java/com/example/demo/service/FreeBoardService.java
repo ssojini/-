@@ -53,6 +53,23 @@ public class FreeBoardService {
 	}
 
 	public FreeBoard addFreeBoard(HttpSession session, FreeBoard freeBoard) {
-		return repo.save(freeBoard);
+		freeBoard = repo.save(freeBoard);
+		System.out.println("freeBoard:"+freeBoard);
+		return freeBoard;
+	}
+	
+	public FreeBoard updateContents(Integer fbnum, String contents) {
+		Optional<FreeBoard> freeBoard = repo.findById(fbnum);
+		if (freeBoard.isPresent()) {
+			freeBoard.get().setContents(contents);
+			return repo.save(freeBoard.get());
+		} else {
+			return null;
+		}
+	}
+	
+	public boolean deleteFreeBoard(Integer fbnum) {
+		repo.deleteById(fbnum);
+		return true;
 	}
 }

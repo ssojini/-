@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,18 +32,23 @@ import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
 import com.example.demo.vo.UserJoin;
 import com.google.gson.JsonObject;
+import com.example.demo.interfaces.CartRepository;
 import com.example.demo.interfaces.GoodsRepository;
+import com.example.demo.mapper.ShopMapper;
+import com.example.demo.vo.Admin;
+import com.example.demo.vo.Cart;
+import com.example.demo.vo.Goods;
 import com.example.demo.vo.Shop;
-
-import lombok.extern.slf4j.Slf4j;
 
 
 @Service
 public class ShopService 
 {
-	/* 상욱 */
+	/* 상욱 시작 */
 	@Autowired
 	private GoodsRepository repo;
+	@Autowired
+	private CartRepository cart_repo;
 	
 	public Goods getGoods(int goodsnum) 
 	{
@@ -50,17 +56,56 @@ public class ShopService
 		//System.out.println(goods.get());
 		return goods.isPresent()?goods.get():null;
 	}
+
+	public Map<String, Object> added(Cart cart) 
+	{
+		Map<String, Object> map = new HashMap<>();
+		ArrayList<Cart> cartList = cart_repo.findByUserid(cart.getUserid());
+		System.err.println(cartList);
+		boolean check_add= false; // 이미 장바구니에 담겼으면 true
+		for(int i =0; i<cartList.size();i++)
+		{
+			if(cart.getGoodsnum()==cartList.get(i).getGoodsnum()) {
+				check_add=true;
+				break;
+			}
+		}
+		
+		if(check_add)
+		{
+			map.put("added",false);
+			map.put("msg","이미 장바구니에 담긴 상품입니다.");	
+		}else {		
+			Cart added = cart_repo.save(cart);
+			if(added!=null) {
+				map.put("added",true);
+				map.put("msg","장바구니 담기 성공");
+			}else {
+				map.put("added",false);
+				map.put("msg","장바구니 담기 실패");			
+			}
+		}
+		return map;
+	}
+
+	public ArrayList<Cart> getCart(String userid) 
+	{
+		ArrayList<Cart> cartlist = cart_repo.findByUserid(userid);
+		return cartlist;
+	}
+	/* 상욱 끝 */
+	
+	
 	/* 종빈 */
 	@Autowired
 	private ShopMapper mapper;
 	
 	public List<Shop> mypagelist(String userid) {
-	
 		return mapper.list(userid);
 	}
 	
-	public Shop shopDetail(String userid, int itemid){
-		return mapper.detail(userid,itemid);
+	public Shop shopDetail(String ordernum){
+		return mapper.detail(ordernum);
 	}
   
   /* 현주 */

@@ -1,6 +1,6 @@
 <<!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: head">
 <meta charset="UTF-8">
 <title>Health:회원가입</title>
 
@@ -8,6 +8,9 @@
 
 
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 <form action="/team/join2" method="get" id="form1">
 <div id="d1">
   <tr>

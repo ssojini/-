@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head th:replace="fragments/common :: head">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -12,26 +12,33 @@ table {
   th, td {
     border-bottom: 1px solid #444444;
     padding: 10px;
-    text-align: center
+    text-align: center;
   }
 </style>
 </head>
 <body>
-<table>
-<tr>
-	<th>주소</th>
-	<th>상품번호</th>
-	<th>가격</th>
-	<th>구매개수</th>
-	<th>배송상태</th>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
+<div style="height:50px;"></div>
+<table style="width: 100%; border-top: 1px solid #444444; border-collapse: collapse;">
+<tr style="border-bottom: 1px solid #444444; padding: 30px; text-align: center;">
+	<th>회원이름</th>
+	<th>주문번호</th>
+	<th>제품명</th>
+	<th>총가격</th>
+	<th>구매날짜</th>
+	<th>적립포인트</th>
+	<th>주문상태</th>
 </tr>
-<tr  th:each="shop : ${list}">
-	<td>[[${shop.address}]]</td>
-	<td><a th:href="@{'/' + ${url} + '/' + ${shop.userid} + '/' + ${shop.itemid}}">[[${shop.itemid}]]</a></td>
-	<td>[[${shop.price}]]</td>
-	<td>[[${shop.itemnum}]]</td>
-	<td>[[${shop.delivery}]]</td>
-
+<tr  th:each="shop : ${list}" style="border-bottom: 1px solid #444444; padding: 30px; text-align: center;">
+	<td>[[${shop.userid}]]</td>
+	<td><a th:href="@{'/' + ${url} + '/' + ${shop.ordernum}}">[[${shop.ordernum}]]</a></td>
+	<td>[[${shop.itemname}]]</td>
+	<td>[[${shop.totalprice}]]</td>
+	<td>[[${shop.pdate}]]</td>
+	<td>[[${shop.itempoint}]]</td>
+	<td>[[${shop.status}]]</td>
 </tr>
 </table>
 </body>

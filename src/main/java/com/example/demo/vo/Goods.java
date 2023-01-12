@@ -41,25 +41,8 @@ public class Goods
 	private String attach;
 	private String category;
 
-	private String seller;
-
-	public Goods(int goodsnum, String goodsname, String mainpic, Integer price, String description, String goods_detail,
-			String attach, String category) {
-		super();
-		this.goodsnum = goodsnum;
-		this.goodsname = goodsname;
-		this.mainpic = mainpic;
-		this.price = price;
-		this.description = description;
-		this.goods_detail = goods_detail;
-		this.attach = attach;
-		this.category = category;
-	}
-
-	
-	
-	//private List<AddGoods_Att> attlist = new ArrayList<>();
-	
+	// 동일한 상품을 판매하는 seller 가 존재할 수 있으므로 상품 테이블에 제조사가 아닌 판매자를 넣는 것은 맞지 않아 주석처리함.
+	// private String seller;
 }
 
 	

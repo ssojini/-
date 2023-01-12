@@ -1,22 +1,36 @@
 <!DOCTYPE html>
-<html>
+<<<<<<< HEAD
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+=======
+<html>
+<head th:replace="fragments/common :: head">
+>>>>>>> refs/remotes/origin/master
 <meta charset="UTF-8">
 <title>detailFreeBoard</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="/js/detailFreeBoard.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	document.getElementById("contents").innerHTML = document.getElementById("contents").innerText;
+}
+</script>
 </head>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 	<main>
 		<div th:if="${freeBoard!=null}">
 			<div id="fbnum">[[${freeBoard.fbnum}]]</div>
 			<div id="title">[[${freeBoard.title}]]</div>
 			<div id="author">[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
-			<div th:if="${listAttach!=null}">
-				<div th:each="item, i : ${listAttach}">
-					<span>[[${item.anum}]]</span> <span><a
-						th:href="@{/health/downloadFile(fbnum=${freeBoard.fbnum},aname=${item.aname})}">[[${item.aname}]]</a></span>
-					<span>[[${item.asize}]]</span>
-				</div>
+			<div>
+				<button type="button" th:onclick="deleteFreeBoard([[${freeBoard.fbnum}]]);">삭제</button>
+			</div>
+			<div>
+				<button type="button" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 			</div>
 		</div>
 	</main>

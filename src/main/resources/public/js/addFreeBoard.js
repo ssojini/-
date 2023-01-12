@@ -6,13 +6,18 @@ function addFreeBoard() {
 			"bname": $("#bname").val(),
 			"title": $("#title").val(),
 			"author": $("#author").val(),
-			"contents": $("#contents").text()
+			"contents": $("#contents").html()
 		},
 		dataType: "json",
 		cache: false,
 		success: function(res) {
 			if (res.result) {
-				uploadFiles(parseInt(res.fbnum));
+				if ($("#files")[0].files.length != 0) {
+					uploadFiles(res.freeBoard.fbnum);
+				} else {
+					alert("저장 성공");
+					location.href = "/health/freeBoard";
+				}
 			} else {
 				alert("저장 실패");
 			}
@@ -23,9 +28,18 @@ function addFreeBoard() {
 	});
 }
 
+function srcChange(fbnum) {
+	var img = $("#contents > img");
+	for (var i = 0; i < img.length; i++) {
+		img[i].src = "/images/freeboard/" + fbnum + "_" + img[i].className;
+	}
+}
+
 function uploadFiles(fbnum) {
 	var data = getFormData();
+	srcChange(fbnum);
 	data.append("fbnum",fbnum);
+	data.append("contents",$("#contents").html());
 	if (data != null) {
 	$.ajax({
 		url: "/health/uploadFiles",
@@ -39,6 +53,9 @@ function uploadFiles(fbnum) {
 		timeout: 600000,
 		success: function(res) {
 			alert(res.result?"저장 성공":"저장 실패");
+			if (res.result) {
+				location.href = '/health/freeBoard';
+			}
 		},
 		error: function(xhs, status, err) {
 			alert(err);
@@ -72,12 +89,14 @@ function getFormData() {
 
 function changeFile() {
 	const files = $("#files")[0];
-	console.log(files.files);
 	$("#fileListDiv *").remove("");
 	for (var i = 0; i < files.files.length; i++) {
-		console.log(files.files[i]);
-		$("#fileListDiv").append($("<span><input type='checkbox' value='"+files.files[i].name+"'>"+files.files[i].name+"</span>"));
+		const file = files.files[i];
+		if (isImage(file)) {
+			$("#fileListDiv").append($("<span><input type='checkbox' value='"+files.files[i].name+"'>"+files.files[i].name+"</span>"));
+		}
 	}
+	$("#contents > img").remove();
 }
 
 function isImage(file) {
@@ -90,17 +109,47 @@ function isImage(file) {
 	return false;
 }
 
-function insertFile() {
-	const inputs = $("#fileListDiv").children();
-	console.log(inputs);
-	for (var i = 0; i < inputs.length; i++) {
-		console.log(inputs[i]);
-		console.log(inputs[i].children[0]);
-		//$("#contents").append(inputs[i].val());
+function insertImg() {
+	var input = $("input[type=checkbox]");
+	for (var i = 0; i < input.length; i++) {
+		if (input[i].checked == true) {
+			appendImage(getFileByName(input[i].value));
+		}
 	}
 }
 
-function showImage(file, id) {
+function getFileByName(filename) {
+	var files = $("#files")[0].files;
+	for (var i = 0; i < files.length; i++) {
+		if (files[i].name == filename) {
+			return files[i];
+		}
+	}
+	return null;
+}
+
+function appendImage(file) {
+	if (document.getElementById(file.name)) {
+		var i = 0;
+		while (true) {
+			var filename = file.name + "_" + i;
+			if (document.getElementById(filename)) {
+				++i;
+			} else {
+				var $img = $("<img id='" + filename + "' class='"+file.name+"'>");
+				$("#contents").append($img);
+				showImage(file,filename);
+				break;
+			}
+		}
+	} else {
+		var $img = $("<img id='" + file.name + "' class='"+file.name+"'>");
+		$("#contents").append($img);
+		showImage(file,file.name);
+	}
+}
+
+function showImage(file,id) {
 	var fr = new FileReader();
 	fr.onload = function() {
 		document.getElementById(id).src = fr.result;
