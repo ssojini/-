@@ -93,9 +93,14 @@ public class JoinController
 	@ResponseBody
 	public String add()
 	{
+		//상욱
 		Date date = Date.valueOf("2022-12-31");
 		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","asdf@asdf.com","testID");
 		User added = repo.save(member);
+		
+		//엘라 - 테스트 용 하드코딩
+		
+		
 		return added.toString();
 	}
 	@GetMapping({"/","/login"})

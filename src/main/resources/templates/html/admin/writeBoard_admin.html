@@ -1,25 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>관리자용 글쓰기</title>
+<meta charset="UTF-8">
+<title>관리자용 쓰기 페이지(Notice, FAQ)</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+	crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+$(function(){
+	$('#btnUpload').on('click',function(event){
+		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
+		
+		var form= $('#addAdminForm')[0] // FormData를 쓰기 위해 필요하다
+		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
+		
+		$('#btnUpload').prop('disabled', true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
+		
+		$.ajax({
+			url:'/health/addAdmin',
+			method:'post',
+			enctype: 'multipart/form-data',
+			data: data,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 600000,
+			success: function(res){
+				$('#btnUpload').prop('disabled', false);
+				if(res.added){
+					alert('저장 되었습니다.');
+					location.href= "/health/addAdmin"
+				}
+			},
+			error: function(e){
+				$('#btnUpload').prop('disabled', false);
+				alert('Server Error:'+err);
+			}
+			
+		});
+	})
+})
+
+	window.onload = function() {
+		var name = '[[${name}]]'; 
+	//	console.log($("#name").val());
+		$("#name").val(name).prop("selected", true);
+		$("#goBack").attr("onclick","location.href='/health/?addAdmin="+name+"';");
+	};
+</script>
 </head>
 <body>
-<h3> 글쓰기</h3>
-<form id="writeForm">
-<select name="tb">
-	<option value="notice"> 공지사항</option>
-	<option value="faq">FAQ </option>
-</select>
-
-	<div>제목
-		<intput type="text">
+	<header>
+		<h1>고객 관리</h1>
+	</header>
+	<main>
+		<form id="addAdminForm">
+			<div>
+				<select id="name" name="name">
+					<option value="notice">공지사항</option>
+					<option value="faq">FAQ</option>
+				</select>
+			<div>
+		<script>
+			today = new Date().toLocaleDateString();
+			document.write(today);
+		</script>
+			</div>
+		<label for="title"> 제목</label>
+		<input id ="title" type="text" name="title" placeholder="제목을 입력하세요">
 	</div>
-	<div>내용
-		<textarea placeholder="내용을 입력하세요."></textarea>
+	<div>
+		<input type="hidden" name="author" value='[[${userid}]]' >
+		관리자
 	</div>
-<button type="button"> 저장</button>
-<button type = "reset">취소</button>
-</form>
+	<div>
+		<textarea name="content" rows="10" cols="40" placeholder="내용을 입력하세요"></textarea>
+	</div>
+	<div>
+		<label for="attach">첨부파일</label>
+		<input type="file" name="attach" multiple="multiple">
+	</div>
+	<p>
+	<button type="button" id="btnUpload">저장</button>
+	<button type="goBack">뒤로가기</button>
+		</form>
+	</main>
 </body>
 </html>

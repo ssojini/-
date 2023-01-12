@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>관리자 페이지- 1:1 문의 </title>
+<title>관리자 - 1:1 문의 상세보기 </title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 </script>
@@ -10,29 +10,31 @@
 <body>
 <h3> 고객 관리</h3> 
 <div>1:1 문의</div>
-<div> 게시글 쓰기</div>
-<div> search box</div>   
+<div> 답글 달기</div>
 <table>
-
 <tr>
-	<th>번호</th>
 	<th>제목</th>
 	<th>작성자</th>
 	<th>조회수</th>
 	<th>등록일</th>
+	<th>내용</th>
+	
+	<th>첨부파일</th>
 </tr>
-<tr th:each="board: ${list}">
-	<td>[[${board.qnum}]]</td>
+<tr>
+	<td>[[${oneb.title}]]</td>
+	<td>[[${oneb.author}]]></td>
+	<td>[[${oneb.hit}]]</td>
+	<td>[[${oneb.qdate}]]></td>
+	<td>[[${oneb.content}]]</td>	
 	<td>
-		<a th:href= "|/health/detailByQnum/${board.qnum}">	
-		[[${board.title}]]
-		 </a>
+	<span th:if= "${oneb.attList.size()>0}"></span>
+	<span th:each="att: ${oneb.attList}"> [[${att.attname}]]</span>
 	</td>
-	<td>[[${board.author}]]></td>
-	<td>[[${board.hit}]]</td>
-	<td>[[${board.qdate}]]></td>	
+	
 </tr>
 </table>
 
+<a href= "/editQueB/[[${oneb.qnum}]]">수정하기</a>
 </body>
 </html>
