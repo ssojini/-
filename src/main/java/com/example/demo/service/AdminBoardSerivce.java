@@ -51,7 +51,7 @@ public class AdminBoardSerivce
 			oneb.setTitle((String)map.get("TITLE"));
 			oneb.setAuthor((String)map.get("AUTHOR"));
 				
-			
+			/*
 			oracle.sql.TIMESTAMP ots = (oracle.sql.TIMESTAMP) map.get("QDATE");
 			java.sql.Timestamp jts = null;
 			try {
@@ -59,6 +59,8 @@ public class AdminBoardSerivce
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			*/
+			Timestamp jts = (Timestamp)map.get("QDATE");
 			oneb.setQdate(jts);
 			log.info("QDATE={}", jts);
 			

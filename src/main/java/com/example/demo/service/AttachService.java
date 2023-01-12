@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,7 +59,7 @@ public class AttachService {
 				attach.setAsize(fsize);
 				Attach saveAttach = repo.save(attach);
 				System.out.println("fileStorageLocation.toUri().getPath():"+fileStorageLocation.toUri().getPath());
-				files[i].transferTo(new File(savePath + "/" + saveAttach.getAnum() + "_" + saveAttach.getAname()));
+				files[i].transferTo(new File(savePath + "/" + fbnum + "_" + saveAttach.getAname()));
 			}
 			return true;
 		} catch (Exception e) {
@@ -68,7 +69,8 @@ public class AttachService {
 	}
 
 	public ResponseEntity<Resource> donwloadAttach(HttpServletRequest request, Integer fbnum, String aname) {
-		Resource resource = resourceLoader.getResource("../resources/static/images/freeboard/"+fbnum + "_" + aname);
+		String filePath = fileStorageLocation.toUri().getPath();
+		Resource resource = resourceLoader.getResource(filePath + fbnum + "_" + aname);
 		System.out.println("resource:"+resource);
 		String contentType = null;
 		try {
@@ -90,7 +92,18 @@ public class AttachService {
 	}
 	
 	public boolean deleteAttach(Integer fbnum) {
-		repo.deleteByFbnum(fbnum);
+		List<Attach> listAttach = repo.deleteByFbnum(fbnum);
+		System.out.println("listAttach:"+listAttach);
+		//파일 삭제
+		for (int i = 0; i < listAttach.size(); i++) {
+			deleteFile(fbnum, listAttach.get(i).getAname());
+		}
 		return true;
+	}
+	
+	public boolean deleteFile(Integer fbnum, String aname) {
+		String filePath = fileStorageLocation.toUri().getPath();
+		System.out.println("filePath:"+filePath);
+		return new File(filePath + fbnum + "_" + aname).delete();
 	}
 }
