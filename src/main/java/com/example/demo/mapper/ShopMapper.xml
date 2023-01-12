@@ -8,19 +8,28 @@
 		SELECT * FROM Admin WHERE adminid=#{adminid, jdbcType=VARCHAR}
 	</select>
 	<update id="addgoods" parameterType="com.example.demo.vo.Goods">
-		INSERT INTO goods(goodsnum,goodsname,price,description,category,seller) 
-		VALUES(addgoods_SEQ.NEXTVAL,#{goodsname},#{price},#{description},#{category},#{seller})
+		INSERT INTO goods(goodsnum,goodsname,price,description,category) 
+		VALUES(addgoods_SEQ.NEXTVAL,#{goodsname},#{price},#{description},#{category})
 	</update>
-	<update id="addgoods_att" parameterType="list">
+	<update id="addgoods_att2" parameterType="com.example.demo.vo.AddGoods_Att">
+		INSERT INTO addgoods_att(goodspho_seq,goodsnum,mainpic_original,mainpic_server,detail_original,detail_server)
+		VALUES(addgoods_att_SEQ.NEXTVAL, (SELECT MAX(goodsnum)FROM goods),#{mainpic_original},#{mainpic_server},
+		#{detail_original},#{detail_server})
+
+	</update>
+	
+	<update id="addgoods_att" parameterType="com.example.demo.vo.AddGoods_Att">
 		INSERT INTO addgoods_att(goodspho_seq,goodsnum,mainpic_original,mainpic_server,detail_original,detail_server)
 		SELECT addgoods_att_SEQ.NEXTVAL AS goodspho_seq, t.* FROM
 		(
-		<foreach collection="list" item="item" index="index" separator="union all">
+		<foreach collection="list" item="item" index="index" separator=" union all ">
 			SELECT (SELECT MAX(goodsnum)FROM goods) AS goodsnum, 
-			#{mainpic_original}, #{mainpic_server},#{detail_original},#{detail_server} FROM DUAL
+			#{item.mainpic_original}, #{item.mainpic_server},#{item.detail_original},#{item.detail_server} FROM DUAL
 		</foreach>
-		)t;
+		)t
 	</update>
+	
+	
 
 	<select id="list" parameterType="string" resultType="com.example.demo.vo.Shop">
 		SELECT * 

@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-
+import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
+import com.example.demo.vo.Shop;
 
 @Mapper
 public interface ShopMapper {

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:fragment="mypagenav">
+<form id="editUserInfo" encType="multipart/form-data" 
+		style="float:left; width:1200px; height:200px; ">
+
+	<div class="profile_area" style="widt">
+	    <div class="profile_inner">
+	        <a href="#" onclick="changeImage()" class="photo">
+	            <img th:src="${user.profile}" width="84" height="84" alt="프로필 이미지">
+	            <span class="photo_edit"></span>
+	        </a>
+	        <div id="myp" class="profile">
+	            <p class="useid">[[${user.userid}]]</p>
+	            <p class="usemail">[[${user.email}]]</p>
+	        </div>
+	    </div>    
+	</div>
+
+    <div id="headerLeft" class="header_left">
+
+        <ul class="left_menu" role="menu">
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true">
+                    <div class="menu_text on">내정보</div>
+                </a>
+            </li>
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+                    <div class="menu_text ">개인정보 수정</div>
+                </a>
+            </li>
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+                    <div class="menu_text ">비밀번호 수정</div>
+                </a>
+            </li>
+            <li>
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+                    <div class="menu_text ">게시글 관리</div>
+                </a>
+            </li>
+        </ul>
+        <ul class="left_link">
+            <li><a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)">
+                    <div class="link_text">기타</div>
+                </a>
+            </li>
+        </ul>
+	</div>
+
+</form>
+</div>
+</body>
+</html>

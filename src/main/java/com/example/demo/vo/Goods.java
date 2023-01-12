@@ -42,8 +42,23 @@ public class Goods
 	private String category;
 
 	private String seller;
+
+	public Goods(int goodsnum, String goodsname, String mainpic, Integer price, String description, String goods_detail,
+			String attach, String category) {
+		super();
+		this.goodsnum = goodsnum;
+		this.goodsname = goodsname;
+		this.mainpic = mainpic;
+		this.price = price;
+		this.description = description;
+		this.goods_detail = goods_detail;
+		this.attach = attach;
+		this.category = category;
+	}
+
 	
-	private List<AddGoods_Att> attlist = new ArrayList<>();
+	
+	//private List<AddGoods_Att> attlist = new ArrayList<>();
 	
 }
 
