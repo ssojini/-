@@ -270,7 +270,7 @@ public class HealthController {
 	@GetMapping("/bmi")
 	public String bmi()
 	{
-		return "hrml/mypage/BMI_cul";
+		return "html/mypage/BMI_cul";
 	}
 
 }
