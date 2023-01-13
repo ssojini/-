@@ -17,6 +17,7 @@ import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
+import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +44,11 @@ public class JoinController
 	{
 		//상욱
 		Date date = Date.valueOf("2022-12-31");
-		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","chuhyeonchu429@gmail.com","testID");
+		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","testID");
 		User added = repo.save(member);
 		
-		
+		// 현주 
+		UserJoin join = new UserJoin("smith","1234","smith@naver.com","","","01011112222","1998-04-29","smash","/profile/default.png");
 		return "JoinController 초기 데이터 생성 완료";
 	}
 	
@@ -158,8 +160,9 @@ public class JoinController
 	@GetMapping("/auth/{rdStr}")
 	@ResponseBody
 	public String authCheck(@PathVariable("rdStr")String rdStrCheck)
-	{		
-		
+	{
+		System.out.println("rsStrCheck:"+rdStrCheck);
+		System.out.println("rdStr:"+session.getAttribute("rdStr"));
 		if(rdStrCheck.equals(session.getAttribute("rdStr")))
 		{
 			session.setAttribute("authCheck", "1");
