@@ -1,5 +1,6 @@
 package com.example.demo.vo;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,6 +31,6 @@ public class FreeBoard {
 	@Column(length = 50000000) // 50MB
 	private String contents;
 	@CreationTimestamp
-	private LocalDateTime dateTime;
+	private Timestamp dateTime;
 	private Integer hit;
 }
