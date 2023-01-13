@@ -380,6 +380,7 @@ public class HealthController {
 		return result.toString();
 
 	}
+	
 	/* 엘라 */
 
 	@GetMapping("/bmi")

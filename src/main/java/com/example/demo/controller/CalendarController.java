@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +27,25 @@ public class CalendarController
 	
 	
 	@GetMapping("/add")
-	public String calendar2() {
+	public String showCalendarAdd(String day,Model model) 
+	{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d"); 
+		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd"); 
+		 
+		String beforeDate = day;
+		String afterDate = "";
+		 
+		try {
+		    Date date = dateFormat.parse(beforeDate); // 기존 string을 date 클래스로 변환
+		    afterDate = dateFormat2.format(date); // 변환한 값의 format 변경
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		}
+		//System.err.println(afterDate);
+		
+		model.addAttribute("day",afterDate);
+		
 		return "html/calendar/CalendarAdd";
 	}
 	@GetMapping("/getCalendar")
