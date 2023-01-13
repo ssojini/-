@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -61,9 +63,17 @@ public class AdminBoardSerivce
 				e.printStackTrace();
 			}
 			*/
-			LocalDateTime jts = ((LocalDateTime)map.get("QDATE"));
-			oneb.setQdate(jts);
-			log.info("QDATE={}", jts);
+			try {
+				String jts = String.valueOf(map.get("QDATE"));
+				System.out.println("jts:"+jts);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+				Date parseDate;
+				parseDate = dateFormat.parse(jts);
+				oneb.setQdate(new java.sql.Timestamp(parseDate.getTime()));
+				log.info("QDATE={}", jts);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			
 			big = (java.math.BigDecimal)map.get("HIT");
 			oneb.setHit((big.intValue()));
