@@ -24,9 +24,9 @@
 <tr th:each="board: ${list}">
 	<td>[[${board.qnum}]]</td>
 	<td>
-		<a th:href= "|/health/detailByQnum/${board.qnum}">	
+		<a th:href= "|/health/detailByQnum/${board.qnum}|">	
 		[[${board.title}]]
-		 </a>
+		</a>
 	</td>
 	<td>[[${board.author}]]</td>
 	<td>[[${board.hit}]]</td>

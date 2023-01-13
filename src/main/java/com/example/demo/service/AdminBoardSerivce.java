@@ -239,6 +239,17 @@ public class AdminBoardSerivce
 		
 	}
 
+	//시험용
+	public String deleteTest(int attid)
+	{
+		int result =mapper.deleteAttach(attid);
+		log.info("svc, result값:"+ result);
+		if(result>0) {
+			return "삭제 성공";
+		}
+		return "삭제 실패";
+	}
+	
 	public boolean deleteAttach(int attid)
 	{
 		return mapper.deleteAttach(attid)==1;
