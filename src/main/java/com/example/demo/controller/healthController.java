@@ -307,6 +307,7 @@ public class healthController {
 		}
 	return "html/admin/adminBoard";
 	}
+
 /*	
 	public void deleteFiles(List<AttachBoard> attachList)
 	{
@@ -322,8 +323,8 @@ public class healthController {
 				log.error("Delete file error: "+e.getMessage());
 			}
 		});
-	}
-*/
+	}*/
+	
 	public void deleteFiles(List<AttachBoard> attachList)
 	{
 		if(attachList==null || attachList.size()==0) return;
@@ -339,6 +340,7 @@ public class healthController {
 			}
 		});
 	}
+	
 	//첨부파일 삭제 테스트
 	@GetMapping("/editTest/{num}")
 	public String editTestForm(@PathVariable("num") int num, Model m)
@@ -357,7 +359,7 @@ public class healthController {
 		for(int i=0; i<attidList.size();i++) {
 			attid =attidList.get(i);
 		}
-	//	deleteFiles();
+//		deleteFiles();
 		String result= absvc.deleteTest(attid);
 		return result.toString();
 
