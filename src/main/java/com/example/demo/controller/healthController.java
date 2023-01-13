@@ -42,6 +42,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/health")
@@ -306,7 +307,7 @@ public class healthController {
 		}
 	return "html/admin/adminBoard";
 	}
-	
+/*	
 	public void deleteFiles(List<AttachBoard> attachList)
 	{
 		if(attachList==null || attachList.size()==0) return;
@@ -322,6 +323,43 @@ public class healthController {
 			}
 		});
 	}
+*/
+	public void deleteFiles(List<AttachBoard> attachList)
+	{
+		if(attachList==null || attachList.size()==0) return;
+		log.info("컨트롤러 첨부파일 리스트"+attachList);
+
+		attachList.forEach(attach ->{
+			try{	
+				Path file= Paths.get("WEB-INF/files");
+				file =file.resolve(attach.getAttname());
+				Files.deleteIfExists(file);
+			}catch (Exception e){
+				log.error("Delete file error: "+e.getMessage());
+			}
+		});
+	}
+	//첨부파일 삭제 테스트
+	@GetMapping("/editTest/{num}")
+	public String editTestForm(@PathVariable("num") int num, Model m)
+	{
+		OneBoard oneb = absvc.detailByQnum(num);
+		m.addAttribute("oneb", oneb);
+		m.addAttribute("qnum", num);
+		return "html/admin/editTest";
+	}
 	
-	
+	@PostMapping("/editTest")
+	@ResponseBody
+	public String editTest(@RequestParam("attid") List<Integer> attidList, Model m)
+	{
+		int attid =0;
+		for(int i=0; i<attidList.size();i++) {
+			attid =attidList.get(i);
+		}
+	//	deleteFiles();
+		String result= absvc.deleteTest(attid);
+		return result.toString();
+
+	}
 }
