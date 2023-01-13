@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/health")
 @Slf4j
-public class HealthController {
+public class healthController {
 	@Autowired HttpSession session;
 
 	@Autowired
@@ -268,7 +268,7 @@ public class HealthController {
 	@GetMapping("/bmi")
 	public String bmi()
 	{
-		return "hrml/mypage/BMI_cul";
+		return "html/mypage/BMI_cul";
 	}
 
 }
