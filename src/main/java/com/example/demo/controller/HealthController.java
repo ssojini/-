@@ -107,8 +107,10 @@ public class healthController {
 	}
 	
 	@GetMapping("/editFreeBoard")
-	public String editFreeBoard() {
-		return "";
+	public String editFreeBoard(Model m, Integer fbnum) {
+		m.addAttribute("freeBoard",fbs.getFreeBoardByFbnum(fbnum));
+		m.addAttribute("listAttach", as.getListAttach(fbnum));
+		return "html/freeBoard/editFreeBoard";
 	}
 
 	/* 다루한 */
@@ -203,10 +205,6 @@ public class healthController {
 		return "html/mypage/FindPwd";
 	}
 
-	@GetMapping("/test1")
-	public String test1() {
-		return "html/mypage/test.html";
-	}
 
 	/* 현주 */
 

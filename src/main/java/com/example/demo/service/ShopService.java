@@ -1,28 +1,39 @@
 package com.example.demo.service;
 
 
+import java.io.File;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import java.util.Optional;
+import java.util.UUID;
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.mapper.ShopMapper;
+import com.example.demo.vo.AddGoods_Att;
+import com.example.demo.vo.Admin;
+import com.example.demo.vo.Goods;
+import com.google.gson.JsonObject;
+
+
 import com.example.demo.interfaces.CartRepository;
 import com.example.demo.interfaces.GoodsRepository;
-import com.example.demo.mapper.ShopMapper;
-import com.example.demo.vo.Admin;
 import com.example.demo.vo.Cart;
-import com.example.demo.vo.Goods;
 import com.example.demo.vo.Shop;
 
 
@@ -125,39 +136,77 @@ public class ShopService
 
 		    return fileNameParts[fileNameParts.length - 1];
 		  }
+	 
+	 public String filesave(MultipartFile file)
+	 {
+		 JsonObject json = new JsonObject();
+		 
+		    String fileRoot =  "C:\\summernote_image\\";	
+		    String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+		    String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
 
-	 public boolean storeFile(MultipartFile file, Goods goods) {
-		 // Normalize file name
-		 //map.userinfo(userid).getProfile();
-		 //System.out.println("fname:  "+  map.userinfo(userjoin.getUserid()).getProfile());
-				 
-		 String fileName = file.getOriginalFilename();
-		        //new Date().getTime() + "-file." + getFileExtension(file.getOriginalFilename());
-
+		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+		    File targetFile = new File(fileRoot + savedFileName);	
+		    System.out.println("targetFile:  "+ targetFile);
 		    try {
-		      // Check if the filename contains invalid characters
-		      if (fileName.contains("..")) {
-		        throw new RuntimeException(
-		            "Sorry! Filename contains invalid path sequence " + fileName);
-		      }
-
-		      Path targetLocation = this.fileStorageLocation.resolve(fileName);
-		      Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-		      //return fileName;
-		    } catch (IOException ex) {
-		      throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
+		        // 파일 저장
+		        InputStream fileStream = file.getInputStream();
+		        FileUtils.copyInputStreamToFile(fileStream, targetFile);
+		        
+		        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
+		        json.addProperty("url", "/summernoteImage/"+savedFileName);  
+		        json.addProperty("responseCode", "success");
+		   
+		    } catch (IOException e) {
+		        FileUtils.deleteQuietly(targetFile);	
+		        json.addProperty("responseCode", "error");
+		        e.printStackTrace();
 		    }
-		    
-		    goods.setMainpic(fileName);
-		    int add =  map.addgoods(goods);
-			
+		   String jsonvalue = json.toString();
+		   //System.out.println(jsonvalue);
+		   return jsonvalue;
+		   
+		   //return json;
+
+	 }
+	 
+	 
+	 public boolean save(MultipartFile file, String goods_detail, List<String> fileList,Goods goods, AddGoods_Att att)
+	 {
+		 //filesave(file);
+		 List<AddGoods_Att>list = new ArrayList<>();
+		 String mainpic_original = file.getOriginalFilename();
+		 String extension1 = mainpic_original.substring(mainpic_original.lastIndexOf("."));	
+		 String mainpic_server = UUID.randomUUID() + extension1;	
+		 //String a[] = detail_server.split("/summernoteImage/");
+		 String detail_original = "1";
+		 
+		 //Map<String, Object> result = new HashMap<String, Object>();
+			//원본 파일경로
+			for(int i=0;i<fileList.size();i++){
+				
+			    att.setDetail_server(fileList.get(i));
+			    att.setMainpic_original(mainpic_original);
+			    att.setMainpic_server(mainpic_server);
+				att.setDetail_original(detail_original);
+				 list.add(att);
+
+			}
+		 
+		 System.out.println(list.toString());
+		 
+		 goods.setGoods_detail(goods_detail);
+		 int add =  map.addgoods(goods);
+		 int addatt = map.addgoods_att(list);
+	
 			boolean added = false;
-			if(add>0)
+			if(add>0 && addatt>0)
 			{
 				added =true;
 			}
 			return added;
-		 }
+	 }
+	 
+
  
 }
