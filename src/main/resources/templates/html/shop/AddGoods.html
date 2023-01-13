@@ -157,7 +157,6 @@ $(function(){
 	</tbody>
 </table>
  <textarea id="summernote" name="editordata"></textarea>
- <input type="hidden" id="detail_server" name="detail_server" >
  <input type="hidden" id="goods_detail" name="goods_detail" >
 </form>
 
@@ -281,8 +280,8 @@ function jsonFn(jsonArray){
 			for(var i = 0; i<jsonArray.length; i++){
 			    var str = jsonArray[i];
 			    
-			    // str의 값 : common/getImg.do?savedFileName=bc395afe-2324-438d-ae68-1a0a75d0a431.png 
-			    // '='를 기준으로 자른다.
+			    // str의 값 :/summernoteImage/bc395afe-2324-438d-ae68-1a0a75d0a431.png 
+			    // '/summernoteImage/'를 기준으로 자른다.
 			    var result = str.toString().split("/summernoteImage/");
 			    data.append('file[]',result[1]);
 			    
@@ -296,6 +295,7 @@ function jsonFn(jsonArray){
 			//plain text
 			var goods_detail = $($("#summernote").summernote("code")).text();
 			 $('#addgoods>#goods_detail').val(goods_detail);
+			 console.log(goods_detail);
 		
 
 		    console.log(content);

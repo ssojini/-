@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +97,12 @@ public class ShopController {
 	public String addgoods(@PathVariable(value = "adminid", required = false) String adminid, Model m) {
 		m.addAttribute("admin", svc.admininfo(adminid));
 		return "html/shop/AddGoods";
+	}
+	
+	@RequestMapping(value="/summer_image.do", produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request ) throws IOException {
+		return svc.filesave(multipartFile);
 	}
 
 	@PostMapping("/addgoods")

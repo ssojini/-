@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/health")
 @Slf4j
-public class healthController {
+public class HealthController {
 	@Autowired HttpSession session;
 
 	@Autowired
@@ -205,10 +205,6 @@ public class healthController {
 		return "html/mypage/FindPwd";
 	}
 
-	@GetMapping("/test1")
-	public String test1() {
-		return "html/mypage/test.html";
-	}
 
 	/* 현주 */
 
