@@ -2,27 +2,25 @@ package com.example.demo.service;
 
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.tomcat.util.file.ConfigurationSource.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,14 +28,12 @@ import com.example.demo.mapper.ShopMapper;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
-import com.example.demo.vo.UserJoin;
 import com.google.gson.JsonObject;
+
+
 import com.example.demo.interfaces.CartRepository;
 import com.example.demo.interfaces.GoodsRepository;
-import com.example.demo.mapper.ShopMapper;
-import com.example.demo.vo.Admin;
 import com.example.demo.vo.Cart;
-import com.example.demo.vo.Goods;
 import com.example.demo.vo.Shop;
 
 
@@ -155,7 +151,7 @@ public class ShopService
 		    try {
 		        // 파일 저장
 		        InputStream fileStream = file.getInputStream();
-		        FileUtils.copyInputStreamToFile(fileStream, targetFile);	
+		        FileUtils.copyInputStreamToFile(fileStream, targetFile);
 		        
 		        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
 		        json.addProperty("url", "/summernoteImage/"+savedFileName);  
@@ -174,6 +170,7 @@ public class ShopService
 
 	 }
 	 
+	 
 	 public boolean save(MultipartFile file, String goods_detail, List<String> fileList,Goods goods, AddGoods_Att att)
 	 {
 		 //filesave(file);
@@ -189,14 +186,13 @@ public class ShopService
 			for(int i=0;i<fileList.size();i++){
 				
 			    att.setDetail_server(fileList.get(i));
+			    att.setMainpic_original(mainpic_original);
+			    att.setMainpic_server(mainpic_server);
+				att.setDetail_original(detail_original);
+				 list.add(att);
 
 			}
-			att.setMainpic_original(mainpic_original);
-			 att.setMainpic_server(mainpic_server);
-			 //att.setDetail_server(a[1]);
-			 att.setDetail_original(detail_original);
 		 
-		 list.add(att);
 		 System.out.println(list.toString());
 		 
 		 goods.setGoods_detail(goods_detail);
@@ -209,7 +205,6 @@ public class ShopService
 				added =true;
 			}
 			return added;
-
 	 }
 	 
 

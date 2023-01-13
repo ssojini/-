@@ -205,10 +205,6 @@ public class HealthController {
 		return "html/mypage/FindPwd";
 	}
 
-	@GetMapping("/test1")
-	public String test1() {
-		return "html/mypage/test.html";
-	}
 
 	/* 현주 */
 
