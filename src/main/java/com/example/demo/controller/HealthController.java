@@ -47,7 +47,7 @@ import oracle.jdbc.proxy.annotation.Post;
 @Controller
 @RequestMapping("/health")
 @Slf4j
-public class healthController {
+public class HealthController {
 	@Autowired HttpSession session;
 
 	/* 다루한 */
