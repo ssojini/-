@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +54,7 @@ public class AdminBoardSerivce
 			oneb.setTitle((String)map.get("TITLE"));
 			oneb.setAuthor((String)map.get("AUTHOR"));
 				
-			
+			/*
 			oracle.sql.TIMESTAMP ots = (oracle.sql.TIMESTAMP) map.get("QDATE");
 			java.sql.Timestamp jts = null;
 			try {
@@ -59,8 +62,18 @@ public class AdminBoardSerivce
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			oneb.setQdate(jts);
-			log.info("QDATE={}", jts);
+			*/
+			try {
+				String jts = String.valueOf(map.get("QDATE"));
+				System.out.println("jts:"+jts);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+				Date parseDate;
+				parseDate = dateFormat.parse(jts);
+				oneb.setQdate(new java.sql.Timestamp(parseDate.getTime()));
+				log.info("QDATE={}", jts);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			
 			big = (java.math.BigDecimal)map.get("HIT");
 			oneb.setHit((big.intValue()));

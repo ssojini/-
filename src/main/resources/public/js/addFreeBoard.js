@@ -37,8 +37,8 @@ function srcChange(fbnum) {
 
 function uploadFiles(fbnum) {
 	var data = getFormData();
-	data.append("fbnum",fbnum);
 	srcChange(fbnum);
+	data.append("fbnum",fbnum);
 	data.append("contents",$("#contents").html());
 	if (data != null) {
 	$.ajax({

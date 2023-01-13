@@ -1,29 +1,19 @@
 package com.example.demo.controller;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.example.demo.service.AdminBoardSerivce;
-import com.example.demo.service.FreeBoardService;
-import com.example.demo.vo.AdminBoard;
-import com.example.demo.vo.AttachBoard;
-import com.example.demo.vo.FreeBoard;
-import com.example.demo.vo.OneBoard;
-
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,17 +22,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
+import com.example.demo.service.AttachService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
+import com.example.demo.vo.AdminBoard;
+import com.example.demo.vo.Attach;
+import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.FreeBoard;
+import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
 
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/health")
@@ -50,13 +43,18 @@ import oracle.jdbc.proxy.annotation.Post;
 public class HealthController {
 	@Autowired HttpSession session;
 
+	@Autowired
+	private FileStorageService fss;
+	
 	/* 다루한 */
 	@Autowired
-	private FreeBoardService fs;
+	private FreeBoardService fbs;
+	@Autowired
+	private AttachService as;
 
 	@GetMapping("/freeBoard")
 	public String freeBoard(Model m, String bname) {
-		List<FreeBoard> listFreeBoard = fs.getFreeBoardList(bname);
+		List<FreeBoard> listFreeBoard = fbs.getFreeBoardList(bname);
 		m.addAttribute("listFreeBoard", listFreeBoard);
 		m.addAttribute("bname",bname);
 		return "html/freeboard/freeBoard";
@@ -65,7 +63,7 @@ public class HealthController {
 	@PostMapping("/getListMap")
 	@ResponseBody
 	public List<Map<String, Object>> getListMap(Model m, String bname) {
-		List<Map<String, Object>> listMap = fs.getListFreeBoardToListMap(bname);
+		List<Map<String, Object>> listMap = fbs.getListFreeBoardToListMap(bname);
 		return listMap;
 	}
 
@@ -78,17 +76,46 @@ public class HealthController {
 	@ResponseBody
 	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
-		System.out.println("freeBoard:"+freeBoard);
-		map.put("result", fs.addFreeBoard(session,freeBoard));
+		FreeBoard addFreeBoard = fbs.addFreeBoard(session,freeBoard);
+		map.put("result", addFreeBoard!=null?"true":"false");
+		map.put("freeBoard", addFreeBoard);
 		return map;
+	}
+	
+	@PostMapping("/uploadFiles")
+	@ResponseBody
+	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum, String contents) {
+		Map<String,Object> map = new HashMap<>();
+		boolean result = as.saveAttach(request, files, fbnum);
+		FreeBoard updateFreeBoard = fbs.updateContents(fbnum, contents);
+		map.put("result", result);
+		return map;
+	}
+	@GetMapping("/downloadFile")
+	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
+		return as.donwloadAttach(request, fbnum, aname);
 	}
 
 	@GetMapping("/detailFreeBoard")
-	public String detailFreeBoard(Model m, Integer fbnum) {
-		FreeBoard freeBoard = fs.getFreeBoardByFbnum(fbnum);
-		System.out.println("freeBoard:"+freeBoard);
+	public String detailFreeBoard(Model m,Integer fbnum) {
+		FreeBoard freeBoard = fbs.getFreeBoardByFbnum(fbnum);
 		m.addAttribute("freeBoard",freeBoard);
 		return "html/freeboard/detailFreeBoard";
+	}
+	
+	@PostMapping("/deleteFreeBoard")
+	@ResponseBody
+	public Map<String,Object> deleteFreeBoard(Model m, Integer fbnum) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("result",fbs.deleteFreeBoard(fbnum)&&as.deleteAttach(fbnum));
+		return map;
+	}
+	
+	@GetMapping("/editFreeBoard")
+	public String editFreeBoard(Model m, Integer fbnum) {
+		m.addAttribute("freeBoard",fbs.getFreeBoardByFbnum(fbnum));
+		m.addAttribute("listAttach", as.getListAttach(fbnum));
+		return "html/freeBoard/editFreeBoard";
 	}
 
 	/* 다루한 */
@@ -99,11 +126,6 @@ public class HealthController {
 
 	@Autowired
 	ResourceLoader resourceLoader;
-
-
-	@Autowired
-	private FileStorageService fs_svc;
-
 
 	@GetMapping("/")
 	@ResponseBody
@@ -188,10 +210,6 @@ public class HealthController {
 		return "html/mypage/FindPwd";
 	}
 
-	@GetMapping("/test1")
-	public String test1() {
-		return "html/mypage/test.html";
-	}
 
 	/* 현주 */
 
@@ -362,4 +380,12 @@ public class HealthController {
 		return result.toString();
 
 	}
+	/* 엘라 */
+
+	@GetMapping("/bmi")
+	public String bmi()
+	{
+		return "html/mypage/BMI_cul";
+	}
+
 }

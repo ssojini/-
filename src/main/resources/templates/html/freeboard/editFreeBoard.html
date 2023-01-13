@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>editFreeBoard</title>
+<link rel="stylesheet" href="/css/editFreeBoard.css">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+	crossorigin="anonymous"></script>
+<script src="/js/editFreeBoard.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		$("#contents").html($("#contents").text());
+	}
+</script>
+</head>
+<body>
+	<main>
+		<div id="freeBoard" th:if="${freeBoard != null}">
+			<div th:text="${freeBoard.fbnum}"></div>
+			<div th:text="${freeBoard.title}"></div>
+			<div th:text="${freeBoard.author}"></div>
+			<div id="contents" th:text="${freeBoard.contents}"></div>
+			<div id="listAttach" th:each="attach : ${listAttach}">
+				<input type="checkbox" th:value="${attach.fbnum}+'_'+${attach.aname}">
+				<span th:text="${attach.anum}"></span>
+				<span th:text="${attach.fbnum}"></span>
+				<span th:text="${attach.aname}"></span>
+				<span th:text="${attach.asize}"></span>
+				<div>
+					<button type="button" onclick="deleteFile();">파일 삭제</button>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

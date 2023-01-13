@@ -14,5 +14,7 @@ import lombok.ToString;
 public class Admin {
 	private String adminid;
 	private String adminpwd;
+	
+	
 
 }
