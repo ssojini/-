@@ -46,6 +46,8 @@ public class UserService
 	}
 	public Map<String, Object> check(String userid, String email) 
 	{
+		//
+		
 		Map<String,Object> map = new HashMap<>();
 		session.setAttribute("rdStr", "");
 		session.setAttribute("authCheck", "0");

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.HttpSessionHandler;
 import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
@@ -39,7 +40,7 @@ public class JoinController
 	//초기 데이터 생성 메소드
 	@GetMapping("/add")
 	@ResponseBody
-	public String add()
+	public String add(HttpSession session)
 	{
 		//상욱
 		Date date = Date.valueOf("2022-12-31");
@@ -47,7 +48,7 @@ public class JoinController
 		User added = repo.save(member);
 		
 		
-		return "JoinController 초기 데이터 생성 완료";
+		return "session: "+session.getId()+"JoinController 초기 데이터 생성 완료";
 	}
 	
 	
@@ -155,18 +156,21 @@ public class JoinController
 	//---------------이메일 인증------------------
 	
 	//이메일에서 인증버튼 눌러서 인증을 한다.
-	@GetMapping("/auth/{rdStr}")
+	@GetMapping("/auth/{sid}/{rdStr}")
 	@ResponseBody
-	public String authCheck(@PathVariable("rdStr")String rdStrCheck)
+	public String authCheck(@PathVariable("rdStr")String rdStrCheck,
+							@PathVariable("sid") String sid)
 	{		
+		HttpSession orgSession = HttpSessionHandler.map.get(sid);
+		//System.err.println("original: "+orgSession);
 		
-		if(rdStrCheck.equals(session.getAttribute("rdStr")))
+		if(rdStrCheck.equals(orgSession.getAttribute("rdStr")))
 		{
-			session.setAttribute("authCheck", "1");
+			orgSession.setAttribute("authCheck", "1");
 			return "인증완료";
 		}
 		
-		session.setAttribute("authCheck", "0");
+		orgSession.setAttribute("authCheck", "0");
 		return "인증실패";
 	}
 	
