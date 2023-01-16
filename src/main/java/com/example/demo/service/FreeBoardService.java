@@ -52,10 +52,19 @@ public class FreeBoardService {
 		return listMap;
 	}
 
-	public FreeBoard addFreeBoard(HttpSession session, FreeBoard freeBoard) {
-		freeBoard = repo.save(freeBoard);
+	public Map<String,String> addFreeBoard(HttpSession session, FreeBoard freeBoard) {
+		FreeBoard saveFreeBoard = repo.save(freeBoard);
 		System.out.println("freeBoard:"+freeBoard);
-		return freeBoard;
+		
+		Map<String,String> map = new HashMap<>();
+		map.put("author", saveFreeBoard.getAuthor());
+		map.put("bname", saveFreeBoard.getBname());
+		map.put("contents", saveFreeBoard.getContents());
+		map.put("title", saveFreeBoard.getTitle());
+		map.put("dateTime", saveFreeBoard.getDateTime().toGMTString());
+		map.put("fbnum", ""+saveFreeBoard.getFbnum());
+		map.put("hit", ""+saveFreeBoard.getHit());
+		return map;
 	}
 	
 	public FreeBoard updateContents(Integer fbnum, String contents) {

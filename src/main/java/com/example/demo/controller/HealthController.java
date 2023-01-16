@@ -76,19 +76,30 @@ public class HealthController {
 	@ResponseBody
 	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
-		FreeBoard addFreeBoard = fbs.addFreeBoard(session,freeBoard);
-		map.put("result", addFreeBoard!=null?"true":"false");
+		Map<String,String> addFreeBoard = fbs.addFreeBoard(session,freeBoard);
+		map.put("result", true);
 		map.put("freeBoard", addFreeBoard);
 		return map;
 	}
 	
 	@PostMapping("/uploadFiles")
 	@ResponseBody
-	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum, String contents) {
+	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum) {
+		System.out.println("1:"+fbnum);
 		Map<String,Object> map = new HashMap<>();
-		boolean result = as.saveAttach(request, files, fbnum);
+		List<Map<String,String>> listAttach = as.saveAttach(request, files, fbnum);
+		System.out.println("listAttach:"+listAttach);
+		map.put("listAttach", listAttach);
+		return map;
+	}
+	@PostMapping("/changeSrc")
+	@ResponseBody
+	public Map<String, Object> changeSrc(Integer fbnum, String contents) {
+		System.out.println("fbnum:"+fbnum);
+		System.out.println("contents:"+contents);
+		Map<String, Object> map = new HashMap<>();
 		FreeBoard updateFreeBoard = fbs.updateContents(fbnum, contents);
-		map.put("result", result);
+		map.put("result", updateFreeBoard!=null?true:false);
 		return map;
 	}
 	@GetMapping("/downloadFile")
@@ -107,7 +118,7 @@ public class HealthController {
 	@ResponseBody
 	public Map<String,Object> deleteFreeBoard(Model m, Integer fbnum) {
 		Map<String,Object> map = new HashMap<>();
-		map.put("result",fbs.deleteFreeBoard(fbnum)&&as.deleteAttach(fbnum));
+		map.put("result",fbs.deleteFreeBoard(fbnum)&&as.deleteAttachByFbnum(fbnum));
 		return map;
 	}
 	
@@ -116,6 +127,12 @@ public class HealthController {
 		m.addAttribute("freeBoard",fbs.getFreeBoardByFbnum(fbnum));
 		m.addAttribute("listAttach", as.getListAttach(fbnum));
 		return "html/freeBoard/editFreeBoard";
+	}
+	
+	@PostMapping("/deleteFiles")
+	@ResponseBody
+	public Map<String,Object> deleteFiles() {
+		return null;
 	}
 
 	/* 다루한 */

@@ -20,7 +20,7 @@
 			<div th:text="${freeBoard.fbnum}"></div>
 			<div th:text="${freeBoard.title}"></div>
 			<div th:text="${freeBoard.author}"></div>
-			<div id="contents" th:text="${freeBoard.contents}"></div>
+			<div id="contents" th:text="${freeBoard.contents}" contentEditable="true"></div>
 			<div id="listAttach" th:each="attach : ${listAttach}">
 				<input type="checkbox" th:value="${attach.fbnum}+'_'+${attach.aname}">
 				<span th:text="${attach.anum}"></span>
@@ -28,6 +28,7 @@
 				<span th:text="${attach.aname}"></span>
 				<span th:text="${attach.asize}"></span>
 				<div>
+					<input id="files" type="file" multiple>
 					<button type="button" onclick="deleteFile();">파일 삭제</button>
 				</div>
 			</div>
