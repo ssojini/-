@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ 
+<style>
+    div.gd-left {
+        float: left;
+        width: 100px; 
+        height: 100px;
+        border: 1px solid #000000;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        
+    }
+    div.gd-left:hover{
+     	border: 1px solid red;
+    }
+    div.gd-clear {
+        clear:both;
+        margin-left: 10px;
+        border-radius: 5px;
+        color: #FF0000;
+    }
+    div.gd-title {
+        height: 40px;
+        background-color: gray;
+    } 
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+function clickDay(t) {
+	let year = [[${year}]];
+	let mon = [[${month}]];
+	
+	let day = $(t).text();
+	var obj = {};
+	obj.date = year + '-' + mon + '-' + day;
+/* 	alert(obj.date); */
+	
+	window.open("/calen/add?day="+obj.date, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=800, height=800, left=0, top=0");
+	
+}
+</script>
+</head>
+<body>
+	<h3 th:text="${year+'년'}"></h3>
+	
+    <h3 th:text="${month+'월'}"></h3>
+    
+    <div>
+        <a th:href="@{/calen/getCalendar(day=${day.plusMonths(-1)})}">이전</a> 
+        <a th:href="@{/calen/getCalendar(day=${day.plusMonths(1)})}">다음</a>
+    </div>
+    
+    <div class="gd-left gd-clear gd-title">일</div>
+    <div class="gd-left gd-title">월</div>
+    <div class="gd-left gd-title">화</div>
+    <div class="gd-left gd-title">수</div>
+    <div class="gd-left gd-title">목</div>
+    <div class="gd-left gd-title">금</div>
+    <div class="gd-left gd-title">토</div>
+ 
+    <!-- 5월달 lastDay==31 -->
+    <div th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+(i-(firstDayOfWeek-1))))} ? 'background: red'"
+     	 th:id="${i-(firstDayOfWeek-1)}>0?${i-(firstDayOfWeek-1)}:''" 
+     	 th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}" 
+         th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} : ''"
+         th:class="${index.index%7} ==0 ? 'gd-clear gd-left':  'gd-left'"
+         th:onclick="clickDay(this);"
+         >
+    </div>
+</body>
+</html>

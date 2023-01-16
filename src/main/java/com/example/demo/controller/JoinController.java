@@ -18,6 +18,7 @@ import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
+import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +48,10 @@ public class JoinController
 		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","testID");
 		User added = repo.save(member);
 		
-		
+		// 현주 
+		UserJoin join = new UserJoin("smith","1234","smith@naver.com","","","01011112222","1998-04-29","smash","/profile/default.png");
 		return "session: "+session.getId()+"JoinController 초기 데이터 생성 완료";
+
 	}
 	
 	
@@ -162,9 +165,10 @@ public class JoinController
 							@PathVariable("sid") String sid)
 	{		
 		HttpSession orgSession = HttpSessionHandler.map.get(sid);
-		//System.err.println("original: "+orgSession);
+		System.err.println("original: "+orgSession);
 		
 		if(rdStrCheck.equals(orgSession.getAttribute("rdStr")))
+
 		{
 			orgSession.setAttribute("authCheck", "1");
 			return "인증완료";

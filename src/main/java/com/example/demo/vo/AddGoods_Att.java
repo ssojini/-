@@ -18,4 +18,7 @@ public class AddGoods_Att {
 	private String detail_original;
 	private String detail_server;
 	private int goodspho_seq;
+	private int goodsnum;
+	
+	
 }

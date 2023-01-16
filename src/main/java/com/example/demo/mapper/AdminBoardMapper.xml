@@ -6,13 +6,54 @@
 
 	<select id="QAlist"
 		resultType="map">
-		SELECT q.qnum, q.title, q.author, q.qdate, q.content, q.hit, a.anum, a.title as atitle, a.author as a_author, a.adate, a.hit as ahit, a.content as a_content, attsize, attname, attid
+		SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, a.anum, a.title as atitle, a.author as a_author, a.adate, a.hit as ahit, a.content as a_content, attsize, attname, attid
 		FROM queBoard q LEFT OUTER JOIN ansBoard a
 		ON q.qnum = a. qnum 
         LEFT OUTER JOIN attach c
         ON q.qnum= c.qnum
 		ORDER BY q.qnum DESC, a.anum ASC
 	</select>
+
+	<select id="adminListByName"
+	resultType="map">
+	SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, a.anum, a.title as atitle, a.author as a_author, a.adate, a.hit as ahit, a.content as a_content, attsize, attname, attid
+	FROM queBoard q LEFT OUTER JOIN ansBoard a
+	ON q.qnum = a. qnum 
+       LEFT OUTER JOIN attach c
+       ON q.qnum= c.qnum
+	ORDER BY q.qnum DESC, a.anum ASC
+	</select>
+	
+	<select id="detailByQnum"
+		parameterType="Integer"
+		resultType="map"
+	>
+		SELECT * FROM(
+		SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, attsize, attname, attid
+		FROM queBoard q LEFT OUTER JOIN attach a
+		ON q.qnum = a.qnum
+		ORDER BY q.qnum DESC, attid ASC
+		)t
+		WHERE qnum=#{qnum}
+		
+	</select>
+	
+	<select id="findQueBoard" 
+	   parameterType="Integer" 
+	   resultType="com.example.demo.vo.OneBoard"
+	>
+	    SELECT * FROM queBoard WHERE qnum=#{qnum}
+	</select>	
+
+	<update id="increaseHit"
+		parameterType="Integer">
+		UPDATE queBoard SET hit =hit+1 WHERE qnum= #{qnum}
+	</update>
+	
+	<update id="increaseHit_admin"
+	parameterType="Integer">
+	UPDATE admin_board SET hit =hit+1 WHERE adnum= #{adnum}
+	</update>
 	
 	<insert id="addQueBoard"
 		parameterType="com.example.demo.vo.OneBoard">
@@ -20,20 +61,24 @@
 		VALUES(QUEBOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit})
 		
 	</insert>
-		 
-	<insert id="saveAttach"
-		parameterType="com.example.demo.vo.AttachBoard">
+
+	<insert id="addAdminBoard"
+		parameterType="com.example.demo.vo.AdminBoard">
+		INSERT INTO ADMIN_BOARD(adnum, title, author, date_admin, content, hit, name)
+		VALUES(ADMIN_BOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit}, #{name, jdbcType=VARCHAR})
 		
-INSERT INTO attach(attid, attsize, attname, qnum, anum)
-	SELECT ATTACH_SEQ.NEXTVAL, #{attsize, jdbcType=VARCHAR}, #{attname, jdbcType=VARCHAR}, 
-	(SELECT MAX(qnum) FROM queBoard) AS qnum, 
-	(SELECT MAX(anum) FROM ansBoard) AS anum FROM DUAL
-		</insert>
+	</insert>
+
+	<insert id="addAnsBoard"
+	parameterType="com.example.demo.vo.OneBoard">
+	INSERT INTO queBoard(anum, title, author, adate, content, hit, qnum)
+	VALUES( ANSBOARD_SEQ.NEXTVAL, #{title}, #{author}, #{adate}, #{content},  #{hit}, #{qnum} )
 	
-<!--	
+	</insert>
+	
 	<update id="saveAttach"
 	parameterType="list">
-	INSERT INTO attachtb (attid, attsize, attname, qnum, anum)
+	INSERT INTO attach (attid, attsize, attname, qnum, anum)
 	SELECT
 	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
 	(
@@ -46,13 +91,52 @@ INSERT INTO attach(attid, attsize, attname, qnum, anum)
 	FROM DUAL
 		</foreach>
 	)t
-	</update> -->
+	</update> 
 		
-	<insert id="addAnsBoard"
-		parameterType="com.example.demo.vo.OneBoard">
-		INSERT INTO queBoard(anum, title, author, adate, content, hit, qnum)
-		VALUES( ANSBOARD_SEQ.NEXTVAL, #{title}, #{author}, #{adate}, #{content},  #{hit}, #{qnum} )
-		
-	</insert>
+	<update id="saveAttach_admin"
+	parameterType="list">
+	INSERT INTO attach_admin (attnum, attsize, attname)
+	SELECT
+	ATTACH_ADMIN_SEQ.NEXTVAL AS attnum, t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		#{item.attsize} AS attsize, 
+		#{item.attname} AS attname
+		FROM DUAL
+		</foreach>
+	)t
+	</update> 
+	
+<!--  
+	<select id="getQueBByNum"
+		parameterType="Integer"
+		resultType="com.example.demo.vo.OneBoard">
+	
+	SELECT * FROM queBoard WHERE qnum=#{qnum}
+	</select>
+-->
 
+	<update 
+		id="updateQueB"
+		parameterType="Integer"
+	>
+	UPDATE queBoard SET title=#{title}, content=#{content} WHERE qnum=#{qnum}
+	</update>	
+	
+	<delete 
+		id="deleteAttach"
+		parameterType="Integer"
+	>
+	DELETE FROM attach WHERE attid=#{attid} 
+	</delete>
+	
+	<select
+		id="getAttachList"
+		resultType="list"
+		parameterType="Integer"
+	>
+	SELECT * FROM attach WHERE qnum=#{qnum}
+	</select>
+	
 </mapper>

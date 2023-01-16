@@ -26,7 +26,8 @@ $(function(){
 		var form= $('#questionForm')[0] // FormData를 쓰기 위해 필요하다
 		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
 		
-		$('#btnUpload').prop('disabled', true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
+		$('#btnUpload').prop('disabled', 
+				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
 		
 		$.ajax({
 			url:'/health/writeQueB',
@@ -42,7 +43,7 @@ $(function(){
 				$('#btnUpload').prop('disabled', false);
 				if(res.uploaded){
 					alert('문의사항이 저장 되었습니다.');
-					location.href= "/health/writeQueB"
+					location.href= "/health/qaList"
 				}
 			},
 			error: function(e){
@@ -71,7 +72,7 @@ $(function(){
 		<input id ="title" type="text" name="title" placeholder="제목을 입력하세요">
 	</div>
 	<div>
-		<input type="hidden" name="author" value='[[${userid}]]' >
+		<input type="hidden" name="author" th:value='${userid}' >
 		[[${userid}]]
 	</div>
 	<div>

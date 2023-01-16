@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Pro Line - Bootstrap v4.1.3 Template</title>
+    <title>건강한 한끼 : 건끼</title>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/css/mainpage.css"/>
   </head>
 
-<body style="background-color:#ECE8DD;">
+<body style="background-color:#F2EEE5;">
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
@@ -28,7 +28,7 @@
 	    <div style="width:67%; box-sizing:border-box; height: 2000px; float:left;">
 	        <div style="float:left; width:10%; height: 2000px;"></div>
 	        <div style="height:60px; padding-top: 18px;">●︿● 남들은 쉽게 빼는데 나는 왜 안되지라는 생각마라 그들도 죽을만큼 노력했다.</div>
-        	<div style="float:left; width:44%; height: 200px; background:#439A97;">
+        	<div style="float:left; width:44%; height: 200px; background:#BDB9B1;">
         		<div style="float:left; widht:80px;">
 	        		<div style="padding-left: 20px; padding-top: 20px; color:white;">오늘의 베스트</div>
         			<div style="padding-top: 20px; padding-left: 20px; color:white;">
@@ -52,7 +52,7 @@
        				</div>
         			</div>
 	        	</div>
-	        	<div style="float:right; width:44%; height: 200px; background:#FAAB78;">
+	        	<div style="float:right; width:44%; height: 200px; background:#FFB59F;">
 					<div style="float:left; widht:80px;">
 		        		<div style="padding-left: 20px; padding-top: 20px; color:white;">명예의 전당</div>
 	        			<div style="padding-top: 20px; padding-left: 20px; color:white;">
@@ -95,7 +95,7 @@
 						<div class="content">
 						    <div class="content-dis" id="list1">
 							    <ul style="display:flex;min-height:100%; width:100%; float:top;">
-				        			<li>
+				        			<li onclick="#" style="cursor:pointer;">
 				        				<div class="image-boxl">
 				        					<img class="image-thumbnail" src="/img/img-00.jpg">
 				        				</div>
@@ -408,12 +408,28 @@
 	    	<div style="height:60px; padding-top: 18px;"></div>
 	    	<div style="float:left; width:80%; height: 2000px;">
 	    		<div style="width:100%; height:150px;">
-	        		<div style="width:50%;float:left; cursor:pointer; height:160px; background-color: #FD8A8A;">1</div>
-	        		<div style="width:50%;float:left; cursor:pointer; height:160px; background-color: #F1F7B5;">1</div>
+	    			<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#CBCFB1; border: 0.5px solid white;">
+		        		<a href="/health/bmi">
+		        			<img src="/img/icon-bmi.png" style="cursor:pointer;width:90%; padding:30px 15px 30px 30px; object-fit: scale-down;">	
+		        		</a>
+		        	</div>	
+        			<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#A0DED3; border: 0.5px solid white;">
+		        		<a href="/calen/getCalendar">
+		        			<img src="/img/icon-calendar.png" style="cursor:pointer;width:90%; padding:30px 15px 30px 30px; object-fit: scale-down;">	
+		        		</a>
+		        	</div>	
 	        	</div>
 	        	<div style="width:100%; height:150px;">
-	        		<div style="width:50%;float:left; cursor:pointer; height:160px; background-color: #A8D1D1;">1</div>
-	        		<div style="width:50%;float:left; cursor:pointer; height:160px; background-color: #9EA1D4;">1</div>
+	        		<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#A0DED3; border: 0.5px solid white;">
+		        		<a href="#">
+		        			<img src="/img/icon-find.png" style="cursor:pointer;width:90%; padding:30px 17px 30px 32px; object-fit: scale-down;">	
+		        		</a>
+		        	</div>	
+	        		<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#CBCFB1; border: 0.5px solid white;">
+		        		<a href="#">
+		        			<img src="/img/icon-trophy.png" style="cursor:pointer;width:89%; padding:30px 17px 30px 32px; object-fit: scale-down;">	
+		        		</a>
+		        	</div>	
 	        	</div>	
 	        </div>
 	    </div>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+<body>
+<div>
+	<div>
+		<label>[[${day}]]</label>
+	</div>
+	<!-- 아침 -->
+	<details>
+		<input type="radio" name="eat" id="morning" value="아침" checked>
+		<summary><label>아침</label></summary>
+			<div>
+				<input type="file" name="files" multiple="multiple"> 
+				<textarea id ="post" name="m_content" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+			</div>
+	</details>
+	<!-- 점심 -->
+	<details>
+		<input type="radio" name="eat" id="lunch" value="점심">
+		<summary><label>점심</label></summary>
+			<div>
+				<input type="file" name="files" multiple="multiple">
+				<textarea id ="post" name="l_contents" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+			</div>
+	</details>
+	<!-- 저녁 -->
+	<details>
+		<input type="radio" name="eat" id="diner" value="저녁">
+		<summary><label>저녁</label></summary>
+			<div>
+				<input type="file" name="files" multiple="multiple">
+				<textarea id ="post" name="d_contents" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+			</div>
+	</details>
+	<!-- 간식 -->
+	<details>
+		<input type="radio" name="eat" id="snack" value="저녁">
+		<summary><label>간식</label></summary>
+			<div>
+				<input type="file" name="files" multiple="multiple">
+				<textarea id ="post" name="s_contents" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+			</div>
+	</details>
+	
+</div>
+</body>
+</html>
