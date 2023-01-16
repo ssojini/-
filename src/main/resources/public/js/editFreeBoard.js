@@ -1,16 +1,16 @@
 function deleteFile() {
 	var checkbox = $("input[type=checkbox]");
-	var arr = new Array();
-	var obj = new Object();
+	var aname = new Array();
 	for (var i = 0; i < checkbox.length; i++) {
 		if (checkbox[i].checked) {
-			console.log(checkbox[i]);
+			aname.push(checkbox[i].className);
 		}
 	}
+	console.log(aname);
 	$.ajax({
-		url:"/health/deleteFiles",
+		url:"/file/deleteFiles",
 		method:"post",
-		data:data,
+		data:{},
 		cache:false,
 		dataType:"json",
 		success:function(res) {

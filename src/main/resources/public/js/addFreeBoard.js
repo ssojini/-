@@ -65,7 +65,7 @@ function uploadFiles(freeBoard) {
 	data.append("fbnum",freeBoard.fbnum);
 	if (data != null) {
 	$.ajax({
-		url: "/health/uploadFiles",
+		url: "/file/uploadFiles",
 		method: "post",
 		enctype: "multipart/form-data",
 		data: data,

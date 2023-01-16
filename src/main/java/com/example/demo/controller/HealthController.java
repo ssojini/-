@@ -82,16 +82,6 @@ public class HealthController {
 		return map;
 	}
 	
-	@PostMapping("/uploadFiles")
-	@ResponseBody
-	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum) {
-		System.out.println("1:"+fbnum);
-		Map<String,Object> map = new HashMap<>();
-		List<Map<String,String>> listAttach = as.saveAttach(request, files, fbnum);
-		System.out.println("listAttach:"+listAttach);
-		map.put("listAttach", listAttach);
-		return map;
-	}
 	@PostMapping("/changeSrc")
 	@ResponseBody
 	public Map<String, Object> changeSrc(Integer fbnum, String contents) {
@@ -101,10 +91,6 @@ public class HealthController {
 		FreeBoard updateFreeBoard = fbs.updateContents(fbnum, contents);
 		map.put("result", updateFreeBoard!=null?true:false);
 		return map;
-	}
-	@GetMapping("/downloadFile")
-	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
-		return as.donwloadAttach(request, fbnum, aname);
 	}
 
 	@GetMapping("/detailFreeBoard")
@@ -129,12 +115,6 @@ public class HealthController {
 		return "html/freeBoard/editFreeBoard";
 	}
 	
-	@PostMapping("/deleteFiles")
-	@ResponseBody
-	public Map<String,Object> deleteFiles() {
-		return null;
-	}
-
 	/* 다루한 */
 
 	/* 현주 */
