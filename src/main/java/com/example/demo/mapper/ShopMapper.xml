@@ -8,8 +8,8 @@
 		SELECT * FROM Admin WHERE adminid=#{adminid, jdbcType=VARCHAR}
 	</select>
 	<update id="addgoods" parameterType="com.example.demo.vo.Goods">
-		INSERT INTO goods(goodsnum,goodsname,price,description,category) 
-		VALUES(addgoods_SEQ.NEXTVAL,#{goodsname},#{price},#{description},#{category})
+		INSERT INTO goods(goodsnum,goodsname,price,description,category,goods_detail) 
+		VALUES(addgoods_SEQ.NEXTVAL,#{goodsname},#{price},#{description},#{category},#{goods_detail})
 	</update>
 	<update id="addgoods_att2" parameterType="com.example.demo.vo.AddGoods_Att">
 		INSERT INTO addgoods_att(goodspho_seq,goodsnum,mainpic_original,mainpic_server,detail_original,detail_server)
