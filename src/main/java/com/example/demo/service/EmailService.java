@@ -10,6 +10,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.HttpSessionHandler;
+
 import jakarta.activation.DataHandler;
 import jakarta.activation.FileDataSource;
 import jakarta.mail.BodyPart;
@@ -30,7 +32,16 @@ public class EmailService
 	@Autowired
 	private JavaMailSender sender;
 	@Autowired
-	private HttpSession session;
+	private HttpSession session;	
+	
+	//유일한 문자를 만드는 메소드
+	private String createRandomStr()
+	{
+		UUID randomUUID = UUID.randomUUID();
+		return randomUUID.toString().replaceAll("-", "");
+	}	
+	
+	/* ----------------- 상욱 시작 ----------------- */
 
 	public boolean sendSimpleText()
 	{
@@ -48,19 +59,77 @@ public class EmailService
 		//SimpleMailMessage를 사용하여 html 을 전달하더라도 수신자의 화면에는 html이 해석되지 않음
 		simpleMailMessage.setText("<a href='/mail/auth/"+ createRandomStr()+"'>인증</a>");
 
-		sender.send(simpleMailMessage);
-
-		return true;
-	}
-
-
-	private String createRandomStr()
+      return false;
+   }
+   
+	public boolean checkmail(HttpSession session)
 	{
-		//유일한 문자를 만드는 메소드
-		UUID randomUUID = UUID.randomUUID();
-		return randomUUID.toString().replaceAll("-", "");
-	}
+		//세션아이디 얻기
+		String sid = session.getId();
+		//System.err.println("sid: "+sid);	   
+		String email = (String) session.getAttribute("email");
+		//System.err.println("email: "+email);
+		String rdStr =createRandomStr();
+		session.setAttribute("rdStr", rdStr);
 
+		MimeMessage mimeMessage = sender.createMimeMessage();
+
+		try {
+			InternetAddress[] addressTo = new InternetAddress[1];
+			addressTo[0] = new InternetAddress(email);
+
+			mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
+
+			mimeMessage.setSubject("팀프로젝트 메일 확인");
+
+			//로컬호스트로 테스트시 
+			//mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+			//서버사용시 서버 IP주소 변경 할것
+			mimeMessage.setContent("<a href='http://192.168.0.92/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+
+			sender.send(mimeMessage);
+			return true;
+		} catch (MessagingException e) {
+			log.error("에러={}", e);
+		}
+		return false;
+	}
+	
+	/* ----------------- 상욱 끝 ----------------- */
+      
+	
+	/* ----------------- 학습자료 시작 ----------------- */
+      public boolean checkmail1(HttpSession session)
+  	{
+  		String email = (String) session.getAttribute("email");
+  		System.err.println("email: "+email);
+  		String rdStr =createRandomStr();
+  		session.setAttribute("rdStr", rdStr);
+
+  		MimeMessage mimeMessage = sender.createMimeMessage();
+
+  		try {
+  			InternetAddress[] addressTo = new InternetAddress[1];
+  			addressTo[0] = new InternetAddress(email);
+
+  			mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
+
+  			mimeMessage.setSubject("팀프로젝트 메일 확인");
+
+  			//로컬호스트로 테스트시 
+  			//mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+  			//서버사용시 서버 IP주소 변경 할것
+  			mimeMessage.setContent("<a href='http://192.168.0.111/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+
+  			sender.send(mimeMessage);
+  			return true;
+  		} catch (MessagingException e) {
+  			log.error("에러={}", e);
+  		}
+
+  		return false;
+  		
+  	}
 
 	public boolean sendMimeMessage()
 	{
@@ -83,38 +152,7 @@ public class EmailService
 		}
 
 		return false;
-	}
-
-	public boolean checkmail(HttpSession session)
-	{
-		String email = (String) session.getAttribute("email");
-		System.err.println("email: "+email);
-		String rdStr =createRandomStr();
-		session.setAttribute("rdStr", rdStr);
-
-		MimeMessage mimeMessage = sender.createMimeMessage();
-
-		try {
-			InternetAddress[] addressTo = new InternetAddress[1];
-			addressTo[0] = new InternetAddress(email);
-
-			mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
-
-			mimeMessage.setSubject("팀프로젝트 메일 확인");
-
-			//로컬호스트로 테스트시 
-			//mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
-			//서버사용시 서버 IP주소 변경 할것
-			mimeMessage.setContent("<a href='http://192.168.0.111/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
-
-			sender.send(mimeMessage);
-			return true;
-		} catch (MessagingException e) {
-			log.error("에러={}", e);
-		}
-
-		return false;
-	}
+	}	
 
 	public boolean sendAttachMail()
 	{
@@ -159,4 +197,6 @@ public class EmailService
 		}
 		return false;
 	}
+	
+	/* ----------------- 학습자료 끝 ----------------- */
 }

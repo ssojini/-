@@ -112,7 +112,7 @@ $(function(){
 <body>
 <h2>상품등록</h2>
 <form id="addgoods" enctype="multipart/form-data" >
-<input type="hidden" id="seller" name="seller" th:value="${admin.adminid}">
+
 <table>
 	<tbody>
 		<tr>
@@ -145,6 +145,7 @@ $(function(){
 			<td><img src="#" id="image_section" width="84" height="84" alt="상품사진">
 			<span class="error_next_box"></span></td>
 			<td><input type='file' id="main_file" name="main_file" multiple="multiple"></input></td>
+	
 			 
 		</tr>	
 		<tr>
@@ -157,53 +158,9 @@ $(function(){
 	</tbody>
 </table>
  <textarea id="summernote" name="editordata"></textarea>
- <input type="hidden" id="goods_detail" name="goods_detail" >
 </form>
 
 <script type="text/javascript"> 
-/*
-	$('#summernote').summernote({
-		height: 300,                 // 에디터 높이
-		minHeight: null,             // 최소 높이
-		maxHeight: null,             // 최대 높이
-		lang: "ko-KR",					// 한글 설정
-		placeholder: '최대 2048자까지 쓸 수 있습니다',	//placeholder 설정
-		callbacks: {	//여기 부분이 이미지를 첨부하는 부분
-			onImageUpload : function(files) {
-				uploadSummernoteImageFile(files[0],this);
-			},
-			onPaste: function (e) {
-				var clipboardData = e.originalEvent.clipboardData;
-				if (clipboardData && clipboardData.items && clipboardData.items.length) {
-					var item = clipboardData.items[0];
-					if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-						e.preventDefault();
-					}
-				}
-			}
-		}
-});
-
-		//이미지 파일 업로드&& textarea 에 보여짐 
-
-		function uploadSummernoteImageFile(file, editor) {
-		data = new FormData();
-		data.append("file", file);
-
-		$.ajax({
-			data : data,
-			type : "POST",
-			url : "/shop/uploadSummernoteImageFile",
-			contentType : false,
-			processData : false,
-			success : function(data) {
-		    	//항상 업로드된 파일의 url이 있어야 한다.
-				$(editor).summernote('insertImage', data.url);
-				 $('#addgoods>#detail_server').val(data.url);
-			}
-		});
-		}
-*/
 
     jsonArray = [];
     $('#summernote').summernote({
@@ -231,8 +188,7 @@ $(function(){
 
                 // 파일 업로드(다중업로드를 위해 반복문 사용)
                 for (var i = files.length - 1; i >= 0; i--) {
-                    uploadSummernoteImageFile(files[i],
-                this);
+                    uploadSummernoteImageFile(files[i], this);
                     }
                 }
             } 
@@ -253,7 +209,6 @@ $(function(){
               processData : false,
               success : function(data) {
             	  var json = data;
-              
                         $(el).summernote('editor.insertImage',json["url"]);
                             jsonArray.push(json["url"]);
                             jsonFn(jsonArray);
@@ -266,8 +221,7 @@ $(function(){
 
 
 
-function jsonFn(jsonArray){
-	
+function jsonFn(jsonArray){	
 	console.log(jsonArray);
 }
 		
@@ -288,15 +242,11 @@ function jsonFn(jsonArray){
 			    // result[1] : bc395afe-2324-438d-ae68-1a0a75d0a431.png
 			}
 			
-			//var form=$('#addgoods')[0];
-			//var data = new FormData(form);
 			const content = $('#summernote').summernote('code');
 			
 			//plain text
 			var goods_detail = $($("#summernote").summernote("code")).text();
-			 $('#addgoods>#goods_detail').val(goods_detail);
-			 console.log(goods_detail);
-		
+			data.append('goods_detail', goods_detail);
 
 		    console.log(content);
 			
@@ -329,6 +279,5 @@ function jsonFn(jsonArray){
 </script> 
 		  <button type="reset">취소</button>
 		  <button type="button" id="formData" onclick="saveContent()">확인</button>
-		
 	</body>
 </html>

@@ -119,7 +119,7 @@ public class ShopService
 	@Autowired
 	  public ShopService(Environment env) 
 	  {
-	    this.fileStorageLocation = Paths.get("./src/main/resources/static/images/addgoods").toAbsolutePath().normalize();
+	    this.fileStorageLocation = Paths.get("C:\\Users\\201-03\\git\\EzenFinal\\src\\main\\resources\\static\\images\\addgoods\\").toAbsolutePath().normalize();
 	    try {
 	      Files.createDirectories(this.fileStorageLocation);
 	    } catch (Exception ex) {
@@ -127,34 +127,27 @@ public class ShopService
 	          "Could not create the directory where the uploaded files will be stored.", ex);
 	    }
 	  }
-	
-	 private String getFileExtension(String fileName) {
-		    if (fileName == null) {
-		      return null;
-		    }
-		    String[] fileNameParts = fileName.split("\\.");
 
-		    return fileNameParts[fileNameParts.length - 1];
-		  }
-	 
 	 public String filesave(MultipartFile file)
 	 {
+		// String savedFileName = filesaves(file);
 		 JsonObject json = new JsonObject();
-		 
-		    String fileRoot =  "C:\\summernote_image\\";	
+
+		 String fileRoot =  "C:\\Users\\201-03\\git\\EzenFinal\\src\\main\\resources\\static\\images\\addgoods\\";	
+		 String fileRoot2 =  "C:\\summernote_image\\";	
 		    String originalFileName = file.getOriginalFilename();	//오리지날 파일명
 		    String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
 
 		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-		    File targetFile = new File(fileRoot + savedFileName);	
-		    System.out.println("targetFile:  "+ targetFile);
+		    File targetFile = new File(fileRoot + savedFileName);
+		    File targetFile2 = new File(fileRoot2 + savedFileName);;
 		    try {
 		        // 파일 저장
 		        InputStream fileStream = file.getInputStream();
 		        FileUtils.copyInputStreamToFile(fileStream, targetFile);
-		        
-		        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
-		        json.addProperty("url", "/summernoteImage/"+savedFileName);  
+		        InputStream fileStream2 = file.getInputStream();
+		        FileUtils.copyInputStreamToFile(fileStream2, targetFile2);
+		        json.addProperty("url", "/summernoteImage/"+savedFileName); 
 		        json.addProperty("responseCode", "success");
 		   
 		    } catch (IOException e) {
@@ -162,11 +155,10 @@ public class ShopService
 		        json.addProperty("responseCode", "error");
 		        e.printStackTrace();
 		    }
+	        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
+	        
 		   String jsonvalue = json.toString();
-		   //System.out.println(jsonvalue);
 		   return jsonvalue;
-		   
-		   //return json;
 
 	 }
 	 
@@ -179,7 +171,8 @@ public class ShopService
 		 String extension1 = mainpic_original.substring(mainpic_original.lastIndexOf("."));	
 		 String mainpic_server = UUID.randomUUID() + extension1;	
 		 //String a[] = detail_server.split("/summernoteImage/");
-		 String detail_original = "1";
+		 System.out.println("fileList:  "+ fileList);
+		 String detail_original = "1"; // detail original filename저장안됨 
 		 
 		 //Map<String, Object> result = new HashMap<String, Object>();
 			//원본 파일경로
@@ -192,8 +185,6 @@ public class ShopService
 				 list.add(att);
 
 			}
-		 
-		 System.out.println(list.toString());
 		 
 		 goods.setGoods_detail(goods_detail);
 		 int add =  map.addgoods(goods);
