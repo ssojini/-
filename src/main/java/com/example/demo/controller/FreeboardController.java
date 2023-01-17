@@ -20,7 +20,7 @@ import com.example.demo.vo.Freeboard;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@RequestMapping("/freeBoard")
+@RequestMapping("/freeboard")
 @Controller
 public class FreeboardController {
 	@Autowired
@@ -30,8 +30,8 @@ public class FreeboardController {
 	@Autowired
 	private AttachService attachSvc;
 	
-	@GetMapping("/freeBoard")
-	public String freeBoard(Model m, String bname) {
+	@GetMapping({"","/"})
+	public String freeboard(Model m, String bname) {
 		List<Freeboard> listFreeBoard = freeboardSvc.getListByBname(bname);
 		m.addAttribute("listFreeBoard", listFreeBoard);
 		m.addAttribute("bname",bname);
@@ -45,14 +45,14 @@ public class FreeboardController {
 		return listMap;
 	}
 
-	@GetMapping("/addFreeBoard")
-	public String addFreeBoard(Model m, String bname) {
+	@GetMapping("/add")
+	public String add(Model m, String bname) {
 		m.addAttribute("bname", bname);
 		return "html/freeboard/addFreeBoard";
 	}
-	@PostMapping("/addFreeBoard")
+	@PostMapping("/add")
 	@ResponseBody
-	public Map<String,Object> addFreeBoard(Model m, Freeboard freeBoard) {
+	public Map<String,Object> add(Model m, Freeboard freeBoard) {
 		Map<String,Object> map = new HashMap<>();
 		Map<String,String> addFreeBoard = freeboardSvc.save(freeBoard);
 		map.put("result", true);
@@ -71,16 +71,16 @@ public class FreeboardController {
 		return map;
 	}
 
-	@GetMapping("/detailFreeBoard")
-	public String detailFreeBoard(Model m,Integer fbnum) {
+	@GetMapping("/detail")
+	public String detail(Model m,Integer fbnum) {
 		Freeboard freeBoard = freeboardSvc.getByFbnum(fbnum);
 		m.addAttribute("freeBoard",freeBoard);
 		return "html/freeboard/detailFreeBoard";
 	}
 	
-	@PostMapping("/deleteFreeBoard")
+	@PostMapping("/delete")
 	@ResponseBody
-	public Map<String,Object> deleteFreeBoard(HttpServletRequest request, Model m, Integer fbnum) {
+	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
 		Map<String,Object> map = new HashMap<>();
 		boolean delete = freeboardSvc.deleteByFbnum(fbnum);
 		List<Attach> listAttach = attachSvc.deleteByFbnum(fbnum);
@@ -88,8 +88,8 @@ public class FreeboardController {
 		return map;
 	}
 	
-	@GetMapping("/editFreeBoard")
-	public String editFreeBoard(Model m, Integer fbnum) {
+	@GetMapping("/edit")
+	public String edit(Model m, Integer fbnum) {
 		m.addAttribute("freeBoard",freeboardSvc.getByFbnum(fbnum));
 		m.addAttribute("listAttach", attachSvc.getList(fbnum));
 		return "html/freeBoard/editFreeBoard";

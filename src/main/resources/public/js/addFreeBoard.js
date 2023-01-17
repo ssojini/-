@@ -1,6 +1,6 @@
 function addFreeBoard() {
 	$.ajax({
-		url: "/health/addFreeBoard",
+		url: "/freeboard/add",
 		method: "post",
 		data: {
 			"bname": $("#bname").val(),
@@ -16,7 +16,7 @@ function addFreeBoard() {
 					uploadFiles(res.freeBoard);
 				} else {
 					alert("저장 성공");
-					location.href = "/health/freeBoard";
+					location.href = "/freeboard";
 				}
 			} else {
 				alert("저장 실패");
@@ -33,7 +33,7 @@ function changeSrc(listAttach) {
 	for (var i = 0; i < img.length; i++) {
 		for (var i = 0; i < listAttach.length; i++) {
 			if (img[i].className == listAttach[i].aname) {
-				img[i].src = "/images/freeboard/" + listAttach[i].anum + "_" + img[i].className;
+				img[i].src = "/images/" + listAttach[i].anum + "_" + img[i].className;
 			}
 		}
 	}
@@ -50,7 +50,7 @@ function changeSrc(listAttach) {
 		success:function(res) {
 			alert(res.result?"저장 성공":"저장 실패");
 			if (res.result) {
-				location.href = "/health/freeBoard";
+				location.href = "/freeBoard";
 			}
 		},
 		error:function(xhs,status,err) {

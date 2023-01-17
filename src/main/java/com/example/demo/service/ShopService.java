@@ -40,6 +40,8 @@ import com.example.demo.vo.Shop;
 @Service
 public class ShopService 
 {
+	@Autowired
+	private ShopMapper map;
 	/* 상욱 시작 */
 	@Autowired
 	private GoodsRepository repo;
@@ -93,22 +95,16 @@ public class ShopService
 	
 	
 	/* 종빈 */
-	@Autowired
-	private ShopMapper mapper;
-	
 	public List<Shop> mypagelist(String userid) {
-		return mapper.list(userid);
+		return map.list(userid);
 	}
 	
 	public Shop shopDetail(String ordernum){
-		return mapper.detail(ordernum);
+		return map.detail(ordernum);
 	}
   
   /* 현주 */
   
-  @Autowired
-	private ShopMapper map;
-	
 	private Path fileStorageLocation;
 	
 	public Admin admininfo(String adminid)
