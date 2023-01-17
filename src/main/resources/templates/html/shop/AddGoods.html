@@ -212,7 +212,6 @@ $(function(){
                         $(el).summernote('editor.insertImage',json["url"]);
                             jsonArray.push(json["url"]);
                             jsonFn(jsonArray);
-                            $("#img01").prop("src",json.url);
                     },
                     error : function(e) {
                         console.log(e);
@@ -237,9 +236,8 @@ function jsonFn(jsonArray){
 			    
 			    // str의 값 :/summernoteImage/bc395afe-2324-438d-ae68-1a0a75d0a431.png 
 			    // '/summernoteImage/'를 기준으로 자른다.
-			    var result = str.toString().split("/images/addgoods/");
+			    var result = str.toString().split("/summernoteImage/");
 			    data.append('file[]',result[1]);
-			    console.log(result[1]);
 			    
 			    // result[1] : bc395afe-2324-438d-ae68-1a0a75d0a431.png
 			}
@@ -281,6 +279,5 @@ function jsonFn(jsonArray){
 </script> 
 		  <button type="reset">취소</button>
 		  <button type="button" id="formData" onclick="saveContent()">확인</button>
-		<img id="img01">
 	</body>
 </html>
