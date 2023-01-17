@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.service.AttachService;
-import com.example.demo.vo.FreeBoard;
+import com.example.demo.service.FileService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -24,26 +22,26 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/file")
 public class FileController {
 	@Autowired
-	private AttachService svc;
+	private FileService fs;
 	
-	@PostMapping("/uploadFiles")
+	@PostMapping("/upload")
 	@ResponseBody
-	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum) {
-		System.out.println("1:"+fbnum);
+	public Map<String,Object> upload(HttpServletRequest request, Model m, MultipartFile file, String filename) {
 		Map<String,Object> map = new HashMap<>();
-		List<Map<String,String>> listAttach = svc.saveAttach(request, files, fbnum);
-		System.out.println("listAttach:"+listAttach);
-		map.put("listAttach", listAttach);
+		boolean upload = fs.upload(request, file, filename);
+		map.put("result", upload);
 		return map;
 	}
-	@GetMapping("/downloadFile")
-	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
-		return svc.donwloadAttach(request, fbnum, aname);
+	@GetMapping("/download")
+	public ResponseEntity<Resource> donwload(HttpServletRequest request, String filename) {
+		return fs.donwload(request, filename);
 	}
-	@PostMapping("/deleteFiles")
+	@PostMapping("/delete")
 	@ResponseBody
-	public Map<String, Object> deleteFiles(Integer[] anum) {
+	public Map<String, Object> delete(HttpServletRequest request, String filename) {
 		Map<String, Object> map = new HashMap<>();
+		boolean delete = fs.delete(request, filename);
+		map.put("result", delete);
 		return map;
 	}
 }

@@ -11,35 +11,33 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.interfaces.FreeboardRepository;
-import com.example.demo.vo.FreeBoard;
+import com.example.demo.vo.Freeboard;
 
 import jakarta.servlet.http.HttpSession;
 
 @Service
-public class FreeBoardService {
+public class FreeboardService {
 	@Autowired
 	private FreeboardRepository repo;
 	
-	public FreeBoard getFreeBoardByFbnum(Integer fbnum) {
-		Optional<FreeBoard> freeBoard = repo.findById(fbnum);
+	public Freeboard getByFbnum(Integer fbnum) {
+		Optional<Freeboard> freeBoard = repo.findById(fbnum);
 		return freeBoard.isPresent()?freeBoard.get():null;
 	}
 	
-	public List<FreeBoard> getFreeBoardList() {
+	public List<Freeboard> getList() {
 		return repo.findAll();
 	}
 	
-	public List<FreeBoard> getFreeBoardList(String bname) {
+	public List<Freeboard> getListByBname(String bname) {
 		return repo.findByBname(bname);
 	}
 	
-	public List<Map<String,Object>> getListFreeBoardToListMap(String bname) {
-		System.out.println("bname:"+bname);
-		List<FreeBoard> listFreeBoard = repo.findByBname(bname);
-		System.out.println("listFreeBoard:"+listFreeBoard);
+	public List<Map<String,Object>> getListMapByBname(String bname) {
+		List<Freeboard> listFreeBoard = repo.findByBname(bname);
 		List<Map<String,Object>> listMap = new ArrayList<>();
 		for (int i = 0; i < listFreeBoard.size(); i++) {
-			FreeBoard freeboard = listFreeBoard.get(i);
+			Freeboard freeboard = listFreeBoard.get(i);
 			Map<String,Object> map = new HashMap<>();
 			map.put("fbnum", freeboard.getFbnum());
 			map.put("bname", freeboard.getBname());
@@ -52,23 +50,22 @@ public class FreeBoardService {
 		return listMap;
 	}
 
-	public Map<String,String> addFreeBoard(HttpSession session, FreeBoard freeBoard) {
-		FreeBoard saveFreeBoard = repo.save(freeBoard);
-		System.out.println("freeBoard:"+freeBoard);
+	public Map<String,String> save(Freeboard freeBoard) {
+		Freeboard saveFreeBoard = repo.save(freeBoard);
 		
 		Map<String,String> map = new HashMap<>();
 		map.put("author", saveFreeBoard.getAuthor());
 		map.put("bname", saveFreeBoard.getBname());
 		map.put("contents", saveFreeBoard.getContents());
 		map.put("title", saveFreeBoard.getTitle());
-		map.put("dateTime", saveFreeBoard.getDateTime().toGMTString());
+		map.put("dateTime", saveFreeBoard.getDateTime().toLocaleString());
 		map.put("fbnum", ""+saveFreeBoard.getFbnum());
 		map.put("hit", ""+saveFreeBoard.getHit());
 		return map;
 	}
 	
-	public FreeBoard updateContents(Integer fbnum, String contents) {
-		Optional<FreeBoard> freeBoard = repo.findById(fbnum);
+	public Freeboard updateContents(Integer fbnum, String contents) {
+		Optional<Freeboard> freeBoard = repo.findById(fbnum);
 		if (freeBoard.isPresent()) {
 			freeBoard.get().setContents(contents);
 			return repo.save(freeBoard.get());
@@ -77,7 +74,7 @@ public class FreeBoardService {
 		}
 	}
 	
-	public boolean deleteFreeBoard(Integer fbnum) {
+	public boolean deleteByFbnum(Integer fbnum) {
 		repo.deleteById(fbnum);
 		return true;
 	}
