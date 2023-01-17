@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,8 +40,6 @@ import com.example.demo.vo.Shop;
 @Service
 public class ShopService 
 {
-	@Autowired
-	private ShopMapper map;
 	/* 상욱 시작 */
 	@Autowired
 	private GoodsRepository repo;
@@ -95,6 +93,10 @@ public class ShopService
 	
 	
 	/* 종빈 */
+
+	  @Autowired
+		private ShopMapper map;
+	
 	public List<Shop> mypagelist(String userid) {
 		return map.list(userid);
 	}
@@ -105,17 +107,14 @@ public class ShopService
   
   /* 현주 */
   
-	private Path fileStorageLocation;
 	
-	public Admin admininfo(String adminid)
-	{
-		return map.admininfo(adminid);
-	}
+	 private final Path fileStorageLocation;
 
-	@Autowired
-	  public ShopService(Environment env) 
+	 @Autowired
+	  public ShopService(Environment env) //파일 저장경로설정
 	  {
-	    this.fileStorageLocation = Paths.get("C:\\Users\\201-03\\git\\EzenFinal\\src\\main\\resources\\static\\images\\addgoods\\").toAbsolutePath().normalize();
+	    this.fileStorageLocation = Paths.get("./src/main/resources/static/images/addgoods")
+	        .toAbsolutePath().normalize();
 	    try {
 	      Files.createDirectories(this.fileStorageLocation);
 	    } catch (Exception ex) {
@@ -124,24 +123,36 @@ public class ShopService
 	    }
 	  }
 
+	public Admin admininfo(String adminid)
+	{
+		return map.admininfo(adminid);
+	}
+	
 	 public String filesave(MultipartFile file)
 	 {
 		// String savedFileName = filesaves(file);
 		 JsonObject json = new JsonObject();
+		 
+		
 
-		 String fileRoot =  "C:\\Users\\201-03\\git\\EzenFinal\\src\\main\\resources\\static\\images\\addgoods\\";	
+		 Path fileRoot =  Paths.get("./src/main/resources/static/images/addgoods") .toAbsolutePath().normalize();
+
 		 String fileRoot2 =  "C:\\summernote_image\\";	
 		    String originalFileName = file.getOriginalFilename();	//오리지날 파일명
 		    String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
 
 		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-		    File targetFile = new File(fileRoot + savedFileName);
-		    File targetFile2 = new File(fileRoot2 + savedFileName);;
+		   
+		    File targetFile = new File(fileRoot +"\\"+ savedFileName);
+		    System.out.println("targetFile:  "+targetFile);
+		    File targetFile2 = new File(fileRoot2 + savedFileName);//summernote priview
+		    
 		    try {
 		        // 파일 저장
 		        InputStream fileStream = file.getInputStream();
 		        FileUtils.copyInputStreamToFile(fileStream, targetFile);
-		        InputStream fileStream2 = file.getInputStream();
+		      
+		        InputStream fileStream2 = file.getInputStream(); //summernote priview
 		        FileUtils.copyInputStreamToFile(fileStream2, targetFile2);
 		        json.addProperty("url", "/summernoteImage/"+savedFileName); 
 		        json.addProperty("responseCode", "success");
@@ -181,7 +192,6 @@ public class ShopService
 				 list.add(att);
 
 			}
-		 
 		 goods.setGoods_detail(goods_detail);
 		 int add =  map.addgoods(goods);
 		 int addatt = map.addgoods_att(list);
