@@ -8,7 +8,7 @@ function deleteFile() {
 	}
 	console.log(aname);
 	$.ajax({
-		url:"/file/deleteFiles",
+		url:"/file/delete",
 		method:"post",
 		data:{},
 		cache:false,

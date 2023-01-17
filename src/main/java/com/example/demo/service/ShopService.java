@@ -93,6 +93,7 @@ public class ShopService
 	
 	
 	/* 종빈 */
+
 	  @Autowired
 		private ShopMapper map;
 	
@@ -105,6 +106,7 @@ public class ShopService
 	}
   
   /* 현주 */
+  
 	
 	 private final Path fileStorageLocation;
 
