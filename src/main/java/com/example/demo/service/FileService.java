@@ -1,6 +1,10 @@
 package com.example.demo.service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -10,6 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.demo.interfaces.AttachRepository;
+import com.example.demo.vo.Attach;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -35,26 +42,40 @@ public class FileService {
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"").body(resource);
 	}
 	
-	public boolean upload(HttpServletRequest request, MultipartFile file, String filename) {
+	public List<Attach> upload(HttpServletRequest request, MultipartFile[] files, Integer fbnum) {
 		String savePath = request.getServletContext().getRealPath("/WEB-INF/files");
+		System.out.println("savePath:"+savePath);
 		try {
-			file.transferTo(new File(savePath + filename));
-			return true;
+			List<Attach> liAttach = new ArrayList<>();
+			for (int i = 0; i < files.length; i++) {
+				Attach attach = new Attach();
+				attach.setAname(files[i].getOriginalFilename());
+				attach.setAsize(files[i].getSize());
+				attach.setFbnum(fbnum);
+				Attach save = ar.save(attach);
+				
+				files[i].transferTo(new File(savePath + "/" + save.getAnum() + "_" + save.getAname()));
+				
+				liAttach.add(save);
+			}
+			return liAttach;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("파일저장 실패");
+			//e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 	
-	public boolean delete(HttpServletRequest request, String filepath) {
+	public boolean delete(HttpServletRequest request, Attach...attachs) {
 		try {
 			String path = request.getServletContext().getRealPath("WEB-INF/files");
-			Resource resource = resourceLoader.getResource(path + filepath);
-			resource.getFile().delete();
+			for (int i = 0; i < attachs.length; i++) {
+				ar.deleteById(attachs[i].getAnum());
+				resourceLoader.getResource(path + "/" + attachs[i].getAnum() + "_" + attachs[i].getAname()).getFile().delete();
+			}
 			return true;
 		} catch(Exception e) {
-			System.err.println("파일 삭제 실패");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		return false;
 	}

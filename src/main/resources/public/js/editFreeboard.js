@@ -1,6 +1,7 @@
 function deleteFile() {
 	var checkbox = $("input[type=checkbox]");
-	var aname = new Array();
+	var arr = new Array();
+	var attach = new Object();
 	for (var i = 0; i < checkbox.length; i++) {
 		if (checkbox[i].checked) {
 			aname.push(checkbox[i].className);

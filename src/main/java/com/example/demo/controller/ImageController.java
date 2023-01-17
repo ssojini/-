@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.io.InputStream;
+import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -22,7 +23,7 @@ public class ImageController {
 	@ResponseBody
 	public byte[] getImage(@PathVariable("filepath") String filepath) {
 		try {
-			Resource resource = resourceLoader.getResource(/*Paths.get("").toAbsolutePath().toUri().getPath()+"src/main/resources/static/images/"*/"/resources/images/" + filepath);
+			Resource resource = resourceLoader.getResource("WEB-INF/files/" + filepath);
 			System.out.println("resource:"+resource);
 			InputStream is = resource.getInputStream();
 			int len = (int)resource.getFile().length();
