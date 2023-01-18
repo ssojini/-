@@ -20,23 +20,24 @@
 			<div id="fbnum" th:text="${freeBoard.fbnum}"></div>
 			<div th:text="${freeBoard.title}"></div>
 			<div th:text="${freeBoard.author}"></div>
-			<div id="contents" th:text="${freeBoard.contents}" contentEditable="true"></div>
-			<div id="listAttach" th:each="attach : ${listAttach}">
-				<div th:id="${attach.anum}">
+			<div id="contents" th:text="${freeBoard.contents}"
+				contentEditable="true"></div>
+			<div id="listAttach">
+				<div th:id="'attach'+${attach.anum}" th:each="attach : ${listAttach}">
 					<input type="checkbox" th:value="${attach.anum}">
 					<span th:text="${attach.anum}"></span>
 					<span th:text="${attach.aname}"></span>
 					<span th:text="${attach.asize}"></span>
 				</div>
+				<div>
+					<button type="button" onclick="insertImg();">이미지 넣기</button>
+					<button type="button" onclick="deleteFile();">파일 삭제</button>
+					<input id="files" type="file" onchange="changeFile();" multiple>
+				</div>
 			</div>
 			<div>
-				<input id="files" type="file" multiple>
-				<button type="button" onclick="deleteFile();">파일 삭제</button>
-			</div>
-			<div>
-				<button type="button" th:onclick="deleteFreeboard([[${freeBoard.fbnum}]]);">삭제</button>
-			</div>
-			<div>
+				<button type="button"
+					th:onclick="deleteFreeboard([[${freeBoard.fbnum}]]);">삭제</button>
 				<button type="button">적용</button>
 			</div>
 		</div>

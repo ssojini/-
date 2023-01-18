@@ -1,19 +1,16 @@
 function deleteFile() {
 	var checkbox = $("input[type=checkbox]");
 	var arrAttach = new Array();
-	var attach = new Object();
 	for (var i = 0; i < checkbox.length; i++) {
 		if (checkbox[i].checked) {
-			var div = $("#"+checkbox[i].value);
-			console.log(div);
+			var div = $("#attach"+checkbox[i].value);
 			var child = div.children();
-			console.log(child.eq(1));
 			var fbnum = $("#fbnum").text();
-			console.log(fbnum);
 			var anum = child.eq(1).text();
 			var aname = child.eq(2).text();
 			var asize = child.eq(3).text();
 			
+			var attach = new Object();
 			attach.fbnum = fbnum;
 			attach.anum = anum;
 			attach.aname = aname;
@@ -22,10 +19,9 @@ function deleteFile() {
 			arrAttach.push(attach);
 			
 			removeImg(aname);
+			removeImg2(anum+"_"+aname);
 		}
 	}
-	console.log(arrAttach);
-	console.log(JSON.stringify(arrAttach));
 	$.ajax({
 		url:"/file/delete",
 		method:"post",
@@ -48,9 +44,21 @@ function deleteFile() {
 }
 
 function removeImg(filename) {
-	var imgs = document.getElementsByClassName(filename);
+	var imgs = document.getElementsByTagName(filename);
 	for (var i = 0; i < imgs.length; i++) {
 		imgs[i].remove();
+	}
+}
+
+function removeImg2(filename) {
+	let img = document.getElementsByTagName("img");
+	console.log(img);
+	for (var i = 0; i < img.length; i++) {
+		console.log(img[i]);
+		console.log(img[i].src);
+		if (img[i].src == "http://localhost/images/"+filename) {
+			img[i].remove();
+		}
 	}
 }
 
@@ -66,7 +74,7 @@ function updateContents() {
 		dataType:"json",
 		success:function(res) {
 			alert(res.result?"파일삭제 성공":"파일삭제 실패");
-			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
+			//location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
 		},
 		error:function(xhs,status,err) {
 			alert(err);
@@ -91,4 +99,48 @@ function deleteFreeboard(fbnum) {
 			alert(err);
 		}
 	});
+}
+
+function changeFile() {
+	updateContents();
+	let data = new FormData();
+	let files = $("#files")[0].files;
+	for (var i = 0; i < files.length; i++) {
+		data.append("files", files[i]);
+	}
+	data.append("fbnum",$("#fbnum").text());
+	$.ajax({
+		url:"/file/upload",
+		enctype: "multipart/form-data",
+		method:"post",
+		data:data,
+		cache:false,
+		processData:false,
+		contentType:false,
+		timeout: 600000,
+		dataType:"json",
+		success:function(res) {
+			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
+}
+
+function insertImg() {
+	let checkboxs = $("input[type=checkbox]");
+	for (var i = 0; i < checkboxs.length; i++) {
+		if (checkboxs[i].checked == true) {
+			appendImg(checkboxs[i].value);
+		}
+	}
+}
+
+function appendImg(anum) {
+	let div = $("#attach"+anum);
+	let children = div.children();
+	let aname = children.eq(2).text();
+	let $img = $("<img src='/images/"+anum+"_"+aname+"'>");
+	$("#contents").append($img);
 }

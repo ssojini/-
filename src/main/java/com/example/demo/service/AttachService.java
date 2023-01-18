@@ -110,6 +110,7 @@ public class AttachService {
 	}
 
 	public boolean delete(HttpServletRequest request, List<Attach> listAttach) {
+		System.out.println("listAttach:"+listAttach);
 		for (int i = 0; i < listAttach.size(); i++) {
 			attachRepository.deleteById(listAttach.get(i).getAnum());
 			deleteFile(request, listAttach.get(i));

@@ -53,9 +53,9 @@ public class FreeboardController {
 	public Map<String,Object> add(Model m, Freeboard freeBoard) {
 		System.out.println("FreeboardController/add(Model m, Freeboard freeBoard)");
 		Map<String,Object> map = new HashMap<>();
-		Freeboard addFreeboardMap = freeboardService.save(freeBoard);
+		Freeboard addFreeboard = freeboardService.save(freeBoard);
 		map.put("result", true);
-		map.put("freeboard", freeboardService.freeboardToMap(addFreeboardMap));
+		map.put("freeboard", freeboardService.freeboardToMap(addFreeboard));
 		return map;
 	}
 	
