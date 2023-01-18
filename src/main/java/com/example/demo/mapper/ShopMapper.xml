@@ -29,12 +29,12 @@
 		)t
 	</update>
 	
+	<select id="mainpagegoods" parameterType="String" resultType="map">
+		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+	</select>
 	
-
-	<select id="list" parameterType="string" resultType="com.example.demo.vo.Shop">
-		SELECT * 
-		FROM shop
-		WHERE userid=#{userid, jdbcType=VARCHAR}
+	<select id="list" resultType="com.example.demo.vo.Shop">
+		SELECT * FROM shop WHERE userid=#{userid, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="detail" parameterType="String" resultType="com.example.demo.vo.Shop">

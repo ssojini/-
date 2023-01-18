@@ -94,8 +94,9 @@ public class ShopController {
 	/* 현주 */
 	
 	@GetMapping("/ShopMainPage")
-	public String ShopMainPage()
+	public String ShopMainPage(Goods goods, AddGoods_Att att)
 	{
+		svc.mainpagegoods(goods, att);
 		return "html/shop/ShopMain";
 	}
 

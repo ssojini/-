@@ -28,6 +28,7 @@ import com.example.demo.mapper.ShopMapper;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
+import com.example.demo.vo.GoodsAndAtt;
 import com.google.gson.JsonObject;
 
 
@@ -106,6 +107,28 @@ public class ShopService
   
   /* 현주 */
 	
+	public String mainpagegoods(Goods goods, AddGoods_Att att)
+	{
+		/*
+		List<Map<String,Object>> goodslist = map.mainpagegoods();
+		//System.out.println("goodslist:  "+ goodslist.toString());
+		
+		goods.setGoodsname((String) goodslist.get(0).get("GOODSNAME"));
+		goods.setCategory((String) goodslist.get(0).get("CATEGORY"));
+		//goods.setPrice((Integer)goodslist.get(0).get("PRICE"));   //bigdecimal
+		goods.setGoods_detail((String) goodslist.get(0).get("GOODS_DETAIL"));
+		
+		//System.out.println("goods:  "+ goods.toString());
+		
+		att.setMainpic_server((String)goodslist.get(0).get("MAINPIC_SERVER"));
+		
+		//System.out.println(att.toString());
+		*/
+		
+		return null;
+	}
+	
+	
 	 private final Path fileStorageLocation;
 
 	 @Autowired
@@ -129,8 +152,7 @@ public class ShopService
 	 public String filesave(MultipartFile file)
 	 {
 		// String savedFileName = filesaves(file);
-		 JsonObject json = new JsonObject();
-		 
+		 JsonObject json = new JsonObject(); 
 		
 
 		 Path fileRoot =  Paths.get("./src/main/resources/static/images/addgoods") .toAbsolutePath().normalize();
@@ -176,24 +198,24 @@ public class ShopService
 		 String extension1 = mainpic_original.substring(mainpic_original.lastIndexOf("."));	
 		 String mainpic_server = UUID.randomUUID() + extension1;	
 		 //String a[] = detail_server.split("/summernoteImage/");
-		 System.out.println("fileList:  "+ fileList);
 		 String detail_original = "1"; // detail original filename저장안됨 
 		 
-		 //Map<String, Object> result = new HashMap<String, Object>();
+		 goods.setGoods_detail(goods_detail);
+		 int add =  map.addgoods(goods);
+		 int addatt = 0;
 			//원본 파일경로
 			for(int i=0;i<fileList.size();i++){
 				
+				System.out.println("fileList:  "+ fileList.get(i));
 			    att.setDetail_server(fileList.get(i));
 			    att.setMainpic_original(mainpic_original);
 			    att.setMainpic_server(mainpic_server);
 				att.setDetail_original(detail_original);
 				 list.add(att);
+				 addatt = map.addgoods_att(list);
 
 			}
-		 goods.setGoods_detail(goods_detail);
-		 int add =  map.addgoods(goods);
-		 int addatt = map.addgoods_att(list);
-	
+		 
 			boolean added = false;
 			if(add>0 && addatt>0)
 			{
@@ -201,6 +223,8 @@ public class ShopService
 			}
 			return added;
 	 }
+
+	
 	 
 
  

@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,4 +22,6 @@ public interface ShopMapper {
 	public List<Shop> list(String userid);
   
 	public Shop detail(String ordernum);
+	
+	public List<Map<String,Object>> mainpagegoods();
 }
