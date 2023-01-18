@@ -74,7 +74,7 @@ function updateContents() {
 		dataType:"json",
 		success:function(res) {
 			alert(res.result?"파일삭제 성공":"파일삭제 실패");
-			//location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
+			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
 		},
 		error:function(xhs,status,err) {
 			alert(err);
