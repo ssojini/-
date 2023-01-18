@@ -1,6 +1,4 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Nanum+Pen+Script&display=swap');
-
 *{
 	margin:0;
 	padding: 0;
@@ -29,10 +27,8 @@ header{
 	padding-left:20px;
 }
 #logo h1{
-	font-family: 'Indie Flower', cursive;
-	font-family: 'Nanum Pen Script', cursive;
-	font-weight:550;
-	font-size:45px;
+	font-weight:500;
+	font-size:30px;
 	color: #fff;
 	text-shadow:0 -1px 0 #222	
 }
@@ -100,15 +96,15 @@ nav{
 }
 button{
 	position: absolute;
-	height:100%;
-	top:0;
-	border:none;
-	padding:20px;
-	background-color:tramsparent;
-	color:#000;
-	font-weight:800;
-	font-size:24px;
-	opacity:0.5;
+    height: 100%;
+    top:0;
+    border:none;
+    padding:20px;
+    background-color: transparent;
+    color: #000;
+    font-weight: 800;
+    font-size:24px;
+    opacity:0.5;
 }
 #prev{
 	left:0;
@@ -133,16 +129,120 @@ button:focus{
 	float:left;
 	width:600px;
 	height:100%;
-	background-color:violet;
+	margin-top: 10px;
 }
-#Links{
-	float:right;
+#tabMenu input[type="radio"]{
+	display: none;
+}
+#tabMenu label{
+	display: inline-block;
+	margin: 0 0;
+	padding: 15px 25px;
+	font-weight:600;
+	text-align:center;
+	color: #aaa;
+	border: 1px solid transparent;
+}
+#tabMenu label:hover{
+	color: #222;
+	cursor:pointer;
+}
+#tabMenu input:checked +label{
+	color: #b00;
+	border: 1px solid #ddd;
+	background-color:#eee;
+}
+.tabContent{
+	display:none;
+	padding:20px 0 0;
+	border-top: 1px solid #ddd;
+}
+.tabContent h2{
+	display: none;
+}
+#notice ul{
+	list-style:disc;
+	margin-left:30px;
+}
+#notice ul li{
+	font-size:16px;
+	line-height:2.5;
+}
+#gllery ul li{
+	display: inline;
+}
+#tab1: checked ~ #notice,
+#tab2: checked ~ #gallery{
+	display:block;
+}
+#links{
 	width:600px;
 	height:100%;
-	background-color:skyblue;
+}
+#links ul{
+	padding:0;
+	overflow: hidden;
+}
+#links ul li{
+	float:left;
+	width: 33%;
+	text-align: center;
+	margin: 20px 0;
+}
+#links ul li a span{
+	display:block;
+	margin:0 auto;
+	width:200px;
+	height:200px;
+	border: 1px solid #ddd;
+	line-height:150px;
+}
+
+#links ul ui a p{
+	margin-top: 15px;
+	font-weight:600;
+	color: #666;
 }
 footer{
 	width:100%;
 	height:100px;
-	background-color:gray;
+	border-top: 2px solid #222;
+}
+#bottomMenu{
+	width: 100%;
+	height: 20px;
+	position: relative;
+}
+#bottomMenu ul{
+	margin-top: 15px;
+}
+#bottomMenu ul li{
+	float: left;
+	padding: 5px 20px;
+	border-right:1px solid #ddd;
+}
+#bottomMenu ul li:last-child{
+	border-right:none;
+}
+#bottomMenu ul li a, #bottomMenu ul li a:visited{
+	fontsize:15px;
+	color:#666;
+}
+#sns{
+	position: absolute;
+	right:0;	
+}
+#sns ul li{
+	border: none;
+	padding: 5px;
+}
+
+#company{
+	clear: left;
+	margin-top:25px;
+	margin-left:20px;
+}
+p{
+	font-size:14px;
+	color:#aaa;
 }
