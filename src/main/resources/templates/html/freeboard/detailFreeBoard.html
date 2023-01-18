@@ -22,9 +22,6 @@ window.onload = function() {
 			<div id="author">[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
 			<div>
-				<button type="button" th:onclick="deleteFreeBoard([[${freeBoard.fbnum}]]);">삭제</button>
-			</div>
-			<div>
 				<button type="button" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 			</div>
 		</div>
