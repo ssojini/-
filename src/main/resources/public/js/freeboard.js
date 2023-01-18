@@ -9,7 +9,7 @@ function changeBoard(bname) {
 			$(".boardTr").remove("");
 			$("#boardTable").append($tr);
 			for (var i = 0; i < res.length; i++) {
-				var $tr = $("<tr class='boardTr'><td>" + res[i].fbnum + "</td><td><a href='/health/detailFreeBoard?fbnum="+ res[i].fbnum +"'>" + res[i].title + "</a></td><td>" + res[i].author + "</td></tr>");
+				var $tr = $("<tr class='boardTr'><td>" + res[i].fbnum + "</td><td><a href='/freeboard/detail?fbnum="+ res[i].fbnum +"'>" + res[i].title + "</a></td><td>" + res[i].author + "</td></tr>");
 				$("#boardTable").append($tr);
 			}
 		},

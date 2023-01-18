@@ -13,7 +13,7 @@ function addFreeBoard() {
 		success: function(res) {
 			if (res.result) {
 				if ($("#files")[0].files.length != 0) {
-					uploadFiles(res.freeBoard);
+					uploadFiles(res.freeboard);
 				} else {
 					alert("저장 성공");
 					location.href = "/freeboard";
@@ -28,7 +28,7 @@ function addFreeBoard() {
 	});
 }
 
-function changeSrc(listAttach) {
+function updateContents(listAttach) {
 	var img = $("#contents > img");
 	for (var i = 0; i < img.length; i++) {
 		for (var i = 0; i < listAttach.length; i++) {
@@ -39,7 +39,7 @@ function changeSrc(listAttach) {
 	}
 	console.log("listAttach:"+listAttach);
 	$.ajax({
-		url:"/health/changeSrc",
+		url:"/freeboard/updateContents",
 		method:"post",
 		data:{
 			"fbnum":listAttach[0].fbnum,
@@ -50,7 +50,7 @@ function changeSrc(listAttach) {
 		success:function(res) {
 			alert(res.result?"저장 성공":"저장 실패");
 			if (res.result) {
-				location.href = "/freeBoard";
+				location.href = "/freeboard";
 			}
 		},
 		error:function(xhs,status,err) {
@@ -59,13 +59,13 @@ function changeSrc(listAttach) {
 	});
 }
 
-function uploadFiles(freeBoard) {
+function uploadFiles(freeboard) {
 	var data = getFormData();
-	freeBoard.contents = $("#contents").html();
-	data.append("fbnum",freeBoard.fbnum);
+	freeboard.contents = $("#contents").html();
+	data.append("fbnum",freeboard.fbnum);
 	if (data != null) {
 	$.ajax({
-		url: "/file/uploadFiles",
+		url: "/file/upload",
 		method: "post",
 		enctype: "multipart/form-data",
 		data: data,
@@ -75,8 +75,8 @@ function uploadFiles(freeBoard) {
 		contentType: false,
 		timeout: 600000,
 		success: function(res) {
-			console.log("listAttach:"+res.listAttach);
-			changeSrc(res.listAttach);
+			console.log("listAttach:"+res.liAttach);
+			updateContents(res.liAttach);
 		},
 		error: function(xhs, status, err) {
 			alert(err);
@@ -152,14 +152,14 @@ function appendImage(file) {
 			if (document.getElementById(filename)) {
 				++i;
 			} else {
-				var $img = $("<img id='" + filename + "' class='"+file.name+"'>");
+				var $img = $("<img id='"+filename+"' class='"+file.name+"'>");
 				$("#contents").append($img);
 				showImage(file,filename);
 				break;
 			}
 		}
 	} else {
-		var $img = $("<img id='" + file.name + "' class='"+file.name+"'>");
+		var $img = $("<img id='"+file.name+"' class='"+file.name+"'>");
 		$("#contents").append($img);
 		showImage(file,file.name);
 	}

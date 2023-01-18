@@ -50,18 +50,9 @@ public class FreeboardService {
 		return listMap;
 	}
 
-	public Map<String,String> save(Freeboard freeBoard) {
+	public Freeboard save(Freeboard freeBoard) {
 		Freeboard saveFreeBoard = repo.save(freeBoard);
-		
-		Map<String,String> map = new HashMap<>();
-		map.put("author", saveFreeBoard.getAuthor());
-		map.put("bname", saveFreeBoard.getBname());
-		map.put("contents", saveFreeBoard.getContents());
-		map.put("title", saveFreeBoard.getTitle());
-		map.put("dateTime", saveFreeBoard.getDateTime().toLocaleString());
-		map.put("fbnum", ""+saveFreeBoard.getFbnum());
-		map.put("hit", ""+saveFreeBoard.getHit());
-		return map;
+		return saveFreeBoard;
 	}
 	
 	public Freeboard updateContents(Integer fbnum, String contents) {
@@ -77,5 +68,17 @@ public class FreeboardService {
 	public boolean deleteByFbnum(Integer fbnum) {
 		repo.deleteById(fbnum);
 		return true;
+	}
+	
+	public Map<String,String> freeboardToMap(Freeboard freeboard) {
+		Map<String, String> map = new HashMap<>();
+		map.put("author", freeboard.getAuthor());
+		map.put("bname", freeboard.getBname());
+		map.put("contents", freeboard.getContents());
+		map.put("title", freeboard.getTitle());
+		map.put("datetime", ""+freeboard.getDatetime());
+		map.put("fbnum", ""+freeboard.getFbnum());
+		map.put("hit", ""+freeboard.getHit());
+		return map;
 	}
 }

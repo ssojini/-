@@ -8,7 +8,7 @@ function deleteFreeBoard(fbnum) {
 		success:function(res) {
 			alert(res.result?"삭제 성공":"삭제 실패");
 			if (res.result) {
-				location.href = "/freeBoard";
+				location.href = "/freeboard";
 			}
 		},
 		error:function(xhs,status,err) {
