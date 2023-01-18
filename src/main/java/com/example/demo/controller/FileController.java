@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AttachService;
-import com.example.demo.service.FileService;
 import com.example.demo.vo.Attach;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,9 +45,10 @@ public class FileController {
 	}
 	@PostMapping("/delete")
 	@ResponseBody
-	public Map<String, Object> delete(HttpServletRequest request, Attach...attachs) {
+	public Map<String, Object> delete(HttpServletRequest request, String arrAttach) {
+		System.out.println("arrAttach:"+arrAttach);
 		Map<String, Object> map = new HashMap<>();
-		boolean delete = attachService.delete(request, attachs);
+		boolean delete = attachService.delete(request, attachService.jsonArrToArrAttach(arrAttach));
 		map.put("result", delete);
 		return map;
 	}

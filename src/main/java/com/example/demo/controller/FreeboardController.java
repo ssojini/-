@@ -13,19 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.AttachService;
-import com.example.demo.service.FileService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.vo.Attach;
 import com.example.demo.vo.Freeboard;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/freeboard")
 @Controller
 public class FreeboardController {
-	@Autowired
-	private HttpSession session;
 	@Autowired
 	private FreeboardService freeboardService;
 	@Autowired
@@ -63,9 +59,9 @@ public class FreeboardController {
 		return map;
 	}
 	
-	@PostMapping("/changeSrc")
+	@PostMapping("/updateContents")
 	@ResponseBody
-	public Map<String, Object> changeSrc(Integer fbnum, String contents) {
+	public Map<String, Object> updateContents(Integer fbnum, String contents) {
 		System.out.println("fbnum:"+fbnum);
 		System.out.println("contents:"+contents);
 		Map<String, Object> map = new HashMap<>();

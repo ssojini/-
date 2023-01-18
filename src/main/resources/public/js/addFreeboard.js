@@ -28,7 +28,7 @@ function addFreeBoard() {
 	});
 }
 
-function changeSrc(listAttach) {
+function updateContents(listAttach) {
 	var img = $("#contents > img");
 	for (var i = 0; i < img.length; i++) {
 		for (var i = 0; i < listAttach.length; i++) {
@@ -39,7 +39,7 @@ function changeSrc(listAttach) {
 	}
 	console.log("listAttach:"+listAttach);
 	$.ajax({
-		url:"/freeboard/changeSrc",
+		url:"/freeboard/updateContents",
 		method:"post",
 		data:{
 			"fbnum":listAttach[0].fbnum,
@@ -76,7 +76,7 @@ function uploadFiles(freeboard) {
 		timeout: 600000,
 		success: function(res) {
 			console.log("listAttach:"+res.liAttach);
-			changeSrc(res.liAttach);
+			updateContents(res.liAttach);
 		},
 		error: function(xhs, status, err) {
 			alert(err);
@@ -152,14 +152,14 @@ function appendImage(file) {
 			if (document.getElementById(filename)) {
 				++i;
 			} else {
-				var $img = $("<img id='" + filename + "' class='"+file.name+"'>");
+				var $img = $("<img id='"+filename+"' class='"+file.name+"'>");
 				$("#contents").append($img);
 				showImage(file,filename);
 				break;
 			}
 		}
 	} else {
-		var $img = $("<img id='" + file.name + "' class='"+file.name+"'>");
+		var $img = $("<img id='"+file.name+"' class='"+file.name+"'>");
 		$("#contents").append($img);
 		showImage(file,file.name);
 	}

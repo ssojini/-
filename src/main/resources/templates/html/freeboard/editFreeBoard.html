@@ -17,22 +17,21 @@
 <body>
 	<main>
 		<div id="freeBoard" th:if="${freeBoard != null}">
-			<div th:text="${freeBoard.fbnum}"></div>
+			<div id="fbnum" th:text="${freeBoard.fbnum}"></div>
 			<div th:text="${freeBoard.title}"></div>
 			<div th:text="${freeBoard.author}"></div>
 			<div id="contents" th:text="${freeBoard.contents}" contentEditable="true"></div>
 			<div id="listAttach" th:each="attach : ${listAttach}">
-				<div th:id="${attach.anum}+' '+${attach.aname}">
-					<input type="checkbox" th:value="${attach.anum}+'_'+${attach.aname}">
-					<span th:text="${attach.fbnum}"></span>
+				<div th:id="${attach.anum}">
+					<input type="checkbox" th:value="${attach.anum}">
 					<span th:text="${attach.anum}"></span>
 					<span th:text="${attach.aname}"></span>
 					<span th:text="${attach.asize}"></span>
 				</div>
-				<div>
-					<input id="files" type="file" multiple>
-					<button type="button" onclick="deleteFile();">파일 삭제</button>
-				</div>
+			</div>
+			<div>
+				<input id="files" type="file" multiple>
+				<button type="button" onclick="deleteFile();">파일 삭제</button>
 			</div>
 		</div>
 	</main>
