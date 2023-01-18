@@ -27,7 +27,7 @@ public class Cart {
 	//상품명
 	private String goodsname;
 	//대표
-	private String mainpic;
+	private String mainpic_server;
 	//상품단가	
 	private Integer price;
 	//주문수량
