@@ -216,7 +216,7 @@ public class ShopService
 	 @Autowired
 	  public ShopService(Environment env) //파일 저장경로설정
 	  {
-	    this.fileStorageLocation = Paths.get("./src/main/resources/static/images/addgoods")
+	    this.fileStorageLocation = Paths.get("./src/main/webapp/WEB-INF/files/goodsimg")
 	        .toAbsolutePath().normalize();
 	    try {
 	      Files.createDirectories(this.fileStorageLocation);
@@ -237,7 +237,7 @@ public class ShopService
 		 JsonObject json = new JsonObject(); 
 		
 
-		 Path fileRoot =  Paths.get("./src/main/resources/static/images/addgoods") .toAbsolutePath().normalize();
+		 Path fileRoot =  Paths.get("./src/main/webapp/WEB-INF/files/goodsimg") .toAbsolutePath().normalize();
 
 		 String fileRoot2 =  "C:\\summernote_image\\";	
 		    String originalFileName = file.getOriginalFilename();	//오리지날 파일명
@@ -271,15 +271,38 @@ public class ShopService
 
 	 }
 	 
+	 public boolean storeFile(MultipartFile file) {
+		    // Normalize file name 
+		    // 난 이렇게 하니 이상한 파일명이 추출되어서 
+		    String fileName= file.getOriginalFilename();
+		    String mainpic_server = UUID.randomUUID() + fileName;
+		    try {
+		      // Check if the filename contains invalid characters
+		      if (fileName.contains("..")) {
+		        throw new RuntimeException(
+		            "Sorry! Filename contains invalid path sequence " + fileName);
+		      }
+		      Path targetLocation = this.fileStorageLocation.resolve(mainpic_server);
+		      Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+		        //targetLocation에 file.getInputStream을 카피해서 넣어준다 ,  //만약 사진파일이 존재한다면 덮어씌운다 
+		      return true;
+		    } catch (IOException ex) {
+		      throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
+		    }
+		  }
+
 	 
 	 public boolean save(MultipartFile file, String goods_detail, List<String> fileList,Goods goods, AddGoods_Att att)
 	 {
 		 //filesave(file);
+		 
+		 String fileName= file.getOriginalFilename();
+		 
 		 List<AddGoods_Att>list = new ArrayList<>();
 		 String mainpic_original = file.getOriginalFilename();
 		 String extension1 = mainpic_original.substring(mainpic_original.lastIndexOf("."));	
-		 String mainpic_server = UUID.randomUUID() + extension1;	
-		 //String a[] = detail_server.split("/summernoteImage/");
+		 String mainpic_server = UUID.randomUUID() + extension1;
+
 		 String detail_original = "1"; // detail original filename저장안됨 
 		 
 		 goods.setGoods_detail(goods_detail);
