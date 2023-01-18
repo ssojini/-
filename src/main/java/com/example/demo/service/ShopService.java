@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 
 import java.io.File;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -13,47 +12,68 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import java.util.Optional;
-import java.util.UUID;
-
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.interfaces.AddGoods_AttReopsitory;
+import com.example.demo.interfaces.CartRepository;
+import com.example.demo.interfaces.GoodsRepository;
 import com.example.demo.mapper.ShopMapper;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
+import com.example.demo.vo.Cart;
 import com.example.demo.vo.Goods;
+import com.example.demo.vo.Shop;
 import com.example.demo.vo.GoodsAndAtt;
 import com.google.gson.JsonObject;
 
-
-import com.example.demo.interfaces.CartRepository;
-import com.example.demo.interfaces.GoodsRepository;
-import com.example.demo.vo.Cart;
-import com.example.demo.vo.Shop;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @Service
 public class ShopService 
 {
-	/* 상욱 시작 */
-	@Autowired
-	private GoodsRepository repo;
-	@Autowired
-	private CartRepository cart_repo;
+	@Autowired //상품
+	private GoodsRepository goods_repo;
 	
+	@Autowired //상품 디테일
+	private AddGoods_AttReopsitory attGoods_repo;
+	
+	@Autowired //장바구니
+	private CartRepository cart_repo;
+
+	
+	
+	/* 상욱 시작 */
+	/* 상품 상세보기 시작*/
+	// 상품찾기
 	public Goods getGoods(int goodsnum) 
 	{
-		Optional<Goods> goods = repo.findById(goodsnum);
+		Optional<Goods> goods = goods_repo.findById(goodsnum);
 		//System.out.println(goods.get());
 		return goods.isPresent()?goods.get():null;
 	}
+	public ArrayList<AddGoods_Att> getAddGoodsAtt(int goodsnum) {
+		
+		ArrayList<AddGoods_Att> list = attGoods_repo.findByGoodsnum(goodsnum);		
+		
+		// 이미지 경로: /src/main/resources/static/images/addgoods 
+		// static 다음부터 경로 ex)images/addgoods/
+		
+		System.err.println("list: "+list);
+		return list;
+	}
 
+	//상품 상세보기 끝
+	
+	/*장바구니 시작*/
+	//장바구니 담기
 	public Map<String, Object> added(Cart cart) 
 	{
 		Map<String, Object> map = new HashMap<>();
@@ -85,11 +105,71 @@ public class ShopService
 		return map;
 	}
 
+	// 장바구니 가져오기
 	public ArrayList<Cart> getCart(String userid) 
 	{
 		ArrayList<Cart> cartlist = cart_repo.findByUserid(userid);
 		return cartlist;
 	}
+	
+	
+	// 장바구니 개별상품 수량 변경
+	public Map<String, Object> cnt_change(int cartnum, int prod_cnt) 
+	{
+		Map<String, Object> map = new HashMap<>();
+		Optional<Cart> cart = cart_repo.findById(cartnum);
+		
+		int sum = cart.get().getPrice()*prod_cnt;
+		cart.get().setProd_cnt(prod_cnt);
+		cart.get().setSum(sum);
+		//System.err.println(cart);
+		
+		if(cart_repo.save(cart.get())!=null) {
+			map.put("msg","수량 변경 성공!");
+		} else {
+			map.put("msg","수량 변경 실패!");
+		}
+		return map;
+	}
+	
+	// 장바구니 전체 삭제
+	public Map<String, Object> delAll()
+	{
+		Map<String, Object> map = new HashMap<>();
+		cart_repo.deleteAll();
+		map.put("msg","장바구니 비우기 성공");
+		
+		return map;
+	}
+	
+	//장바구니 선택 삭제
+	public boolean delSel(HttpServletRequest request) 
+	{
+		String[] ajaxMsg = request.getParameterValues("valueArr");
+		System.err.println("del_cnt: "+ajaxMsg.length);
+		try {
+			for(int i=0; i<ajaxMsg.length;i++)
+			{
+				System.err.println(ajaxMsg[i]);
+				cart_repo.deleteById(Integer.valueOf(ajaxMsg[i]));			
+			}	
+			return true;
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	//장바구니 선택 구매
+	public void buySel() {
+		
+	}
+	
+	//장바구니 전체 구매
+	public void buyAll() {
+		
+	}
+	/*장바구니 끝*/
+	
 	/* 상욱 끝 */
 	
 	

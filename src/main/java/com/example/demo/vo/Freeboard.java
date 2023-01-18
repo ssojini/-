@@ -31,6 +31,6 @@ public class Freeboard {
 	@Column(length = 50000000) // 50MB
 	private String contents;
 	@CreationTimestamp
-	private Timestamp dateTime;
+	private Timestamp datetime;
 	private Integer hit;
 }

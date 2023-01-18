@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>detailFreeBoard</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script src="/js/detailFreeBoard.js"></script>
+<script src="/js/detailFreeboard.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	document.getElementById("contents").innerHTML = document.getElementById("contents").innerText;
@@ -21,9 +21,6 @@ window.onload = function() {
 			<div id="title">[[${freeBoard.title}]]</div>
 			<div id="author">[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
-			<div>
-				<button type="button" th:onclick="deleteFreeBoard([[${freeBoard.fbnum}]]);">삭제</button>
-			</div>
 			<div>
 				<button type="button" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 			</div>
