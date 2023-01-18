@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.interfaces.CartRepository;
 import com.example.demo.interfaces.GoodsRepository;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.AddGoods_Att;
@@ -34,6 +35,8 @@ public class ShopController {
 	private ShopService svc;
 	@Autowired
 	private GoodsRepository repo;
+	@Autowired //장바구니
+	private CartRepository cart_repo;
 
 	// 초기 테스트용
 	@GetMapping("/")
@@ -48,15 +51,18 @@ public class ShopController {
 	public String testAdd() {
 		// 상욱
 		// 이미지 경로 확인해야함
-		Goods goods = new Goods(0, "건강보조식품", "/images/goods.png", 5000, "건강에 좋음", "상품에 관한 상세설명", "", "카테고리1");
+		Goods goods = new Goods(0, "건강보조식품",  5000, "건강에 좋음", "상품에 관한 상세설명",  "카테고리1");
 		Goods added = repo.save(goods);
-		goods = new Goods(0, "영양제", "/images/goods.png", 1000, "건강에 좋음", "상품에 관한 상세설명", "", "카테고리2");
+		goods = new Goods(0, "영양제",  1000, "건강에 좋음", "상품에 관한 상세설명",  "카테고리2");
 		added = repo.save(goods);
+		Cart cart = new Cart(0,0,"테스트_영양제","ggods.png",100,1,100,"테스트","asdf");
+		Cart c_added = cart_repo.save(cart);
+		//하드코딩 addgoods_att
 
 		// 이후 부분에 추가하여 수정 요망
 
 		return "ShopController 초기 데이터 생성";
-	}
+	}	
 
 	/*--------------------- 상욱 시작 ----------------------*/
 
@@ -65,6 +71,10 @@ public class ShopController {
 		// System.err.println(goodsnum);
 		Goods goods = svc.getGoods(goodsnum);
 		m.addAttribute("goods", goods);
+		
+		ArrayList<AddGoods_Att> attList = svc.getAddGoodsAtt(goodsnum);
+		m.addAttribute("attList", attList);
+		
 		return "html/shop/goodsDetail";
 	}
 
@@ -83,11 +93,42 @@ public class ShopController {
 		// 연동 전 userid 하드코딩
 		String userid = "asdf";
 		ArrayList<Cart> cartlist = svc.getCart(userid);
-		// System.err.println(cartlist);
+		//System.err.println("CART: "+cartlist);
 		// System.err.println(cartlist.get(0).getMainpic());
 		m.addAttribute("cartlist", cartlist);
 		return "html/shop/cart";
 	}
+	
+	//장바구니 수량변경
+	@PostMapping("/cnt_change")
+	@ResponseBody
+	public Map<String, Object> cnt_change(Cart cart)
+	{		
+		Map<String, Object> map = svc.cnt_change(cart.getCartnum(),cart.getProd_cnt());
+		return map;
+	}
+	
+	//장바구니 전체삭제
+	@PostMapping("/delAll")
+	@ResponseBody
+	public Map<String, Object> delAll()
+	{		
+		Map<String, Object> map = svc.delAll();
+		return map;
+	}
+	
+	//장바구니 선택삭제
+	@PostMapping("/delSel")
+	@ResponseBody
+	public String ajaxTest(HttpServletRequest request) {
+		//System.err.println("controller start");
+		//String[] ajaxMsg = request.getParameterValues("valueArr");
+		//System.err.println("ajaxMsg1: "+ajaxMsg);
+		boolean delSel = svc.delSel(request);
+		//System.out.println("delSel: "+delSel);
+		return "redirect: cart";
+	}
+	
 
 	/*--------------------- 상욱 끝 ----------------------*/
 

@@ -33,11 +33,11 @@ public class Goods
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GOODS_GOODSNUM_GEN")
 	private int goodsnum;
 	private String goodsname;
-	private String mainpic;
+	//private String mainpic;
 	private Integer price;
 	private String description;
 	private String goods_detail;
-	private String attach;
+	//private String attach;
 	private String category;
 
 	// 동일한 상품을 판매하는 seller 가 존재할 수 있으므로 상품 테이블에 제조사가 아닌 판매자를 넣는 것은 맞지 않아 주석처리함.
