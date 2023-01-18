@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.service.AttachService;
+import com.example.demo.service.FreeboardAttachService;
+import com.example.demo.service.FreeboardReplyService;
 import com.example.demo.service.FreeboardService;
-import com.example.demo.vo.Attach;
+import com.example.demo.vo.FreeboardAttach;
+import com.example.demo.vo.FreeboardReply;
 import com.example.demo.vo.Freeboard;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +27,9 @@ public class FreeboardController {
 	@Autowired
 	private FreeboardService freeboardService;
 	@Autowired
-	private AttachService attachService;
+	private FreeboardAttachService attachService;
+	@Autowired
+	private FreeboardReplyService replyService;
 	
 	@GetMapping({"","/"})
 	public String freeboard(Model m, String bname) {
@@ -74,6 +78,7 @@ public class FreeboardController {
 	public String detail(Model m,Integer fbnum) {
 		Freeboard freeBoard = freeboardService.getByFbnum(fbnum);
 		m.addAttribute("freeBoard",freeBoard);
+		m.addAttribute("listReply",replyService.findAllByPnum(fbnum));
 		return "html/freeboard/detailFreeBoard";
 	}
 	
@@ -82,7 +87,7 @@ public class FreeboardController {
 	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
 		Map<String,Object> map = new HashMap<>();
 		boolean delete = freeboardService.deleteByFbnum(fbnum);
-		List<Attach> listAttach = attachService.deleteByFbnum(request, fbnum);
+		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
 		map.put("result", delete);
 		return map;
 	}
@@ -92,5 +97,24 @@ public class FreeboardController {
 		m.addAttribute("freeBoard",freeboardService.getByFbnum(fbnum));
 		m.addAttribute("listAttach", attachService.getList(fbnum));
 		return "html/freeBoard/editFreeBoard";
+	}
+	
+	@PostMapping("/addReply")
+	@ResponseBody
+	public Map<String,Object> addReply(FreeboardReply reply) {
+		System.out.println("reply:"+reply);
+		Map<String,Object> map = new HashMap<>();
+		FreeboardReply saveReply = replyService.save(reply);
+		map.put("result",true);
+		return map;
+	}
+	
+	@PostMapping("/getReply")
+	@ResponseBody
+	public Map<String,Object> getReply(Integer pnum) {
+		Map<String,Object> map = new HashMap<>();
+		List<FreeboardReply> listReply = replyService.findAllByPnum(pnum);
+		map.put("listReply", replyService.listReplyToListMap(listReply));
+		return map;
 	}
 }

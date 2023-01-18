@@ -25,6 +25,18 @@ window.onload = function() {
 				<button type="button" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 			</div>
 		</div>
+		<div>
+			<div id="reply_author">[[${userid}]]</div>
+			<textarea id="reply_contents"></textarea>
+			<button type="button" onclick="addReply();">댓글</button>
+		</div>
+		<div id="listReply">
+			<div th:each="reply : ${listReply}">
+				<span th:text="${reply.author}"></span>
+				<span th:text="${reply.contents}"></span>
+				<span th:text="${reply.datetime}"></span>
+			</div>
+		</div>
 	</main>
 </body>
 </html>

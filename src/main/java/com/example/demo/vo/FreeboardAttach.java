@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="freeboard_attach")
-public class Attach {
+public class FreeboardAttach {
 	@Id
 	@SequenceGenerator(name="FREEBOARD_ATTACH_ANUM_GEN",allocationSize=1,sequenceName="FREEBOARD_ATTACH_ANUM_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FREEBOARD_ATTACH_ANUM_GEN")
