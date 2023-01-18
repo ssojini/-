@@ -36,28 +36,25 @@ public class AttachService {
 		attach.setFbnum(fbnum);
 		attach.setAname(aname);;
 		attach.setAsize(asize);
-		
+
 		return attachRepository.save(attach);
 	}
-	
+
 	public Attach save(Attach attach) {
 		return attachRepository.save(attach);
 	}
-	
+
 	public List<Attach> getList(Integer fbnum) {
 		List<Attach> listAttach = attachRepository.findAllByFbnum(fbnum);
 		return listAttach;
 	}
 
-	public List<Attach> deleteByFbnum(Integer fbnum) {
-		return attachRepository.deleteByFbnum(fbnum);
+	public List<Attach> deleteByFbnum(HttpServletRequest request, Integer fbnum) {
+		List<Attach> listAttach = attachRepository.deleteByFbnum(fbnum);
+		deleteFiles(request, listAttach);
+		return listAttach;
 	}
 
-	public boolean deleteByAnum(Integer anum) {
-		attachRepository.deleteById(anum);
-		return true;
-	}
-	
 	public ResponseEntity<Resource> donwload(HttpServletRequest request, String filepath) {
 		String path = request.getServletContext().getRealPath("/WEB-INF/files");
 		Resource resource = resourceLoader.getResource(path + filepath);
@@ -74,7 +71,7 @@ public class AttachService {
 		filename = filename.substring(filename.indexOf("_") + 1, filename.length());
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"").body(resource);
 	}
-	
+
 	public List<Attach> upload(HttpServletRequest request, MultipartFile[] files, Integer fbnum) {
 		String savePath = request.getServletContext().getRealPath("/WEB-INF/files");
 		System.out.println("savePath:"+savePath);
@@ -86,9 +83,9 @@ public class AttachService {
 				attach.setAsize(files[i].getSize());
 				attach.setFbnum(fbnum);
 				Attach save = attachRepository.save(attach);
-				
+
 				files[i].transferTo(new File(savePath + "/" + save.getAnum() + "_" + save.getAname()));
-				
+
 				liAttach.add(save);
 			}
 			return liAttach;
@@ -98,28 +95,39 @@ public class AttachService {
 		}
 		return null;
 	}
-	
-	public List<Map<String,String>> liAttachToLiMap(List<Attach> liAttach) {
+
+	public List<Map<String,String>> listAttachToListMap(List<Attach> listAttach) {
 		List<Map<String,String>> liMap = new ArrayList<>();
-		for (int i = 0; i < liAttach.size(); i++) {
+		for (int i = 0; i < listAttach.size(); i++) {
 			Map<String,String> map = new HashMap<>();
-			map.put("aname", liAttach.get(i).getAname());
-			map.put("anum", ""+liAttach.get(i).getAnum());
-			map.put("asize", ""+liAttach.get(i).getAsize());
-			map.put("fbnum", ""+liAttach.get(i).getFbnum());
+			map.put("aname", listAttach.get(i).getAname());
+			map.put("anum", ""+listAttach.get(i).getAnum());
+			map.put("asize", ""+listAttach.get(i).getAsize());
+			map.put("fbnum", ""+listAttach.get(i).getFbnum());
 			liMap.add(map);
 		}
 		return liMap;
 	}
-	
-	public boolean delete(HttpServletRequest request, Attach...attachs) {
+
+	public boolean delete(HttpServletRequest request, List<Attach> listAttach) {
+		for (int i = 0; i < listAttach.size(); i++) {
+			attachRepository.deleteById(listAttach.get(i).getAnum());
+			deleteFile(request, listAttach.get(i));
+		}
+		return true;
+	}
+
+	public boolean deleteFiles(HttpServletRequest request, List<Attach> listAttach) {
+		for (int i = 0; i < listAttach.size(); i++) {
+			deleteFile(request, listAttach.get(i));
+		}
+		return true;
+	}
+
+	public boolean deleteFile(HttpServletRequest request, Attach attach) {
 		try {
 			String path = request.getServletContext().getRealPath("/WEB-INF/files");
-			System.out.println("path:"+path);
-			for (int i = 0; i < attachs.length; i++) {
-				attachRepository.deleteById(attachs[i].getAnum());
-				new File(path + "/" + attachs[i].getAnum() + "_" + attachs[i].getAname()).delete();
-			}
+			new File(path + "/" + attach.getAnum() + "_" + attach.getAname()).delete();
 			return true;
 		} catch(Exception e) {
 			System.err.println("파일삭제 실패");
@@ -127,26 +135,26 @@ public class AttachService {
 		}
 		return false;
 	}
-	
-	public Attach[] jsonArrToArrAttach(String data) {
+
+	public List<Attach> jsonArrToListAttach(String data) {
 		JSONParser jsPar = new JSONParser();
 		try {
 			JSONArray jsArr = (JSONArray)jsPar.parse(data);
-			
-			Attach[] arrAttach = new Attach[jsArr.size()];
+
+			List<Attach> listAttach = new ArrayList<>();
 			for (int i = 0; i < jsArr.size(); i++) {
 				JSONObject json = (JSONObject)jsArr.get(i);
 				System.out.println(json.toJSONString());
-				
+
 				Attach attach = new Attach();
 				attach.setFbnum(Integer.valueOf((String)json.get("fbnum")));
 				attach.setAnum(Integer.valueOf((String)json.get("anum")));
 				attach.setAname((String)json.get("aname"));
 				attach.setAsize(Long.valueOf((String)json.get("asize")));
-				
-				arrAttach[i] = attach;
+
+				listAttach.add(attach);
 			}
-			return arrAttach;
+			return listAttach;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

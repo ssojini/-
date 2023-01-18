@@ -33,6 +33,12 @@
 				<input id="files" type="file" multiple>
 				<button type="button" onclick="deleteFile();">파일 삭제</button>
 			</div>
+			<div>
+				<button type="button" th:onclick="deleteFreeboard([[${freeBoard.fbnum}]]);">삭제</button>
+			</div>
+			<div>
+				<button type="button">적용</button>
+			</div>
 		</div>
 	</main>
 </body>

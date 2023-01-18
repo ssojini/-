@@ -36,7 +36,7 @@ public class FileController {
 		Map<String,Object> map = new HashMap<>();
 		List<Attach> save = attachService.upload(request, files, fbnum);
 		map.put("result", true);
-		map.put("liAttach", attachService.liAttachToLiMap(save));
+		map.put("liAttach", attachService.listAttachToListMap(save));
 		return map;
 	}
 	@GetMapping("/download")
@@ -48,7 +48,7 @@ public class FileController {
 	public Map<String, Object> delete(HttpServletRequest request, String arrAttach) {
 		System.out.println("arrAttach:"+arrAttach);
 		Map<String, Object> map = new HashMap<>();
-		boolean delete = attachService.delete(request, attachService.jsonArrToArrAttach(arrAttach));
+		boolean delete = attachService.delete(request, attachService.jsonArrToListAttach(arrAttach));
 		map.put("result", delete);
 		return map;
 	}
