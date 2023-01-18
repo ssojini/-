@@ -94,6 +94,7 @@ public class ShopService
 	
 	
 	/* 종빈 */
+
 	  @Autowired
 		private ShopMapper map;
 	
@@ -106,6 +107,7 @@ public class ShopService
 	}
   
   /* 현주 */
+  
 	
 	public String mainpagegoods(Goods goods, AddGoods_Att att)
 	{

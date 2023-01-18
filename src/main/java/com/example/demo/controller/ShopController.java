@@ -92,13 +92,6 @@ public class ShopController {
 	/*--------------------- 상욱 끝 ----------------------*/
 
 	/* 현주 */
-	
-	@GetMapping("/ShopMainPage")
-	public String ShopMainPage(Goods goods, AddGoods_Att att)
-	{
-		svc.mainpagegoods(goods, att);
-		return "html/shop/ShopMain";
-	}
 
 	@GetMapping("/addgoods/{adminid}")
 	public String addgoods(@PathVariable(value = "adminid", required = false) String adminid, Model m) {
