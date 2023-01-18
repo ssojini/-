@@ -1,6 +1,6 @@
 function changeBoard(bname) {
 	$.ajax({
-		url: "/health/getListMap",
+		url: "/freeboard/getListMap",
 		method: "post",
 		data: { "bname": bname },
 		dataType: "json",
@@ -20,5 +20,5 @@ function changeBoard(bname) {
 }
 
 function freeBoard() {
-	location.href = "/health/addFreeBoard?bname="+$("#bname").val();
+	location.href = "/freeboard/add?bname="+$("#bname").val();
 }

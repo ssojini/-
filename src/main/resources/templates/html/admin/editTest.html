@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>edit test</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<h3>삭제하기</h3>
+<form id="editForm" method="post" th:action="|/health/editTest|" > 
+<div>qnum값: [[${qnum}]]</div>
+<div>
+	<input type="hidden" name="qnum" th:value="${qnum}">
+	<span th:if="${oneb.attList.size()>0}"></span>
+	<span th:each="att: ${oneb.attList}"> 
+		<input type="checkbox" name="attid" th:value="${att.attid}"/>
+		[[${att.attname}]]
+	</span>
+<p>
+<button type="submit"> 확인</button>	
+</div>
+</form>
+</body>
+</html>

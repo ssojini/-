@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>공지사항</title>
+</head>
+<body>
+<h3> 공지 사항</h3> 
+<div>1:1 문의</div>
+<div> 게시글 쓰기</div> <!-- 관리자한테만 보이게 -->
+<div> search box</div>   
+<table>
+<tr>
+	<th>번호</th>
+	<th>제목</th>
+	<th>작성자</th>
+	<th>조회수</th>
+	<th>등록일</th>
+</tr>
+<tr th:each="notice: ${nlist}">
+	<td>[[${notice.num}]]</td>
+	<td>
+		<a th:href= "|/health/notice|">
+		[[${notice.title}]]
+		 </a>
+	</td>
+	<td>[[${notice.author}]]></td>
+	<td>[[${notice.hit}]]</td>
+	<td>[[${notice.qdate}]]></td>	
+</tr>
+</table>
+
+</body>
+</html>

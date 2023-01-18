@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/common :: head">
+<head>
 <meta charset="UTF-8">
 <title>Health:회원가입</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -253,6 +253,7 @@ function sendEmail()
 	var email2 = $('#email2').val();
 	var obj1 = {};
 	obj1.email = email1 + '@' + email2;
+	
 	alert(obj1.email);
 	
 	$.ajax({
@@ -364,7 +365,7 @@ function joinUser()
 		<label for="yy">생년월일</label>
 			<!-- 생년 -->
 			<input type="hidden" name="birth">
-			<input type="text" name="birth1" id="yy" placeholder="년(4자)" aria-label="년(4자)" maxlength="4" value="1992">
+			<input type="text" name="birth1" id="yy" placeholder="년(4자)" aria-label="년(4자)" maxlength="4">
 			<!-- 월 -->
 			<select name="birth2" id="mm" aria-label="월">
 				<option value="">월</option>
@@ -382,20 +383,20 @@ function joinUser()
 					<option value="12">12</option>
 			</select>
 			<!-- 일 -->
-			<input type="text" name="birth3" id="dd" placeholder="일" aria-label="일" maxlength="2" value="24">
+			<input type="text" name="birth3" id="dd" placeholder="일" aria-label="일" maxlength="2" >
 	</div>
 		<span class="error_next_box"></span>  
 	<!-- 핸드폰번호 -->
 	<div>
 		<label for="phone">전화번호</label>
-		<input type="text" name="phone" id="phone" placeholder="전화번호입력" maxlength="16" value="01090270848">
+		<input type="text" name="phone" id="phone" placeholder="전화번호입력" maxlength="16" >
 		<span class="error_next_box"></span>  
 	</div>
 	
 	<!-- 이메일 -->
 	<div>
 		<label for="email">이메일</label>
-		<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" value="meroro">
+		<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" >
 		@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
 		<span class="error_next_box"></span>  
 			<select name="select_email" onChange="selectEmail(this)">

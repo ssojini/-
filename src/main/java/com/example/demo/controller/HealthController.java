@@ -1,13 +1,14 @@
 package com.example.demo.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
-import com.example.demo.service.AttachService;
 import com.example.demo.service.FileStorageService;
-import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
-import com.example.demo.vo.Attach;
-import com.example.demo.vo.FreeBoard;
+import com.example.demo.vo.AdminBoard;
+import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
 
@@ -42,75 +41,6 @@ public class HealthController {
 	private FileStorageService fss;
 	
 	/* 다루한 */
-	@Autowired
-	private FreeBoardService fbs;
-	@Autowired
-	private AttachService as;
-
-	@GetMapping("/freeBoard")
-	public String freeBoard(Model m, String bname) {
-		List<FreeBoard> listFreeBoard = fbs.getFreeBoardList(bname);
-		m.addAttribute("listFreeBoard", listFreeBoard);
-		m.addAttribute("bname",bname);
-		return "html/freeboard/freeBoard";
-	}
-
-	@PostMapping("/getListMap")
-	@ResponseBody
-	public List<Map<String, Object>> getListMap(Model m, String bname) {
-		List<Map<String, Object>> listMap = fbs.getListFreeBoardToListMap(bname);
-		return listMap;
-	}
-
-	@GetMapping("/addFreeBoard")
-	public String addFreeBoard(Model m, String bname) {
-		m.addAttribute("bname", bname);
-		return "html/freeboard/addFreeBoard";
-	}
-	@PostMapping("/addFreeBoard")
-	@ResponseBody
-	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
-		Map<String,Object> map = new HashMap<>();
-		FreeBoard addFreeBoard = fbs.addFreeBoard(session,freeBoard);
-		map.put("result", addFreeBoard!=null?"true":"false");
-		map.put("freeBoard", addFreeBoard);
-		return map;
-	}
-	
-	@PostMapping("/uploadFiles")
-	@ResponseBody
-	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum, String contents) {
-		Map<String,Object> map = new HashMap<>();
-		boolean result = as.saveAttach(request, files, fbnum);
-		FreeBoard updateFreeBoard = fbs.updateContents(fbnum, contents);
-		map.put("result", result);
-		return map;
-	}
-	@GetMapping("/downloadFile")
-	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
-		return as.donwloadAttach(request, fbnum, aname);
-	}
-
-	@GetMapping("/detailFreeBoard")
-	public String detailFreeBoard(Model m,Integer fbnum) {
-		FreeBoard freeBoard = fbs.getFreeBoardByFbnum(fbnum);
-		m.addAttribute("freeBoard",freeBoard);
-		return "html/freeboard/detailFreeBoard";
-	}
-	
-	@PostMapping("/deleteFreeBoard")
-	@ResponseBody
-	public Map<String,Object> deleteFreeBoard(Model m, Integer fbnum) {
-		Map<String,Object> map = new HashMap<>();
-		map.put("result",fbs.deleteFreeBoard(fbnum)&&as.deleteAttach(fbnum));
-		return map;
-	}
-	
-	@GetMapping("/editFreeBoard")
-	public String editFreeBoard() {
-		return "";
-	}
-
 	/* 다루한 */
 
 	/* 현주 */
@@ -120,6 +50,7 @@ public class HealthController {
 	@Autowired
 	ResourceLoader resourceLoader;
 
+	
 	@GetMapping("/")
 	@ResponseBody
 	public String userlist() {
@@ -203,10 +134,6 @@ public class HealthController {
 		return "html/mypage/FindPwd";
 	}
 
-	@GetMapping("/test1")
-	public String test1() {
-		return "html/mypage/test.html";
-	}
 
 	/* 현주 */
 
@@ -226,28 +153,42 @@ public class HealthController {
 	/*엘라 */
 	@Autowired 
 	private AdminBoardSerivce absvc;
-
+	
 	@GetMapping("/admin")
 	public String admin()
 	{
 		return "html/admin/adminBoard";
 	}
 
-	@GetMapping("/writeAdmin")
-	public String writeAdmin()
+	@GetMapping("/addAdmin")
+	public String addAdminForm(Model m, String name)
 	{
-
+		m.addAttribute("name", name);
+		m.addAttribute("userid", "관리자");
 		return "html/admin/writeBoard_admin";
 	}
-
-	@GetMapping("/qaList")
+	
+	@PostMapping("/addAdmin")
+	@ResponseBody
+	public Map<String,Object> addAdmin(HttpServletRequest request,Model m, 
+			AdminBoard adminb, @RequestParam("attach") MultipartFile[] mfiles) {
+		
+		boolean added = absvc.addAdmin(request, adminb, mfiles);
+		log.info("name값:"+adminb.getName());
+		Map<String, Object> map = new HashMap<>();
+		map.put("added", added);
+		log.info("불리언 값:"+added);
+		return map;
+	}
+	
+	@GetMapping("/qaList") //1:1 문의 리스트
 	public String qaList(Model m)
 	{
 		m.addAttribute("list", absvc.qList());
-		log.info("컨트롤러 리스트"+ absvc.qList());
+	//	log.info("컨트롤러 리스트"+ absvc.qList());
 		return "html/admin/adminBoard";
 	}
-
+	
 	@GetMapping("/writeQueB")
 	public String writeQueBForm(HttpSession session, Model m) 
 	{
@@ -256,21 +197,120 @@ public class HealthController {
 		m.addAttribute("userid", id);
 		return "html/admin/writeQueB";
 	}
-
+	
 	@PostMapping("/writeQueB")
 	@ResponseBody
-	public Map<String, Object> writeQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
+	public Map<String, Object> writeQueB(HttpServletRequest request, 
+			OneBoard oneb, @RequestParam("attach") MultipartFile[] mfiles)
 	{
+		//log.info("ctl, mfiles.length={}", mfiles.length);
 		boolean uploaded = absvc.uploadQueB(request, oneb, mfiles);
 		Map<String, Object> map = new HashMap<>();
 		map.put("uploaded", uploaded);
 		return map;
 	}
+	
+	@GetMapping("/detailByQnum/{num}")
+	public String detailByQnum(@PathVariable("num") int num, Model m)
+	{
+		OneBoard oneb = absvc.detailByQnum(num);
+		m.addAttribute("oneb", oneb);
+		log.info("oneb에서 나오는 첨부파일:"+oneb.getAttList());
+		return "html/admin/detail_q";
+	}
+	
+	@GetMapping("/editQueB/{num}")
+	public String editQueBForm(@PathVariable("num") int num, Model m)
+	{
+		OneBoard oneb = absvc.detailByQnum(num);
+		m.addAttribute("oneb", oneb);
+		return "html/admin/editQueB";
+	}
+	
+	@PostMapping("/editQueB/{num}")
+	@ResponseBody
+	public Map<String, Object> editQueB(@RequestParam("oneb") OneBoard oneb, @RequestParam("qnum") int qnum, Model m)
+	{
+		boolean updated = absvc.updateQueB(oneb, qnum);
+		Map<String, Object> map = new HashMap<>();
+		map.put("updated", updated);
+		
+		return map;
+	}
+	
+	@PostMapping("/removeFiles")
+	public String remove(@RequestParam("attid") int attid, @RequestParam("qnum") int qnum)
+	{
+		log.info("remove:" + attid);
+		List<AttachBoard> attachList = absvc.getAttachList(qnum);
+		if(absvc.deleteAttach(attid))
+		{
+			deleteFiles(attachList); 
+		}
+	return "html/admin/adminBoard";
+	}
+/*	
+	public void deleteFiles(List<AttachBoard> attachList)
+	{
+		if(attachList==null || attachList.size()==0) return;
+		log.info("컨트롤러 첨부파일 리스트"+attachList);
+
+		attachList.forEach(attach ->{
+			try{	
+				Path file= Paths.get("WEB-INF/files");
+				file =file.resolve(attach.getAttname());
+				Files.deleteIfExists(file);
+			}catch (Exception e){
+				log.error("Delete file error: "+e.getMessage());
+			}
+		});
+	}
+*/
+	public void deleteFiles(List<AttachBoard> attachList)
+	{
+		if(attachList==null || attachList.size()==0) return;
+		log.info("컨트롤러 첨부파일 리스트"+attachList);
+
+		attachList.forEach(attach ->{
+			try{	
+				Path file= Paths.get("WEB-INF/files");
+				file =file.resolve(attach.getAttname());
+				Files.deleteIfExists(file);
+			}catch (Exception e){
+				log.error("Delete file error: "+e.getMessage());
+			}
+		});
+	}
+	//첨부파일 삭제 테스트
+	@GetMapping("/editTest/{num}")
+	public String editTestForm(@PathVariable("num") int num, Model m)
+	{
+		OneBoard oneb = absvc.detailByQnum(num);
+		m.addAttribute("oneb", oneb);
+		m.addAttribute("qnum", num);
+		return "html/admin/editTest";
+	}
+	
+	@PostMapping("/editTest")
+	@ResponseBody
+	public String editTest(@RequestParam("attid") List<Integer> attidList, Model m)
+	{
+		int attid =0;
+		for(int i=0; i<attidList.size();i++) {
+			attid =attidList.get(i);
+		}
+	//	deleteFiles();
+		String result= absvc.deleteTest(attid);
+		return result.toString();
+
+	}
+	
+	/* 엘라 */
 
 	@GetMapping("/bmi")
 	public String bmi()
 	{
-		return "hrml/mypage/BMI_cul";
+		return "html/mypage/BMI_cul";
 	}
 
 }

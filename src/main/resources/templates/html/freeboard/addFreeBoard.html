@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
-<head th:replace="fragments/common :: head">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
 <meta charset="UTF-8">
 <title>addFreeBoard</title>
+<link href="/css/addFreeBoard.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
@@ -13,10 +14,9 @@
 		console.log($("#bname").val());
 		$("#bname").val(bname).prop("selected", true);
 		$("#goBack").attr("onclick",
-				"location.href='/health/freeBoard?bname=" + bname + "';");
+				"location.href='/freeboard?bname=" + bname + "';");
 	};
 </script>
-<link href="/css/addFreeBoard.css">
 </head>
 <body>
 <div>
@@ -32,9 +32,6 @@
 				<option value="meal">식단공유게시판</option>
 				<option value="beforafter">비포에프터게시판</option>
 			</select>
-		</div>
-		<div>
-			<input type="hidden" name="fbnum" th:value="${fbnum}">
 		</div>
 		<div>
 			<input id="title" name="title">

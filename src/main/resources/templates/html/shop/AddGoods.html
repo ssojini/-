@@ -14,15 +14,18 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 
+
+
+
 <script type="text/javascript"> 
 
 $(function(){
 	var price = document.querySelector('#price');
-	var file = document.querySelector('#file');
+	var main_file = document.querySelector('#main_file');
 	var goodsname = document.querySelector('#goodsname');
 	var description = document.querySelector('#description');
 	price.addEventListener("focusout", checkprice);
-	file.addEventListener("focusout", checkfile);
+	main_file.addEventListener("focusout", checkmain_file);
 	goodsname.addEventListener("focusout", checkgoodsname);
 	description.addEventListener("focusout", checkdescription);
 });
@@ -57,10 +60,10 @@ function checkprice() {
 }
 
 //메인사진확인
-function checkfile() {
+function checkmain_file() {
 	var error = document.querySelectorAll('.error_next_box');
 
-    if(file.value === "") {
+    if(main_file.value === "") {
     	error[2].innerHTML = "필수 정보입니다.";
     	error[2].style.display = "block";
     	error[2].style.color="red";
@@ -100,56 +103,16 @@ function readURL(input)
  
 // 이벤트를 바인딩해서 input에 파일이 올라올때 (input에 change를 트리거할때) 위의 함수를 this context로 실행합니다.
 $(function(){
-   $("#file").change(function(){
+   $("#main_file").change(function(){
          readURL(this);
    });
 });
-/*
-function saveContent() {
-	
-	$("#content").html(data.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,'"').replace(/&#40;/g,'(').replace(/&#41;/g,')').replace(/&#35;/g,'#'));
-    //값 가져오기
-    var summernoteContent = $('#summernote').summernote('code');        //썸머노트(설명)
-    console.log("summernoteContent : " + summernoteContent);
-	
-}*/
-
-
-function saveContent()
-{
-	var form=$('#addgoods')[0];
-	var data = new FormData(form);
-	//const content = $('#summernote').summernote('code');
-	
-	$.ajax({
-		url:'/shop/addgoods',
-		enctype: 'multipart/form-data',
-		method:'post',
-		data:data,
-		dataType:'json',
-		cache:false,
-		processData: false,
-		contentType: false,
-		timeout: 600000,
-		success:function(res){
-			if(res.added)
-			{
-				alert("등록성공");
-				location.href="/health/";
-			}
-			else alert("등록실패");
-		},
-		error : function(xhr,status,err){
-			alert('에러:' + err);
-		}
-	});	
-}
 
 </script>
 <body>
 <h2>상품등록</h2>
 <form id="addgoods" enctype="multipart/form-data" >
-<input type="hidden" id="seller" name="seller" th:value="${admin.adminid}">
+
 <table>
 	<tbody>
 		<tr>
@@ -181,7 +144,8 @@ function saveContent()
 			<th scope="row">상품사진</th>
 			<td><img src="#" id="image_section" width="84" height="84" alt="상품사진">
 			<span class="error_next_box"></span></td>
-			<td><input type='file' id="file" name="file" multiple="multiple"></input></td>
+			<td><input type='file' id="main_file" name="main_file" multiple="multiple"></input></td>
+	
 			 
 		</tr>	
 		<tr>
@@ -193,19 +157,128 @@ function saveContent()
 		</tr>
 	</tbody>
 </table>
-<!-- 
-<p><div>상품상세설명</div><p>
- <div id="summernote"></div>
-  <script>
-    $(document).ready(function() {
-        $('#summernote').summernote({
-        	height:300,
-        	lang : 'ko-KR'
-        });
-    });
-  </script> -->
-  <button type="reset">취소</button>
-  <button type="button" onclick="saveContent();">확인</button>
+ <textarea id="summernote" name="editordata"></textarea>
 </form>
-</body>
+
+<script type="text/javascript"> 
+
+    jsonArray = [];
+    $('#summernote').summernote({
+          height: 500,                 // 에디터 높이
+          minHeight: null,             // 최소 높이
+          maxHeight: null,             // 최대 높이
+          focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+          lang: "ko-KR",					// 한글 설정
+         toolbar: [
+            // [groupName, [list of button]]
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+            ['color', ['forecolor','color']],
+            ['table', ['table']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['insert',['picture','link','video']],
+            ['view', ['fullscreen', 'help']]
+          ],
+        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+        callbacks: {
+          onImageUpload : function(files, editor, welEditable){
+
+                // 파일 업로드(다중업로드를 위해 반복문 사용)
+                for (var i = files.length - 1; i >= 0; i--) {
+                    uploadSummernoteImageFile(files[i], this);
+                    }
+                }
+            } 
+        });
+
+    $('#summernote').summernote('fontSize', '24');
+
+    function uploadSummernoteImageFile(file, el) {
+        var data = new FormData();	
+        data.append("file",file);
+            $.ajax({
+              url: '/shop/summer_image.do',
+              type: "POST",
+              enctype: 'multipart/form-data',
+              data: data,
+              cache: false,
+              contentType : false,
+              processData : false,
+              success : function(data) {
+            	  var json = data;
+                        $(el).summernote('editor.insertImage',json["url"]);
+                            jsonArray.push(json["url"]);
+                            jsonFn(jsonArray);
+                    },
+                    error : function(e) {
+                        console.log(e);
+                    }
+                });
+            }
+
+
+
+function jsonFn(jsonArray){	
+	console.log(jsonArray);
+}
+		
+		
+		function saveContent(file,editor)
+		{
+			var form=$('#addgoods')[0];
+			var data = new FormData(form);
+			
+			for(var i = 0; i<jsonArray.length; i++){
+			    var str = jsonArray[i];
+			    
+			    // str의 값 :/summernoteImage/bc395afe-2324-438d-ae68-1a0a75d0a431.png 
+			    // '/summernoteImage/'를 기준으로 자른다.
+			    var result = str.toString().split("/summernoteImage/");
+			    data.append('file[]',result[1]);
+			    
+			    // result[1] : bc395afe-2324-438d-ae68-1a0a75d0a431.png
+			}
+			
+			const content = $('#summernote').summernote('code');
+			
+			//plain text
+			var goods_detail = $($("#summernote").summernote("code")).text();
+			alert(goods_detail);
+			data.append('goods_detail', goods_detail);
+
+		    console.log(content);
+			
+			$.ajax({
+				url:'/shop/addgoods',
+				enctype: 'multipart/form-data',
+				method:'post',
+				data:data,
+				dataType:'json',
+				cache:false,
+				processData: false,
+				contentType: false,
+				timeout: 600000,
+				success:function(res){
+					if(res.added)
+					{
+						alert("등록성공");
+						location.href="/health/";
+					}
+					else alert("등록실패");
+				},
+				error : function(xhr,status,err){
+					alert('에러:' + err);
+				}
+			});	
+		}
+		
+		
+		
+</script> 
+		  <button type="reset">취소</button>
+		  <button type="button" id="formData" onclick="saveContent()">확인</button>
+	</body>
 </html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Queb 수정 페이지</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	var formObj = $("form[name='editForm']");
+	
+	$(document).on("click","#fileDel", function(){
+		$(this).parent().remove();
+	})
+	
+function fn_addFile(){
+	var fileIndex = 1;
+	//$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"<button type='button' style='float:right;' id='fileAddBtn'>"+"추가"+"</button></div>");
+	$(".fileAdd_btn").on("click", function(){
+		$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"</button>"+"<button type='button' style='float:right;' id='fileDelBtn'>"+"삭제"+"</button></div>");
+	});
+	$(document).on("click","#fileDelBtn", function(){
+		$(this).parent().remove();
+		
+	});
+}
+function updateQueB()
+{
+	var ser=$('#editForm').serialize();
+	
+	$.ajax({
+		url: '/health/editQueB',
+		method: 'post',
+		data: data,
+		dataType: 'json',
+		cache: false,
+		success: function(res){
+			if(res.updated){
+				alert('게시글이 수정 되었습니다.');
+				location.href ="/health/qaList"
+			}
+		},
+		error: function(err){
+			alert('Server Error:'+err)
+		}
+	});
+		
+}
+</script>
+</head>
+<body>
+<h3> 고객 관리</h3> 
+<div>1:1 문의</div>
+<div> 답글 달기</div>
+<form id="editForm" name='oneb'> 
+<input type='hidden' name='qnum' value= '[[${oneb.qnum]]'>
+<input type='hidden' id ='deleteFile' name='deleteFile'>
+<p>
+	<div>제목</div><div>[[${oneb.title}]]<input type="text" name="content"></div>
+<p>
+	<div>작성자</div><div>[[${oneb.author}]]></div>
+<p>
+	<div>조회수</div><div>[[${oneb.hit}]]</div>
+<p>
+	<div>등록일</div><div>[[${oneb.qdate}]]></div>
+<p>
+	<div>[[${oneb.content}]] <textarea name="content" rows="10" cols="40"></textarea></div>	
+<p>
+	<div> 
+	<span th:if test= "${oneb.attList.size()>0}"></span>
+	<span th:each="att: ${attList}" name='attname' value='[[${att.attname]]'> 
+			<a href='#' id='attname' onclick='return false;'>
+			[[${att.attname]]
+			</a>
+		    [[${att.attsize]]
+	</span>
+	<button id='fileDel' onclick="file_del('[[${att.attid}]]');" type= 'button'> 삭제</button>
+	</div>
+<p>
+<button type="button" onclick="return updateQueB()">수정</button>
+<button type="reset">취소</button>
+<button type="button" class="fileAdd_btn">파일추가</button>
+</form>
+
+</html>

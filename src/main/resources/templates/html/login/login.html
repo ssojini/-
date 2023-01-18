@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <title>Log-in</title>
 </head>
-
+<style type="text/css">
+	body{
+		text-align: center;
+	}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	function login(){
@@ -64,6 +68,8 @@
 				</div>
 				<div class='login_fields__submit'>
 					<input  type='submit' value='Log In' onclick="login();">
+					
+					<input  type='submit' value='Sign Up' onclick="location.href='/team/join1'">
 					<div class='forgot'>
 						<a href='/team/findLoginInfo'>Forgotten password / ID ?</a>
 					</div>

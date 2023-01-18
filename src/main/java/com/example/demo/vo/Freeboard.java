@@ -1,5 +1,6 @@
 package com.example.demo.vo;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 //@Table(name="freeboard")
-public class FreeBoard {
+public class Freeboard {
 	@Id
 	@SequenceGenerator(name="FREEBOARD_FBNUM_GEN",allocationSize=1,sequenceName="FREEBOARD_FBNUM_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FREEBOARD_FBNUM_GEN")
@@ -30,6 +31,6 @@ public class FreeBoard {
 	@Column(length = 50000000) // 50MB
 	private String contents;
 	@CreationTimestamp
-	private LocalDateTime dateTime;
+	private Timestamp dateTime;
 	private Integer hit;
 }
