@@ -1,6 +1,6 @@
 function addFreeBoard() {
 	$.ajax({
-		url: "/health/addFreeBoard",
+		url: "/freeboard/add",
 		method: "post",
 		data: {
 			"bname": $("#bname").val(),
@@ -13,10 +13,10 @@ function addFreeBoard() {
 		success: function(res) {
 			if (res.result) {
 				if ($("#files")[0].files.length != 0) {
-					uploadFiles(res.freeBoard.fbnum);
+					uploadFiles(res.freeboard);
 				} else {
 					alert("저장 성공");
-					location.href = "/health/freeBoard";
+					location.href = "/freeboard";
 				}
 			} else {
 				alert("저장 실패");
@@ -28,21 +28,44 @@ function addFreeBoard() {
 	});
 }
 
-function srcChange(fbnum) {
+function updateContents(listAttach) {
 	var img = $("#contents > img");
 	for (var i = 0; i < img.length; i++) {
-		img[i].src = "/images/freeboard/" + fbnum + "_" + img[i].className;
+		for (var i = 0; i < listAttach.length; i++) {
+			if (img[i].className == listAttach[i].aname) {
+				img[i].src = "/images/" + listAttach[i].anum + "_" + img[i].className;
+			}
+		}
 	}
+	console.log("listAttach:"+listAttach);
+	$.ajax({
+		url:"/freeboard/updateContents",
+		method:"post",
+		data:{
+			"fbnum":listAttach[0].fbnum,
+			"contents":$("#contents").html()
+			},
+		cache:false,
+		dataType:"json",
+		success:function(res) {
+			alert(res.result?"저장 성공":"저장 실패");
+			if (res.result) {
+				location.href = "/freeboard";
+			}
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
 }
 
-function uploadFiles(fbnum) {
+function uploadFiles(freeboard) {
 	var data = getFormData();
-	srcChange(fbnum);
-	data.append("fbnum",fbnum);
-	data.append("contents",$("#contents").html());
+	freeboard.contents = $("#contents").html();
+	data.append("fbnum",freeboard.fbnum);
 	if (data != null) {
 	$.ajax({
-		url: "/health/uploadFiles",
+		url: "/file/upload",
 		method: "post",
 		enctype: "multipart/form-data",
 		data: data,
@@ -52,10 +75,8 @@ function uploadFiles(fbnum) {
 		contentType: false,
 		timeout: 600000,
 		success: function(res) {
-			alert(res.result?"저장 성공":"저장 실패");
-			if (res.result) {
-				location.href = '/health/freeBoard';
-			}
+			console.log("listAttach:"+res.liAttach);
+			updateContents(res.liAttach);
 		},
 		error: function(xhs, status, err) {
 			alert(err);
@@ -67,8 +88,6 @@ function uploadFiles(fbnum) {
 function getFormData() {
 	const files = $("#files")[0];
 	// files라는 객체에 담긴다
-	console.log("files: ", files.files);
-	console.log("files.length: ", files.files.length);
 
 	if (files.files.length === 0) {
 		return null;
@@ -77,12 +96,9 @@ function getFormData() {
 	for (var i = 0; i < files.files.length; i++) {
 		formData.append("files", files.files[i]);
 	}
-	console.log("formData: ", formData);
 	for (var key of formData.keys()) {
-		console.log("key: ", key);
 	}
 	for (var value of formData.values()) {
-		console.log("value: ", value);
 	}
 	return formData;
 }
@@ -136,14 +152,14 @@ function appendImage(file) {
 			if (document.getElementById(filename)) {
 				++i;
 			} else {
-				var $img = $("<img id='" + filename + "' class='"+file.name+"'>");
+				var $img = $("<img id='"+filename+"' class='"+file.name+"'>");
 				$("#contents").append($img);
 				showImage(file,filename);
 				break;
 			}
 		}
 	} else {
-		var $img = $("<img id='" + file.name + "' class='"+file.name+"'>");
+		var $img = $("<img id='"+file.name+"' class='"+file.name+"'>");
 		$("#contents").append($img);
 		showImage(file,file.name);
 	}

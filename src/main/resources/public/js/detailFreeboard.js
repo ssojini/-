@@ -1,6 +1,6 @@
 function deleteFreeBoard(fbnum) {
 	$.ajax({
-		url:"/health/deleteFreeBoard",
+		url:"/freeboard/delete",
 		method:"post",
 		data:{"fbnum":fbnum},
 		dataType:"json",
@@ -8,7 +8,7 @@ function deleteFreeBoard(fbnum) {
 		success:function(res) {
 			alert(res.result?"삭제 성공":"삭제 실패");
 			if (res.result) {
-				location.href = "/health/freeBoard";
+				location.href = "/freeboard";
 			}
 		},
 		error:function(xhs,status,err) {
@@ -18,5 +18,5 @@ function deleteFreeBoard(fbnum) {
 }
 
 function editFreeBoard(fbnum) {
-	location.href = "/health/editFreeBoard?fbnum="+fbnum;
+	location.href = "/freeboard/edit?fbnum="+fbnum;
 }

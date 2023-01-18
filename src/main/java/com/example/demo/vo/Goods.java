@@ -23,7 +23,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"goodsname","mainpic","price","description","goods_detail","attach","category"})
+@EqualsAndHashCode(exclude = {"goodsname","price","description","goods_detail","category"})
 @Entity
 @Table(name="goods")
 public class Goods 
@@ -35,7 +35,6 @@ public class Goods
 	private String goodsname;
 	//private String mainpic;
 	private Integer price;
-
 	private String description;
 	private String goods_detail;
 	//private String attach;

@@ -138,6 +138,7 @@ public class ShopController {
 	public String addgoods(@PathVariable(value = "adminid", required = false) String adminid, Model m) {
 		m.addAttribute("admin", svc.admininfo(adminid));
 		return "html/shop/AddGoods";
+
 	}
 	
 	@RequestMapping(value="/summer_image.do", produces = "application/json; charset=utf8")

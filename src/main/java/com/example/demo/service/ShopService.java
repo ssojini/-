@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.example.demo.vo.Admin;
 import com.example.demo.vo.Cart;
 import com.example.demo.vo.Goods;
 import com.example.demo.vo.Shop;
+import com.example.demo.vo.GoodsAndAtt;
 import com.google.gson.JsonObject;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -172,33 +174,50 @@ public class ShopService
 	
 	
 	/* 종빈 */
-	@Autowired
-	private ShopMapper mapper;
+
+	  @Autowired
+		private ShopMapper map;
 	
 	public List<Shop> mypagelist(String userid) {
-		return mapper.list(userid);
+		return map.list(userid);
 	}
 	
 	public Shop shopDetail(String ordernum){
-		return mapper.detail(ordernum);
+		return map.detail(ordernum);
 	}
   
   /* 현주 */
   
-  @Autowired
-	private ShopMapper map;
 	
-	private Path fileStorageLocation;
-	
-	public Admin admininfo(String adminid)
+	public String mainpagegoods(Goods goods, AddGoods_Att att)
 	{
-		return map.admininfo(adminid);
+		/*
+		List<Map<String,Object>> goodslist = map.mainpagegoods();
+		//System.out.println("goodslist:  "+ goodslist.toString());
+		
+		goods.setGoodsname((String) goodslist.get(0).get("GOODSNAME"));
+		goods.setCategory((String) goodslist.get(0).get("CATEGORY"));
+		//goods.setPrice((Integer)goodslist.get(0).get("PRICE"));   //bigdecimal
+		goods.setGoods_detail((String) goodslist.get(0).get("GOODS_DETAIL"));
+		
+		//System.out.println("goods:  "+ goods.toString());
+		
+		att.setMainpic_server((String)goodslist.get(0).get("MAINPIC_SERVER"));
+		
+		//System.out.println(att.toString());
+		*/
+		
+		return null;
 	}
+	
+	
+	 private final Path fileStorageLocation;
 
-	@Autowired
-	  public ShopService(Environment env) 
+	 @Autowired
+	  public ShopService(Environment env) //파일 저장경로설정
 	  {
-	    this.fileStorageLocation = Paths.get("./src/main/resources/static/images/addgoods").toAbsolutePath().normalize();
+	    this.fileStorageLocation = Paths.get("./src/main/resources/static/images/addgoods")
+	        .toAbsolutePath().normalize();
 	    try {
 	      Files.createDirectories(this.fileStorageLocation);
 	    } catch (Exception ex) {
@@ -206,34 +225,38 @@ public class ShopService
 	          "Could not create the directory where the uploaded files will be stored.", ex);
 	    }
 	  }
-	
-	 private String getFileExtension(String fileName) {
-		    if (fileName == null) {
-		      return null;
-		    }
-		    String[] fileNameParts = fileName.split("\\.");
 
-		    return fileNameParts[fileNameParts.length - 1];
-		  }
-	 
+	public Admin admininfo(String adminid)
+	{
+		return map.admininfo(adminid);
+	}
+	
 	 public String filesave(MultipartFile file)
 	 {
-		 JsonObject json = new JsonObject();
-		 
-		    String fileRoot =  "C:\\summernote_image\\";	
+		// String savedFileName = filesaves(file);
+		 JsonObject json = new JsonObject(); 
+		
+
+		 Path fileRoot =  Paths.get("./src/main/resources/static/images/addgoods") .toAbsolutePath().normalize();
+
+		 String fileRoot2 =  "C:\\summernote_image\\";	
 		    String originalFileName = file.getOriginalFilename();	//오리지날 파일명
 		    String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
 
 		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-		    File targetFile = new File(fileRoot + savedFileName);	
-		    System.out.println("targetFile:  "+ targetFile);
+		   
+		    File targetFile = new File(fileRoot +"\\"+ savedFileName);
+		    System.out.println("targetFile:  "+targetFile);
+		    File targetFile2 = new File(fileRoot2 + savedFileName);//summernote priview
+		    
 		    try {
 		        // 파일 저장
 		        InputStream fileStream = file.getInputStream();
 		        FileUtils.copyInputStreamToFile(fileStream, targetFile);
-		        
-		        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
-		        json.addProperty("url", "/summernoteImage/"+savedFileName);  
+		      
+		        InputStream fileStream2 = file.getInputStream(); //summernote priview
+		        FileUtils.copyInputStreamToFile(fileStream2, targetFile2);
+		        json.addProperty("url", "/summernoteImage/"+savedFileName); 
 		        json.addProperty("responseCode", "success");
 		   
 		    } catch (IOException e) {
@@ -241,11 +264,10 @@ public class ShopService
 		        json.addProperty("responseCode", "error");
 		        e.printStackTrace();
 		    }
+	        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
+	        
 		   String jsonvalue = json.toString();
-		   //System.out.println(jsonvalue);
 		   return jsonvalue;
-		   
-		   //return json;
 
 	 }
 	 
@@ -258,26 +280,24 @@ public class ShopService
 		 String extension1 = mainpic_original.substring(mainpic_original.lastIndexOf("."));	
 		 String mainpic_server = UUID.randomUUID() + extension1;	
 		 //String a[] = detail_server.split("/summernoteImage/");
-		 String detail_original = "1";
+		 String detail_original = "1"; // detail original filename저장안됨 
 		 
-		 //Map<String, Object> result = new HashMap<String, Object>();
+		 goods.setGoods_detail(goods_detail);
+		 int add =  map.addgoods(goods);
+		 int addatt = 0;
 			//원본 파일경로
 			for(int i=0;i<fileList.size();i++){
 				
+				System.out.println("fileList:  "+ fileList.get(i));
 			    att.setDetail_server(fileList.get(i));
 			    att.setMainpic_original(mainpic_original);
 			    att.setMainpic_server(mainpic_server);
 				att.setDetail_original(detail_original);
 				 list.add(att);
+				 addatt = map.addgoods_att(list);
 
 			}
 		 
-		 System.out.println(list.toString());
-		 
-		 goods.setGoods_detail(goods_detail);
-		 int add =  map.addgoods(goods);
-		 int addatt = map.addgoods_att(list);
-	
 			boolean added = false;
 			if(add>0 && addatt>0)
 			{
@@ -285,10 +305,6 @@ public class ShopService
 			}
 			return added;
 	 }
-
-
-
-
 
 	
 	 

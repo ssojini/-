@@ -8,8 +8,8 @@
 		SELECT * FROM Admin WHERE adminid=#{adminid, jdbcType=VARCHAR}
 	</select>
 	<update id="addgoods" parameterType="com.example.demo.vo.Goods">
-		INSERT INTO goods(goodsnum,goodsname,price,description,category) 
-		VALUES(addgoods_SEQ.NEXTVAL,#{goodsname},#{price},#{description},#{category})
+		INSERT INTO goods(goodsnum,goodsname,price,description,category,goods_detail) 
+		VALUES(addgoods_SEQ.NEXTVAL,#{goodsname},#{price},#{description},#{category},#{goods_detail})
 	</update>
 	<update id="addgoods_att2" parameterType="com.example.demo.vo.AddGoods_Att">
 		INSERT INTO addgoods_att(goodspho_seq,goodsnum,mainpic_original,mainpic_server,detail_original,detail_server)
@@ -29,12 +29,12 @@
 		)t
 	</update>
 	
+	<select id="mainpagegoods" parameterType="String" resultType="map">
+		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+	</select>
 	
-
-	<select id="list" parameterType="string" resultType="com.example.demo.vo.Shop">
-		SELECT * 
-		FROM shop
-		WHERE userid=#{userid, jdbcType=VARCHAR}
+	<select id="list" resultType="com.example.demo.vo.Shop">
+		SELECT * FROM shop WHERE userid=#{userid, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="detail" parameterType="String" resultType="com.example.demo.vo.Shop">

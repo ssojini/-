@@ -6,50 +6,65 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+$(function(){
+	$('#btnUpload').on('click', function(event) {
+		event.preventDefault();
+		    
+		var form = $('#addForm')[0]
+	    var data = new FormData(form);
+		    
+		$('#btnUpload').prop('disabled', true);
+		
+		console.log(data);
+		for (var key of data.keys()) {
+
+			  console.log("키"+key);
+
+			}
+
+			for (var value of data.values()) {
+
+			  console.log("내용"+value);
+
+			}
+			
+		$.ajax ({
+			type : 'post',
+		    enctype: 'multipart/form-data',
+			url : '/calen/add',
+		    data : data,
+			dateType : 'json',
+			processData: false,  
+		    contentType: false,
+			cache : false,
+			success: function (data) {
+		           $('#btnUpload').prop('disabled', false);
+		           alert('success')
+		        },
+		        error: function (e) {
+		            $('#btnUpload').prop('disabled', false);
+		            alert('fail');
+	
+			}
+		});
+	})	
+})
 
 </script>
 <body>
-<div>
+<form id="addForm" action="/calen/add" method="post" enctype="multipart/form-data">
 	<div>
-		<label>[[${day}]]</label>
+		<input type="date" id="datetime" name="datetime" th:value="${day}">	
 	</div>
-	<!-- 아침 -->
-	<details>
-		<input type="radio" name="eat" id="morning" value="아침" checked>
-		<summary><label>아침</label></summary>
-			<div>
-				<input type="file" name="files" multiple="multiple"> 
-				<textarea id ="post" name="m_content" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
-			</div>
-	</details>
-	<!-- 점심 -->
-	<details>
-		<input type="radio" name="eat" id="lunch" value="점심">
-		<summary><label>점심</label></summary>
-			<div>
-				<input type="file" name="files" multiple="multiple">
-				<textarea id ="post" name="l_contents" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
-			</div>
-	</details>
-	<!-- 저녁 -->
-	<details>
-		<input type="radio" name="eat" id="diner" value="저녁">
-		<summary><label>저녁</label></summary>
-			<div>
-				<input type="file" name="files" multiple="multiple">
-				<textarea id ="post" name="d_contents" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
-			</div>
-	</details>
-	<!-- 간식 -->
-	<details>
-		<input type="radio" name="eat" id="snack" value="저녁">
-		<summary><label>간식</label></summary>
-			<div>
-				<input type="file" name="files" multiple="multiple">
-				<textarea id ="post" name="s_contents" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
-			</div>
-	</details>
-	
-</div>
+	<div id="checkWhen">
+		<input type="radio" name="when" id="breakfast" value="아침" checked>아침
+		<input type="radio" name="when" id="lunch" value="점심">점심
+		<input type="radio" name="when" id="dinner" value="저녁">저녁
+		<input type="radio" name="when" id="snack" value="간식">간식
+	</div>	
+	<input type="file" id="pname" name="files" multiple="multiple"> 
+	<textarea id ="m_content" name="content" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+	<button type="button" id="btnUpload">저장</button>
+</form>
 </body>
 </html>
