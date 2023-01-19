@@ -88,6 +88,7 @@ public class FreeboardController {
 		Map<String,Object> map = new HashMap<>();
 		boolean delete = freeboardService.deleteByFbnum(fbnum);
 		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
+		replyService.deleteByPnum(fbnum);
 		map.put("result", delete);
 		return map;
 	}
@@ -97,6 +98,15 @@ public class FreeboardController {
 		m.addAttribute("freeBoard",freeboardService.getByFbnum(fbnum));
 		m.addAttribute("listAttach", attachService.getList(fbnum));
 		return "html/freeBoard/editFreeBoard";
+	}
+	@PostMapping("/edit")
+	@ResponseBody
+	public Map<String,Object> edit(Freeboard freeboard) {
+		System.out.println("freeboard:"+freeboard);
+		Map<String,Object> map = new HashMap<>();
+		freeboardService.update(freeboard);
+		map.put("result", true);
+		return map;
 	}
 	
 	@PostMapping("/addReply")
@@ -113,8 +123,8 @@ public class FreeboardController {
 	@ResponseBody
 	public Map<String,Object> getReply(Integer pnum) {
 		Map<String,Object> map = new HashMap<>();
-		List<FreeboardReply> listReply = replyService.findAllByPnum(pnum);
-		map.put("listReply", replyService.listReplyToListMap(listReply));
+		List<Map<String,String>> listReply = replyService.findAllByPnumToListMap(pnum);
+		map.put("listReply", listReply);
 		return map;
 	}
 }

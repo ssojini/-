@@ -25,10 +25,12 @@ public class FreeboardReplyService {
 	}
 	
 	public List<FreeboardReply> findAllByPnum(Integer pnum) {
-		return repo.findAllByPnumOrderByDatetimeDesc(pnum);
+		List<FreeboardReply> listReply = repo.findAllByPnumOrderByDatetimeDesc(pnum);
+		return listReply;
 	}
 	
-	public List<Map<String,String>> listReplyToListMap(List<FreeboardReply> listReply) {
+	public List<Map<String,String>> findAllByPnumToListMap(Integer pnum) {
+		List<FreeboardReply> listReply = findAllByPnum(pnum);
 		List<Map<String,String>> listMap = new ArrayList<>();
 		for (int i = 0; i < listReply.size(); i++) {
 			Map<String,String> map = new HashMap<>();
@@ -36,13 +38,14 @@ public class FreeboardReplyService {
 			map.put("pnum", ""+listReply.get(i).getPnum());
 			map.put("author", listReply.get(i).getAuthor());
 			map.put("contents", listReply.get(i).getContents());
-			Timestamp datetime = listReply.get(i).getDatetime();
-			Date date = new Date(datetime.getTime());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-			map.put("datetime", sdf.format(date));
-			
+			map.put("datetime", listReply.get(i).getDatetime().toString());
 			listMap.add(map);
 		}
 		return listMap;
+	}
+	
+	public boolean deleteByPnum(Integer pnum) {
+		repo.deleteByPnum(pnum);
+		return true;
 	}
 }

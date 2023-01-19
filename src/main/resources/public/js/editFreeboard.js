@@ -1,3 +1,29 @@
+function editFreeboard() {
+	$.ajax({
+		url: "/freeboard/edit",
+		method: "post",
+		data: {
+			"fbnum": $("#fbnum").text(),
+			"title": $("#title").val(),
+			"contents": $("#contents").html()
+		},
+		dataType: "json",
+		cache: false,
+		success: function(res) {
+			if (res.result) {
+				alert("저장 성공");
+				location.href = "/freeboard";
+			} else {
+				alert("저장 실패");
+				location.href = "/freeboard";
+			}
+		},
+		error: function(xhs, status, err) {
+			alert(err);
+		}
+	});
+}
+
 function deleteFile() {
 	var checkbox = $("input[type=checkbox]");
 	var arrAttach = new Array();
@@ -18,8 +44,7 @@ function deleteFile() {
 			
 			arrAttach.push(attach);
 			
-			removeImg(aname);
-			removeImg2(anum+"_"+aname);
+			removeImg(anum+"_"+aname);
 		}
 	}
 	$.ajax({
@@ -44,21 +69,14 @@ function deleteFile() {
 }
 
 function removeImg(filename) {
-	var imgs = document.getElementsByTagName(filename);
+	console.log("removeImg");
+	console.log(filename);
+	var imgs = $("img[src='/images/"+filename+"']");
+	console.log(imgs);
+	console.log(imgs.length);
 	for (var i = 0; i < imgs.length; i++) {
+		console.log(imgs[i]);
 		imgs[i].remove();
-	}
-}
-
-function removeImg2(filename) {
-	let img = document.getElementsByTagName("img");
-	console.log(img);
-	for (var i = 0; i < img.length; i++) {
-		console.log(img[i]);
-		console.log(img[i].src);
-		if (img[i].src == "http://localhost/images/"+filename) {
-			img[i].remove();
-		}
 	}
 }
 
@@ -73,7 +91,6 @@ function updateContents() {
 		cache:false,
 		dataType:"json",
 		success:function(res) {
-			alert(res.result?"파일삭제 성공":"파일삭제 실패");
 			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
 		},
 		error:function(xhs,status,err) {
@@ -141,6 +158,6 @@ function appendImg(anum) {
 	let div = $("#attach"+anum);
 	let children = div.children();
 	let aname = children.eq(2).text();
-	let $img = $("<img src='/images/"+anum+"_"+aname+"'>");
+	let $img = $("<img class='"+aname+"' src='/images/"+anum+"_"+aname+"'>");
 	$("#contents").append($img);
 }

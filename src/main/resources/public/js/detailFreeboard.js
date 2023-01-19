@@ -3,7 +3,6 @@ function editFreeBoard(fbnum) {
 }
 
 function addReply() {
-	$("#reply_contents *").remove();
 	$.ajax({
 		url:"/freeboard/addReply",
 		method:"post",
@@ -15,6 +14,7 @@ function addReply() {
 		cache:false,
 		dataType:"json",
 		success:function(res) {
+			$("#reply_contents").val("");
 			refleshReply();
 		},
 		error:function(xhs,status,err) {
@@ -45,11 +45,13 @@ function appendReply(listReply) {
 	let listReplyDiv = $("#listReply");
 	$("#listReply *").remove();
 	for (var i = 0; i < listReply.length; i++) {
-		let $div = $("<div></div>");
-		let $author = $("<span>"+listReply[i].author!=null?listReply[i].author:""+"</span>");
-		let $contents = $("<span>"+listReply[i].contents+"</span>");
-		let $datetime = $("<span>"+listReply[i].datetime+"</span>");
-		$div.append($author + $contents + $datetime);
-		listReplyDiv.append($div);
+		let $tr = $("<tr></tr>");
+		let $author = $("<td>"+listReply[i].author!=null?listReply[i].author:""+"</td>");
+		let $contents = $("<td>"+listReply[i].contents+"</td>");
+		let $datetime = $("<td>"+listReply[i].datetime+"</td>");
+		$tr.append($author);
+		$tr.append($contents);
+		$tr.append($datetime);
+		listReplyDiv.append($tr);
 	}
 }

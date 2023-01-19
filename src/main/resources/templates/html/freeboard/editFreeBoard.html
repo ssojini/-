@@ -18,8 +18,8 @@
 	<main>
 		<div id="freeBoard" th:if="${freeBoard != null}">
 			<div id="fbnum" th:text="${freeBoard.fbnum}"></div>
-			<div th:text="${freeBoard.title}"></div>
-			<div th:text="${freeBoard.author}"></div>
+			<input id="title" th:value="${freeBoard.title}">
+			<div id="author" th:text="${freeBoard.author}"></div>
 			<div id="contents" th:text="${freeBoard.contents}"
 				contentEditable="true"></div>
 			<div id="listAttach">
@@ -38,7 +38,7 @@
 			<div>
 				<button type="button"
 					th:onclick="deleteFreeboard([[${freeBoard.fbnum}]]);">삭제</button>
-				<button type="button">적용</button>
+				<button type="button" onclick="editFreeboard();">적용</button>
 			</div>
 		</div>
 	</main>

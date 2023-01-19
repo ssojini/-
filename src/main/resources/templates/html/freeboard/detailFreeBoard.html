@@ -30,13 +30,13 @@ window.onload = function() {
 			<textarea id="reply_contents"></textarea>
 			<button type="button" onclick="addReply();">댓글</button>
 		</div>
-		<div id="listReply">
-			<div th:each="reply : ${listReply}">
-				<span th:text="${reply.author}"></span>
-				<span th:text="${reply.contents}"></span>
-				<span th:text="${reply.datetime}"></span>
-			</div>
-		</div>
+		<table id="listReply">
+			<tr th:each="reply : ${listReply}">
+				<td th:text="${reply.author}"></td>
+				<td th:text="${reply.contents}"></td>
+				<td th:text="${reply.datetime}"></td>
+			</tr>
+		</table>
 	</main>
 </body>
 </html>

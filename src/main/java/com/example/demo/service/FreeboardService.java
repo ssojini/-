@@ -55,6 +55,14 @@ public class FreeboardService {
 		return saveFreeBoard;
 	}
 	
+	public Freeboard update(Freeboard freeboard) {
+		Freeboard findFreeboard = repo.getOne(freeboard.getFbnum());
+		findFreeboard.setTitle(freeboard.getTitle());
+		findFreeboard.setContents(freeboard.getContents());
+		Freeboard updateFreeboard = repo.save(findFreeboard);
+		return updateFreeboard;
+	}
+	
 	public Freeboard updateContents(Integer fbnum, String contents) {
 		Optional<Freeboard> freeBoard = repo.findById(fbnum);
 		if (freeBoard.isPresent()) {
