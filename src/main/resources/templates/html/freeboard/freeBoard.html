@@ -10,9 +10,11 @@
 <script type="text/javascript" src="/js/freeboard.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
-		var bname = "[[${bname}]]";
-		//$("#bname").val(bname).prop("selected",true);
+		/*
 		changeBoard($("#bname").val());
+		*/
+		var bname = "[[${bname}]]";
+		$("#bname").val(bname).prop("selected",true);
 	};
 </script>
 </head>
@@ -42,7 +44,7 @@
 			</table>
 		</div>
 		<div>
-			<button onclick="freeBoard();">글 쓰기</button>
+			<button onclick="addFreeboard();">글 쓰기</button>
 		</div>
 	</div>
 </body>

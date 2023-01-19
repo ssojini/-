@@ -15,7 +15,8 @@ function addReply() {
 		dataType:"json",
 		success:function(res) {
 			$("#reply_contents").val("");
-			refleshReply();
+			//refleshReply();
+			location.href = "/freeboard/detail?fbnum="+$("#fbnum");
 		},
 		error:function(xhs,status,err) {
 			alert(err);

@@ -19,6 +19,10 @@ function changeBoard(bname) {
 	});
 }
 
-function freeBoard() {
+function changeBoard(bname) {
+	location.href = "/freeboard?bname="+bname;
+}
+
+function addFreeboard() {
 	location.href = "/freeboard/add?bname="+$("#bname").val();
 }

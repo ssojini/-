@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,19 +35,21 @@ public class FreeboardController {
 	private FreeboardReplyService replyService;
 	
 	@GetMapping({"","/"})
-	public String freeboard(Model m, String bname) {
-		List<Freeboard> listFreeBoard = freeboardService.getListByBname(bname);
+	public String freeboard(Model m, String bname, @PageableDefault(size=100, sort="fbnum", direction = Sort.Direction.DESC) Pageable pageable) {
+		List<Freeboard> listFreeBoard = freeboardService.getListByBname(bname!=null?bname:"free",pageable);
 		m.addAttribute("listFreeBoard", listFreeBoard);
 		m.addAttribute("bname",bname);
 		return "html/freeboard/freeBoard";
 	}
 
+	/*
 	@PostMapping("/getListMap")
 	@ResponseBody
-	public List<Map<String, Object>> getListMap(Model m, String bname) {
-		List<Map<String, Object>> listMap = freeboardService.getListMapByBname(bname);
+	public List<Map<String, Object>> getListMap(Model m, String bname, Pageable pageable) {
+		List<Map<String, Object>> listMap = freeboardService.getListMapByBname(bname, pageable);
 		return listMap;
 	}
+	*/
 
 	@GetMapping("/add")
 	public String add(Model m, String bname) {
