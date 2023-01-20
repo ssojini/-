@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>이용자 1:1 문의 페이지</title>
+<title>1:1 문의 답글달기</title>
 <style>
 .title{
 	text-align: center;
@@ -25,14 +25,14 @@ $(function(){
 	$('#btnUpload').on('click',function(event){
 		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
 		
-		var form= $('#questionForm')[0] // FormData를 쓰기 위해 필요하다
+		var form= $('#replyForm')[0] // FormData를 쓰기 위해 필요하다
 		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
 		
 		$('#btnUpload').prop('disabled', 
 				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
 		
 		$.ajax({
-			url:'/health/writeQueB',
+			url:'/health/reply',
 			method:'post',
 			enctype: 'multipart/form-data',
 			data: data,
@@ -44,7 +44,7 @@ $(function(){
 			success: function(res){
 				$('#btnUpload').prop('disabled', false);
 				if(res.uploaded){
-					alert('문의사항이 저장 되었습니다.');
+					alert('답변이 저장 되었습니다.');
 					location.href= "/health/qaList"
 				}
 			},
@@ -60,9 +60,10 @@ $(function(){
 </script>
 </head>
 <body>
-<h3 class="title">1:1 문의</h3>
+<h3 class="title">1:1문의 답변하기</h3>
 <div class="container">
-<form id ="questionForm" >
+<form id ="replyForm" >
+<input type="hidden" name= "qnum" th:value="${qnum}">
 	<div>
 		<script>
 			today = new Date().toLocaleDateString();
@@ -71,11 +72,11 @@ $(function(){
 	</div>
 	<div>
 		<label for="title"> 제목</label>
-		<input id ="title" type="text" name="title" placeholder="제목을 입력하세요">
+		<input id ="title" type="text" name="title" th:value="|RE:${title}|">
 	</div>
 	<div>
-		<input type="hidden" name="author" th:value='${userid}' >
-		[[${userid}]]
+		관리자
+		<input type="hidden" name="author" value="admin"/>
 	</div>
 	<div>
 		<textarea name="content" rows="10" cols="40" placeholder="내용을 입력하세요"></textarea>

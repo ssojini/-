@@ -6,22 +6,106 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
+function delFiles(index)
+{
+	//alert('삭제대상:'+index);
+	//console.log($('#attid'+index).val());
+	alert($('#attid'+index).val());
+	var id =$('#attid'+index).val();
+	
+	$.ajax({
+		url: '/health/editTest',
+		data: {"attid": id},
+		dataType: 'json',
+		method: 'post',
+		cache: false,
+		success: function(res){
+			if(res.deleted){
+				$('#div'+index).remove();
+				alert("삭제 성공")
+			}
+		}
+		
+	})	
+}
+
+$(function(){
+	$('#btnUpload').on('click',function(event){
+		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
+		
+		var form= $('#editForm')[0] // FormData를 쓰기 위해 필요하다
+		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
+		
+		$('#btnUpload').prop('disabled', 
+				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
+		
+		
+		alert("게시글 수정용 ajax 돌아감");		
+		$.ajax({
+			url:'/health/editQueB/[[${qnum}]]',
+			method:'post',
+			enctype: 'multipart/form-data',
+			data: data,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 600000,
+			success: function(res){
+				$('#btnUpload').prop('disabled', false);
+				if(res.uploaded){
+					alert('수정 되었습니다.');
+					location.href= "/health/editTest/[[${qnum}]]"
+				}
+			},
+			error: function(e){
+				$('#btnUpload').prop('disabled', false);
+				alert('Server Error');
+			}
+			
+		});
+	})
+})
 </script>
 </head>
 <body>
-<h3>삭제하기</h3>
-<form id="editForm" method="post" th:action="|/health/editTest|" > 
+<h3>수정하기</h3>
+<form id="editForm" >
 <div>qnum값: [[${qnum}]]</div>
-<div>
-	<input type="hidden" name="qnum" th:value="${qnum}">
-	<span th:if="${oneb.attList.size()>0}"></span>
-	<span th:each="att: ${oneb.attList}"> 
-		<input type="checkbox" name="attid" th:value="${att.attid}"/>
-		[[${att.attname}]]
-	</span>
+
+	<div>제목
+		<label for="title"> 
+			<input id ="title" type="text" name="title" th:value= "${oneb.title}"> 
+		</label>
+	</div> 
+	<div>작성자 
+		[[${oneb.author}]]
+	</div> 
+	<div>
+		<label for ="content">
+			<textarea name="content" rows="10" cols="40" > [[${oneb.content}]]</textarea>	
+		</label>
+	</div>
 <p>
-<button type="submit"> 확인</button>	
+<div>
+		<label for="attach">첨부파일 추가</label>
+		<input type="file" name="attach" multiple="multiple">
+</div>
+<div>
+	<button type="button" id="btnUpload"> 저장</button>
+	<button type="reset">취소</button>
 </div>
 </form>
+<div>첨부파일 <br>
+<!-- <input type="hidden" name="qnum" th:value="${qnum}">
+	<span th:if="${oneb.attList.size()>0}"></span>  -->	
+	<div th:each="att, status: ${oneb.attList}" th:id="|div${status.index}|"> 
+	
+		<span th:text="${att.attname}"></span>
+		<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
+		<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
+	</div>	
+</div>
+
 </body>
 </html>
