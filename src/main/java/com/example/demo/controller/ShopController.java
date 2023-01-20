@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import com.example.demo.service.ShopService;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Cart;
 import com.example.demo.vo.Goods;
+import com.example.demo.vo.GoodsAndAtt;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -133,6 +135,20 @@ public class ShopController {
 	/*--------------------- 상욱 끝 ----------------------*/
 
 	/* 현주 */
+	
+	@GetMapping(value="/imgtest")
+	public String imgtest()
+	{
+		return "html/shop/imgtest";
+	}
+	
+	@GetMapping("/ShopMainPage")
+	public String shopmainpage(Model m)
+	{
+		List<GoodsAndAtt> both = svc.maingoods();
+		m.addAttribute("goodslist", both);
+		return "html/shop/ShopMain";
+	}
 
 	@GetMapping("/addgoods/{adminid}")
 	public String addgoods(@PathVariable(value = "adminid", required = false) String adminid, Model m) {
@@ -152,10 +168,14 @@ public class ShopController {
 	public Map<String, Object> addgoods(@RequestParam("main_file") MultipartFile file,
 			@RequestParam("goods_detail") String goods_detail, @RequestParam("file[]") List<String> fileList,
 			HttpServletRequest request, Goods goods, AddGoods_Att att) {
-
-		boolean b = svc.save(file, goods_detail, fileList, goods, att);
+		boolean a =svc.storeFile(file, goods_detail, fileList, goods, att);
+		boolean added = false;
+		if (a==true)
+		{
+			added=true;
+		}
 		Map<String, Object> map = new HashMap<>();
-		map.put("added", b);
+		map.put("added", added);
 
 		return map;
 	}

@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -210,100 +213,137 @@ public class HealthController {
 		return map;
 	}
 	
-	@GetMapping("/detailByQnum/{num}")
-	public String detailByQnum(@PathVariable("num") int num, Model m)
+	@GetMapping("/reply/{qnum}")
+	public String replyQueB(Model m, @PathVariable("qnum") int qnum)
 	{
-		OneBoard oneb = absvc.detailByQnum(num);
-		m.addAttribute("oneb", oneb);
-		log.info("oneb에서 나오는 첨부파일:"+oneb.getAttList());
-		return "html/admin/detail_q";
+		OneBoard queb = absvc.getQueBoard(qnum);
+		String title = queb.getTitle();
+		m.addAttribute("title", title);
+		m.addAttribute("qnum", qnum);
+		return "html/admin/replyAnsB";
 	}
 	
-	@GetMapping("/editQueB/{num}")
-	public String editQueBForm(@PathVariable("num") int num, Model m)
-	{
-		OneBoard oneb = absvc.detailByQnum(num);
-		m.addAttribute("oneb", oneb);
-		return "html/admin/editQueB";
-	}
-	
-	@PostMapping("/editQueB/{num}")
+	@PostMapping("/reply")
 	@ResponseBody
-	public Map<String, Object> editQueB(@RequestParam("oneb") OneBoard oneb, @RequestParam("qnum") int qnum, Model m)
+	public Map<String, Boolean> reply(HttpServletRequest request,
+			OneBoard oneb,
+			@RequestParam("attach") MultipartFile[] mfiles)
 	{
-		boolean updated = absvc.updateQueB(oneb, qnum);
-		Map<String, Object> map = new HashMap<>();
-		map.put("updated", updated);
-		
+		log.info("ctrl, reply ajax로 돌아감");
+		boolean uploaded =absvc.uploadAnsB(request, oneb, mfiles);
+		Map<String, Boolean> map= new HashMap<>();
+		map.put("uploaded", uploaded);
+		log.info("ctrl, uploaded값:"+ uploaded);
 		return map;
 	}
 	
-	@PostMapping("/removeFiles")
-	public String remove(@RequestParam("attid") int attid, @RequestParam("qnum") int qnum)
+	
+	@GetMapping("/detailByQnum/{qnum}")
+	public String detailByQnum(@PathVariable("qnum") int qnum, Model m)
 	{
-		log.info("remove:" + attid);
-		List<AttachBoard> attachList = absvc.getAttachList(qnum);
-		if(absvc.deleteAttach(attid))
-		{
-			deleteFiles(attachList); 
-		}
-	return "html/admin/adminBoard";
+		OneBoard oneb = absvc.detailByQnum(qnum);
+		m.addAttribute("oneb", oneb);
+		//log.info("oneb에서 나오는 첨부파일:"+oneb.getAttList());
+		return "html/admin/detail_q";
 	}
-/*	
-	public void deleteFiles(List<AttachBoard> attachList)
-	{
-		if(attachList==null || attachList.size()==0) return;
-		log.info("컨트롤러 첨부파일 리스트"+attachList);
 
-		attachList.forEach(attach ->{
-			try{	
-				Path file= Paths.get("WEB-INF/files");
-				file =file.resolve(attach.getAttname());
-				Files.deleteIfExists(file);
-			}catch (Exception e){
-				log.error("Delete file error: "+e.getMessage());
-			}
-		});
-	}
-*/
-	public void deleteFiles(List<AttachBoard> attachList)
+	@PostMapping("/editQueB/{qnum}")
+	@ResponseBody
+	public Map<String, Object> editQueB(
+			@PathVariable("qnum") int qnum,
+			OneBoard oneb,
+			@RequestParam("attach") MultipartFile[] mfiles,
+			HttpServletRequest request)
 	{
-		if(attachList==null || attachList.size()==0) return;
-		log.info("컨트롤러 첨부파일 리스트"+attachList);
-
-		attachList.forEach(attach ->{
-			try{	
-				Path file= Paths.get("WEB-INF/files");
-				file =file.resolve(attach.getAttname());
-				Files.deleteIfExists(file);
-			}catch (Exception e){
-				log.error("Delete file error: "+e.getMessage());
-			}
-		});
+		
+		boolean uploaded = absvc.updateQueB(oneb, qnum, request, mfiles);
+		Map<String, Object> map = new HashMap<>();
+		map.put("uploaded", uploaded);
+		return map;
 	}
-	//첨부파일 삭제 테스트
+	
+	
 	@GetMapping("/editTest/{num}")
 	public String editTestForm(@PathVariable("num") int num, Model m)
 	{
 		OneBoard oneb = absvc.detailByQnum(num);
 		m.addAttribute("oneb", oneb);
 		m.addAttribute("qnum", num);
+	//	log.info("num값:" +num);
 		return "html/admin/editTest";
 	}
 	
 	@PostMapping("/editTest")
 	@ResponseBody
-	public String editTest(@RequestParam("attid") List<Integer> attidList, Model m)
+	public Map<String, Object> editTest(@RequestParam("attid") int attid)
 	{
-		int attid =0;
-		for(int i=0; i<attidList.size();i++) {
-			attid =attidList.get(i);
-		}
-	//	deleteFiles();
-		String result= absvc.deleteTest(attid);
-		return result.toString();
-
+		AttachBoard attach = absvc.getAttach(attid);
+		
+		boolean result= absvc.deleteIndiv(attid);	// DB에서 지우기
+		//log.info("ctrl, result 값:"+result);
+		//return result.toString();
+		
+		boolean serverDeletion = deleteFile(attach);// 서버에서 지우기
+		//log.info("ctrl, deletion값:"+ serverDeletion);
+		boolean trueDeletion = (result == serverDeletion);
+		Map<String, Object> map = new HashMap<>();
+		map.put("deleted", trueDeletion);
+		
+		return map;
 	}
+	
+	public boolean deleteFile(AttachBoard attach)
+	{
+		if(attach==null)
+		{
+			return false;
+		}
+		else {	
+			Path file =Paths.get("src/main/webapp/WEB-INF/files");
+			file= file.resolve(attach.getAttname());
+			
+			file = file.toAbsolutePath();
+			//log.info("file 절대경로:{}", file.toString());
+			boolean check=false;
+			try {
+				check = Files.deleteIfExists(file);
+				
+			//	log.info("deleteFiles 성공 여부:"+check);
+				
+				String abpath = file.toString();
+			//	log.info("절대경로:{}", abpath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return check;
+		}
+	}
+	
+		@PostMapping("/deleteQueB")
+		@ResponseBody
+		public Map<String, Boolean> deleteQueB(
+				@RequestParam ("qnum") int qnum)
+		{			
+			Map<String, Boolean> map = new HashMap<>();			
+			List<AttachBoard> attList =absvc.getAttachList(qnum);
+
+			boolean delOnServer= false;
+			boolean delOnDB= false;
+			if(attList!=null)// 첨부파일이 있으면
+			{
+				delOnServer =absvc.delFromServer(attList);
+				delOnDB = absvc.deleteAll(qnum);
+				map.put("deleted", ((delOnServer=true)&&(delOnDB=true)));
+				
+			}else {// 첨부파일이 없으면
+				int row =absvc.deleteQueB(qnum);
+				map.put("deleted", row>0);
+			}	
+						
+			return map;
+		}
+		
+
 	
 	/* 엘라 */
 
