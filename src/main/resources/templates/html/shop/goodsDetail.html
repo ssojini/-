@@ -64,9 +64,11 @@
 <form id="cartForm">
 <h3>구매-상품 상세보기</h3>
 <div>상품사진</div>
-<div><input type="hidden" name="mainpic" th:value="${goods.getMainpic}">
-	<img alt="mainpic" th:src="${goods.getMainpic}"></div>
-<input type="hidden" name="goodsnum" th:value="${goods.getGoodsnum}">
+  <div th:if="${!#lists.isEmpty(attList)}">
+  <input type="hidden" name="mainpic" value="">
+	<img alt="mainpic" th:src="'/images/addgoods/'+${attList.get(0).getMainpic_original}">
+	</div>	
+<input type="hidden" name="goodsnum" th:value="${goods.getGoodsnum}"> 
 <input type="hidden" name=category th:value="${goods.getCategory}">
 <div>카테고리: <span th:text="${goods.getCategory}"></span></div>
 <div><input type="hidden" name="goodsname" th:value="${goods.getGoodsname}">상품명: 

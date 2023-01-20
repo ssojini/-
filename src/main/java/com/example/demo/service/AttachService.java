@@ -1,16 +1,16 @@
 package com.example.demo.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -27,51 +27,37 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class AttachService {
 	@Autowired
-	private AttachRepository repo;
+	private AttachRepository attachRepository;
 	@Autowired
 	private ResourceLoader resourceLoader;
 
-	private final Path fileStorageLocation;
+	public Attach save(Integer fbnum, String aname, Long asize) {
+		Attach attach = new Attach();
+		attach.setFbnum(fbnum);
+		attach.setAname(aname);;
+		attach.setAsize(asize);
 
-	@Autowired
-	public AttachService(Environment env) 
-	{
-		this.fileStorageLocation = Paths.get("./src/main/resources/static/images/freeboard")
-				.toAbsolutePath().normalize();
-		try {
-			Files.createDirectories(this.fileStorageLocation);
-		} catch (Exception ex) {
-			throw new RuntimeException(
-					"Could not create the directory where the uploaded files will be stored.", ex);
-		}
+		return attachRepository.save(attach);
 	}
 
-	public boolean saveAttach(HttpServletRequest request, MultipartFile[] files, Integer fbnum) {
-		//String savePath = request.getServletContext().getRealPath("../resources/WEB-INF/files/");
-		String savePath = fileStorageLocation.toUri().getPath();
-		try {
-			for (int i = 0; i < files.length; i++) {
-				String fname = files[i].getOriginalFilename();
-				long fsize = files[i].getSize();
-				Attach attach = new Attach();
-				attach.setFbnum(fbnum);
-				attach.setAname(fname);
-				attach.setAsize(fsize);
-				Attach saveAttach = repo.save(attach);
-				System.out.println("fileStorageLocation.toUri().getPath():"+fileStorageLocation.toUri().getPath());
-				files[i].transferTo(new File(savePath + "/" + fbnum + "_" + saveAttach.getAname()));
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+	public Attach save(Attach attach) {
+		return attachRepository.save(attach);
 	}
 
-	public ResponseEntity<Resource> donwloadAttach(HttpServletRequest request, Integer fbnum, String aname) {
-		String filePath = fileStorageLocation.toUri().getPath();
-		Resource resource = resourceLoader.getResource(filePath + fbnum + "_" + aname);
-		System.out.println("resource:"+resource);
+	public List<Attach> getList(Integer fbnum) {
+		List<Attach> listAttach = attachRepository.findAllByFbnum(fbnum);
+		return listAttach;
+	}
+
+	public List<Attach> deleteByFbnum(HttpServletRequest request, Integer fbnum) {
+		List<Attach> listAttach = attachRepository.deleteByFbnum(fbnum);
+		deleteFiles(request, listAttach);
+		return listAttach;
+	}
+
+	public ResponseEntity<Resource> donwload(HttpServletRequest request, String filepath) {
+		String path = request.getServletContext().getRealPath("/WEB-INF/files");
+		Resource resource = resourceLoader.getResource(path + filepath);
 		String contentType = null;
 		try {
 			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -86,24 +72,92 @@ public class AttachService {
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"").body(resource);
 	}
 
-	public List<Attach> getListAttach(Integer fbnum) {
-		List<Attach> listAttach = repo.findAllByFbnum(fbnum);
-		return listAttach;
+	public List<Attach> upload(HttpServletRequest request, MultipartFile[] files, Integer fbnum) {
+		String savePath = request.getServletContext().getRealPath("/WEB-INF/files");
+		System.out.println("savePath:"+savePath);
+		try {
+			List<Attach> liAttach = new ArrayList<>();
+			for (int i = 0; i < files.length; i++) {
+				Attach attach = new Attach();
+				attach.setAname(files[i].getOriginalFilename());
+				attach.setAsize(files[i].getSize());
+				attach.setFbnum(fbnum);
+				Attach save = attachRepository.save(attach);
+
+				files[i].transferTo(new File(savePath + "/" + save.getAnum() + "_" + save.getAname()));
+
+				liAttach.add(save);
+			}
+			return liAttach;
+		} catch (Exception e) {
+			System.err.println("파일저장 실패");
+			//e.printStackTrace();
+		}
+		return null;
 	}
-	
-	public boolean deleteAttach(Integer fbnum) {
-		List<Attach> listAttach = repo.deleteByFbnum(fbnum);
-		System.out.println("listAttach:"+listAttach);
-		//파일 삭제
+
+	public List<Map<String,String>> listAttachToListMap(List<Attach> listAttach) {
+		List<Map<String,String>> liMap = new ArrayList<>();
 		for (int i = 0; i < listAttach.size(); i++) {
-			deleteFile(fbnum, listAttach.get(i).getAname());
+			Map<String,String> map = new HashMap<>();
+			map.put("aname", listAttach.get(i).getAname());
+			map.put("anum", ""+listAttach.get(i).getAnum());
+			map.put("asize", ""+listAttach.get(i).getAsize());
+			map.put("fbnum", ""+listAttach.get(i).getFbnum());
+			liMap.add(map);
+		}
+		return liMap;
+	}
+
+	public boolean delete(HttpServletRequest request, List<Attach> listAttach) {
+		for (int i = 0; i < listAttach.size(); i++) {
+			attachRepository.deleteById(listAttach.get(i).getAnum());
+			deleteFile(request, listAttach.get(i));
 		}
 		return true;
 	}
-	
-	public boolean deleteFile(Integer fbnum, String aname) {
-		String filePath = fileStorageLocation.toUri().getPath();
-		System.out.println("filePath:"+filePath);
-		return new File(filePath + fbnum + "_" + aname).delete();
+
+	public boolean deleteFiles(HttpServletRequest request, List<Attach> listAttach) {
+		for (int i = 0; i < listAttach.size(); i++) {
+			deleteFile(request, listAttach.get(i));
+		}
+		return true;
+	}
+
+	public boolean deleteFile(HttpServletRequest request, Attach attach) {
+		try {
+			String path = request.getServletContext().getRealPath("/WEB-INF/files");
+			new File(path + "/" + attach.getAnum() + "_" + attach.getAname()).delete();
+			return true;
+		} catch(Exception e) {
+			System.err.println("파일삭제 실패");
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public List<Attach> jsonArrToListAttach(String data) {
+		JSONParser jsPar = new JSONParser();
+		try {
+			JSONArray jsArr = (JSONArray)jsPar.parse(data);
+
+			List<Attach> listAttach = new ArrayList<>();
+			for (int i = 0; i < jsArr.size(); i++) {
+				JSONObject json = (JSONObject)jsArr.get(i);
+				System.out.println(json.toJSONString());
+
+				Attach attach = new Attach();
+				attach.setFbnum(Integer.valueOf((String)json.get("fbnum")));
+				attach.setAnum(Integer.valueOf((String)json.get("anum")));
+				attach.setAname((String)json.get("aname"));
+				attach.setAsize(Long.valueOf((String)json.get("asize")));
+
+				listAttach.add(attach);
+			}
+			return listAttach;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

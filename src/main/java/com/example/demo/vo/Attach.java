@@ -13,14 +13,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="freeboard_attach")
 public class Attach {
 	@Id
-	@SequenceGenerator(name="ATTACH_ANUM_GEN",allocationSize=1,sequenceName="ATTACH_ANUM_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ATTACH_ANUM_GEN")
+	@SequenceGenerator(name="FREEBOARD_ATTACH_ANUM_GEN",allocationSize=1,sequenceName="FREEBOARD_ATTACH_ANUM_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FREEBOARD_ATTACH_ANUM_GEN")
 	private Integer anum;
 	private Integer fbnum;
 	private String aname;

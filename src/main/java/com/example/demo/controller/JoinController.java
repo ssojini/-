@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.HttpSessionHandler;
 import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
+import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -39,15 +41,17 @@ public class JoinController
 	//초기 데이터 생성 메소드
 	@GetMapping("/add")
 	@ResponseBody
-	public String add()
+	public String add(HttpSession session)
 	{
 		//상욱
 		Date date = Date.valueOf("2022-12-31");
 		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","testID");
 		User added = repo.save(member);
 		
-		
-		return "JoinController 초기 데이터 생성 완료";
+		// 현주 
+		UserJoin join = new UserJoin("smith","1234","smith@naver.com","","","01011112222","1998-04-29","smash","/profile/default.png");
+		return "session: "+session.getId()+"JoinController 초기 데이터 생성 완료";
+
 	}
 	
 	
@@ -155,18 +159,22 @@ public class JoinController
 	//---------------이메일 인증------------------
 	
 	//이메일에서 인증버튼 눌러서 인증을 한다.
-	@GetMapping("/auth/{rdStr}")
+	@GetMapping("/auth/{sid}/{rdStr}")
 	@ResponseBody
-	public String authCheck(@PathVariable("rdStr")String rdStrCheck)
+	public String authCheck(@PathVariable("rdStr")String rdStrCheck,
+							@PathVariable("sid") String sid)
 	{		
+		HttpSession orgSession = HttpSessionHandler.map.get(sid);
+		System.err.println("original: "+orgSession);
 		
-		if(rdStrCheck.equals(session.getAttribute("rdStr")))
+		if(rdStrCheck.equals(orgSession.getAttribute("rdStr")))
+
 		{
-			session.setAttribute("authCheck", "1");
+			orgSession.setAttribute("authCheck", "1");
 			return "인증완료";
 		}
 		
-		session.setAttribute("authCheck", "0");
+		orgSession.setAttribute("authCheck", "0");
 		return "인증실패";
 	}
 	

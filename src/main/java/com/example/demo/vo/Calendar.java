@@ -14,12 +14,8 @@ import lombok.ToString;
 public class Calendar 
 {
 	//시퀀스
-	private int calen_num;
+	private int num;
 	
-	private java.sql.Date date;
+	private java.sql.Date datetime;
 
-	private String m_contents;
-	private String l_contents;
-	private String e_contents;
-	private String snack_contents;
 }

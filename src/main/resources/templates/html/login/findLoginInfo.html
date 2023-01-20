@@ -15,6 +15,8 @@
 		var userid=$('#cp_mid').val();
 		var email=$('#cp_email').val();
 		//alert(userid+email);
+		//document.getElementById("checking").disabled = true;
+		$('#checking').prop('disabled',true);
 		$.ajax({
 			url:'/team/check',
 			method:'post',
@@ -24,6 +26,8 @@
 			success: function(res){
 				alert(res.msg);
 				$('#check').text(res.msg);
+				//document.getElementById("checking").disabled = false;
+				$('#checking').prop('disabled', false);
 				if(res.checked){
 				$('#checked').css('display','inline');					
 				$('#mpw').css('display','inline');	
@@ -132,7 +136,7 @@
 				<input id="cp_mpw" placeholder='new pssword' type='text'>
 			</div>
 			<div class="bttn">
-				<input type='submit' value='Check' onclick="check();">
+				<input type='submit' id="checking" value='Check' onclick="check();">
 				<span id="checked" style="display: none;">
 				<input type='submit' value='Reset' onclick="auth();">
 				<input type='hidden' id='userid'>

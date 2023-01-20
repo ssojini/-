@@ -4,4 +4,25 @@
 
 <mapper namespace="com.example.demo.mapper.CalendarMapper">
 
+	<insert id = "saveCalendar"
+		parameterType="com.example.demo.vo.Calendar">
+		INSERT INTO calendar(num,datetime)
+		VALUES(CALENDAR_SEQ.NEXTVAL,#{datetime})
+	</insert>
+	<insert id="saveSchedule" parameterType="com.example.demo.vo.Schedule">
+		INSERT INTO calen_schedule(num, pnum, when, content)
+		VALUES(CALEN_SCHEDULE_SEQ.NEXTVAL, (SELECT MAX(num) FROM calendar), #{when}, #{content})
+	</insert>
+	
+	<update id = "saveAttach" 
+		parameterType="list">
+		INSERT INTO attachcalendar(num,pnum,fname,pname)
+		SELECT CALEN_ATTACH_SEQ.NEXTVAL AS num,t.* FROM 
+		(
+			<foreach collection="list" item="item" index="index" separator="union all">
+				SELECT (SELECT MAX(num) FROM calen_schedule), #{item.fname},#{item.pname} FROM DUAL
+			</foreach>
+		)t
+	</update>
+	
 </mapper>

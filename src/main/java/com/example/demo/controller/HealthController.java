@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
-import com.example.demo.service.AttachService;
 import com.example.demo.service.FileStorageService;
-import com.example.demo.service.FreeBoardService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.AdminBoard;
-import com.example.demo.vo.Attach;
 import com.example.demo.vo.AttachBoard;
-import com.example.demo.vo.FreeBoard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
 
@@ -50,77 +44,6 @@ public class HealthController {
 	private FileStorageService fss;
 	
 	/* 다루한 */
-	@Autowired
-	private FreeBoardService fbs;
-	@Autowired
-	private AttachService as;
-
-	@GetMapping("/freeBoard")
-	public String freeBoard(Model m, String bname) {
-		List<FreeBoard> listFreeBoard = fbs.getFreeBoardList(bname);
-		m.addAttribute("listFreeBoard", listFreeBoard);
-		m.addAttribute("bname",bname);
-		return "html/freeboard/freeBoard";
-	}
-
-	@PostMapping("/getListMap")
-	@ResponseBody
-	public List<Map<String, Object>> getListMap(Model m, String bname) {
-		List<Map<String, Object>> listMap = fbs.getListFreeBoardToListMap(bname);
-		return listMap;
-	}
-
-	@GetMapping("/addFreeBoard")
-	public String addFreeBoard(Model m, String bname) {
-		m.addAttribute("bname", bname);
-		return "html/freeboard/addFreeBoard";
-	}
-	@PostMapping("/addFreeBoard")
-	@ResponseBody
-	public Map<String,Object> addFreeBoard(Model m, FreeBoard freeBoard) {
-		Map<String,Object> map = new HashMap<>();
-		FreeBoard addFreeBoard = fbs.addFreeBoard(session,freeBoard);
-		map.put("result", addFreeBoard!=null?"true":"false");
-		map.put("freeBoard", addFreeBoard);
-		return map;
-	}
-	
-	@PostMapping("/uploadFiles")
-	@ResponseBody
-	public Map<String,Object> UploadFiles(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum, String contents) {
-		Map<String,Object> map = new HashMap<>();
-		boolean result = as.saveAttach(request, files, fbnum);
-		FreeBoard updateFreeBoard = fbs.updateContents(fbnum, contents);
-		map.put("result", result);
-		return map;
-	}
-	@GetMapping("/downloadFile")
-	public ResponseEntity<Resource> donwloadFile(HttpServletRequest request, Integer fbnum, String aname) {
-		return as.donwloadAttach(request, fbnum, aname);
-	}
-
-	@GetMapping("/detailFreeBoard")
-	public String detailFreeBoard(Model m,Integer fbnum) {
-		FreeBoard freeBoard = fbs.getFreeBoardByFbnum(fbnum);
-		m.addAttribute("freeBoard",freeBoard);
-		return "html/freeboard/detailFreeBoard";
-	}
-	
-	@PostMapping("/deleteFreeBoard")
-	@ResponseBody
-	public Map<String,Object> deleteFreeBoard(Model m, Integer fbnum) {
-		Map<String,Object> map = new HashMap<>();
-		map.put("result",fbs.deleteFreeBoard(fbnum)&&as.deleteAttach(fbnum));
-		return map;
-	}
-	
-	@GetMapping("/editFreeBoard")
-	public String editFreeBoard(Model m, Integer fbnum) {
-		m.addAttribute("freeBoard",fbs.getFreeBoardByFbnum(fbnum));
-		m.addAttribute("listAttach", as.getListAttach(fbnum));
-		return "html/freeBoard/editFreeBoard";
-	}
-
 	/* 다루한 */
 
 	/* 현주 */
@@ -130,6 +53,7 @@ public class HealthController {
 	@Autowired
 	ResourceLoader resourceLoader;
 
+	
 	@GetMapping("/")
 	@ResponseBody
 	public String userlist() {
