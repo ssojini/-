@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="fragments/common :: html-head">
+
 <meta charset="UTF-8">
 <title>상품 세부내용</title>
 </head>
@@ -79,11 +79,10 @@ $(function(){
 	
 </script>
 <body>
-<main>
 <div>
-    <div th:replace="fragments/common :: header"></div>
+    <div th:replace="fragments/shopnav :: shopnav"></div>
 </div>
-
+<main>
 <form id="cartForm" action="/shop/buynow">
 <input type="hidden" name="userid" value="asdf">
 <h3>구매-상품 상세보기</h3>

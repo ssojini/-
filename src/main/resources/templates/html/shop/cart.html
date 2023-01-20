@@ -171,10 +171,11 @@ function buySel(){
 		buySel();
 	}
 </script>
-<body>
 <div>
-    <div th:replace="fragments/common :: header"></div>
+    <div th:replace="fragments/shopnav :: shopnav"></div>
 </div>
+<body>
+
 	<main>
 		<h3>장바구니</h3>
 		<form id="buyCart" action="/shop/buycart"><input id="items" name="items" type="hidden"></form>
