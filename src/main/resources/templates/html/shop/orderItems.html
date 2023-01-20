@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: html-head">
+<meta charset="UTF-8">
+<title>구매하기</title>
+</head>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+h3 {
+	
+}
+
+body {
+	text-align: center;
+	height: 100%
+}
+/* .contents{ 
+	display: flex
+	height:auto; overflow: hidden;	
+	} */
+.mymenu {
+	background: #F0FFF0;
+	float: left;
+	width: 20%;
+	height: 100vh;
+}
+
+.tb_cart {
+	float: left;
+	width: 60%;
+}
+
+.left_box {
+	background: #696969;
+	width: 20%;
+	height: 100vh;
+	float: right;
+}
+
+.btn_buy {
+	top: 100px;
+	position: sticky;
+	top: 0px;
+}
+
+.tb_head {
+	
+}
+</style>
+<body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
+<main>
+		<h3>구매하기</h3>
+		<div style="height:20%; width:100%; background-color:#2F4F4F; color: white;">
+		Head</div>	
+		<div class="contents">	
+		<div class="mymenu">마이메뉴</div>
+		
+
+							
+		<div class="tb_cart">
+			<table>
+				<thead class="tb_head">
+					<tr>
+						<td></td><td>대표이미지</td><td>상품명</td><td>주문수량</td><td>주문금액</td>					
+					</tr>
+				</thead>
+				<tbody th:if="${#lists.size(orderlist)}!=0">				
+					<tr th:id="${n.cartnum}" th:each="n:${orderlist}">
+						<td>
+							<input type="hidden" th:value="${n.goodsnum}">
+						</td>
+						<td><img alt="mainpic_original" th:src="'/images/addgoods/'+${n.mainpic_server}"></td>
+						<td><a th:href="'/shop/detail/'+${n.goodsnum}">[[${n.goodsname}]]</a></td>
+						<td><span th:text="${n.prod_cnt}+개"></span><br>												
+						<td th:text="${n.sum}+원"></td>
+									
+					</tr>							
+				</tbody>
+			</table>
+					
+		</div>
+
+		<div class="left_box">
+			<div class="btn_buy" style="position: sticky; text-align: center;">
+				<div>결제 내용	</div>
+				<div>구매</div>
+				<div style="text-align: left;">결제 금액:<span id="total_sum"></span></div>
+
+					<input type="button" value="구매하기" onclick="buyNow()"> 
+					<input type="button" value="취소하기" onclick=""> 
+						
+				</div>
+		</div>
+		</div>
+
+
+	</main>
+</body>
+</html>
