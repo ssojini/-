@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/common :: head">
 <meta charset="utf-8">
 <title>mypage edit</title>
@@ -8,54 +8,57 @@
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
-<form id="editUserInfo" encType="multipart/form-data" 
-		style="float:right; width:1200px; height:200px; ">
+<div style="width:100vw; height:100vh;">
+<div id="leftbox" style="float:left; width: 30%; height: 100%; border-right: solid 0.5px black;">
 
-	<div class="profile_area" style="widt">
-	    <div class="profile_inner">
-	        <a href="#" onclick="changeImage()" class="photo">
-	            <img th:src="${user.profile}" width="84" height="84" alt="프로필 이미지">
-	            <span class="photo_edit"></span>
-	        </a>
+	<div class="profile_area" style="display: flex; justify-content: center;">
+	    <div class="profile_inner" style=" padding-top:70px; text-align: center;">
+	    	<div style="width: 150px;height: 150px; border-radius: 70%;overflow: hidden;">
+		        <a href="#" onclick="changeImage()" class="photo">
+		            <img th:src="${user.profile}" style="width:100%; height:100%; " alt="프로필 이미지">
+		            <span class="photo_edit"></span>
+		        </a>
+	        </div>
 	        <div id="myp" class="profile">
-	            <p class="useid">[[${user.userid}]]</p>
-	            <p class="usemail">[[${user.email}]]</p>
+	            <div class="useid" style="font-size:1.5em; color:black; font-weight: bold;">[[${user.userid}]]</div>
+	            <div class="usemail">[[${user.email}]]</div>
 	        </div>
 	    </div>    
 	</div>
 
-    <div id="headerLeft" class="header_left">
+    <div id="headerLeft" class="header_left" style="width:250px; height:300px; margin: auto;">
 
-        <ul class="left_menu" role="menu">
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true">
+        <ul class="left_menu" role="menu" style="display: inline;">
+            <li style="padding-top:50px; font-size:1.2em;">
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true" style="color:black;">
                     <div class="menu_text on">내정보</div>
                 </a>
             </li>
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+            <li style="padding-top:20px; font-size:1.2em;">
+                <a href="@{'/health/useredit/'+ ${user.userid}}" class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">개인정보 수정</div>
                 </a>
             </li>
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+            <li style="padding-top:20px; font-size:1.2em;">
+                <a th:href="@{'/health/findpwd/'+ ${user.userid}}" class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">비밀번호 수정</div>
                 </a>
             </li>
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+            <li style="padding-top:20px; font-size:1.2em;">
+                <a href="" class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">게시글 관리</div>
                 </a>
             </li>
         </ul>
         <ul class="left_link">
-            <li><a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)">
+            <li style="padding-top:20px; font-size:1.2em;">
+            	<a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)" style="color:black;">
                     <div class="link_text">기타</div>
                 </a>
             </li>
         </ul>
 	</div>
-
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -160,7 +163,6 @@ function readURL(input)
 }
  
 // 이벤트를 바인딩해서 input에 파일이 올라올때 (input에 change를 트리거할때) 위의 함수를 this context로 실행합니다.
-
 $(function(){
    $("#file").change(function(){
          readURL(this);
@@ -204,57 +206,68 @@ $(function(){
 })
 
 </script>
-<form id="editUserInfo" encType="multipart/form-data" style="float:right; width: 1200px; height: 200px; ">
+</script>
+<form id="editUserInfo" encType="multipart/form-data" style="float:left; width: 70%; height: 100%; ">
 	<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
-	<h3>내정보관리</h3>
-	<table>
-		<tbody>
-			<tr>
-				<th scope="row">계정</th>
-				<td>[[${user.userid}]]</td>
-			</tr>
-			<tr>
-				<th scope="row">프로필사진</th>
-				<td><img th:src="${user.profile}" id="image_section"  width="84" height="84" alt="프로필 이미지"> </td>
-				<td><input type='file' id="file" name="file" ></input></td>
-			</tr>			
-			<tr>
-				<th scope="row">닉네임</th>
-				<td>
-					<input type='text' id="nickname" name="nickname" th:value="${user.nickname}"></input>
-					<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">전화번호</th>
-				<td>
-					<input type='text' id="phone" name="phone" th:value="${user.phone}"></input>
-					<span class="error_next_box"></span>  
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">이메일</th>
-				<td> 
-					<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" value="meroro">
-					@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
-					<span class="error_next_box"></span>  
-					<select name="select_email" onChange="selectEmail(this)">
-				        <option value="" selected>선택하세요</option>
-				        <option value="naver.com">naver.com</option>
-				        <option value="gmail.com">gmail.com</option>
-				        <option value="hanmail.com">hanmail.com</option>
-				        <option value="nate.com">hanmail.com</option>
-				        <option value="1">직접입력</option>
-					</select>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<br>
-	<button type="submit" id="btnedit">확인</button>
-	<button type="reset">취소</button><br>
-	<a th:href="'/health/deleteuser/'+${user.userid}">회원탈퇴</a>
+	<div style="padding:70px 0 0 70px;">
+		<h3 style="font-size:2em; color:black; font-weight: bold;">내정보관리</h3>
+		<p>
+		<table style="color:black;">
+			<tbody>
+				<tr>
+					<th scope="row" style="width:100px;">계정</th>
+					<td>[[${user.userid}]]</td>
+				</tr>
+				<tr>
+					<th scope="row">프로필사진</th>
+					<td>
+						<img th:src="${user.profile}" id="image_section"  width="84" height="84" alt="프로필 이미지">
+						<input type='file' id="file" name="file" ></input>
+					</td>
+				</tr>			
+				<tr>
+					<th scope="row">닉네임</th>
+					<td>
+						<input type='text' id="nickname" name="nickname" th:value="${user.nickname}"></input>
+						<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">전화번호</th>
+					<td>
+						<input type='text' id="phone" name="phone" th:value="${user.phone}"></input>
+						<span class="error_next_box"></span>  
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">이메일</th>
+					<td> 
+						<div  style="float:left;">
+							<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" value="meroro"  style="float:left;">
+						</div> 
+						<div  style="float:left;">
+							<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
+						</div>	
+						<div  style="float:left;">
+						<select name="select_email" onChange="selectEmail(this)">
+					        <option value="" selected>선택하세요</option>
+					        <option value="naver.com">naver.com</option>
+					        <option value="gmail.com">gmail.com</option>
+					        <option value="hanmail.com">hanmail.com</option>
+					        <option value="nate.com">hanmail.com</option>
+					        <option value="1">직접입력</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<button type="submit" id="btnedit">확인</button>
+		<button type="reset">취소</button><br>
+		<a th:href="'/health/deleteuser/'+${user.userid}">회원탈퇴</a>
+	</div>
 </form>
-
+</div>
 </body>
 </html>

@@ -45,7 +45,7 @@ public class JoinController
 	{
 		//상욱
 		Date date = Date.valueOf("2022-12-31");
-		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","testID");
+		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png");
 		User added = repo.save(member);
 		
 		// 현주 
