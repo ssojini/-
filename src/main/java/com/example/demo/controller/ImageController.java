@@ -23,7 +23,7 @@ public class ImageController {
 	@ResponseBody
 	public byte[] getImage(@PathVariable("filepath") String filepath) {
 		try {
-			Resource resource = resourceLoader.getResource("WEB-INF/files/" + filepath);
+			Resource resource = resourceLoader.getResource("WEB-INF/files/" + filepath.replace(":", "/"));
 			System.out.println("resource:"+resource);
 			InputStream is = resource.getInputStream();
 			int len = (int)resource.getFile().length();

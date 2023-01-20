@@ -26,8 +26,8 @@ public class AddGoods_Att {
 	private String detail_original;
 	private String detail_server;
 	@Id
-	@SequenceGenerator(sequenceName = "addgoods_att_seq", allocationSize = 1, name="goodspho_GEN")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "goodspho_GEN")
+	@SequenceGenerator(sequenceName = "addgoods_att_seq", allocationSize = 1, name="goodspho_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "goodspho_seq")
 	private int goodspho_seq;
 	private int goodsnum;
 	
