@@ -50,7 +50,7 @@
 				<li th:each="goods: ${goodslist}">
 				<a href="#">
 					<span id="quick-icon1"></span>
-						<img th:src="'/files/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+						<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
 						<p th:text="${goods.goodsname}"/>
 						<p th:text="${goods.price}"/>
 					</a>
