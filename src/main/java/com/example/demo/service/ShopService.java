@@ -17,6 +17,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -67,7 +71,7 @@ public class ShopService
 		// 이미지 경로: /src/main/resources/static/images/addgoods 
 		// static 다음부터 경로 ex)images/addgoods/
 		
-		System.err.println("list: "+list);
+		//System.err.println("list: "+list);
 		return list;
 	}
 
@@ -79,7 +83,7 @@ public class ShopService
 	{
 		Map<String, Object> map = new HashMap<>();
 		ArrayList<Cart> cartList = cart_repo.findByUserid(cart.getUserid());
-		System.err.println(cartList);
+		//System.err.println(cartList);
 		boolean check_add= false; // 이미 장바구니에 담겼으면 true
 		for(int i =0; i<cartList.size();i++)
 		{
@@ -147,11 +151,11 @@ public class ShopService
 	public boolean delSel(HttpServletRequest request) 
 	{
 		String[] ajaxMsg = request.getParameterValues("valueArr");
-		System.err.println("del_cnt: "+ajaxMsg.length);
+		//System.err.println("del_cnt: "+ajaxMsg.length);
 		try {
 			for(int i=0; i<ajaxMsg.length;i++)
 			{
-				System.err.println(ajaxMsg[i]);
+				//System.err.println(ajaxMsg[i]);
 				cart_repo.deleteById(Integer.valueOf(ajaxMsg[i]));			
 			}	
 			return true;
@@ -160,15 +164,49 @@ public class ShopService
 		}
 	}
 	
+	
+	//즉시 구매
+	public List<Cart> buyNow(Cart cart) 
+	{
+		List<Cart> orderlist = new ArrayList<>();
+		cart.setSum(cart.getPrice()*cart.getProd_cnt());
+		orderlist.add(cart);
+		return orderlist;
+	}
+	
 	//장바구니 선택 구매
-	public void buySel() {
+	public List<Cart> buyCart(String items) {
 		
+		List<Cart> orderlist = new ArrayList<>();
+		
+		JSONParser parser = new JSONParser(); 
+		try 
+		{ 
+			JSONArray jsArr= (JSONArray) parser.parse(items);
+			for( int i=0; i<jsArr.size();i++) 
+			{ 
+				JSONObject jsObj= (JSONObject) jsArr.get(i); 
+				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
+				String userid = (String) jsObj.get("userid");
+				System.err.println("cartnum: "+cartnum);
+				Cart cart = cart_repo.findByCartnumAndUserid(cartnum,userid);
+				orderlist.add(cart);
+				
+			}
+		} catch (ParseException e) { 
+			e.printStackTrace(); }
+		System.err.println(orderlist);
+		
+		return orderlist;
 	}
 	
 	//장바구니 전체 구매
 	public void buyAll() {
 		
 	}
+		
+	
+	
 	/*장바구니 끝*/
 	
 	/* 상욱 끝 */
@@ -361,5 +399,6 @@ public class ShopService
 
 		   
 		  }
+
 
 }

@@ -19,20 +19,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.interfaces.AttachRepository;
-import com.example.demo.vo.Attach;
+import com.example.demo.interfaces.FreeboardAttachRepository;
+import com.example.demo.vo.FreeboardAttach;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class AttachService {
+public class FreeboardAttachService {
 	@Autowired
-	private AttachRepository attachRepository;
+	private FreeboardAttachRepository attachRepository;
 	@Autowired
 	private ResourceLoader resourceLoader;
 
-	public Attach save(Integer fbnum, String aname, Long asize) {
-		Attach attach = new Attach();
+	public FreeboardAttach save(Integer fbnum, String aname, Long asize) {
+		FreeboardAttach attach = new FreeboardAttach();
 		attach.setFbnum(fbnum);
 		attach.setAname(aname);;
 		attach.setAsize(asize);
@@ -40,17 +40,17 @@ public class AttachService {
 		return attachRepository.save(attach);
 	}
 
-	public Attach save(Attach attach) {
+	public FreeboardAttach save(FreeboardAttach attach) {
 		return attachRepository.save(attach);
 	}
 
-	public List<Attach> getList(Integer fbnum) {
-		List<Attach> listAttach = attachRepository.findAllByFbnum(fbnum);
+	public List<FreeboardAttach> getList(Integer fbnum) {
+		List<FreeboardAttach> listAttach = attachRepository.findAllByFbnum(fbnum);
 		return listAttach;
 	}
 
-	public List<Attach> deleteByFbnum(HttpServletRequest request, Integer fbnum) {
-		List<Attach> listAttach = attachRepository.deleteByFbnum(fbnum);
+	public List<FreeboardAttach> deleteByFbnum(HttpServletRequest request, Integer fbnum) {
+		List<FreeboardAttach> listAttach = attachRepository.deleteByFbnum(fbnum);
 		deleteFiles(request, listAttach);
 		return listAttach;
 	}
@@ -72,17 +72,17 @@ public class AttachService {
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"").body(resource);
 	}
 
-	public List<Attach> upload(HttpServletRequest request, MultipartFile[] files, Integer fbnum) {
+	public List<FreeboardAttach> upload(HttpServletRequest request, MultipartFile[] files, Integer fbnum) {
 		String savePath = request.getServletContext().getRealPath("/WEB-INF/files");
 		System.out.println("savePath:"+savePath);
 		try {
-			List<Attach> liAttach = new ArrayList<>();
+			List<FreeboardAttach> liAttach = new ArrayList<>();
 			for (int i = 0; i < files.length; i++) {
-				Attach attach = new Attach();
+				FreeboardAttach attach = new FreeboardAttach();
 				attach.setAname(files[i].getOriginalFilename());
 				attach.setAsize(files[i].getSize());
 				attach.setFbnum(fbnum);
-				Attach save = attachRepository.save(attach);
+				FreeboardAttach save = attachRepository.save(attach);
 
 				files[i].transferTo(new File(savePath + "/" + save.getAnum() + "_" + save.getAname()));
 
@@ -96,7 +96,7 @@ public class AttachService {
 		return null;
 	}
 
-	public List<Map<String,String>> listAttachToListMap(List<Attach> listAttach) {
+	public List<Map<String,String>> listAttachToListMap(List<FreeboardAttach> listAttach) {
 		List<Map<String,String>> liMap = new ArrayList<>();
 		for (int i = 0; i < listAttach.size(); i++) {
 			Map<String,String> map = new HashMap<>();
@@ -109,7 +109,8 @@ public class AttachService {
 		return liMap;
 	}
 
-	public boolean delete(HttpServletRequest request, List<Attach> listAttach) {
+	public boolean delete(HttpServletRequest request, List<FreeboardAttach> listAttach) {
+		System.out.println("listAttach:"+listAttach);
 		for (int i = 0; i < listAttach.size(); i++) {
 			attachRepository.deleteById(listAttach.get(i).getAnum());
 			deleteFile(request, listAttach.get(i));
@@ -117,14 +118,14 @@ public class AttachService {
 		return true;
 	}
 
-	public boolean deleteFiles(HttpServletRequest request, List<Attach> listAttach) {
+	public boolean deleteFiles(HttpServletRequest request, List<FreeboardAttach> listAttach) {
 		for (int i = 0; i < listAttach.size(); i++) {
 			deleteFile(request, listAttach.get(i));
 		}
 		return true;
 	}
 
-	public boolean deleteFile(HttpServletRequest request, Attach attach) {
+	public boolean deleteFile(HttpServletRequest request, FreeboardAttach attach) {
 		try {
 			String path = request.getServletContext().getRealPath("/WEB-INF/files");
 			new File(path + "/" + attach.getAnum() + "_" + attach.getAname()).delete();
@@ -136,17 +137,17 @@ public class AttachService {
 		return false;
 	}
 
-	public List<Attach> jsonArrToListAttach(String data) {
+	public List<FreeboardAttach> jsonArrToListAttach(String data) {
 		JSONParser jsPar = new JSONParser();
 		try {
 			JSONArray jsArr = (JSONArray)jsPar.parse(data);
 
-			List<Attach> listAttach = new ArrayList<>();
+			List<FreeboardAttach> listAttach = new ArrayList<>();
 			for (int i = 0; i < jsArr.size(); i++) {
 				JSONObject json = (JSONObject)jsArr.get(i);
 				System.out.println(json.toJSONString());
 
-				Attach attach = new Attach();
+				FreeboardAttach attach = new FreeboardAttach();
 				attach.setFbnum(Integer.valueOf((String)json.get("fbnum")));
 				attach.setAnum(Integer.valueOf((String)json.get("anum")));
 				attach.setAname((String)json.get("aname"));
