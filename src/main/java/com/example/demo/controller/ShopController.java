@@ -240,7 +240,7 @@ public class ShopController {
 	/* 종빈 */
 	@GetMapping("/main")
 	public String main() {
-		return "html/shop/main";
+		return "html/shop/ShopMain";
 	}
 
 	@GetMapping("/mypage/{userid}")

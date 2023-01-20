@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -36,10 +37,9 @@ public class FreeboardController {
 	
 	@GetMapping({"","/"})
 	public String freeboard(Model m, String bname, @PageableDefault(size=3, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
-		List<Freeboard> listFreeBoard = freeboardService.getListByBname(bname!=null?bname:"free",pageable);
-		m.addAttribute("listFreeBoard", listFreeBoard);
+		Page<Freeboard> pageFreeboard = freeboardService.getListByBname(bname!=null?bname:"free",pageable);
+		m.addAttribute("pageFreeboard", pageFreeboard);
 		m.addAttribute("bname",bname);
-		m.addAttribute("pageable",pageable);
 		return "html/freeboard/freeBoard";
 	}
 

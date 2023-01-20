@@ -35,7 +35,7 @@
 					<th>제목</th>
 					<th>저자</th>
 				</tr>
-				<tr class="boardTr" th:each="board : ${listFreeBoard}">
+				<tr class="boardTr" th:each="board : ${pageFreeboard}">
 					<td>[[${board.fbnum}]]</td>
 					<td><a
 						th:href="@{/freeboard/detail(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
@@ -43,7 +43,14 @@
 				</tr>
 			</table>
 			<div>
-				<div><a th:href="@{/freeboard(page=${pageable.pageNumber})}">[[${pageable.pageNumber+1}]]</a></div>
+				<span th:if="${pageFreeboard}"></span>
+				<span th:if="${pageFreeboard.hasPrevious()}"><a th:href="@{/freeboard(page=${pageFreeboard.previousPageable().getPageNumber()})}">[[${pageFreeboard.previousPageable().getPageNumber()}+1]]</a></span>
+				<span>[[${pageFreeboard.getNumber()+1}]]</span>
+				<span th:if="${pageFreeboard.hasNext()}"><a th:href="@{/freeboard(page=${pageFreeboard.nextPageable().getPageNumber()})}">[[${pageFreeboard.nextPageable().getPageNumber()+1}]]</a></span>
+				<span></span>
+			</div>
+			<div>
+				<span>[[${pageFreeboard.getTotalPages()}]]</span>
 			</div>
 		</div>
 		<div>
