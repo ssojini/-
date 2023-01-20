@@ -1,6 +1,4 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Nanum+Pen+Script&display=swap');
-
 *{
 	margin:0;
 	padding: 0;
@@ -23,21 +21,19 @@ header{
 }
 #logo{
 	float:left;
-	width:250px;
+	width:300px;
 	height: 100px;
 	line-height:100px;
 	padding-left:20px;
 }
 #logo h1{
-	font-family: 'Indie Flower', cursive;
-	font-family: 'Nanum Pen Script', cursive;
-	font-weight:550;
-	font-size:45px;
+	font-weight:500;
+	font-size:27px;
 	color: #fff;
 	text-shadow:0 -1px 0 #222	
 }
 nav{
-	float:right;
+	float:left;
 	width:900px;
 	height:100px;
 	padding-top:40px;
@@ -67,12 +63,12 @@ nav{
 	display:none;
 	position: absolute;
 	width:160px;
-	background-color: rgba(255,255,0.6);
+	background-color: rgba(240,240,0.6);
 	left: 0;
 	margin: 0;
 	left:20px;
 }
-#topMenu > li > ul >li >a{
+#topMenu > li > ul > li >a{
 	font-size:14px;
 	padding:10px;
 	color:#000;
@@ -86,29 +82,34 @@ nav{
 }
 #slideShow{
 	clear:both;
-	width:100%;
-	height:300px;
+	width:1000px;
+	height:350px;
+	object-fit: cover;
 	overflow:hidden;
 	position:relative;
+	margin: 0 auto;
+	margin-top:30px;
 }
 #slides{
-	position: absolute;
+	text-align: center;
 }
 #slides > img{
-	width:100%;
-	float: left;
+	width:1000px;
+	height:350px;
+	margin: 0 auto;
+    display: block;
 }
 button{
 	position: absolute;
-	height:100%;
-	top:0;
-	border:none;
-	padding:20px;
-	background-color:tramsparent;
-	color:#000;
-	font-weight:800;
-	font-size:24px;
-	opacity:0.5;
+    height: 100%;
+    top:0;
+    border:none;
+    padding:20px;
+    background-color: transparent;
+    color: #000;
+    font-weight: 800;
+    font-size:24px;
+    opacity:0.5;
 }
 #prev{
 	left:0;
@@ -127,22 +128,234 @@ button:focus{
 }
 #Contents{
 	width:100%;
-	height:300px;
+	height:100%;
+	margin-top: 20px;
 }
 #tabMenu{
 	float:left;
 	width:600px;
 	height:100%;
-	background-color:violet;
+	margin-top: 10px;
 }
-#Links{
-	float:right;
-	width:600px;
-	height:100%;
-	background-color:skyblue;
+#tabMenu input[type="radio"]{
+	display: none;
+}
+#tabMenu label{
+	display: inline-block;
+	margin: 0 0;
+	padding: 15px 25px;
+	font-weight:600;
+	text-align:center;
+	color: #aaa;
+	border: 1px solid transparent;
+}
+#tabMenu label:hover{
+	color: #222;
+	cursor:pointer;
+}
+#tabMenu input:checked +label{
+	color: #b00;
+	border: 1px solid #ddd;
+	background-color:#eee;
+}
+.tabContent{
+	display:none;
+	padding:20px 0 0;
+	border-top: 1px solid #ddd;
+}
+.tabContent h2{
+	display: none;
+}
+#notice ul{
+	list-style:disc;
+	margin-left:30px;
+}
+#notice ul li{
+	font-size:16px;
+	line-height:2.5;
+}
+#gllery ul li{
+	display: inline;
+}
+#tab1: checked ~ #notice,
+#tab2: checked ~ #gallery{
+	display:block;
+}
+#links{
+	width:100%;
+	height:50%;
+	margin-top: 40px;
+	margin-bottom: 70px;
+}
+#links h2{
+	display: block;
+	color:#222;
+	fontweight:600;
+	text-shadow: 0 1px #ddd;
+	padding: 20px 60px;
+	text-align : center;
+}
+#links ul{
+	padding:0;
+	overflow: hidden;
+}
+#links ul li{
+	float:left;
+	width: 25%;
+	text-align: center;
+	padding: 20px 30px 0 30px;
+}
+
+#links ul li a img{
+	display:block;
+	margin:0 auto;
+	border: 1px solid #ddd;
+	line-height:150px;
+	padding:10px 10px 30px 10px;
+	width:300px;
+	height:300px;
+	object-fit: cover;
+}
+
+#links ul ui a p{
+	margin-top: 15px;
+	font-weight:600;
+	color: #666;
+}
+
+
+
+
+
+
+#links1{
+	width:100%;
+	height:50%;
+	margin-top: 40px;
+	margin-bottom: 70px;
+}
+#links1 h2{
+	display: block;
+	color:#222;
+	fontweight:600;
+	text-shadow: 0 1px #ddd;
+	padding: 20px 60px;
+	text-align : center;
+}
+#links1 ul{
+	padding:0;
+	overflow: hidden;
+}
+#links1 ul li{
+	float:left;
+	width: 33%;
+	text-align: center;
+	padding: 20px 30px 0 30px;
+}
+
+#links1 ul li a img{
+	display:block;
+	margin:0 auto;
+	border: 1px solid #ddd;
+	line-height:150px;
+	padding:10px 10px 30px 10px;
+	width:300px;
+	height:300px;
+	object-fit: cover;
+}
+
+#links1 ul ui a p{
+	margin-top: 15px;
+	font-weight:600;
+	color: #666;
+}
+
+
+
+
+
+
+#links2{
+	width:100%;
+	height:50%;
+	margin-top: 40px;
+	margin-bottom: 70px;
+}
+#links2 h2{
+	display: block;
+	color:#222;
+	fontweight:600;
+	text-shadow: 0 1px #ddd;
+	padding: 20px 60px;
+	text-align : center;
+}
+#links2 ul{
+	padding:0;
+	overflow: hidden;
+}
+#links2 ul li{
+	float:left;
+	width: 33%;
+	text-align: center;
+	padding: 20px 30px 0 30px;
+}
+
+#links2 ul li a img{
+	display:block;
+	margin:0 auto;
+	border: 1px solid #ddd;
+	line-height:150px;
+	padding:10px 10px 30px 10px;
+	width:300px;
+	height:300px;
+	object-fit: cover;
+}
+
+#links2 ul ui a p{
+	margin-top: 15px;
+	font-weight:600;
+	color: #666;
 }
 footer{
 	width:100%;
 	height:100px;
-	background-color:gray;
+	border-top: 2px solid #222;
+}
+#bottomMenu{
+	width: 100%;
+	height: 20px;
+	position: relative;
+}
+#bottomMenu ul{
+	margin-top: 15px;
+}
+#bottomMenu ul li{
+	float: left;
+	padding: 5px 20px;
+	border-right:1px solid #ddd;
+}
+#bottomMenu ul li:last-child{
+	border-right:none;
+}
+#bottomMenu ul li a, #bottomMenu ul li a:visited{
+	fontsize:15px;
+	color:#666;
+}
+#sns{
+	position: absolute;
+	right:30px;	
+}
+#sns ul li{
+	border: none;
+	padding: 5px;
+}
+
+#company{
+	clear: left;
+	margin-top:25px;
+	margin-left:20px;
+}
+p{
+	font-size:14px;
+	color:#aaa;
 }

@@ -9,8 +9,8 @@
 	<div id="container">
 		<header>
 			<div id="logo">
-				<a href="ShopMain.html">
-					<h1>건강한 한끼:건끼</h1>
+				<a href="/shop/ShopMainPage">
+					<h1>건끼 : Shop</h1>
 				</a>
 			</div>
 			<nav>
@@ -35,25 +35,176 @@
 		</header>
 		<div id="slideShow">
 			<div id="slides">
-				<img src="/shopmain/apple.jpg" alt="">
-				<img src="/shopmain/berry.jpg" alt="">
+				<img src="/shopmain/001.png" alt="">
+				<img src="/shopmain/002.png" alt="">
 				<button id="prev">&lang;</button>
-				<button id="next">&lang;</button>
+				<button id="next">&rang;</button>
 			</div>
 		</div>
+		
+		<div id="links">
+			<ul>
+			<h2>추천상품</h2>
+
+		<!--  
+				<li th:each="goods: ${goodslist}">
+				<a href="#">
+					<span id="quick-icon1"></span>
+						<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+						<p th:text="${goods.goodsname}"/>
+						<p th:text="${goods.price}"/>
+					</a>
+				</li>
+			</ul>
+	-->
+			
+			
+				<li>
+					<a href="#">
+						<span id="quick-icon1"></span>
+						<img src="/shopmain/product01.JPG" alt="">
+						<p>영양제1</p>
+						<p>1000</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span id="quick-icon2"></span>
+						<img src="/shopmain/product02.JPG" alt="">
+						<p>영양제2</p>
+						<p>2000</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span id="quick-icon3"></span>
+						<img src="/shopmain/product03.JPG" alt="">
+						<p>영양제3</p>
+						<p>3000</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span id="quick-icon4"></span>
+						<img src="/shopmain/berry.jpg" alt="">
+						<p>딸기</p>
+						<p>890000</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div id="links1">
+			<ul>
+			<h2>할인상품</h2>
+				<li>
+					<a href="#">
+						<span id="quick-icon2"></span>
+						<img src="/shopmain/product02.JPG" alt="">
+						<p>영양제2</p>
+						<p>2000</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span id="quick-icon1"></span>
+						<img src="/shopmain/apple.jpg" alt="">
+						<p>독사과</p>
+						<p>free</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span id="quick-icon3"></span>
+						<img src="/shopmain/product03.JPG" alt="">
+						<p>영양제3</p>
+						<p>3000</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div id="links2">
+			<ul>
+			<h2>신상품</h2>
+				<li>
+					<a href="#">
+						<span id="quick-icon1"></span>
+						<img src="/shopmain/product01.JPG" alt="">
+						<p>영양제1</p>
+						<p>1000</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span id="quick-icon2"></span>
+						<img src="/shopmain/product02.JPG" alt="">
+						<p>영양제2</p>
+						<p>2000</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<span id="quick-icon3"></span>
+						<img src="/shopmain/product03.JPG" alt="">
+						<p>영양제3</p>
+						<p>3000</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- 
 		<div id="contents">
 			<div id="tabMenu">
+			<input type="radio" id="tab1" name="tabs">
+			<label for="tab1">공지사항</label>
+			<input type="radio" id="tab2" name="tabs" checked>
+			<label for="tab2">상품목록</label>
 			
-			</div>
-			<div id="links">
-			
-			</div>
+				<div id="notice" class="tabContent">
+					<h2>공지사항</h2>
+					<ul>
+						<li><img src="/shopmain/product01.jpg"></li>
+						<li><img src="/shopmain/product02.JPG"></li>
+						<li><img src="/shopmain/product03.JPG"></li>
+					</ul>
+				</div>
+					
+				<div id="gallery" class="tabContent">
+					<h2>상품목록</h2>
+					<ul>
+						<li><img src="/shopmain/product01.jpg"></li>
+						<li><img src="/shopmain/product02.JPG"></li>
+						<li><img src="/shopmain/product03.JPG"></li>
+					</ul>
+				</div>
+					
+			</div>	
+		</div> -->
 		</div>
 		<footer>
-		
+			<div id="bottomMenu">
+				<ul>
+				<li><a href="#">회사 소개</a></li>
+				<li><a href="#">개인정보처리방침</a></li>
+				<li><a href="#">쇼핑몰약관</a></li>
+				<li><a href="#">사이트맵</a></li>
+			</ul>
+			<div id="sns">
+				<ul>
+					<li><a href="#"><img class="sns-img" src="/shopmain/facebook.png"></a></li>
+					<li><a href="#"><img class="sns-img" src="/shopmain/twitter.png"></a></li>
+					<li><a href="#"><img class="sns-img" src="/shopmain/instagram.png"></a></li>
+					<li><a href="#"><img class="sns-img" src="/shopmain/kakao-talk.png"></a></li>
+				</ul>
+			</div>
+			</div>
+			<div id="company">
+				<p>서울특별시 관악구 신림로 340 르네상스쇼핑몰 6층 (대표전화) 123-456-7890</p>
+			</div>
 		</footer>
 	</div>
 	
-	<script src="js/shopMain.js"></script>
+	<script src="/js/shopMain.js"></script>
 </body>
 </html>
