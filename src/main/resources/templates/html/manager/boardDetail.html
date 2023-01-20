@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function deleteBoard(fbnum, userid) {
+	alert("정말로 삭제하시겠습니까?")
+
+	alert(userid);
+	$.ajax({
+		url:"/health/deleteFreeBoard",
+		method:"post",
+		data:{"fbnum":fbnum},
+		dataType:"json",
+		cache:false,
+		success:function(res) {
+			alert(res.result?"삭제 성공":"삭제 실패");
+			if (res.result) {
+				alert("/manager/userdetail/"+userid);
+				location.href = "/manager/userdetail/"+userid;
+			}
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
+}
+</script>
+<style>
+	table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+ 	}
+  	th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+    text-align: center;
+  	}
+</style>
+
+</head>
+<body style="margin:0; padding: 0px">
+<div>
+    <div th:replace="fragments/managernav :: header"></div>
+</div>
+<div style="margin-left:230px;">
+<form>
+	<table>
+		<tr>
+			<th>글번호</th>
+			<th>게시판</th>
+			<th>작성자</th>
+			<th>제목</th>
+			<th>내용</th>
+			<th>작성일</th>
+		</tr>
+		<tr>
+			<td>
+				<span th:text="${boarddetail.fbnum}"></span>
+			</td>
+			<td>
+				<span th:text="${boarddetail.bname}"></span>
+			</td>
+			<td>
+				<span th:text="${boarddetail.author}"></span>
+			</td>
+			<td>
+				<span th:text="${boarddetail.title}"></span>
+			</td>
+			<td>
+				<span th:text="${boarddetail.contents}"></span>
+			</td>
+			<td>
+				<span th:text="${boarddetail.dateTime}"></span>
+			</td>
+		</tr>	
+	</table>
+	<p>
+	<div>
+		<button type="button" th:onclick="deleteBoard([[${boarddetail.fbnum}]],[[${boarddetail.author}]]);">DELETE</button>
+	</div>
+	<input type="button" value="BACK" onClick="history.go(-1)"> 
+</form>
+</div>
+</body>
+</html>

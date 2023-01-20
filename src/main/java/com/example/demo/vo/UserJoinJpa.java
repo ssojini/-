@@ -1,9 +1,7 @@
 package com.example.demo.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,9 +14,11 @@ import lombok.ToString;
 					"phone","birth","nickname","address"})
 @AllArgsConstructor 
 @NoArgsConstructor
-public class UserJoin {
-	private String address;
+@Table(name="userjoin")
+public class UserJoinJpa {
+	@Id
 	private String userid;
+	private String address;
 	private String pwd;
 	private String email;
 	private String email1;
