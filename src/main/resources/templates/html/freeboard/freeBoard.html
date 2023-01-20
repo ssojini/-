@@ -43,14 +43,12 @@
 				</tr>
 			</table>
 			<div>
-				<span th:if="${pageFreeboard}"></span>
-				<span th:if="${pageFreeboard.hasPrevious()}"><a th:href="@{/freeboard(page=${pageFreeboard.previousPageable().getPageNumber()})}">[[${pageFreeboard.previousPageable().getPageNumber()}+1]]</a></span>
-				<span>[[${pageFreeboard.getNumber()+1}]]</span>
-				<span th:if="${pageFreeboard.hasNext()}"><a th:href="@{/freeboard(page=${pageFreeboard.nextPageable().getPageNumber()})}">[[${pageFreeboard.nextPageable().getPageNumber()+1}]]</a></span>
-				<span></span>
-			</div>
-			<div>
-				<span>[[${pageFreeboard.getTotalPages()}]]</span>
+				<span th:if="${pageFreeboard.getNumber() gt 9}"><a th:href="@{/freeboard(page=${pageFreeboard.getNumber()/10*10-1})}">이전</a></span>
+				<span th:each="i : ${#numbers.sequence(pageFreeboard.getNumber()/10*10+1,pageFreeboard.getNumber()/10*10+10)}">
+					<a th:if="${i!=pageFreeboard.getNumber()+1}" th:href="@{/freeboard(page=${i-1})}">[[${i}]]</a>
+					<span th:if="${i==pageFreeboard.getNumber()+1}" th:href="@{/freeboard(page=${i-1})}">[[${i}]]</span>
+				</span>
+				<span th:if="${(pageFreeboard.getNumber()/10*10+10)<pageFreeboard.getTotalPages()}"><a th:href="@{/freeboard(page=${pageFreeboard.getNumber()/10*10+10})}">다음</a></span>
 			</div>
 		</div>
 		<div>
