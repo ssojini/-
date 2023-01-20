@@ -92,7 +92,23 @@
 		</foreach>
 	)t
 	</update> 
-		
+	
+	<update id="moreAttach"
+	parameterType="list">
+	INSERT INTO attach (attid, attsize, attname, qnum, anum)
+	SELECT
+	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		 #{item.attsize} AS attsize, 
+		#{item.attname} AS attname, 
+		#{item.qnum} AS qnum,
+		(SELECT MAX(anum) FROM ansBoard) AS anum
+		FROM DUAL
+		</foreach>
+	)t
+	</update> 	
 	<update id="saveAttach_admin"
 	parameterType="list">
 	INSERT INTO attach (attid,attsize, attname, anum, qnum)

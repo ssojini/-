@@ -3,6 +3,20 @@
 <head>
 <meta charset="utf-8">
 <title>edit test</title>
+<style>
+.title{
+	text-align: center;
+}
+.container{
+	 width: 400px;
+	 height:400px;
+	 margin: 0 auto;
+	 outline: solid 1px black;
+	 display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
@@ -14,7 +28,7 @@ function delFiles(index)
 	var id =$('#attid'+index).val();
 	
 	$.ajax({
-		url: '/health/editTest',
+		url: '/health/delIndiv',
 		data: {"attid": id},
 		dataType: 'json',
 		method: 'post',
@@ -42,7 +56,7 @@ $(function(){
 		
 		alert("게시글 수정용 ajax 돌아감");		
 		$.ajax({
-			url:'/health/editQueB/[[${qnum}]]',
+			url:'/health/edit_q/[[${qnum}]]',
 			method:'post',
 			enctype: 'multipart/form-data',
 			data: data,
@@ -55,7 +69,7 @@ $(function(){
 				$('#btnUpload').prop('disabled', false);
 				if(res.uploaded){
 					alert('수정 되었습니다.');
-					location.href= "/health/editTest/[[${qnum}]]"
+					location.href= "/health/edit_q/[[${qnum}]]"
 				}
 			},
 			error: function(e){
@@ -69,9 +83,9 @@ $(function(){
 </script>
 </head>
 <body>
-<h3>수정하기</h3>
+<h3 class="title">수정하기</h3>
+<div class= "container"> 
 <form id="editForm" >
-<div>qnum값: [[${qnum}]]</div>
 
 	<div>제목
 		<label for="title"> 
@@ -87,6 +101,17 @@ $(function(){
 		</label>
 	</div>
 <p>
+<div>첨부파일 목록 <br>
+
+	<div th:each="att, status: ${oneb.attList}" th:id="|div${status.index}|"> 
+	
+		<span th:text="${att.attname}"></span>
+		<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
+		<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
+	</div>	
+</div>
+<p>
+
 <div>
 		<label for="attach">첨부파일 추가</label>
 		<input type="file" name="attach" multiple="multiple">
@@ -96,16 +121,9 @@ $(function(){
 	<button type="reset">취소</button>
 </div>
 </form>
-<div>첨부파일 <br>
-<!-- <input type="hidden" name="qnum" th:value="${qnum}">
-	<span th:if="${oneb.attList.size()>0}"></span>  -->	
-	<div th:each="att, status: ${oneb.attList}" th:id="|div${status.index}|"> 
-	
-		<span th:text="${att.attname}"></span>
-		<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
-		<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
-	</div>	
 </div>
+<p>
+
 
 </body>
 </html>

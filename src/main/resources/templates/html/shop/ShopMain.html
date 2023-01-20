@@ -6,33 +6,10 @@
 <link rel="stylesheet" href="/css/shopmain.css">
 </head>
 <body>
+<div>
+    <div th:replace="fragments/shopnav :: shopnav"></div>
+</div>
 	<div id="container">
-		<header>
-			<div id="logo">
-				<a href="/shop/ShopMainPage">
-					<h1>건끼 : Shop</h1>
-				</a>
-			</div>
-			<nav>
-				<ul id="topMenu">
-					<li><a href="#">상품카테고리<span>▼</span></a>
-						<ul>
-							<li><a href="#">건강보조식품</a></li>
-							<li><a href="#">건강기능식품</a></li>
-							<li><a href="#">식품</a></li>
-						</ul>
-					</li>
-					<li><a href="#">네비바2<span>▼</span>	</a>
-						<ul>
-							<li><a href="#">2-1</a></li>
-							<li><a href="#">2-2</a></li>
-						</ul>
-					</li>
-					<li><a href="#">네비바3</a></li>
-					<li><a href="#">문의하기</a></li>
-				</ul>		
-			</nav>
-		</header>
 		<div id="slideShow">
 			<div id="slides">
 				<img src="/shopmain/001.png" alt="">
@@ -60,7 +37,7 @@
 			
 			
 				<li>
-					<a href="/shop/detail/1">
+					<a href="/shop/detail/{goodsnum}">
 						<span id="quick-icon1"></span>
 						<img src="/shopmain/product01.JPG" alt="">
 						<p>영양제1</p>

@@ -57,7 +57,7 @@ function deleteQueB()
 	<span th:if= "${oneb.attList.size()>0}"></span>
 	<span th:each="att: ${oneb.attList}"> [[${att.attname}]]</span>
 
-<a th:href= "|/health/editTest/${oneb.qnum}|">[수정하기]</a>
+<a th:href= "|/health/edit_q/${oneb.qnum}|">[수정하기]</a>
 <p>
 <button type="button" onclick="deleteQueB();"> 삭제</button>
 </body>

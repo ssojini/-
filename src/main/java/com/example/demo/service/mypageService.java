@@ -37,7 +37,9 @@ public class mypageService {
 	
 	public UserJoin userinfo(String userid)
 	{
+		System.out.println("useridfo:   "+ map.userinfo(userid));
 		return map.userinfo(userid);
+		
 	}
 	
 	@Autowired
