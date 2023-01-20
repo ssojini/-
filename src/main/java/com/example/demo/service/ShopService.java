@@ -4,6 +4,7 @@ package com.example.demo.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -187,30 +188,70 @@ public class ShopService
 	}
   
   /* 현주 */
+	
+
+	public List<GoodsAndAtt> maingoods()
+	{
+		List<Map<String,Object>> goodslist = map.mainpagegoods();
+		List<GoodsAndAtt> goodslists = new ArrayList<>();
+		for(int i=0; i<goodslist.size(); i++)
+		{
+			Map<String, Object> m = goodslist.get(i);
+			
+			GoodsAndAtt both = new GoodsAndAtt();
+
+			BigDecimal big = (BigDecimal) m.get("PRICE");
+			both.setPrice(big.intValue());  
+			BigDecimal big1 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big1.intValue());
+			both.setGoodsname((String) goodslist.get(i).get("GOODSNAME"));
+			both.setCategory((String) goodslist.get(i).get("CATEGORY"));
+			both.setGoods_detail((String) goodslist.get(i).get("GOODS_DETAIL"));
+			
+
+			BigDecimal big2 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big2.intValue());
+			both.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
+			//goods.getAttlist().add(att);
+			System.out.println("server pic:  "+ both.getMainpic_server());
+			goodslists.add(both);
+		}
+		System.out.println("goods:  "+ goodslists.toString());
+		return goodslists;
+	}
   
 	
-	public String mainpagegoods(Goods goods, AddGoods_Att att)
+	public List<Goods> mainpagegoods()
 	{
-		/*
+		
 		List<Map<String,Object>> goodslist = map.mainpagegoods();
+		List<Goods> goodslists = new ArrayList<>();
 		//System.out.println("goodslist:  "+ goodslist.toString());
-		
-		goods.setGoodsname((String) goodslist.get(0).get("GOODSNAME"));
-		goods.setCategory((String) goodslist.get(0).get("CATEGORY"));
-		//goods.setPrice((Integer)goodslist.get(0).get("PRICE"));   //bigdecimal
-		goods.setGoods_detail((String) goodslist.get(0).get("GOODS_DETAIL"));
-		
-		//System.out.println("goods:  "+ goods.toString());
-		
-		att.setMainpic_server((String)goodslist.get(0).get("MAINPIC_SERVER"));
-		
-		//System.out.println(att.toString());
-		*/
-		
-		return null;
+		for(int i=0; i<goodslist.size(); i++)
+		{
+			Map<String, Object> m = goodslist.get(i);
+			
+			Goods goods = new Goods();
+			BigDecimal big = (BigDecimal) m.get("PRICE");
+			goods.setPrice(big.intValue());   //bigdecimal
+			BigDecimal big1 = (BigDecimal) m.get("GOODSNUM");
+			goods.setGoodsnum(big1.intValue());
+			goods.setGoodsname((String) goodslist.get(i).get("GOODSNAME"));
+			goods.setCategory((String) goodslist.get(i).get("CATEGORY"));
+			goods.setGoods_detail((String) goodslist.get(i).get("GOODS_DETAIL"));
+			
+			AddGoods_Att att = new AddGoods_Att();
+			BigDecimal big2 = (BigDecimal) m.get("GOODSNUM");
+			att.setGoodsnum(big2.intValue());
+			att.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
+			//goods.getAttlist().add(att);
+			
+			goodslists.add(goods);
+		}
+		System.out.println("goods:  "+ goodslists.toString());
+		return goodslists;
 	}
-	
-	
+
 	 private final Path fileStorageLocation;
 
 	 @Autowired
@@ -271,66 +312,54 @@ public class ShopService
 
 	 }
 	 
-	 public boolean storeFile(MultipartFile file) {
-		    // Normalize file name 
-		    // 난 이렇게 하니 이상한 파일명이 추출되어서 
+	 public boolean storeFile(MultipartFile file, String goods_detail, List<String> fileList,Goods goods, AddGoods_Att att) {
+
+		 	List<AddGoods_Att>list = new ArrayList<>();
 		    String fileName= file.getOriginalFilename();
-		    String mainpic_server = UUID.randomUUID() + fileName;
-		    try {
-		      // Check if the filename contains invalid characters
-		      if (fileName.contains("..")) {
-		        throw new RuntimeException(
-		            "Sorry! Filename contains invalid path sequence " + fileName);
-		      }
-		      Path targetLocation = this.fileStorageLocation.resolve(mainpic_server);
-		      Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-		        //targetLocation에 file.getInputStream을 카피해서 넣어준다 ,  //만약 사진파일이 존재한다면 덮어씌운다 
-		      return true;
-		    } catch (IOException ex) {
-		      throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
-		    }
+		    
+			 String mainpic_original = file.getOriginalFilename();
+			 String extension1 = mainpic_original.substring(mainpic_original.lastIndexOf("."));	
+			 String mainpic_server = UUID.randomUUID() + extension1;
+
+			 String detail_original = "1"; // detail original filename저장안됨 
+			 
+			 try {
+			      // Check if the filename contains invalid characters
+			      if (fileName.contains("..")) {
+			        throw new RuntimeException(
+			            "Sorry! Filename contains invalid path sequence " + fileName);
+			      }
+			      Path targetLocation = this.fileStorageLocation.resolve(mainpic_server);
+			      Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+			        //targetLocation에 file.getInputStream을 카피해서 넣어준다 ,  //만약 사진파일이 존재한다면 덮어씌운다 
+
+			    } catch (IOException ex) {
+			      throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
+			    }
+			 
+			 goods.setGoods_detail(goods_detail);
+			 int add =  map.addgoods(goods);
+			 int addatt = 0;
+				//원본 파일경로
+				for(int i=0;i<fileList.size();i++){
+					
+					System.out.println("fileList:  "+ fileList.get(i));
+				    att.setDetail_server(fileList.get(i));
+				    att.setMainpic_original(mainpic_original);
+				    att.setMainpic_server(mainpic_server);
+					att.setDetail_original(detail_original);
+					 list.add(att);
+					 addatt = map.addgoods_att(list);
+
+				}
+				boolean added = false;
+				if(add>0 && addatt>0)
+				{
+					added =true;
+				}
+				return added;
+
+		   
 		  }
 
-	 
-	 public boolean save(MultipartFile file, String goods_detail, List<String> fileList,Goods goods, AddGoods_Att att)
-	 {
-		 //filesave(file);
-		 
-		 String fileName= file.getOriginalFilename();
-		 
-		 List<AddGoods_Att>list = new ArrayList<>();
-		 String mainpic_original = file.getOriginalFilename();
-		 String extension1 = mainpic_original.substring(mainpic_original.lastIndexOf("."));	
-		 String mainpic_server = UUID.randomUUID() + extension1;
-
-		 String detail_original = "1"; // detail original filename저장안됨 
-		 
-		 goods.setGoods_detail(goods_detail);
-		 int add =  map.addgoods(goods);
-		 int addatt = 0;
-			//원본 파일경로
-			for(int i=0;i<fileList.size();i++){
-				
-				System.out.println("fileList:  "+ fileList.get(i));
-			    att.setDetail_server(fileList.get(i));
-			    att.setMainpic_original(mainpic_original);
-			    att.setMainpic_server(mainpic_server);
-				att.setDetail_original(detail_original);
-				 list.add(att);
-				 addatt = map.addgoods_att(list);
-
-			}
-		 
-			boolean added = false;
-			if(add>0 && addatt>0)
-			{
-				added =true;
-			}
-			return added;
-	 }
-
-	
-	 
-
- 
 }

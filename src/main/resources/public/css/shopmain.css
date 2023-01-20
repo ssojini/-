@@ -82,7 +82,7 @@ nav{
 }
 #slideShow{
 	clear:both;
-	width:1255px;
+	width:1000px;
 	height:350px;
 	object-fit: cover;
 	overflow:hidden;
@@ -94,7 +94,7 @@ nav{
 	text-align: center;
 }
 #slides > img{
-	width:1255px;
+	width:1000px;
 	height:350px;
 	margin: 0 auto;
     display: block;

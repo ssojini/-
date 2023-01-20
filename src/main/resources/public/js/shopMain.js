@@ -31,7 +31,7 @@ function nextSlide()
 	else current =0;
 	showSlides(current);
 }
-/*
+/*  사진 자동넘기기
 var current =0;
 showSlides();
 function showSlides()
