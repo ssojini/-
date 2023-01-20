@@ -14,5 +14,4 @@ public class AttachBoard
 	private String attname;
 	private long attsize;
 	private int attid;
-	private int attnum; //attach_admin용
 }

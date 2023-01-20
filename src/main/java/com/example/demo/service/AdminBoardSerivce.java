@@ -3,6 +3,9 @@ package com.example.demo.service;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -65,12 +68,12 @@ public class AdminBoardSerivce
 			*/
 			try {
 				String jts = String.valueOf(map.get("QDATE"));
-				System.out.println("jts:"+jts);
+				//System.out.println("jts:"+jts);
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 				Date parseDate;
 				parseDate = dateFormat.parse(jts);
 				oneb.setQdate(new java.sql.Timestamp(parseDate.getTime()));
-				log.info("QDATE={}", jts);
+			//	log.info("QDATE={}", jts);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -102,31 +105,35 @@ public class AdminBoardSerivce
 	@Transactional
 	public boolean uploadQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
 	{
-		log.info("svc, mfiles.length={}", mfiles.length);
+		//log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
-		
-		 List<AttachBoard> alist = new ArrayList<>();
+		List<AttachBoard> alist = new ArrayList<>();
+		int brow = mapper.addQueBoard(oneb);
 		 
 		try {
+			boolean uploaded=false;
+
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
 				for(int i=0; i<mfiles.length; i++) {
+						//log.info("mfiles length"+ mfiles.length);
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
 						
 						AttachBoard attb = new AttachBoard();
 						attb.setAttname(mfiles[i].getOriginalFilename());
 						attb.setAttsize(mfiles[i].getSize());
 						alist.add(attb);
-						
-						int arow =mapper.saveAttach(alist);
-						int brow = mapper.addQueBoard(oneb);
-						boolean uploaded = brow>0 && arow>0;
-						return uploaded;
+					//	log.info("svc, attb 목록"+ alist );
+	//					return uploaded;
 				}
+				
+				int arow =mapper.saveAttach(alist);
+				uploaded = brow>0 && arow>0;
+				return uploaded;
+				
 			}else {//첨부파일 없으면
-				int brow= mapper.addQueBoard(oneb);
-				boolean uploaded = brow>0;
+				uploaded = brow>0;
 				return uploaded;
 				
 			}
@@ -136,6 +143,47 @@ public class AdminBoardSerivce
 		}
 		
 		return false;
+	
+	}
+	
+	@Transactional
+	public boolean uploadAnsB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
+	{
+		log.info("svc, mfiles.length={}", mfiles.length);
+		ServletContext context =request.getServletContext();
+		String savePath = context.getRealPath("/WEB-INF/files_ans");
+		List<AttachBoard> alist = new ArrayList<>();
+		int ansrow =mapper.addAnsBoard(oneb);
+		log.info("svc, ansrow 정수값:" + ansrow);
+		boolean uploaded=false;
+
+		try {
+			if(!mfiles[0].isEmpty())//첨부파일 있으면
+			{
+				for(int i=0; i<mfiles.length; i++) {
+						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
+						
+						AttachBoard attb = new AttachBoard();
+						attb.setAttname(mfiles[i].getOriginalFilename());
+						attb.setAttsize(mfiles[i].getSize());
+						attb.setQnum(oneb.getQnum());
+						alist.add(attb);
+						log.info("svc, attb 목록"+ alist );
+	//					return uploaded;
+				}
+				
+				int attrow =mapper.saveAttach_admin(alist);
+				uploaded = ansrow>0 && attrow>0;
+				
+			}else {//첨부파일 없으면
+				uploaded = ansrow>0;			
+			}			
+		} catch (Exception e) {	
+				e.printStackTrace();
+		}
+		
+		log.info("svc, uploaded 값"+ uploaded);
+		return uploaded;
 	
 	}
 	
@@ -154,16 +202,26 @@ public class AdminBoardSerivce
 		oneb.setAuthor(author);
 		String content = (String)boardMap.get("CONTENT");
 		oneb.setContent(content);
+		try {
+			String jts = String.valueOf(boardMap.get("QDATE"));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+			Date parseDate;
+			parseDate = dateFormat.parse(jts);
+			oneb.setQdate(new java.sql.Timestamp(parseDate.getTime()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		
 		if(boardMap.get("ATTID")!=null)
 		{
 			for(int i=0; i<mlist.size(); i++)
 			{
-				mlist.get(i);
+				boardMap =mlist.get(i); //새로 boardMap을 해줘야지 안그러면 위에서 한 mlist.get(0)으로만 돌아간다.
 			
 				AttachBoard att = new AttachBoard();
 				
 				String attname = (String)boardMap.get("ATTNAME");
+				log.info("attname:"+attname);
 				att.setAttname(attname);
 				java.math.BigDecimal bigd=(java.math.BigDecimal)boardMap.get("ATTSIZE");
 				att.setAttsize(bigd.intValue());
@@ -173,7 +231,7 @@ public class AdminBoardSerivce
 				oneb.getAttList().add(att);
 			}
 		}
-		log.info("svc, attlist에 있는 첨부파일"+ oneb.getAttList());
+		//log.info("svc, attlist에 있는 첨부파일"+ oneb.getAttList());
 		
 		mapper.increaseHit(num);
 		//oneb =mapper.findQueBoard(num);
@@ -221,46 +279,130 @@ public class AdminBoardSerivce
 	
 	}
 	
-	public boolean updateQueB(OneBoard oneb, int qnum) {
-	
-		String newTitle= oneb.getTitle();
-		String newContent= oneb.getContent();
+	@Transactional
+	public boolean updateQueB(OneBoard oneb, int qnum, 
+			HttpServletRequest request, MultipartFile[] mfiles) 
+	{
+
+		int row = mapper.updateQueB(oneb);
 		
-		OneBoard updated= new OneBoard();
-		updated.setTitle(newTitle);
-		updated.setContent(newContent);
-		
-		int row = mapper.updateQueB(qnum);
-		if(row>0) { 
-			return true;
+		boolean edited = false; // 게시글 수정
+		if(row>0) edited = true; 
+		log.info("svc, edited 불리언 값:"+edited);		
+		//첨부파일 추가
+		List<AttachBoard> alist = new ArrayList<>();
+		boolean added= false; //첨부파일 추가 
+		boolean uploaded = false;
+		if(!mfiles[0].isEmpty())//첨부파일 있으면
+		{
+			added = addFiles(request, mfiles);
+			uploaded = (row>0 == edited);
+			log.info("svc, uploaded 불리언 값:"+uploaded);		
+
+		}else {//첨부파일 없으면
+			edited= row>0;
+			return edited;
+			
 		}
 		
-		return false;
+		return uploaded;
+
 		
 	}
 
-	//시험용
-	public String deleteTest(int attid)
+	public boolean addFiles(HttpServletRequest request, MultipartFile[] mfiles)
 	{
-		int result =mapper.deleteAttach(attid);
-		log.info("svc, result값:"+ result);
-		if(result>0) {
-			return "삭제 성공";
+		ServletContext context =request.getServletContext();
+		String savePath = context.getRealPath("/WEB-INF/files");
+		List<AttachBoard> alist = new ArrayList<>();
+		 
+		try {
+			boolean uploaded=false;
+
+				for(int i=0; i<mfiles.length; i++) {
+						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
+						
+						AttachBoard attb = new AttachBoard();
+						attb.setAttname(mfiles[i].getOriginalFilename());
+						attb.setAttsize(mfiles[i].getSize());
+						alist.add(attb);
+					//	log.info("svc, attb 목록"+ alist );
+					//	return uploaded;
+				}
+				
+				int arow =mapper.saveAttach(alist);
+				uploaded = arow>0;
+				return uploaded;
+				
+			
+		} catch (Exception e) {	
+				e.printStackTrace();
 		}
-		return "삭제 실패";
+		
+		return false;
 	}
 	
-	public boolean deleteAttach(int attid)
+	//시험용
+	public boolean deleteIndiv(int attid)
 	{
-		return mapper.deleteAttach(attid)==1;
+		int result =mapper.deleteAttach(attid);
+
+		log.info("svc, result값:"+ result);
+		if(result>0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean deleteAll(int qnum)
+	{
+		int arow = mapper.deleteAllF(qnum);
+		int brow = mapper.deleteQueB(qnum);
+		
+		if(arow>0 && brow>0) return true;
+		return false;
+	}
+
+	public boolean delFromServer(List<AttachBoard> attachList)
+	{
+		log.info("컨트롤러 첨부파일 리스트"+attachList);
+		
+		for(int i=0; i<attachList.size();i++)
+		{
+			try{	
+				Path file= Paths.get("src/main/webapp/WEB-INF/files");
+				file =file.resolve(attachList.get(i).getAttname());
+				Files.deleteIfExists(file);
+				return true;
+			}catch (Exception e){
+				log.error("Delete file error: "+e.getMessage());
+			}
+		}
+	
+		return false;
 	}
 	
 	public List<AttachBoard> getAttachList(int qnum)
 	{
+		log.info("svc,qnum값:" +qnum);
 		List<AttachBoard> attList =mapper.getAttachList(qnum);
+		log.info("svc, attList값"+ attList);
 		return attList;
-		
 	}
 
+	public AttachBoard getAttach(int attid)
+	{
+		AttachBoard attach =mapper.getAttach(attid);
+		return attach;
+	}
 
+	public OneBoard getQueBoard(int qnum)
+	{
+		return mapper.findQueBoard(qnum);
+	}
+	
+	public int deleteQueB(int qnum)
+	{
+		return mapper.deleteQueB(qnum);
+	}
 }
