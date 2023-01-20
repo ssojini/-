@@ -5,7 +5,7 @@
 <title>Find Information</title>
 </head>
 <style type="text/css">
-	body{
+	main{
 		text-align: center;
 	}
 </style>
@@ -110,8 +110,9 @@
 	}
 </script>
 
-<div id="headers"></div>
 <body>
+<main>
+<div id="headers"></div>
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
@@ -164,5 +165,6 @@
 			</div>
 		</div>
 	</div>
+	</main>
 </body>
 </html>
