@@ -7,13 +7,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.interfaces.FreeboardRepository;
 import com.example.demo.vo.Freeboard;
-
-import jakarta.servlet.http.HttpSession;
 
 @Service
 public class FreeboardService {
@@ -29,12 +27,12 @@ public class FreeboardService {
 		return repo.findAll();
 	}
 	
-	public List<Freeboard> getListByBname(String bname) {
-		return repo.findByBname(bname);
+	public List<Freeboard> getListByBname(String bname, Pageable pageable) {
+		return repo.findByBname(bname, pageable);
 	}
 	
-	public List<Map<String,Object>> getListMapByBname(String bname) {
-		List<Freeboard> listFreeBoard = repo.findByBname(bname);
+	public List<Map<String,Object>> getListMapByBname(String bname, Pageable pageable) {
+		List<Freeboard> listFreeBoard = getListByBname(bname, pageable);
 		List<Map<String,Object>> listMap = new ArrayList<>();
 		for (int i = 0; i < listFreeBoard.size(); i++) {
 			Freeboard freeboard = listFreeBoard.get(i);
@@ -53,6 +51,14 @@ public class FreeboardService {
 	public Freeboard save(Freeboard freeBoard) {
 		Freeboard saveFreeBoard = repo.save(freeBoard);
 		return saveFreeBoard;
+	}
+	
+	public Freeboard update(Freeboard freeboard) {
+		Freeboard findFreeboard = repo.getOne(freeboard.getFbnum());
+		findFreeboard.setTitle(freeboard.getTitle());
+		findFreeboard.setContents(freeboard.getContents());
+		Freeboard updateFreeboard = repo.save(findFreeboard);
+		return updateFreeboard;
 	}
 	
 	public Freeboard updateContents(Integer fbnum, String contents) {

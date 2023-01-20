@@ -7,7 +7,7 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
-<script src="/js/addFreeboard.js"></script>
+<script src="/js/freeboard/addFreeboard.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
 		var bname = '[[${bname}]]';
@@ -48,8 +48,7 @@
 			<button type="button" onclick="insertImg();">이미지 넣기</button>
 		</div>
 		<div>
-				<input id="files" type="file" onchange="changeFile();"
-					multiple="multiple">
+			<input id="files" type="file" onchange="changeFile();" multiple="multiple">
 		</div>
 		<div>
 			<button id="goBack" type="button">뒤로가기</button>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>detailFreeBoard</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script src="/js/detailFreeboard.js"></script>
+<script src="/js/freeboard/detailFreeboard.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	document.getElementById("contents").innerHTML = document.getElementById("contents").innerText;
@@ -25,6 +25,18 @@ window.onload = function() {
 				<button type="button" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 			</div>
 		</div>
+		<div>
+			<div id="reply_author">[[${userid}]]</div>
+			<textarea id="reply_contents"></textarea>
+			<button type="button" onclick="addReply();">댓글</button>
+		</div>
+		<table id="listReply">
+			<tr th:each="reply : ${listReply}">
+				<td th:text="${reply.author}"></td>
+				<td th:text="${reply.contents}"></td>
+				<td th:text="${reply.datetime}"></td>
+			</tr>
+		</table>
 	</main>
 </body>
 </html>

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.service.AttachService;
-import com.example.demo.vo.Attach;
+import com.example.demo.service.FreeboardAttachService;
+import com.example.demo.vo.FreeboardAttach;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,13 +28,13 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/file")
 public class FileController {
 	@Autowired
-	private AttachService attachService;
+	private FreeboardAttachService attachService;
 	
 	@PostMapping("/upload")
 	@ResponseBody
 	public Map<String,Object> upload(HttpServletRequest request, Model m, MultipartFile[] files, Integer fbnum) {
 		Map<String,Object> map = new HashMap<>();
-		List<Attach> save = attachService.upload(request, files, fbnum);
+		List<FreeboardAttach> save = attachService.upload(request, files, fbnum);
 		map.put("result", true);
 		map.put("liAttach", attachService.listAttachToListMap(save));
 		return map;
