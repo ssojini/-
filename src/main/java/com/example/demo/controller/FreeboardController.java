@@ -35,10 +35,11 @@ public class FreeboardController {
 	private FreeboardReplyService replyService;
 	
 	@GetMapping({"","/"})
-	public String freeboard(Model m, String bname, @PageableDefault(size=100, sort="fbnum", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String freeboard(Model m, String bname, @PageableDefault(size=3, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
 		List<Freeboard> listFreeBoard = freeboardService.getListByBname(bname!=null?bname:"free",pageable);
 		m.addAttribute("listFreeBoard", listFreeBoard);
 		m.addAttribute("bname",bname);
+		m.addAttribute("pageable",pageable);
 		return "html/freeboard/freeBoard";
 	}
 

@@ -42,6 +42,9 @@
 					<td>[[${board.author}]]</td>
 				</tr>
 			</table>
+			<div>
+				<div><a th:href="@{/freeboard(page=${pageable.pageNumber})}">[[${pageable.pageNumber+1}]]</a></div>
+			</div>
 		</div>
 		<div>
 			<button onclick="addFreeboard();">글 쓰기</button>
