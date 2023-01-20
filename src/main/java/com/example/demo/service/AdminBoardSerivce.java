@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -279,35 +280,52 @@ public class AdminBoardSerivce
 	
 	}
 	
+	
 	@Transactional
-	public boolean updateQueB(OneBoard oneb, int qnum, 
-			HttpServletRequest request, MultipartFile[] mfiles) 
+	public boolean updateQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
 	{
-
-		int row = mapper.updateQueB(oneb);
-		
-		boolean edited = false; // 게시글 수정
-		if(row>0) edited = true; 
-		log.info("svc, edited 불리언 값:"+edited);		
-		//첨부파일 추가
+		//log.info("svc, mfiles.length={}", mfiles.length);
+		ServletContext context =request.getServletContext();
+		String savePath = context.getRealPath("/WEB-INF/files");
 		List<AttachBoard> alist = new ArrayList<>();
-		boolean added= false; //첨부파일 추가 
-		boolean uploaded = false;
-		if(!mfiles[0].isEmpty())//첨부파일 있으면
-		{
-			added = addFiles(request, mfiles);
-			uploaded = (row>0 == edited);
-			log.info("svc, uploaded 불리언 값:"+uploaded);		
+		int brow = mapper.updateQueB(oneb);
+		 
+		try {
+			boolean uploaded=false;
 
-		}else {//첨부파일 없으면
-			edited= row>0;
-			return edited;
+			if(!mfiles[0].isEmpty())//첨부파일 있으면
+			{
+				for(int i=0; i<mfiles.length; i++) {
+						//log.info("mfiles length"+ mfiles.length);
+						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
+						
+						AttachBoard attb = new AttachBoard();
+						attb.setAttname(mfiles[i].getOriginalFilename());
+						attb.setAttsize(mfiles[i].getSize());
+						attb.setQnum(oneb.getQnum());
+						log.info("qnum값"+oneb.getQnum());
+						alist.add(attb);
+					//	log.info("svc, attb 목록"+ alist );
+	//					return uploaded;
+				}
+				
+				int arow =mapper.moreAttach(alist);
+				log.info("svc, arow 값"+arow);
+				uploaded = brow>0 && arow>0;
+				return uploaded;
+				
+			}else {//첨부파일 없으면
+				uploaded = brow>0;
+				return uploaded;
+				
+			}
 			
+		} catch (Exception e) {	
+				e.printStackTrace();
 		}
 		
-		return uploaded;
-
-		
+		return false;
+	
 	}
 
 	public boolean addFiles(HttpServletRequest request, MultipartFile[] mfiles)

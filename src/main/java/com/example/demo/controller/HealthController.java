@@ -246,34 +246,40 @@ public class HealthController {
 		//log.info("oneb에서 나오는 첨부파일:"+oneb.getAttList());
 		return "html/admin/detail_q";
 	}
-
-	@PostMapping("/editQueB/{qnum}")
-	@ResponseBody
-	public Map<String, Object> editQueB(
-			@PathVariable("qnum") int qnum,
-			OneBoard oneb,
-			@RequestParam("attach") MultipartFile[] mfiles,
-			HttpServletRequest request)
-	{
-		
-		boolean uploaded = absvc.updateQueB(oneb, qnum, request, mfiles);
-		Map<String, Object> map = new HashMap<>();
-		map.put("uploaded", uploaded);
-		return map;
-	}
 	
-	
-	@GetMapping("/editTest/{num}")
+	@GetMapping("/edit_q/{num}")
 	public String editTestForm(@PathVariable("num") int num, Model m)
 	{
 		OneBoard oneb = absvc.detailByQnum(num);
 		m.addAttribute("oneb", oneb);
 		m.addAttribute("qnum", num);
 	//	log.info("num값:" +num);
-		return "html/admin/editTest";
+		return "html/admin/edit_q";
 	}
 	
-	@PostMapping("/editTest")
+	@PostMapping("/edit_q/{qnum}")
+	@ResponseBody
+	public Map<String, Boolean> updateQueB(	@PathVariable("qnum") int qnum,
+			OneBoard oneb,
+			@RequestParam("attach") MultipartFile[] mfiles,
+			HttpServletRequest request)
+	{
+		/*try {
+			for(int i=0;i<mfiles.length;i++) {
+				log.info ("파일 사이즈={}", mfiles[i].getBytes().length);
+				//log.info("파일명={}",mfiles[i].getOriginalFilename());
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}*/
+		boolean uploaded = absvc.updateQueB(request, oneb, mfiles);
+		Map<String, Boolean> map = new HashMap<>();
+		map.put("uploaded", uploaded);
+		return map;
+	}
+	
+	
+	@PostMapping("/delIndiv")
 	@ResponseBody
 	public Map<String, Object> editTest(@RequestParam("attid") int attid)
 	{
