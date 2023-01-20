@@ -149,7 +149,7 @@ public class ShopController {
 
 	// 상품 구매
 	// 즉시 구매
-	@GetMapping("/buynow")
+	@PostMapping("/buynow")
 	public String buyNow(Cart cart, Model m) {
 		// 구매목록을 orderList에 담아 보낸다.
 		m.addAttribute("orderlist", svc.buyNow(cart));
@@ -157,7 +157,7 @@ public class ShopController {
 	}
 
 	// 장바구니 구매 (선택/전체)
-	@GetMapping("/buycart")
+	@PostMapping("/buycart")
 	public String buyCart(@RequestParam String items, Model m) {
 
 		m.addAttribute("orderlist",svc.buyCart(items));
@@ -165,27 +165,18 @@ public class ShopController {
 		return "html/shop/orderItems";
 	}
 
-	@PostMapping("/buy")
-	@ResponseBody
-	public String buy(@RequestParam String paramList) {
-		System.err.println("here");
-
-		JSONParser parser = new JSONParser();
-		try {
-			JSONArray jsArr = (JSONArray) parser.parse(paramList);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-//		String json= parameters.get("paramList").toString();
-//		ObjectMapper mapper = new ObjectMapper();
-//	    List<Map<String, Object>> paramList = mapper.readValue(json, new TypeReference<ArrayList<Map<String, Object>>>(){});
-
-		// List<dto> paramList = mapper.readValue(json, new
-		// TypeReference<ArrayList<dto>>(){});
-		// System.err.println(itemArr);
-		return "성공";
+	
+	//배송정보
+	@GetMapping("/buyerInfo")
+	public String buyerInfo()
+	{
+		return "html/shop/buyerInfo";
+	}
+	//주소검색
+	@GetMapping("/findAddress")
+	public String findAddress()
+	{
+		return "html/shop/findAddress";
 	}
 
 	/*--------------------- 상욱 끝 ----------------------*/

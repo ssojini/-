@@ -1,5 +1,8 @@
 package com.example.demo.vo;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +30,7 @@ public class Order {
 	private int sum;
 	private int price;
 	private int prod_cnt;
+	@CreatedDate
 	private java.sql.Date pdate;
 	private int itempoint;
 	private String mainpic_orignal;
