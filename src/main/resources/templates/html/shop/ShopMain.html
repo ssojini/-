@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>shopmain</title>
+<script>
+function s_function() {
+	$('#searchform').submit();
+}
+</script>
+
 <link rel="stylesheet" href="/css/shopmain.css">
 </head>
 <body>
@@ -11,8 +17,10 @@
 </div>
 <div id=searchproduct>
 	<h1>상품검색</h1>
-			<input id="searchbox" type="text" placeholder="     검색할 상품을 입력해주세요">
-			<button id="seachbutton">검색</button>
+	<form id="searchform" name="searchform" action="/shop/searchgoods">
+			<input id="searchbox" name="searchbox" type="text" placeholder="     검색할 상품을 입력해주세요">
+			<button id="seachbutton" type="submit" >검색</button>
+	</form>
 </div>
 	<div id="container">
 		<div id="slideShow">
@@ -25,162 +33,46 @@
 			</div>
 		</div>
 		
-		<div id="links">
-			<ul>
-			<h2>추천상품</h2>
-
-		<!--  
-				<li th:each="goods: ${goodslist}">
-				<a href="#">
-					<span id="quick-icon1"></span>
-						<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
-						<p th:text="${goods.goodsname}"/>
-						<p th:text="${goods.price}"/>
-					</a>
-				</li>
-				<li th:each="goods: ${goodslist}">
-				<a href="#">
-					<span id="quick-icon2"></span>
-						<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
-						<p th:text="${goods.goodsname}"/>
-						<p th:text="${goods.price}"/>
-					</a>
-				</li>
-				<li th:each="goods: ${goodslist}">
-				<a href="#">
-					<span id="quick-icon3"></span>
-						<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
-						<p th:text="${goods.goodsname}"/>
-						<p th:text="${goods.price}"/>
-					</a>
-				</li>
-		</ul>
-	-->
 			
-			
-				<li>
-					<a href="/shop/detail/{goodsnum}">
-						<span id="quick-icon1"></span>
-						<img src="/shopmain/product01.JPG" alt="">
-						<p>영양제1</p>
-						<p>1000</p>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span id="quick-icon2"></span>
-						<img src="/shopmain/product02.JPG" alt="">
-						<p>영양제2</p>
-						<p>2000</p>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span id="quick-icon3"></span>
-						<img src="/shopmain/product03.JPG" alt="">
-						<p>영양제3</p>
-						<p>3000</p>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span id="quick-icon4"></span>
-						<img src="/shopmain/berry.jpg" alt="">
-						<p>딸기</p>
-						<p>890000</p>
-					</a>
-				</li>
-			</ul>
-		</div>
-		
-		<div id="links1">
-			<ul>
-			<h2>할인상품</h2>
-				<li>
-					<a href="#">
-						<span id="quick-icon2"></span>
-						<img src="/shopmain/product02.JPG" alt="">
-						<p>영양제2</p>
-						<p>2000</p>
-					</a>
-				</li>
-				<li>
+			<div id="links">
+				<ul>
+				<h2>추천상품</h2>
+					<li th:each="goods: ${goodslist}">
 					<a href="#">
 						<span id="quick-icon1"></span>
-						<img src="/shopmain/apple.jpg" alt="">
-						<p>독사과</p>
-						<p>free</p>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span id="quick-icon3"></span>
-						<img src="/shopmain/product03.JPG" alt="">
-						<p>영양제3</p>
-						<p>3000</p>
-					</a>
-				</li>
-			</ul>
-		</div>
-		
-		<div id="links2">
-			<ul>
-			<h2>신상품</h2>
-				<li>
+							<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+							<p th:text="${goods.goodsname}"/>
+							<p th:text="${goods.price}"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div id="links1">
+				<ul>
+				<h2>신상품</h2>
+					<li th:each="goods: ${goodslist}">
 					<a href="#">
 						<span id="quick-icon1"></span>
-						<img src="/shopmain/product01.JPG" alt="">
-						<p>영양제1</p>
-						<p>1000</p>
-					</a>
-				</li>
-				<li>
+							<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+							<p th:text="${goods.goodsname}"/>
+							<p th:text="${goods.price}"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div id="links2">
+				<ul>
+				<h2>할인상품</h2>
+					<li th:each="goods: ${goodslist}">
 					<a href="#">
-						<span id="quick-icon2"></span>
-						<img src="/shopmain/product02.JPG" alt="">
-						<p>영양제2</p>
-						<p>2000</p>
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<span id="quick-icon3"></span>
-						<img src="/shopmain/product03.JPG" alt="">
-						<p>영양제3</p>
-						<p>3000</p>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<!-- 
-		<div id="contents">
-			<div id="tabMenu">
-			<input type="radio" id="tab1" name="tabs">
-			<label for="tab1">공지사항</label>
-			<input type="radio" id="tab2" name="tabs" checked>
-			<label for="tab2">상품목록</label>
-			
-				<div id="notice" class="tabContent">
-					<h2>공지사항</h2>
-					<ul>
-						<li><img src="/shopmain/product01.jpg"></li>
-						<li><img src="/shopmain/product02.JPG"></li>
-						<li><img src="/shopmain/product03.JPG"></li>
-					</ul>
-				</div>
-					
-				<div id="gallery" class="tabContent">
-					<h2>상품목록</h2>
-					<ul>
-						<li><img src="/shopmain/product01.jpg"></li>
-						<li><img src="/shopmain/product02.JPG"></li>
-						<li><img src="/shopmain/product03.JPG"></li>
-					</ul>
-				</div>
-					
-			</div>	
-		</div> -->
-		</div>
+						<span id="quick-icon1"></span>
+							<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+							<p th:text="${goods.goodsname}"/>
+							<p th:text="${goods.price}"/>
+						</a>
+					</li>
+				</ul>
+			</div>
 		<footer>
 			<div id="bottomMenu">
 				<ul>
