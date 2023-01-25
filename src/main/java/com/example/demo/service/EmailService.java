@@ -85,8 +85,11 @@ public class EmailService
 			//로컬호스트로 테스트시 
 			//mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
 			//서버사용시 서버 IP주소 변경 할것
-			mimeMessage.setContent("<a href='http://192.168.0.92/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
-
+			//mimeMessage.setContent("<a href='http://192.168.0.92/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+			
+			// 2023-01-20 발표 때문에 수정함
+			mimeMessage.setContent("<a href='http://192.168.0.111/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+			
 			sender.send(mimeMessage);
 			return true;
 		} catch (MessagingException e) {

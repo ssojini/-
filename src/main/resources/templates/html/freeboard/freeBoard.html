@@ -35,7 +35,7 @@
 					<th>제목</th>
 					<th>저자</th>
 				</tr>
-				<tr class="boardTr" th:each="board : ${listFreeBoard}">
+				<tr class="boardTr" th:each="board : ${pageFreeboard}">
 					<td>[[${board.fbnum}]]</td>
 					<td><a
 						th:href="@{/freeboard/detail(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
@@ -43,7 +43,12 @@
 				</tr>
 			</table>
 			<div>
-				<div><a th:href="@{/freeboard(page=${pageable.pageNumber})}">[[${pageable.pageNumber+1}]]</a></div>
+				<span th:if="${pageFreeboard.getNumber() gt 9}"><a th:href="@{/freeboard(page=${pageFreeboard.getNumber()/10*10-1})}">이전</a></span>
+				<span th:each="i : ${#numbers.sequence(pageFreeboard.getNumber()/10*10+1,pageFreeboard.getNumber()/10*10+10)}">
+					<a th:if="${i!=pageFreeboard.getNumber()+1}" th:href="@{/freeboard(page=${i-1})}">[[${i}]]</a>
+					<span th:if="${i==pageFreeboard.getNumber()+1}" th:href="@{/freeboard(page=${i-1})}">[[${i}]]</span>
+				</span>
+				<span th:if="${(pageFreeboard.getNumber()/10*10+10)<pageFreeboard.getTotalPages()}"><a th:href="@{/freeboard(page=${pageFreeboard.getNumber()/10*10+10})}">다음</a></span>
 			</div>
 		</div>
 		<div>
