@@ -1,4 +1,4 @@
-function addFreeBoard() {
+function addFreeboard() {
 	$.ajax({
 		url: "/freeboard/add",
 		method: "post",
@@ -102,8 +102,20 @@ function getFormData() {
 }
 
 function changeFile() {
+	changeFiles();
+}
+
+function changeFiles() {
 	const files = $("#files")[0].files;
 	$("#fileListDiv *").remove("");
+	
+	// 파일이 있을 때 이미지 넣기 버튼 활성화
+	if (files.length > 0) {
+		$("#insert_img_btn").attr("hidden",false);
+	} else {
+		$("#insert_img_btn").attr("hidden",true);
+	}
+	
 	for (var i = 0; i < files.length; i++) {
 		const file = files[i];
 		if (isImage(file)) {

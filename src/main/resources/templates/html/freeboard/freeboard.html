@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>freeBoard</title>
-<link rel="stylesheet" href="/css/freeBoard.css">
+<link rel="stylesheet" href="/css/freeboard/freeboard.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
@@ -44,7 +44,7 @@
 			</table>
 			<div>
 				<span th:if="${pageFreeboard.getNumber() gt 9}"><a th:href="@{/freeboard(page=${pageFreeboard.getNumber()/10*10-1})}">이전</a></span>
-				<span th:each="i : ${#numbers.sequence(pageFreeboard.getNumber()/10*10+1,pageFreeboard.getNumber()/10*10+10)}">
+				<span th:if="${i le pageFreeboard.getTotalPages()}" th:each="i : ${#numbers.sequence(pageFreeboard.getNumber()/10*10+1,pageFreeboard.getNumber()/10*10+10)}">
 					<a th:if="${i!=pageFreeboard.getNumber()+1}" th:href="@{/freeboard(page=${i-1})}">[[${i}]]</a>
 					<span th:if="${i==pageFreeboard.getNumber()+1}" th:href="@{/freeboard(page=${i-1})}">[[${i}]]</span>
 				</span>
