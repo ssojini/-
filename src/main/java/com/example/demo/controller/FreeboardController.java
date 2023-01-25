@@ -40,7 +40,7 @@ public class FreeboardController {
 		Page<Freeboard> pageFreeboard = freeboardService.getListByBname(bname!=null?bname:"free",pageable);
 		m.addAttribute("pageFreeboard", pageFreeboard);
 		m.addAttribute("bname",bname);
-		return "html/freeboard/freeBoard";
+		return "html/freeboard/freeboard";
 	}
 
 	/*
@@ -56,7 +56,7 @@ public class FreeboardController {
 	public String add(Model m, String bname) {
 		System.out.println("FreeboardController/add(Model m, String bname)");
 		m.addAttribute("bname", bname);
-		return "html/freeboard/addFreeBoard";
+		return "html/freeboard/addFreeboard";
 	}
 	@PostMapping("/add")
 	@ResponseBody
@@ -85,7 +85,7 @@ public class FreeboardController {
 		Freeboard freeBoard = freeboardService.getByFbnum(fbnum);
 		m.addAttribute("freeBoard",freeBoard);
 		m.addAttribute("listReply",replyService.findAllByPnum(fbnum));
-		return "html/freeboard/detailFreeBoard";
+		return "html/freeboard/detailFreeboard";
 	}
 	
 	@PostMapping("/delete")
@@ -103,7 +103,7 @@ public class FreeboardController {
 	public String edit(Model m, Integer fbnum) {
 		m.addAttribute("freeBoard",freeboardService.getByFbnum(fbnum));
 		m.addAttribute("listAttach", attachService.getList(fbnum));
-		return "html/freeBoard/editFreeBoard";
+		return "html/freeBoard/editFreeboard";
 	}
 	@PostMapping("/edit")
 	@ResponseBody
