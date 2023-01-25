@@ -18,22 +18,27 @@ import com.example.demo.vo.Freeboard;
 public class FreeboardService {
 	@Autowired
 	private FreeboardRepository repo;
-	
+
 	public Freeboard getByFbnum(Integer fbnum) {
 		Optional<Freeboard> freeBoard = repo.findById(fbnum);
 		return freeBoard.isPresent()?freeBoard.get():null;
 	}
-	
+
 	public List<Freeboard> getList() {
 		return repo.findAll();
 	}
-	
-	public Page<Freeboard> getListByBname(String bname, Pageable pageable) {
-		return repo.findByBname(bname, pageable);
+
+	public Page<Freeboard> getListByBnameAndTitle(String bname, String title, Pageable pageable) {
+		if (bname == null || bname.equals(""))
+			bname = "free";
+		if (title == null || title.equals("")) {
+			return repo.findByBname(bname, pageable);
+		} else {
+			return repo.findByBnameAndTitle(bname, title, pageable);
+		}
 	}
-	
-	public List<Map<String,Object>> getListMapByBname(String bname, Pageable pageable) {
-		List<Freeboard> listFreeBoard = getListByBname(bname, pageable).toList();
+
+	public List<Map<String,Object>> toListMap(List<Freeboard> listFreeBoard) {
 		List<Map<String,Object>> listMap = new ArrayList<>();
 		for (int i = 0; i < listFreeBoard.size(); i++) {
 			Freeboard freeboard = listFreeBoard.get(i);
@@ -45,7 +50,6 @@ public class FreeboardService {
 			map.put("contents", freeboard.getContents());
 			listMap.add(map);
 		}
-		System.out.println("listMap:"+listMap);
 		return listMap;
 	}
 
@@ -53,7 +57,7 @@ public class FreeboardService {
 		Freeboard saveFreeBoard = repo.save(freeBoard);
 		return saveFreeBoard;
 	}
-	
+
 	public Freeboard update(Freeboard freeboard) {
 		Freeboard findFreeboard = repo.getOne(freeboard.getFbnum());
 		findFreeboard.setTitle(freeboard.getTitle());
@@ -61,7 +65,7 @@ public class FreeboardService {
 		Freeboard updateFreeboard = repo.save(findFreeboard);
 		return updateFreeboard;
 	}
-	
+
 	public Freeboard updateContents(Integer fbnum, String contents) {
 		Optional<Freeboard> freeBoard = repo.findById(fbnum);
 		if (freeBoard.isPresent()) {
@@ -71,12 +75,12 @@ public class FreeboardService {
 			return null;
 		}
 	}
-	
+
 	public boolean deleteByFbnum(Integer fbnum) {
 		repo.deleteById(fbnum);
 		return true;
 	}
-	
+
 	public Map<String,String> freeboardToMap(Freeboard freeboard) {
 		Map<String, String> map = new HashMap<>();
 		map.put("author", freeboard.getAuthor());

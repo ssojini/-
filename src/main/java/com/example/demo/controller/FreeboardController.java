@@ -36,21 +36,17 @@ public class FreeboardController {
 	private FreeboardReplyService replyService;
 	
 	@GetMapping({"","/"})
-	public String freeboard(Model m, String bname, @PageableDefault(size=3, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
-		Page<Freeboard> pageFreeboard = freeboardService.getListByBname(bname!=null?bname:"free",pageable);
-		m.addAttribute("pageFreeboard", pageFreeboard);
+	public String freeboard(Model m, String bname, String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
+		System.out.println("public String freeboard():");
+		System.out.println("bname:"+bname);
+		System.out.println("title:"+title);
+		System.out.println("pageable:"+pageable);
+		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
 		m.addAttribute("bname",bname);
+		m.addAttribute("title",title);
+		m.addAttribute("pageFreeboard", pageFreeboard);
 		return "html/freeboard/freeboard";
 	}
-
-	/*
-	@PostMapping("/getListMap")
-	@ResponseBody
-	public List<Map<String, Object>> getListMap(Model m, String bname, Pageable pageable) {
-		List<Map<String, Object>> listMap = freeboardService.getListMapByBname(bname, pageable);
-		return listMap;
-	}
-	*/
 
 	@GetMapping("/add")
 	public String add(Model m, String bname) {

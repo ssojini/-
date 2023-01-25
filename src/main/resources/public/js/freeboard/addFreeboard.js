@@ -1,31 +1,36 @@
 function addFreeboard() {
-	$.ajax({
-		url: "/freeboard/add",
-		method: "post",
-		data: {
-			"bname": $("#bname").val(),
-			"title": $("#title").val(),
-			"author": $("#author").val(),
-			"contents": $("#contents").html()
-		},
-		dataType: "json",
-		cache: false,
-		success: function(res) {
-			if (res.result) {
-				if ($("#files")[0].files.length != 0) {
-					uploadFiles(res.freeboard);
+	if ($("#title").val() == '') {
+		alert("제목을 입력하세요");
+		$("#title").focus();
+	} else {
+		$.ajax({
+			url: "/freeboard/add",
+			method: "post",
+			data: {
+				"bname": $("#bname").val(),
+				"title": $("#title").val(),
+				"author": $("#author").val(),
+				"contents": $("#contents").html()
+			},
+			dataType: "json",
+			cache: false,
+			success: function(res) {
+				if (res.result) {
+					if ($("#files")[0].files.length != 0) {
+						uploadFiles(res.freeboard);
+					} else {
+						alert("저장 성공");
+						location.href = "/freeboard";
+					}
 				} else {
-					alert("저장 성공");
-					location.href = "/freeboard";
+					alert("저장 실패");
 				}
-			} else {
-				alert("저장 실패");
+			},
+			error: function(xhs, status, err) {
+				alert(err);
 			}
-		},
-		error: function(xhs, status, err) {
-			alert(err);
-		}
-	});
+		});
+	}
 }
 
 function updateContents(listAttach) {
