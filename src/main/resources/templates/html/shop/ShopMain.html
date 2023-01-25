@@ -9,11 +9,17 @@
 <div>
     <div th:replace="fragments/shopnav :: shopnav"></div>
 </div>
+<div id=searchproduct>
+	<h1>상품검색</h1>
+			<input id="searchbox" type="text" placeholder="     검색할 상품을 입력해주세요">
+			<button id="seachbutton">검색</button>
+</div>
 	<div id="container">
 		<div id="slideShow">
 			<div id="slides">
 				<img src="/shopmain/001.png" alt="">
 				<img src="/shopmain/002.png" alt="">
+				<img src="/shopmain/003.png" alt="">
 				<button id="prev">&lang;</button>
 				<button id="next">&rang;</button>
 			</div>
@@ -32,7 +38,23 @@
 						<p th:text="${goods.price}"/>
 					</a>
 				</li>
-			</ul>
+				<li th:each="goods: ${goodslist}">
+				<a href="#">
+					<span id="quick-icon2"></span>
+						<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+						<p th:text="${goods.goodsname}"/>
+						<p th:text="${goods.price}"/>
+					</a>
+				</li>
+				<li th:each="goods: ${goodslist}">
+				<a href="#">
+					<span id="quick-icon3"></span>
+						<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+						<p th:text="${goods.goodsname}"/>
+						<p th:text="${goods.price}"/>
+					</a>
+				</li>
+		</ul>
 	-->
 			
 			

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,9 +75,12 @@ public class mypageService {
 			 fileName = map.userinfo(userjoin.getUserid()).getProfile();
 		 }
 		 else {			 
-			 fileName = "/profile/"+ file.getOriginalFilename();
-		        //new Date().getTime() + "-file." + getFileExtension(file.getOriginalFilename());
+			 String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+			 String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
 
+			 fileName = UUID.randomUUID() + extension;	//저장될 파일 명
+			 //fileName = file.getOriginalFilename();
+		  
 		    try {
 		      // Check if the filename contains invalid characters
 		      if (fileName.contains("..")) {
@@ -98,7 +102,7 @@ public class mypageService {
 			String email = email1 + "@" + email2;
 			
 			userjoin.setEmail(email);
-			userjoin.setProfile(fileName);
+			userjoin.setProfile("/images/profile/"+fileName);
 
 			int edit =  map.useredit(userjoin);
 			

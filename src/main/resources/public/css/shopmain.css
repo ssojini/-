@@ -10,6 +10,24 @@ a{
 ul{
 	list-style:none;
 }
+#searchproduct{
+	margin-top: 30px;
+	text-align: center;
+	margin: 30px 30px auto;
+}
+#searchproduct > h1{
+	margin-bottom:20px;
+	font-size:30px;
+	
+}
+#searchbox{
+	width:300px;
+	height: 30px;
+}
+#seachbutton{
+	width:50px;
+	height: 30px;
+}
 #container{
 	margin: 0 auto;
 	width: 0 auto;
@@ -33,7 +51,7 @@ ul{
 	margin: 0 auto;
     display: block;
 }
-button{
+#slides > button{
 	position: absolute;
     height: 100%;
     top:0;
@@ -51,13 +69,13 @@ button{
 #next{
 	right:0;
 }
-button:hover{
+#slides > button:hover{
 	background-color:#222;
 	color:#fff;
 	opacity:0.6;
 	cursor:pointer;
 }
-button:focus{
+#slides > button:focus{
 	outline:0;
 }
 #Contents{
