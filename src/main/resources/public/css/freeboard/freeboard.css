@@ -1,1 +1,34 @@
 @charset "UTF-8";
+
+main {
+	width: 100vw;
+	height: 77vw;
+	margin: 0px;
+	padding: 0px;
+	font-size: 0px;
+}
+
+#bname {
+	font-size: initial;
+}
+
+#search_freeboard_div {
+	font-size: initial;
+	
+}
+
+#freeboard_table_div {
+	font-size: initial;
+	
+}
+
+
+#freeboard_page {
+	font-size: initial;
+	
+}
+
+#add_freeboard {
+	font-size: initial;
+	
+}
