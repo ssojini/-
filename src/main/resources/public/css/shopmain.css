@@ -133,6 +133,7 @@ ul{
 #tab2: checked ~ #gallery{
 	display:block;
 }
+
 #links{
 	width:100%;
 	height:50%;
