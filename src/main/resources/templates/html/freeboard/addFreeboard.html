@@ -13,6 +13,7 @@
 <script src="/js/freeboard/addFreeboard.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
+		changeFile();
 	};
 </script>
 </head>
@@ -33,17 +34,30 @@
 				readonly>
 		</div>
 		-->
+		<input id="fbnum" type="hidden">
 		<div id="contentsDiv">
 			<div id="contents" contentEditable="true"></div>
 		</div>
 		<div id="file_div">
-			<div id="fileListDiv"></div>
-			<button id="insert_img_btn" type="button" onclick="insertImg();" hidden="true">이미지 넣기</button>
-			<input id="files" type="file" onchange="changeFile();" multiple="multiple">
+			<div id="listAttach">
+				<div th:id="'attach'+${attach.anum}" th:each="attach : ${listAttach}">
+					<input type="checkbox" th:value="${attach.anum}">
+					<span th:id="'anum'+${attach.anum}" th:text="${attach.anum}"></span>
+					<span th:id="'aname'+${attach.anum}" th:text="${attach.aname}"></span>
+					<span th:id="'asize'+${attach.anum}" th:text="${attach.asize}"></span>
+				</div>
+			</div>
+			<div id="file_btn_div">
+				<label id="file_upload_btn" for="files">파일 업로드</label>
+				<button id="delete_file_btn" type="button" onclick="deleteFile();">파일 삭제</button>
+				<button id="insert_img_btn" type="button" onclick="insertImg();" th:style="${#lists.isEmpty(listAttach)?'display:none':'display:block'}">이미지 넣기</button>
+				<input id="files" type="file" onchange="uploadFiles();" multiple="multiple">
+			</div>
 		</div>
-		<div>
-			<button id="goBack" type="button" th:onclick="'location.href=\''+@{/freeboard(bname=${bname})}+'\''">뒤로가기</button>
-			<button type="button" onclick="addFreeboard();">게시</button>
+		<hr>
+		<div id="freeboard_btn_div">
+			<button id="goback_btn" type="button" th:onclick="'location.href=\''+@{/freeboard(bname=${bname})}+'\''">뒤로가기</button>
+			<button id="add_freeboard_btn" type="button" onclick="addFreeboard();">게시</button>
 		</div>
 	</main>
 </body>

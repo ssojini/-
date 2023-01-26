@@ -299,6 +299,33 @@ public class ShopService
 		}
 		return goodslists;
 	}
+	
+	public List<GoodsAndAtt> newproduct()
+	{
+		List<Map<String,Object>> goodslist = map.newproduct();
+		List<GoodsAndAtt> newproduct = new ArrayList<>();
+		for(int i=0; i<goodslist.size(); i++)
+		{
+			Map<String, Object> m = goodslist.get(i);
+			
+			GoodsAndAtt both = new GoodsAndAtt();
+
+			BigDecimal big = (BigDecimal) m.get("PRICE");
+			both.setPrice(big.intValue());  
+			BigDecimal big1 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big1.intValue());
+			both.setGoodsname((String) goodslist.get(i).get("GOODSNAME"));
+			both.setCategory((String) goodslist.get(i).get("CATEGORY"));
+			both.setGoods_detail((String) goodslist.get(i).get("GOODS_DETAIL"));
+			
+
+			BigDecimal big2 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big2.intValue());
+			both.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
+			newproduct.add(both);
+		}
+		return newproduct;
+	}
   
 	 private final Path fileStorageLocation;
 

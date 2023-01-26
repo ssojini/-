@@ -25,10 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.mypageService;
+import com.example.demo.vo.AdminAttachBoard;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
+import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -136,6 +138,11 @@ public class HealthController {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/FindPwd";
 	}
+	
+	@GetMapping("/mappage")
+	public String mappage() {
+		return "html/map/mappage";
+	}
 
 
 	/* 현주 */
@@ -157,39 +164,14 @@ public class HealthController {
 	@Autowired 
 	private AdminBoardSerivce absvc;
 	
-	@GetMapping("/admin")
-	public String admin()
+	@GetMapping("/qaList/{pg}/{cnt}") //1:1 문의 리스트
+	public String qaList(Model m, @PathVariable int pg, @PathVariable int cnt)
 	{
-		return "html/admin/adminBoard";
-	}
-
-	@GetMapping("/addAdmin")
-	public String addAdminForm(Model m, String name)
-	{
-		m.addAttribute("name", name);
-		m.addAttribute("userid", "관리자");
-		return "html/admin/writeBoard_admin";
-	}
-	
-	@PostMapping("/addAdmin")
-	@ResponseBody
-	public Map<String,Object> addAdmin(HttpServletRequest request,Model m, 
-			AdminBoard adminb, @RequestParam("attach") MultipartFile[] mfiles) {
+		PageInfo<Map<String, Object>> pageInfo =  absvc.getPage(pg, cnt);
+		List<OneBoard> list = absvc.qaList(pageInfo.getList());
+		m.addAttribute("list", list);
 		
-		boolean added = absvc.addAdmin(request, adminb, mfiles);
-		log.info("name값:"+adminb.getName());
-		Map<String, Object> map = new HashMap<>();
-		map.put("added", added);
-		log.info("불리언 값:"+added);
-		return map;
-	}
-	
-	@GetMapping("/qaList") //1:1 문의 리스트
-	public String qaList(Model m)
-	{
-		m.addAttribute("list", absvc.qList());
-	//	log.info("컨트롤러 리스트"+ absvc.qList());
-		return "html/admin/adminBoard";
+		return "html/admin/qaList";
 	}
 	
 	@GetMapping("/writeQueB")
@@ -230,7 +212,7 @@ public class HealthController {
 			@RequestParam("attach") MultipartFile[] mfiles)
 	{
 		log.info("ctrl, reply ajax로 돌아감");
-		boolean uploaded =absvc.uploadAnsB(request, oneb, mfiles);
+		boolean uploaded =absvc.uploadQueB(request, oneb, mfiles);
 		Map<String, Boolean> map= new HashMap<>();
 		map.put("uploaded", uploaded);
 		log.info("ctrl, uploaded값:"+ uploaded);
@@ -264,14 +246,6 @@ public class HealthController {
 			@RequestParam("attach") MultipartFile[] mfiles,
 			HttpServletRequest request)
 	{
-		/*try {
-			for(int i=0;i<mfiles.length;i++) {
-				log.info ("파일 사이즈={}", mfiles[i].getBytes().length);
-				//log.info("파일명={}",mfiles[i].getOriginalFilename());
-			}
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}*/
 		boolean uploaded = absvc.updateQueB(request, oneb, mfiles);
 		Map<String, Boolean> map = new HashMap<>();
 		map.put("uploaded", uploaded);
@@ -348,6 +322,7 @@ public class HealthController {
 						
 			return map;
 		}
+		
 		
 
 	

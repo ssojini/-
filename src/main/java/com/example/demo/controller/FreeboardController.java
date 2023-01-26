@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.FreeboardAttachService;
 import com.example.demo.service.FreeboardReplyService;
@@ -50,8 +51,8 @@ public class FreeboardController {
 
 	@GetMapping("/add")
 	public String add(Model m, String bname) {
-		System.out.println("FreeboardController/add(Model m, String bname)");
-		m.addAttribute("bname", bname);
+		m.addAttribute("bname",bname);
+		freeboardService.getFbnum();
 		return "html/freeboard/addFreeboard";
 	}
 	@PostMapping("/add")
@@ -97,9 +98,9 @@ public class FreeboardController {
 	
 	@GetMapping("/edit")
 	public String edit(Model m, Integer fbnum) {
-		m.addAttribute("freeBoard",freeboardService.getByFbnum(fbnum));
+		m.addAttribute("freeboard",freeboardService.getByFbnum(fbnum));
 		m.addAttribute("listAttach", attachService.getList(fbnum));
-		return "html/freeBoard/editFreeboard";
+		return "html/freeBoard/addFreeboard";
 	}
 	@PostMapping("/edit")
 	@ResponseBody
