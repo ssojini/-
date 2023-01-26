@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude= {"anum", "title", "author", "qdate", "adate", "hit", "content", "attList"
+@EqualsAndHashCode(exclude= {"anum", "title", "author", "qdate", "adate", "hit", "content", "attList","key"
 })
 public class OneBoard 
 {
@@ -30,6 +30,6 @@ private int qnum;
  private int hit;
  private String content;
  private List<AttachBoard> attList = new ArrayList<>();
- 
+ private String key;
  
 }

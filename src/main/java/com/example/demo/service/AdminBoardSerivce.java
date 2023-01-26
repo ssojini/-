@@ -271,6 +271,50 @@ public class AdminBoardSerivce
 				return uploaded;
 				
 			
+
+		} catch (Exception e) {	
+				e.printStackTrace();
+		}
+		
+		return false;
+
+	}
+
+	
+	public boolean deleteIndiv(int attid)
+	{
+		int result =qamapper.deleteAttach(attid);
+		if(result>0) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addFiles(HttpServletRequest request, MultipartFile[] mfiles)
+	{
+		ServletContext context =request.getServletContext();
+		String savePath = context.getRealPath("/WEB-INF/files");
+		List<AttachBoard> alist = new ArrayList<>();
+		 
+		try {
+			boolean uploaded=false;
+
+				for(int i=0; i<mfiles.length; i++) {
+						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
+						
+						AttachBoard attb = new AttachBoard();
+						attb.setAttname(mfiles[i].getOriginalFilename());
+						attb.setAttsize(mfiles[i].getSize());
+						alist.add(attb);
+					//	log.info("svc, attb 목록"+ alist );
+					//	return uploaded;
+				}
+				
+				int arow =qamapper.saveAttach(alist);
+				uploaded = arow>0;
+				return uploaded;
+				
+			
 		} catch (Exception e) {	
 				e.printStackTrace();
 		}
@@ -278,6 +322,53 @@ public class AdminBoardSerivce
 		return false;
 	}
 	
+	public boolean delFromServer(List<AttachBoard> attachList)
+	{
+		log.info("컨트롤러 첨부파일 리스트"+attachList);
+		
+		for(int i=0; i<attachList.size();i++)
+		{
+			try{	
+				Path file= Paths.get("src/main/webapp/WEB-INF/files");
+				file =file.resolve(attachList.get(i).getAttname());
+				Files.deleteIfExists(file);
+				return true;
+			}catch (Exception e){
+				log.error("Delete file error: "+e.getMessage());
+			}
+		}
+	
+		return false;
+	}
+	
+	public OneBoard getQueBoard(int qnum)
+	{
+		return qamapper.findQueBoard(qnum);
+	}
+	
+	public int deleteQueB(int qnum)
+	{
+		return qamapper.deleteQueB(qnum);
+	}
+	
+	public boolean deleteAll(int qnum)
+	{
+		int arow = qamapper.deleteAllF(qnum);
+		int brow = qamapper.deleteQueB(qnum);
+		if(arow>0 && brow>0) return true;
+		return false;
+	}
+	
+	
+	/* end of Q&A 관련 메소드*/
+	
+	/*AdminBoard관련 메소드 */
+	public PageInfo<Map<String, Object>> noticePage(int pg, int cnt)
+	{
+		PageHelper.startPage(pg, cnt);
+		PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(mapper.noticeList());
+		List<Map<String, Object>> mlist = pageInfo.getList();
+		
 	public boolean deleteIndiv(int attid)
 	{
 		int result =qamapper.deleteAttach(attid);
@@ -489,8 +580,7 @@ public class AdminBoardSerivce
 						attb.setAdnum(adminb.getAdnum());
 						log.info("adnum값"+adminb.getAdnum());
 						alist.add(attb);
-					//	log.info("svc, attb 목록"+ alist );
-	//					return uploaded;
+
 				}
 				
 				int arow =mapper.moreAttach_admin(alist);
