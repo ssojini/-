@@ -79,11 +79,12 @@ $(function(){
 	
 </script>
 <body>
+<main>
 <div>
     <div th:replace="fragments/shopnav :: shopnav"></div>
 </div>
-<main>
-<form id="cartForm" action="/shop/buynow">
+
+<form id="cartForm" action="/shop/buynow" method="post">
 <input type="hidden" name="userid" value="asdf">
 <h3>구매-상품 상세보기</h3>
 <div>상품사진</div>
