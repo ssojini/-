@@ -178,6 +178,14 @@ public class ShopController {
 		String paid = svc.payment(items,userid,address);
 		return paid;
 	}
+	//결제성공
+	@GetMapping("/completeBuy")
+	public String completeBuy()
+	{
+		return "html/shop/completeBuy";
+	}
+	
+	
 	
 
 	/*--------------------- 상욱 끝 ----------------------*/

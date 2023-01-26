@@ -209,7 +209,7 @@ function buySel(){
 							 <!--  login 연결후 수정 -->
 							<input type="hidden" name="userid" th:value="asdf">
 						</td>
-						<td>[[${n.mainpic_server}]]<img alt="mainpic" th:src="'/images/goodsimg:'+${n.mainpic_server}"></td>
+						<td><img alt="mainpic" th:src="'/images/goodsimg/'+${n.mainpic_server}"></td>
 						<td>
 							<a th:href="'/shop/detail/'+${n.goodsnum}">[[${n.goodsname}]]</a>
 						</td>
