@@ -1,8 +1,6 @@
 package com.example.demo.vo;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-
+import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="order")
+@Table(name="tb_order")
 public class Order {
 	
 	@Id
@@ -27,13 +25,13 @@ public class Order {
 	private String userid;
 	private int goodsnum;
 	private String goodsname;
-	private int sum;
 	private int price;
 	private int prod_cnt;
-	@CreatedDate
-	private java.sql.Date pdate;
+	private int sum; //주문합계금액
+	@CreationTimestamp
+	private java.sql.Timestamp pdate;
 	private int itempoint;
-	private String mainpic_orignal;
+	private String mainpic_server;
 	private String address;
 	private String status;	
 

@@ -152,7 +152,7 @@ public class ShopController {
 	@PostMapping("/buynow")
 	public String buyNow(Cart cart, Model m) {
 		// 구매목록을 orderList에 담아 보낸다.
-		m.addAttribute("orderlist", svc.buyNow(cart));
+		m.addAttribute("orderlist", svc.buyNow(cart));		
 		return "html/shop/orderItems";
 	}
 
@@ -166,18 +166,19 @@ public class ShopController {
 	}
 
 	
-	//배송정보
-	@GetMapping("/buyerInfo")
-	public String buyerInfo()
+	// 결제
+	@GetMapping("/payment")
+	@ResponseBody
+	public String payment(@RequestParam String items
+			, @RequestParam("userid") String userid
+			, @RequestParam("address") String address) 
 	{
-		return "html/shop/buyerInfo";
+		System.err.println("here");
+		System.err.println("string items: "+items);
+		String paid = svc.payment(items,userid,address);
+		return paid;
 	}
-	//주소검색
-	@GetMapping("/findAddress")
-	public String findAddress()
-	{
-		return "html/shop/findAddress";
-	}
+	
 
 	/*--------------------- 상욱 끝 ----------------------*/
 
