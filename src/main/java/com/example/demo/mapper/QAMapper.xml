@@ -121,7 +121,8 @@
 		resultType="com.example.demo.vo.AttachBoard"
 		parameterType="Integer"
 	>
-		SELECT * FROM attach WHERE qnum=#{qnum}
+
+	SELECT * FROM attach WHERE qnum=#{qnum}
 	</select>
 	
 	<select
@@ -141,6 +142,10 @@
 		WHERE title LIKE '%' || #{key} ||'%' 
 	</select>
  
+	SELECT * FROM attach WHERE attid=#{attid}
+	</select>
+
+
 
 
 </mapper>

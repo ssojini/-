@@ -53,7 +53,7 @@ body {
 }
 </style>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
+<script> //주소 얻기 
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function findAddress() {
         new daum.Postcode({
@@ -115,21 +115,18 @@ body {
 	integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
-	/*
-	function pay(){ //api 연동
-		alert("결제");
-		$.ajax({
-			url:'/shop/pay',
-			dataType:'json',
-			success:function(res){
-				var box = data.next_redirect_pc_url;
-				window.open(box);
-			} ,error:function(xhr,status,err){
-				alert("에러: "+err);
-			}			
-		});
-	} 
-	*/
+// 구매금액 합계 구하기
+$(function(){
+	var total = 0;
+	var list = $("input[name='cartnum']");
+	for(var i=0; i<list.length;i++){
+		var sum = list[i].nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value;	
+//		console.log("sum: "+sum);
+		total+=parseInt(sum);
+	}
+	
+	$('#total_sum').text(total);
+});
 	
 	function payment(){
 		var itemArr = new Array();
@@ -153,13 +150,55 @@ body {
 		$('#payment').submit();
 		
 	}
+	
+
+</script>
+<!-- iamport.payment.js -->
+ <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+<script type="text/javascript">
+
+function requestPay() {	
+	
+	var name = "무적의 공격대";
+	var amount = $('#total_sum').text();
+	var buyer_email = "siesta_w@naver.com";
+	var buyer_name = $('#uname').val();
+	var buyer_tel = $('#phone').val();
+	var buyer_addr = $('#sample4_roadAddress').val() +" "+ $('#sample4_detailAddress').val();
+	var buyer_postcode = $('#sample4_postcode').val();
+		
+	alert("구매정보:"+buyer_addr);
+	
+	var IMP = window.IMP; // 생략 가능
+	IMP.init("imp78063027"); // 예: imp00000000
+    // IMP.request_pay(param, callback) 결제창 호출
+	IMP.request_pay({ // param
+          pg: "kakaopay",
+          pay_method: "card",
+          merchant_uid: "merchant_"+new Date().getTime(),
+          name: name,
+          amount: amount,
+          buyer_email: buyer_email,
+          buyer_name: buyer_name,
+          buyer_tel: buyer_tel,
+          buyer_addr: buyer_addr,
+          buyer_postcode: buyer_postcode
+      }, function (rsp) { // callback
+        if (rsp.success) {
+            alert("테스트 결제성공");
+            location.href='/shop/completeBuy';
+        } else {
+            alert("실패");
+        }
+    });
+  }
 </script>
 
 <body>
-	<div>
-		<div th:replace="fragments/common :: header"></div>
-	</div>
 	<main>
+	<div>
+		<div th:replace="fragments/shopnav :: shopnav"></div>
+	</div>
 		<h3>구매하기</h3>
 		<form id="payment" action="/shop/payment" method="get">
 		<input id="items" name="items" type="hidden">
@@ -186,7 +225,8 @@ body {
 					</thead>							
 					<tbody th:if="${#lists.size(orderlist)}!=0">
 						<tr th:id="${n.cartnum}" th:each="n:${orderlist}">
-							<td>								
+								<input type="hidden" name="rowCheck">
+							<td>																							
 								<input type="hidden" name="cartnum" th:value="${n.cartnum}">
 								<input type="hidden" name="goodsnum" th:value="${n.goodsnum}">
 								<input type="hidden" name="goodsname" th:value="${n.goodsname}">
@@ -196,7 +236,7 @@ body {
 								<input type="hidden" name="mainpic" th:value="${n.mainpic_server}">
 							</td>
 							<td><img alt="mainpic"
-								th:src="'/images/goodsimg:'+${n.mainpic_server}"></td>
+								th:src="'/images/goodsimg/'+${n.mainpic_server}"></td>
 							<td>[[${n.goodsname}]]</td>
 							<td><span th:text="${n.prod_cnt}+개"></span><br>
 							<td th:text="${n.sum}+원"></td>
@@ -246,7 +286,7 @@ body {
 <hr>
 					<div>
 						<div>
-							<input type="button" value="결제하기" onclick="payment()">
+							<input type="button" value="결제하기(데이터생성)" onclick="payment()">
 						</div>
 					</div>
 				</div>
@@ -262,8 +302,8 @@ body {
 						결제 금액:<span id="total_sum"></span>
 					</div>
 
-					<input type="submit" value="구매하기"> <input
-						type="button" value="취소하기" onclick="">
+					<input type="submit" value="결제하기(카카오페이)" onclick="requestPay()"> <input
+						type="button" value="취소하기" onclick="location.href='/shop/main'">
 
 				</div>
 			</div>
