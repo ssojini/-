@@ -23,8 +23,6 @@ public class UserJoinJpa {
 	private String address;
 	private String pwd;
 	private String email;
-	private String email1;
-	private String email2;
 	private String phone;
 	private String birth;
 	private String nickname;
