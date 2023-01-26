@@ -10,8 +10,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.HttpSessionHandler;
-
 import jakarta.activation.DataHandler;
 import jakarta.activation.FileDataSource;
 import jakarta.mail.BodyPart;
@@ -66,11 +64,13 @@ public class EmailService
 	{
 		//세션아이디 얻기
 		String sid = session.getId();
-		//System.err.println("sid: "+sid);	   
+		session.setAttribute("sid", sid);
+		System.err.println("sid: "+sid);	
 		String email = (String) session.getAttribute("email");
-		//System.err.println("email: "+email);
+		System.err.println("email: "+email);
 		String rdStr =createRandomStr();
 		session.setAttribute("rdStr", rdStr);
+		System.err.println("rdStr:" +rdStr);
 
 		MimeMessage mimeMessage = sender.createMimeMessage();
 
@@ -83,9 +83,9 @@ public class EmailService
 			mimeMessage.setSubject("팀프로젝트 메일 확인");
 
 			//로컬호스트로 테스트시 
-			//mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+			mimeMessage.setContent("<a href='http://localhost/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
 			//서버사용시 서버 IP주소 변경 할것
-			mimeMessage.setContent("<a href='http://192.168.0.92/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
+			//mimeMessage.setContent("<a href='http://192.168.0.92/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
 
 			sender.send(mimeMessage);
 			return true;

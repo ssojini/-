@@ -113,13 +113,13 @@ public class UserService
 		{	
 			map.put("msg", esvc.checkmail(session)?"메일발송":"메일발송실패");
 			String rdStr = (String) session.getAttribute("rdStr");
-			//System.out.println("rdStr2:"+rdStr);
 			session.setAttribute("rdStr", rdStr);
-			//System.err.println("session.rdStr:"+session.getAttribute("rdStr"));
+
+			log.info("svc.rdStr:"+rdStr);
+			
 			map.put("rdStr",rdStr);
 			map.put("checked", "send email");
 		}
-		
 		return map;
 	} 
 }

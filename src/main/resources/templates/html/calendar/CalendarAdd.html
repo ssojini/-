@@ -39,16 +39,41 @@ $(function(){
 			cache : false,
 			success: function (data) {
 		           $('#btnUpload').prop('disabled', false);
-		           alert('success')
+		           alert('저장되었습니다')
+		           opener.parent.location.reload();
+		           window.close();
 		        },
 		        error: function (e) {
 		            $('#btnUpload').prop('disabled', false);
-		            alert('fail');
-	
+		            alert('저장실패');
 			}
 		});
 	})	
 })
+
+function insertImg(input) {
+    for (var image of event.target.files) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          document.querySelector("div#preview").appendChild(img);
+       
+          
+          event.target.value="";
+          img.addEventListener("click",function(){
+        	document.querySelector("div#preview").removeChild(img);
+       	 })
+        }
+
+        //console.log(image);       
+        reader.readAsDataURL(image);
+	}
+} 
+function delFile(){
+	$("div").next().last().remove();
+};
+</script>
 
 </script>
 <body>
@@ -62,8 +87,11 @@ $(function(){
 		<input type="radio" name="when" id="dinner" value="저녁">저녁
 		<input type="radio" name="when" id="snack" value="간식">간식
 	</div>	
-	<input type="file" id="pname" name="files" multiple="multiple"> 
 	<textarea id ="m_content" name="content" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+	
+	<input type="file" id="pname" name="files" multiple="multiple" onchange="insertImg(this);"> 
+	<input type="button" value="삭제" onclick="delFile();">
+	<div id="preview"></div>	
 	<button type="button" id="btnUpload">저장</button>
 </form>
 </body>

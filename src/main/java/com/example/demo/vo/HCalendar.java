@@ -11,11 +11,10 @@ import lombok.ToString;
 @EqualsAndHashCode(exclude= {})
 @AllArgsConstructor 
 @NoArgsConstructor
-public class Calendar 
+public class HCalendar 
 {
 	//시퀀스
 	private int num;
-	
+	private String userid;
 	private java.sql.Date datetime;
-
 }
