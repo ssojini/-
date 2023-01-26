@@ -44,7 +44,7 @@ function uploadFiles(fbnum) {
 		timeout: 600000,
 		success: function(res) {
 			if (res.result) {
-				changeFile(res.fbnum);
+				alert("파일업로드 성공");
 			} else {
 				alert("파일업로드 실패");
 			}

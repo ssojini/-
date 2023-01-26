@@ -52,7 +52,6 @@ public class FreeboardController {
 	@GetMapping("/add")
 	public String add(Model m, String bname) {
 		m.addAttribute("bname",bname);
-		freeboardService.getFbnum();
 		return "html/freeboard/addFreeboard";
 	}
 	@PostMapping("/add")
