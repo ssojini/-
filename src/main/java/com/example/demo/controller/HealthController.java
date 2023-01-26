@@ -136,6 +136,11 @@ public class HealthController {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/FindPwd";
 	}
+	
+	@GetMapping("/mappage")
+	public String mappage() {
+		return "html/map/mappage";
+	}
 
 
 	/* 현주 */
