@@ -93,7 +93,7 @@ p:last-child {
   width: 100%;
   border-top: 1px solid #909090;
   border-bottom: 1px solid #909090;
-  background-color: white;
+  background-color: #4C4637;
   z-index: 3000;
 }
 
@@ -101,7 +101,7 @@ p:last-child {
   position: fixed;
   top: 0;
   border-top: none;
-  background: white;
+  background: #4C4637;
 }
 
 .navbar-expand-md .navbar-nav .nav-link {

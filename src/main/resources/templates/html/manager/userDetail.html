@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+function deleteUser(userid) {
+	if (!confirm("정말로 삭제 할까요?")) {
+		return false;
+    } else {
+    	if (!confirm("정말로 삭제 합니다?")) {
+    		return false;
+        } else {
+        	
+        
+	$.ajax({
+		url:"/manager/DelAccount",
+		method:"post",
+		data:{"userid":userid},
+		dataType:"json",
+		cache:false,
+		success:function(res) {
+			alert(res.result ? "삭제 성공" : "삭제 실패");
+			if (res.result) {
+				location.href = "/manager/userlist";
+			}
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
+	
+        }
+    }
+}
+</script>
+<style>
+	table {
+    width: 95%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+ 	}
+  	th, td {
+    padding: 10px;
+    text-align: center;
+  	}
+  	th{
+  	font-size:20px;}
+  	.btn {
+  	text-align:center;
+  	margin: 0 auto;
+  	margin-top:20px;
+  	margin-right:5%;
+  	}
+</style>
+
+</head>
+<body style="margin:0; padding: 0px">
+<div>
+    <div th:replace="fragments/managernav :: header"></div>
+</div>
+<div style="margin-left:230px;">
+<h3 th:text="${userdetail.userid}" style="float:left; margin-top:50px;"></h3>
+<h3 style="float:left; margin-top:50px">의 상세 정보</h3>
+<table>
+<tr>
+	<th>userid</th>
+	<th>nickname</th>
+	<th>phone</th>
+	<th>email</th>
+	<th>address</th>
+</tr>
+<tr>
+	<td>
+		<span th:text="${userdetail.userid}"></span>
+	</td>
+	<td>
+		<span th:text="${userdetail.nickname}"></span>
+	</td>
+	<td>
+		<span th:text="${userdetail.phone}"></span>
+	</td>
+	<td>
+		<span th:text="${userdetail.email}"></span>
+	</td>
+	<td>
+		<span th:text="${userdetail.address}"></span>
+	</td>
+</tr>	
+
+</table>
+<div class="btn">
+	<button type="button" th:onclick="javascript:deleteUser([[${userdetail.userid}]])">계정 삭제</button>
+	<input type="button" value="BACK" onClick="history.go(-1)">
+</div>	 
+</div>
+</body>
+</html>
