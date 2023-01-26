@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.AdminBoardMapper;
+import com.example.demo.vo.AdminAttachBoard;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.OneBoard;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,14 +42,29 @@ public class AdminBoardSerivce
 	@Autowired
 	private AdminBoardMapper mapper;
 	
-	public List<OneBoard> qList()
+	public PageInfo<Map<String, Object>> getPage(int pg, int cnt)
 	{
-		List<Map<String, Object>> mlist = mapper.QAlist();
+		PageHelper.startPage(pg, cnt);
+		PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(mapper.qaList());
+		List<Map<String, Object>> mlist = pageInfo.getList();
+		
+		return pageInfo;
+	}
+	
+	public PageInfo<Map<String, Object>> noticePage(int pg, int cnt)
+	{
+		PageHelper.startPage(pg, cnt);
+		PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(mapper.noticeList());
+		List<Map<String, Object>> mlist = pageInfo.getList();
+		
+		return pageInfo;
+	}
+	public List<OneBoard> qaList(List<Map<String, Object>> mlist)
+	{
 		List<OneBoard> list = new ArrayList<>();
 		for(int i=0; i<mlist.size(); i++)
 		{
 			Map<String, Object> map= mlist.get(i);
-			
 			BigDecimal big = (java.math.BigDecimal)map.get("QNUM");
 			
 			OneBoard oneb = new OneBoard(big.intValue());
@@ -69,47 +87,68 @@ public class AdminBoardSerivce
 			*/
 			try {
 				String jts = String.valueOf(map.get("QDATE"));
-				//System.out.println("jts:"+jts);
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 				Date parseDate;
 				parseDate = dateFormat.parse(jts);
 				oneb.setQdate(new java.sql.Timestamp(parseDate.getTime()));
-			//	log.info("QDATE={}", jts);
 			} catch (ParseException e) {
 				e.printStackTrace();
-			}
-			
+			}		
 			big = (java.math.BigDecimal)map.get("HIT");
 			oneb.setHit((big.intValue()));
-		
-			Object objname = map.get("ATTNAME");
-			if(objname==null) //첨부파일 null이고
-			{
-				if(!found) list.add(oneb); //해당 게시글 리스트에 없으면 리스트에 넣주기
-				continue;	
-			}
-			else { //첨부파일 있으면
-				AttachBoard attb = new AttachBoard();
-				attb.setAttname((String)objname);
-				big= (BigDecimal)map.get("ATTSIZE");
-				attb.setAttsize(big.intValue());
-	
-				oneb.getAttList().add(attb);
-				if(!found) list.add(oneb);
-			}
-			
+			list.add(oneb);
 		}
-	//	log.info("서비스로 넘어오는 date:"+ list);
 		return list;
 	}
 	
+	public List<AdminBoard> adminBList(List<Map<String, Object>> mlist)
+	{
+		List<AdminBoard> list = new ArrayList<>();
+		for(int i=0; i<mlist.size(); i++)
+		{
+			Map<String, Object> map= mlist.get(i);
+			log.info("mlist값"+mlist.get(0));
+			BigDecimal big = (java.math.BigDecimal)map.get("ADNUM");
+			
+			AdminBoard adminb = new AdminBoard(big.intValue());
+			boolean found= false;
+			if(list.contains(adminb)) {
+				adminb= list.get(list.indexOf(adminb));
+				found =true;
+			}
+			adminb.setTitle((String)map.get("TITLE"));
+			adminb.setAuthor((String)map.get("AUTHOR"));
+	
+			try {
+				String jts = String.valueOf(map.get("DATE_ADMIN"));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+				Date parseDate;
+				parseDate = dateFormat.parse(jts);
+				adminb.setDate_admin((new java.sql.Timestamp(parseDate.getTime())));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}		
+			big = (java.math.BigDecimal)map.get("HIT");
+			adminb.setHit((big.intValue()));
+			list.add(adminb);
+		}
+		log.info("서비스로 넘어오는:"+ list);
+		return list;
+	}
+
 	@Transactional
 	public boolean uploadQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
 	{
+
 		//log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
 		List<AttachBoard> alist = new ArrayList<>();
+		if(oneb.getQnum()!=0) 
+		{	
+			
+			oneb.setAnum(oneb.getQnum());
+		}
 		int brow = mapper.addQueBoard(oneb);
 		 
 		try {
@@ -144,47 +183,6 @@ public class AdminBoardSerivce
 		}
 		
 		return false;
-	
-	}
-	
-	@Transactional
-	public boolean uploadAnsB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
-	{
-		log.info("svc, mfiles.length={}", mfiles.length);
-		ServletContext context =request.getServletContext();
-		String savePath = context.getRealPath("/WEB-INF/files_ans");
-		List<AttachBoard> alist = new ArrayList<>();
-		int ansrow =mapper.addAnsBoard(oneb);
-		log.info("svc, ansrow 정수값:" + ansrow);
-		boolean uploaded=false;
-
-		try {
-			if(!mfiles[0].isEmpty())//첨부파일 있으면
-			{
-				for(int i=0; i<mfiles.length; i++) {
-						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
-						
-						AttachBoard attb = new AttachBoard();
-						attb.setAttname(mfiles[i].getOriginalFilename());
-						attb.setAttsize(mfiles[i].getSize());
-						attb.setQnum(oneb.getQnum());
-						alist.add(attb);
-						log.info("svc, attb 목록"+ alist );
-	//					return uploaded;
-				}
-				
-				int attrow =mapper.saveAttach_admin(alist);
-				uploaded = ansrow>0 && attrow>0;
-				
-			}else {//첨부파일 없으면
-				uploaded = ansrow>0;			
-			}			
-		} catch (Exception e) {	
-				e.printStackTrace();
-		}
-		
-		log.info("svc, uploaded 값"+ uploaded);
-		return uploaded;
 	
 	}
 	
@@ -239,6 +237,56 @@ public class AdminBoardSerivce
 		return oneb;
 	}
 	
+	public AdminBoard detail_adminb(int adnum)
+	{
+		List<Map<String, Object>> mlist = mapper.detail_adminb(adnum);
+		log.info("mlist값"+ mlist);
+		Map<String, Object> boardMap = mlist.get(0);
+		
+		AdminBoard adminb = new AdminBoard();
+		java.math.BigDecimal big =(java.math.BigDecimal)boardMap.get("ADNUM");
+		adminb.setAdnum(big.intValue());
+		String title =(String)boardMap.get("TITLE");
+		adminb.setTitle(title);
+		String author = (String)boardMap.get("AUTHOR");
+		adminb.setAuthor(author);
+		String content = (String)boardMap.get("CONTENT");
+		adminb.setContent(content);
+		try {
+			String jts = String.valueOf(boardMap.get("DATE_ADMIN"));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+			Date parseDate;
+			parseDate = dateFormat.parse(jts);
+			adminb.setDate_admin(new java.sql.Timestamp(parseDate.getTime()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		if(boardMap.get("ATTID")!=null)
+		{
+			for(int i=0; i<mlist.size(); i++)
+			{
+				boardMap =mlist.get(i); //새로 boardMap을 해줘야지 안그러면 위에서 한 mlist.get(0)으로만 돌아간다.
+			
+				AdminAttachBoard att = new AdminAttachBoard();
+				
+				String attname = (String)boardMap.get("ATTNAME");
+				log.info("attname:"+attname);
+				att.setAttname(attname);
+				java.math.BigDecimal bigd=(java.math.BigDecimal)boardMap.get("ATTSIZE");
+				att.setAttsize(bigd.intValue());
+				java.math.BigDecimal bigid = (java.math.BigDecimal)boardMap.get("ATTID");
+				att.setAttid(bigid.intValue());
+				
+				adminb.getAttList().add(att);
+			}
+		}		
+		mapper.increaseHit_admin(adnum);
+		//oneb =mapper.findQueBoard(num);
+		
+	//	log.info(content);
+		return adminb;
+	}
 	@Transactional
 	public boolean addAdmin(HttpServletRequest request, AdminBoard adminb, MultipartFile[] mfiles)
 	{
@@ -247,7 +295,7 @@ public class AdminBoardSerivce
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
 		
-		 List<AttachBoard> alist = new ArrayList<>();
+		 List<AdminAttachBoard> alist = new ArrayList<>();
 		try {
 			//log.info("mfiles length:"+ mfiles.length);
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
@@ -255,12 +303,12 @@ public class AdminBoardSerivce
 				for(int i=0; i<mfiles.length; i++) {
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
 						
-						AttachBoard attb = new AttachBoard();
+						AdminAttachBoard attb = new AdminAttachBoard();
 						attb.setAttname(mfiles[i].getOriginalFilename());
 						attb.setAttsize(mfiles[i].getSize());
 						alist.add(attb);
 						
-						int arow =mapper.saveAttach_admin(alist);
+						int arow =mapper.saveAdminAttach(alist);
 						int brow = mapper.addAdminBoard(adminb);
 						boolean added = brow>0 && arow>0;
 						return added;
@@ -328,6 +376,53 @@ public class AdminBoardSerivce
 	
 	}
 
+	@Transactional
+	public boolean updateAdminB(HttpServletRequest request, AdminBoard adminb, MultipartFile[] mfiles)
+	{
+		//log.info("svc, mfiles.length={}", mfiles.length);
+		ServletContext context =request.getServletContext();
+		String savePath = context.getRealPath("/WEB-INF/files");
+		List<AdminAttachBoard> alist = new ArrayList<>();
+		int brow = mapper.updateAdminB(adminb);
+		 
+		try {
+			boolean uploaded=false;
+
+			if(!mfiles[0].isEmpty())//첨부파일 있으면
+			{
+				for(int i=0; i<mfiles.length; i++) {
+						//log.info("mfiles length"+ mfiles.length);
+						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
+						
+						AdminAttachBoard attb = new AdminAttachBoard();
+						attb.setAttname(mfiles[i].getOriginalFilename());
+						attb.setAttsize(mfiles[i].getSize());
+						attb.setAdnum(adminb.getAdnum());
+						log.info("adnum값"+adminb.getAdnum());
+						alist.add(attb);
+					//	log.info("svc, attb 목록"+ alist );
+	//					return uploaded;
+				}
+				
+				int arow =mapper.moreAttach_admin(alist);
+				log.info("svc, arow 값"+arow);
+				uploaded = brow>0 && arow>0;
+				return uploaded;
+				
+			}else {//첨부파일 없으면
+				uploaded = brow>0;
+				return uploaded;
+				
+			}
+			
+		} catch (Exception e) {	
+				e.printStackTrace();
+		}
+		
+		return false;
+	
+	}
+
 	public boolean addFiles(HttpServletRequest request, MultipartFile[] mfiles)
 	{
 		ServletContext context =request.getServletContext();
@@ -360,27 +455,38 @@ public class AdminBoardSerivce
 		return false;
 	}
 	
-	//시험용
 	public boolean deleteIndiv(int attid)
 	{
 		int result =mapper.deleteAttach(attid);
-
-		log.info("svc, result값:"+ result);
 		if(result>0) {
 			return true;
 		}
 		return false;
 	}
 	
+	public boolean delAdminIndiv(int attid)
+	{
+		int result =mapper.delAdminAttach(attid);
+		if(result>0) {
+			return true;
+		}
+		return false;
+	}
 	public boolean deleteAll(int qnum)
 	{
 		int arow = mapper.deleteAllF(qnum);
 		int brow = mapper.deleteQueB(qnum);
-		
 		if(arow>0 && brow>0) return true;
 		return false;
 	}
 
+	public boolean deleteAll_admin(int adnum)
+	{
+		int arow = mapper.deleteAllF_admin(adnum);
+		int brow = mapper.delAdminB(adnum);
+		if(arow>0 && brow>0) return true;
+		return false;
+	}
 	public boolean delFromServer(List<AttachBoard> attachList)
 	{
 		log.info("컨트롤러 첨부파일 리스트"+attachList);
@@ -400,11 +506,28 @@ public class AdminBoardSerivce
 		return false;
 	}
 	
+	public boolean delFromServer_admin(List<AdminAttachBoard> attachList)
+	{
+		for(int i=0; i<attachList.size();i++)
+		{
+			try{	
+				Path file= Paths.get("src/main/webapp/WEB-INF/files");
+				file =file.resolve(attachList.get(i).getAttname());
+				Files.deleteIfExists(file);
+				return true;
+			}catch (Exception e){
+				log.error("Delete file error: "+e.getMessage());
+			}
+		}
+	
+		return false;
+	}
+	
+	
+	
 	public List<AttachBoard> getAttachList(int qnum)
 	{
-		log.info("svc,qnum값:" +qnum);
 		List<AttachBoard> attList =mapper.getAttachList(qnum);
-		log.info("svc, attList값"+ attList);
 		return attList;
 	}
 
@@ -414,6 +537,17 @@ public class AdminBoardSerivce
 		return attach;
 	}
 
+	public List<AdminAttachBoard> getAdminAttachList(int adnum)
+	{
+		List<AdminAttachBoard> attList =mapper.getAdminAttachList(adnum);
+		return attList;
+	}
+	
+	public AdminAttachBoard getAdminAttach(int attid)
+	{
+		AdminAttachBoard attach =mapper.getAdminAttach(attid);
+		return attach;
+	}
 	public OneBoard getQueBoard(int qnum)
 	{
 		return mapper.findQueBoard(qnum);
@@ -423,4 +557,21 @@ public class AdminBoardSerivce
 	{
 		return mapper.deleteQueB(qnum);
 	}
+	
+	public int delAdminB(int adnum)
+	{
+		return mapper.delAdminB(adnum);
+	}
+	
+	/* FAQ */
+	public PageInfo<Map<String, Object>> faqPage(int pg, int cnt)
+	{
+		PageHelper.startPage(pg, cnt);
+		PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(mapper.faqList());
+		List<Map<String, Object>> mlist = pageInfo.getList();
+		
+		return pageInfo;
+	}
+	
+	
 }

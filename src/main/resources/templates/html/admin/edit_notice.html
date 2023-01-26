@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>edit test</title>
+<style>
+.title{
+	text-align: center;
+}
+.container{
+	 width: 400px;
+	 height:400px;
+	 margin: 0 auto;
+	 outline: solid 1px black;
+	 display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+function delFiles(index)
+{
+	//alert('삭제대상:'+index);
+	//console.log($('#attid'+index).val());
+	//alert($('#attid'+index).val());
+	var id =$('#attid'+index).val();
+	
+	$.ajax({
+		url: '/admin/delAdminIndiv',
+		data: {"attid": id},
+		dataType: 'json',
+		method: 'post',
+		cache: false,
+		success: function(res){
+			if(res.deleted){
+				$('#div'+index).remove();
+				alert("삭제 성공")
+			}
+		}
+		
+	})	
+}
+
+$(function(){
+	$('#btnUpload').on('click',function(event){
+		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
+		
+		var form= $('#editForm')[0] // FormData를 쓰기 위해 필요하다
+		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
+		
+		$('#btnUpload').prop('disabled', 
+				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
+		
+		$.ajax({
+			url:'/admin/edit_notice/[[${adnum}]]',
+			method:'post',
+			enctype: 'multipart/form-data',
+			data: data,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 600000,
+			success: function(res){
+				$('#btnUpload').prop('disabled', false);
+				if(res.uploaded){
+					alert('수정 되었습니다.');
+					location.href= "/admin/edit_notice/[[${adnum}]]"
+				}
+			},
+			error: function(e){
+				$('#btnUpload').prop('disabled', false);
+				alert('Server Error');
+			}
+			
+		});
+	})
+})
+</script>
+</head>
+<body>
+<h3 class="title">수정하기</h3>
+<div class= "container"> 
+<form id="editForm" >
+
+	<div>제목
+		<label for="title"> 
+			<input id ="title" type="text" name="title" th:value= "${adminb.title}"> 
+		</label>
+	</div> 
+	<div>작성자 
+		관리자
+	</div> 
+	<div>
+		<label for ="content">
+			<textarea name="content" rows="10" cols="40" > [[${adminb.content}]]</textarea>	
+		</label>
+	</div>
+<p>
+<div>첨부파일 목록 <br>
+
+	<div th:each="att, status: ${adminb.attList}" th:id="|div${status.index}|"> 
+	
+		<span th:text="${att.attname}"></span>
+		<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
+		<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
+	</div>	
+</div>
+<p>
+
+<div>
+		<label for="attach">첨부파일 추가</label>
+		<input type="file" name="attach" multiple="multiple">
+</div>
+<div>
+	<button type="button" id="btnUpload"> 저장</button>
+	<button type="reset">취소</button>
+</div>
+</form>
+</div>
+<p>
+
+
+</body>
+</html>
