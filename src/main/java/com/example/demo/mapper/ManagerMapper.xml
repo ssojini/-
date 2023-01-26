@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ManagerMapper">
+
+	<select id="findUser" resultType="com.example.demo.vo.UserJoin">
+		SELECT * FROM userjoin
+	</select>
+	
+	<select id="userList" resultType="com.example.demo.vo.UserJoin">
+		SELECT * FROM userjoin
+	</select>
+	
+	<select id="userDetail" parameterType="string" resultType="com.example.demo.vo.UserJoin">
+		SELECT * FROM userjoin WHERE userid=#{userid, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="userBoard" parameterType="string" resultType="com.example.demo.vo.FreeBoard">
+		SELECT * FROM free_board WHERE author=#{userid, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="boardDetail" parameterType="int" resultType="com.example.demo.vo.FreeBoard">
+		SELECT * FROM free_board WHERE fbnum=#{fbnum}
+	</select>
+	
+	<delete id="useridDel" parameterType="String">
+		DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
+	</delete>
+	
+	<select id="orderlist" parameterType="String" resultType="com.example.demo.vo.Shop">
+		SELECT * FROM shop WHERE userid=#{userid, jdbcType=VARCHAR}
+	</select>
+</mapper>

@@ -41,7 +41,7 @@ public class JoinController
 	//초기 데이터 생성 메소드
 	@GetMapping("/add")
 	@ResponseBody
-	public String add(HttpSession session)
+	public void add(HttpSession session)
 	{
 		//상욱
 		Date date = Date.valueOf("2022-12-31");
@@ -49,8 +49,6 @@ public class JoinController
 		User added = repo.save(member);
 		
 		// 현주 
-		UserJoin join = new UserJoin("smith","1234","smith@naver.com","","","01011112222","1998-04-29","smash","/profile/default.png");
-		return "session: "+session.getId()+"JoinController 초기 데이터 생성 완료";
 
 	}
 	//이용약관
