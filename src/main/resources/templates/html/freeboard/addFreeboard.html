@@ -38,12 +38,16 @@
 		</div>
 		<div id="file_div">
 			<div id="fileListDiv"></div>
-			<button id="insert_img_btn" type="button" onclick="insertImg();" hidden="true">이미지 넣기</button>
-			<input id="files" type="file" onchange="changeFile();" multiple="multiple">
+			<div id="file_btn_div">
+				<button id="insert_img_btn" type="button" onclick="insertImg();" hidden="true">이미지 넣기</button>
+				<label id="file_upload_btn" for="files">파일 업로드</label>
+				<input id="files" type="file" onchange="changeFile();" multiple="multiple">
+			</div>
 		</div>
-		<div>
-			<button id="goBack" type="button" th:onclick="'location.href=\''+@{/freeboard(bname=${bname})}+'\''">뒤로가기</button>
-			<button type="button" onclick="addFreeboard();">게시</button>
+		<hr>
+		<div id="freeboard_btn_div">
+			<button id="goback_btn" type="button" th:onclick="'location.href=\''+@{/freeboard(bname=${bname})}+'\''">뒤로가기</button>
+			<button id="add_freeboard_btn" type="button" onclick="addFreeboard();">게시</button>
 		</div>
 	</main>
 </body>
