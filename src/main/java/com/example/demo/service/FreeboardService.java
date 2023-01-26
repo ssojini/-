@@ -18,6 +18,10 @@ import com.example.demo.vo.Freeboard;
 public class FreeboardService {
 	@Autowired
 	private FreeboardRepository repo;
+	
+	public Integer getFbnum() {
+		return null;
+	}
 
 	public Freeboard getByFbnum(Integer fbnum) {
 		Optional<Freeboard> freeBoard = repo.findById(fbnum);

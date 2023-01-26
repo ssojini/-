@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.FreeboardAttachService;
+import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.FreeboardAttach;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,6 +51,17 @@ public class FileController {
 		Map<String, Object> map = new HashMap<>();
 		boolean delete = attachService.delete(request, attachService.jsonArrToListAttach(arrAttach));
 		map.put("result", delete);
+		return map;
+	}
+	
+	@PostMapping("/list")
+	@ResponseBody
+	public Map<String,Object> list(Integer fbnum) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", true);
+		List<FreeboardAttach> listAttach = attachService.getList(fbnum);
+		System.out.println("listAttach:"+listAttach);
+		map.put("listAttach", listAttach);
 		return map;
 	}
 }
