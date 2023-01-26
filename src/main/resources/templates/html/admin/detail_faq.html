@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>공지사항 </title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+function delAdminB()
+{
+	$.ajax({
+		url:'/admin/delAdminB',
+		method:'post',
+		data: {"adnum": [[${adnum}]]},
+		dataType: 'json',
+		cache: false,
+		success: function(res){
+			alert(res.deleted?"삭제 성공": "삭제 실패")
+			if(res.deleted){
+				location.href='/admin/faq/1/10'
+			}
+		},
+		error: function(xhr, status, err){
+			alert("서버 문제로 삭제 실패 되었습니다.")
+			log.info("error이유:"+err)
+		}
+		
+	})
+}
+
+
+
+</script>
+</head>
+<body>
+<h3> FAQ</h3> 
+	<div>제목
+		<span>[[${faqb.title}]]</span>
+	</div>
+	<div>작성자
+		<span>[[${faqb.author}]]</span>
+	</div>
+	<div>조회수
+		<span>[[${faqb.hit}]]</span>
+	</div>
+	<div>등록일
+		<span>[[${faqb.date_admin}]]</span>
+	</div>
+	<div>내용
+		<span>[[${faqb.content}]]</span>
+	</div>
+  
+	<div>첨부파일</div>
+	<span th:if= "${faqb.attList.size()>0}"></span>
+	<span th:each="att: ${faqb.attList}"> [[${att.attname}]]</span>
+
+<a th:href= "|/admin/edit_faq/${faqb.adnum}|">[수정하기]</a>
+<p>
+<button type="button" onclick="delAdminB();"> 삭제</button>
+
+</body>
+</html>

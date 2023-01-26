@@ -4,179 +4,124 @@
 
 <mapper namespace="com.example.demo.mapper.AdminBoardMapper">
 
-	<select id="QAlist"
-		resultType="map">
-		SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, a.anum, a.title as atitle, a.author as a_author, a.adate, a.hit as ahit, a.content as a_content, attsize, attname, attid
-		FROM queBoard q LEFT OUTER JOIN ansBoard a
-		ON q.qnum = a. qnum 
-        LEFT OUTER JOIN attach c
-        ON q.qnum= c.qnum
-		ORDER BY q.qnum DESC, a.anum ASC
-	</select>
 
-	<select id="adminListByName"
-	resultType="map">
-	SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, a.anum, a.title as atitle, a.author as a_author, a.adate, a.hit as ahit, a.content as a_content, attsize, attname, attid
-	FROM queBoard q LEFT OUTER JOIN ansBoard a
-	ON q.qnum = a. qnum 
-       LEFT OUTER JOIN attach c
-       ON q.qnum= c.qnum
-	ORDER BY q.qnum DESC, a.anum ASC
+	
+<!-- 공지사항 및 FAQ  -->	
+
+	<update 
+		id="updateAdminB"
+		parameterType="com.example.demo.vo.AdminBoard"
+	>
+	UPDATE admin_board SET title=#{title}, content=#{content} WHERE adnum=#{adnum}
+	</update>	
+
+	<select id="noticeList"
+		resultType="map">
+		SELECT adnum, title, author, content, hit, date_admin
+		FROM admin_board
+		WHERE name='notice'
+		ORDER BY date_admin DESC
 	</select>
 	
-	<select id="detailByQnum"
-		parameterType="Integer"
-		resultType="map"
+	<select id="faqList"
+		resultType="map">
+		SELECT adnum, title, author, content, hit, date_admin
+		FROM admin_board
+		WHERE name='faq'
+		ORDER BY date_admin DESC
+	</select>
+
+	<select id="detail_adminb"
+	parameterType="Integer"
+	resultType="map"
 	>
 		SELECT * FROM(
-		SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, attsize, attname, attid
-		FROM queBoard q LEFT OUTER JOIN attach a
-		ON q.qnum = a.qnum
-		ORDER BY q.qnum DESC, attid ASC
+		SELECT n.adnum, n.title, n.author, n.date_admin, n.content, hit, attsize, attname, attid
+		FROM admin_board n LEFT OUTER JOIN admin_attach a
+		ON n.adnum = a.adnum
+		ORDER BY adnum DESC, attid ASC
 		)t
-		WHERE qnum=#{qnum}
-		
+		WHERE adnum=#{adnum}
 	</select>
-	
-	<select id="findQueBoard" 
-	   parameterType="Integer" 
-	   resultType="com.example.demo.vo.OneBoard"
-	>
-	    SELECT * FROM queBoard WHERE qnum=#{qnum}
-	</select>	
 
-	<update id="increaseHit"
-		parameterType="Integer">
-		UPDATE queBoard SET hit =hit+1 WHERE qnum= #{qnum}
-	</update>
-	
 	<update id="increaseHit_admin"
 	parameterType="Integer">
 	UPDATE admin_board SET hit =hit+1 WHERE adnum= #{adnum}
 	</update>
 	
-	<insert id="addQueBoard"
-		parameterType="com.example.demo.vo.OneBoard">
-		INSERT INTO queBoard(qnum, title, author, qdate, content, hit)
-		VALUES(QUEBOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit})
-		
-	</insert>
-
-	<insert id="addAnsBoard"
-		parameterType="com.example.demo.vo.OneBoard">
-		INSERT INTO ansBoard(qnum, author, anum, title, adate, content, hit)
-		VALUES(#{qnum}, #{author}, ANSBOARD_SEQ.NEXTVAL, #{title}, sysdate, #{content}, #{hit})
-		
-	</insert>
-	
 	<insert id="addAdminBoard"
-		parameterType="com.example.demo.vo.AdminBoard">
-		INSERT INTO ADMIN_BOARD(adnum, title, author, date_admin, content, hit, name)
-		VALUES(ADMIN_BOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit}, #{name, jdbcType=VARCHAR})
-		
+	parameterType="com.example.demo.vo.AdminBoard">
+	INSERT INTO ADMIN_BOARD(adnum, title, author, date_admin, content, hit, name)
+	VALUES(ADMIN_BOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit}, #{name, jdbcType=VARCHAR})
+	
 	</insert>
 	
-	<update id="saveAttach"
+	<update id="saveAdminAttach"
 	parameterType="list">
-	INSERT INTO attach (attid, attsize, attname, qnum, anum)
+	INSERT INTO admin_attach (attid, attsize, attname, adnum)
 	SELECT
-	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
-	(
-		<foreach collection="list" item="item" index="index" separator=" union all ">
-		SELECT
-		 #{item.attsize} AS attsize, 
-		#{item.attname} AS attname, 
-			(SELECT MAX(qnum) FROM queBoard) AS qnum, 
-			(SELECT MAX(anum) FROM ansBoard) AS anum 
-		FROM DUAL
-		</foreach>
-	)t
-	</update> 
-	
-	<update id="moreAttach"
-	parameterType="list">
-	INSERT INTO attach (attid, attsize, attname, qnum, anum)
-	SELECT
-	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
-	(
-		<foreach collection="list" item="item" index="index" separator=" union all ">
-		SELECT
-		 #{item.attsize} AS attsize, 
-		#{item.attname} AS attname, 
-		#{item.qnum} AS qnum,
-		(SELECT MAX(anum) FROM ansBoard) AS anum
-		FROM DUAL
-		</foreach>
-	)t
-	</update> 	
-	<update id="saveAttach_admin"
-	parameterType="list">
-	INSERT INTO attach (attid,attsize, attname, anum, qnum)
-	SELECT
-	ATTACH_SEQ.NEXTVAL AS attid,
-	t.* FROM
+	ADMIN_ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
 	(
 		<foreach collection="list" item="item" index="index" separator=" union all ">
 		SELECT
 		#{item.attsize} AS attsize, 
-		#{item.attname} AS attname,
-		(SELECT MAX(anum) FROM ansBoard) AS anum,
-		#{item.qnum} AS qnum
+		#{item.attname} AS attname, 
+		(SELECT MAX(adnum) FROM admin_board) AS adnum
 		FROM DUAL
 		</foreach>
 	)t
 	</update> 
 	
-	<update 
-		id="updateQueB"
-		parameterType="com.example.demo.vo.OneBoard"
-	>
-	UPDATE queBoard SET title=#{title}, content=#{content} WHERE qnum=#{qnum}
-	</update>	
-	
-	<delete 
-		id="deleteAllF"
-		parameterType="Integer"
-	>
-	DELETE FROM attach WHERE qnum=#{qnum} 
-	</delete>
+	<update id="moreAttach_admin" 
+	parameterType="list">
+	INSERT INTO admin_attach (attid, attsize, attname, adnum)
+	SELECT
+	ADMIN_ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		#{item.attsize} AS attsize, 
+		#{item.attname} AS attname, 
+		#{item.adnum} AS adnum
+		FROM DUAL
+		</foreach>
+	)t
+	</update> 	
 	
 	<delete
-		id="deleteQueB"
-		parameterType="Integer"
-	>
-	DELETE FROM queBoard WHERE qnum=#{qnum}
-	</delete>
-
-	<delete
-	id="deleteAttach"
+	id="delAdminAttach"
 	parameterType="Integer"
 	>
-	DELETE FROM attach WHERE attid=#{attid}
+	DELETE FROM admin_attach WHERE attid=#{attid}
 	</delete>
-	<select
-		id="getAttachList"
-		resultType="com.example.demo.vo.AttachBoard"
-		parameterType="Integer"
-	>
-	SELECT * FROM attach WHERE qnum=#{qnum}
-	</select>
 	
 	<select
-		id="getAListById"
-		resultType="com.example.demo.vo.AttachBoard"
+		id="getAdminAttach"
+		resultType="com.example.demo.vo.AdminAttachBoard"
 		parameterType="Integer"
 	>
-	SELECT *FROM attach WHERE attid=#{attid}
+	SELECT * FROM admin_attach WHERE attid=#{attid}
 	</select>
 	
-	<select
-		id="getAttach"
-		resultType="com.example.demo.vo.AttachBoard"
+		<select
+		id="getAdminAttachList"
+		resultType="com.example.demo.vo.AdminAttachBoard"
 		parameterType="Integer"
 	>
-	SELECT * FROM attach WHERE attid=#{attid}
+	SELECT * FROM admin_attach WHERE adnum=#{adnum}
 	</select>
 	
-
+	<delete
+		id="delAdminB"
+		parameterType="Integer"
+	>
+	DELETE FROM admin_board WHERE adnum=#{adnum}
+	</delete>
+	
+	<delete 
+		id="deleteAllF_admin"
+		parameterType="Integer"
+	>
+	DELETE FROM admin_attach WHERE adnum=#{adnum} 
+	</delete>
 </mapper>
