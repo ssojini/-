@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+#container{
+	text-align : center;
+	margin-top: 40px;
+}
+h2{
+	margin-bottom: 40px;
+}
+#warn{
+	margin:auto;
+	margin-bottom: 40px;
+}

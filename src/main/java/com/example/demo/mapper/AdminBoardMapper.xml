@@ -62,18 +62,18 @@
 		
 	</insert>
 
+	<insert id="addAnsBoard"
+		parameterType="com.example.demo.vo.OneBoard">
+		INSERT INTO ansBoard(qnum, author, anum, title, adate, content, hit)
+		VALUES(#{qnum}, #{author}, ANSBOARD_SEQ.NEXTVAL, #{title}, sysdate, #{content}, #{hit})
+		
+	</insert>
+	
 	<insert id="addAdminBoard"
 		parameterType="com.example.demo.vo.AdminBoard">
 		INSERT INTO ADMIN_BOARD(adnum, title, author, date_admin, content, hit, name)
 		VALUES(ADMIN_BOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit}, #{name, jdbcType=VARCHAR})
 		
-	</insert>
-
-	<insert id="addAnsBoard"
-	parameterType="com.example.demo.vo.OneBoard">
-	INSERT INTO queBoard(anum, title, author, adate, content, hit, qnum)
-	VALUES( ANSBOARD_SEQ.NEXTVAL, #{title}, #{author}, #{adate}, #{content},  #{hit}, #{qnum} )
-	
 	</insert>
 	
 	<update id="saveAttach"
@@ -88,55 +88,95 @@
 		#{item.attname} AS attname, 
 			(SELECT MAX(qnum) FROM queBoard) AS qnum, 
 			(SELECT MAX(anum) FROM ansBoard) AS anum 
-	FROM DUAL
-		</foreach>
-	)t
-	</update> 
-		
-	<update id="saveAttach_admin"
-	parameterType="list">
-	INSERT INTO attach_admin (attnum, attsize, attname)
-	SELECT
-	ATTACH_ADMIN_SEQ.NEXTVAL AS attnum, t.* FROM
-	(
-		<foreach collection="list" item="item" index="index" separator=" union all ">
-		SELECT
-		#{item.attsize} AS attsize, 
-		#{item.attname} AS attname
 		FROM DUAL
 		</foreach>
 	)t
 	</update> 
 	
-<!--  
-	<select id="getQueBByNum"
-		parameterType="Integer"
-		resultType="com.example.demo.vo.OneBoard">
+	<update id="moreAttach"
+	parameterType="list">
+	INSERT INTO attach (attid, attsize, attname, qnum, anum)
+	SELECT
+	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		 #{item.attsize} AS attsize, 
+		#{item.attname} AS attname, 
+		#{item.qnum} AS qnum,
+		(SELECT MAX(anum) FROM ansBoard) AS anum
+		FROM DUAL
+		</foreach>
+	)t
+	</update> 	
+	<update id="saveAttach_admin"
+	parameterType="list">
+	INSERT INTO attach (attid,attsize, attname, anum, qnum)
+	SELECT
+	ATTACH_SEQ.NEXTVAL AS attid,
+	t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		#{item.attsize} AS attsize, 
+		#{item.attname} AS attname,
+		(SELECT MAX(anum) FROM ansBoard) AS anum,
+		#{item.qnum} AS qnum
+		FROM DUAL
+		</foreach>
+	)t
+	</update> 
 	
-	SELECT * FROM queBoard WHERE qnum=#{qnum}
-	</select>
--->
-
 	<update 
 		id="updateQueB"
-		parameterType="Integer"
+		parameterType="com.example.demo.vo.OneBoard"
 	>
 	UPDATE queBoard SET title=#{title}, content=#{content} WHERE qnum=#{qnum}
 	</update>	
 	
 	<delete 
-		id="deleteAttach"
+		id="deleteAllF"
 		parameterType="Integer"
 	>
-	DELETE FROM attach WHERE attid=#{attid} 
+	DELETE FROM attach WHERE qnum=#{qnum} 
 	</delete>
 	
+	<delete
+		id="deleteQueB"
+		parameterType="Integer"
+	>
+	DELETE FROM queBoard WHERE qnum=#{qnum}
+	</delete>
+
+	<delete
+	id="deleteAttach"
+	parameterType="Integer"
+	>
+	DELETE FROM attach WHERE attid=#{attid}
+	</delete>
 	<select
 		id="getAttachList"
-		resultType="list"
+		resultType="com.example.demo.vo.AttachBoard"
 		parameterType="Integer"
 	>
 	SELECT * FROM attach WHERE qnum=#{qnum}
 	</select>
 	
+	<select
+		id="getAListById"
+		resultType="com.example.demo.vo.AttachBoard"
+		parameterType="Integer"
+	>
+	SELECT *FROM attach WHERE attid=#{attid}
+	</select>
+	
+	<select
+		id="getAttach"
+		resultType="com.example.demo.vo.AttachBoard"
+		parameterType="Integer"
+	>
+	SELECT * FROM attach WHERE attid=#{attid}
+	</select>
+	
+
 </mapper>

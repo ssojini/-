@@ -1,11 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="utf-8">
 <title>shopmain</title>
+<script>
+function s_function() {
+	$('#searchform').submit();
+}
+</script>
+
+<link rel="stylesheet" href="/css/shopmain.css">
 </head>
 <body>
-<h2>shopmain</h2>
-
+<div>
+    <div th:replace="fragments/shopnav :: shopnav"></div>
+</div>
+<div id=searchproduct>
+	<h1>상품검색</h1>
+	<form id="searchform" name="searchform" action="/shop/searchgoods">
+			<input id="searchbox" name="searchbox" type="text" placeholder="     검색할 상품을 입력해주세요">
+			<button id="seachbutton" type="submit" >검색</button>
+	</form>
+</div>
+	<div id="container">
+		<div id="slideShow">
+			<div id="slides">
+			<img src="/shopmain/001.png" alt="">
+				<img src="/shopmain/002.png" alt="">
+				<img src="/shopmain/003.png" alt="">
+				<button id="prev">&lang;</button>
+				<button id="next">&rang;</button>
+			</div>
+		</div>
+		
+			
+			<div id="links">
+				<ul>
+				<h2>추천상품</h2>
+					<li th:each="goods: ${goodslist}">
+					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
+						<span id="quick-icon1"></span>
+							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
+							<p th:text="${goods.goodsname}"/>
+							<p th:text="${goods.price}"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div id="links1">
+				<ul>
+				<h2>신상품</h2>
+					<li th:each="goods: ${newproduct}">
+					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
+						<span id="quick-icon1"></span>
+							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
+							<p th:text="${goods.goodsname}"/>
+							<p th:text="${goods.price}"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div id="links2">
+				<ul>
+				<h2>할인상품</h2>
+					<li th:each="goods: ${newproduct}">
+					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
+						<span id="quick-icon1"></span>
+							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
+							<p th:text="${goods.goodsname}"/>
+							<span style="text-decoration:line-through; color:#999999; "><span th:text="${goods.price}"/></span> → <span th:text="${goods.price}"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+		<footer>
+			<div id="bottomMenu">
+				<ul>
+				<li><a href="#">회사 소개</a></li>
+				<li><a href="#">개인정보처리방침</a></li>
+				<li><a href="#">쇼핑몰약관</a></li>
+				<li><a href="#">사이트맵</a></li>
+			</ul>
+			<div id="sns">
+				<ul>
+					<li><a href="#"><img class="sns-img" src="/shopmain/facebook.png"></a></li>
+					<li><a href="#"><img class="sns-img" src="/shopmain/twitter.png"></a></li>
+					<li><a href="#"><img class="sns-img" src="/shopmain/instagram.png"></a></li>
+					<li><a href="#"><img class="sns-img" src="/shopmain/kakao-talk.png"></a></li>
+				</ul>
+			</div>
+			</div>
+			<div id="company">
+				<p>서울특별시 관악구 신림로 340 르네상스쇼핑몰 6층 (대표전화) 123-456-7890</p>
+			</div>
+		</footer>
+	</div>
+	
+	<script src="/js/shopMain.js"></script>
 </body>
 </html>

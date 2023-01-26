@@ -26,11 +26,12 @@ public class Freeboard {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FREEBOARD_FBNUM_GEN")
 	private Integer fbnum;
 	private String bname;
+	@Column(name = "title", nullable = false)
 	private String title;
 	private String author;
 	@Column(length = 50000000) // 50MB
 	private String contents;
 	@CreationTimestamp
-	private Timestamp dateTime;
+	private Timestamp datetime;
 	private Integer hit;
 }

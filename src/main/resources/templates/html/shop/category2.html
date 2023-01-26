@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Goods_By_Category2</title>
+<script>
+function s_function() {
+	$('#searchform').submit();
+}
+</script>
+
+<link rel="stylesheet" href="/css/shopmain.css">
+</head>
+<body>
+<div>
+    <div th:replace="fragments/shopnav :: shopnav"></div>
+</div>
+<div id=searchproduct>
+	<h1>상품검색</h1>
+	<form id="searchform" name="searchform" action="/shop/searchgoods">
+			<input id="searchbox" name="searchbox" type="text" placeholder="     검색할 상품을 입력해주세요">
+			<button id="seachbutton" type="submit" >검색</button>
+	</form>
+</div>
+<div id="links">
+	<ul>
+	<h2>건강기능식품</h2>
+		<li th:each="goods: ${goodslist}">
+			<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
+				<span id="quick-icon1"></span>
+					<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
+					<p th:text="${goods.goodsname}"/>
+					<p th:text="${goods.price}"/>
+			</a>
+		</li>
+	</ul>
+</div>
+
+</body>
+</html>

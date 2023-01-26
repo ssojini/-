@@ -29,18 +29,49 @@
 		)t
 	</update>
 	
+	<select id="mainpagegoods" parameterType="String" resultType="map">
+		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+	</select>
 	
-
-	<select id="list" parameterType="string" resultType="com.example.demo.vo.Shop">
-		SELECT * 
-		FROM shop
-		WHERE userid=#{userid, jdbcType=VARCHAR}
+	<select id="list" resultType="com.example.demo.vo.Shop">
+		SELECT * FROM shop WHERE userid=#{userid, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="detail" parameterType="String" resultType="com.example.demo.vo.Shop">
 		SELECT * 
 		FROM shop
 		WHERE ordernum = #{ordernum, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="search" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
+		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		WHERE goodsname LIKE '%'||#{searchbox}||'%' 
+	</select>
+	
+	<select id="category1" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
+		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		WHERE category = '건강보조식품'
+	</select>
+	
+	<select id="category2" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
+		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		WHERE category = '건강기능식품'
+	</select>
+	
+	<select id="category3" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
+		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		WHERE  category = '식품'
+	</select>
+	
+	<select id="newproduct" parameterType="String" resultType="map">
+		select * FROM 
+		(
+    		select a.*,ROWNUM AS rn from 
+    		( 
+        		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum order by t.goodsnum DESC
+    		)a
+		)  
+		<![CDATA[where rn<=3]]>
 	</select>
 	
 </mapper>

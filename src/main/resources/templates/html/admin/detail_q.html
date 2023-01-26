@@ -5,35 +5,60 @@
 <title>관리자 - 1:1 문의 상세보기 </title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
+function deleteQueB()
+{
+	$.ajax({
+		url:'/health/deleteQueB',
+		method:'post',
+		data: {"qnum": [[${qnum}]]},
+		dataType: 'json',
+		cache: false,
+		success: function(res){
+			//alert("삭제 되었습니다.")
+			alert(res.deleted?"삭제 성공": "삭제 실패")
+			if(res.deleted){
+				location.href='/health/qaList'
+			}
+		},
+		error: function(xhr, status, err){
+			alert("서버 문제로 삭제 실패 되었습니다.")
+			log.info("error이유:"+err)
+		}
+		
+	})
+}
+
+
+
 </script>
 </head>
 <body>
 <h3> 고객 관리</h3> 
 <div>1:1 문의</div>
-<div> 답글 달기</div>
-<table>
-<tr>
-	<th>제목</th>
-	<th>작성자</th>
-	<th>조회수</th>
-	<th>등록일</th>
-	<th>내용</th>
+<div><a th:href= "|/health/reply/${oneb.qnum}|">[답변하기]</a></div>
+	<div>제목
+		<span>[[${oneb.title}]]</span>
+	</div>
+	<div>작성자
+		<span>[[${oneb.author}]]</span>
+	</div>
+	<div>조회수
+		<span>[[${oneb.hit}]]</span>
+	</div>
+	<div>등록일
+		<span>[[${oneb.qdate}]]</span>
+	</div>
+	<div>내용
+		<span>[[${oneb.content}]]</span>
+	</div>
 	
-	<th>첨부파일</th>
-</tr>
-<tr>
-	<td>[[${oneb.title}]]</td>
-	<td>[[${oneb.author}]]></td>
-	<td>[[${oneb.hit}]]</td>
-	<td>[[${oneb.qdate}]]></td>
-	<td>[[${oneb.content}]]</td>	
-	<td>
+	<div>첨부파일</div>
 	<span th:if= "${oneb.attList.size()>0}"></span>
 	<span th:each="att: ${oneb.attList}"> [[${att.attname}]]</span>
-	</td>
-	
-</tr>
-</table>
-<a th:href= "|/health/editQueB/${oneb.qnum}|">수정하기</a>
+
+<a th:href= "|/health/edit_q/${oneb.qnum}|">[수정하기]</a>
+<p>
+<button type="button" onclick="deleteQueB();"> 삭제</button>
 </body>
 </html>
