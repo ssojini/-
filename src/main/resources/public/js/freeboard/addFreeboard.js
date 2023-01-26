@@ -1,31 +1,36 @@
-function addFreeBoard() {
-	$.ajax({
-		url: "/freeboard/add",
-		method: "post",
-		data: {
-			"bname": $("#bname").val(),
-			"title": $("#title").val(),
-			"author": $("#author").val(),
-			"contents": $("#contents").html()
-		},
-		dataType: "json",
-		cache: false,
-		success: function(res) {
-			if (res.result) {
-				if ($("#files")[0].files.length != 0) {
-					uploadFiles(res.freeboard);
+function addFreeboard() {
+	if ($("#title").val() == '') {
+		alert("제목을 입력하세요");
+		$("#title").focus();
+	} else {
+		$.ajax({
+			url: "/freeboard/add",
+			method: "post",
+			data: {
+				"bname": $("#bname").val(),
+				"title": $("#title").val(),
+				"author": $("#author").val(),
+				"contents": $("#contents").html()
+			},
+			dataType: "json",
+			cache: false,
+			success: function(res) {
+				if (res.result) {
+					if ($("#files")[0].files.length != 0) {
+						uploadFiles(res.freeboard);
+					} else {
+						alert("저장 성공");
+						location.href = "/freeboard";
+					}
 				} else {
-					alert("저장 성공");
-					location.href = "/freeboard";
+					alert("저장 실패");
 				}
-			} else {
-				alert("저장 실패");
+			},
+			error: function(xhs, status, err) {
+				alert(err);
 			}
-		},
-		error: function(xhs, status, err) {
-			alert(err);
-		}
-	});
+		});
+	}
 }
 
 function updateContents(listAttach) {
@@ -102,8 +107,20 @@ function getFormData() {
 }
 
 function changeFile() {
+	changeFiles();
+}
+
+function changeFiles() {
 	const files = $("#files")[0].files;
 	$("#fileListDiv *").remove("");
+	
+	// 파일이 있을 때 이미지 넣기 버튼 활성화
+	if (files.length > 0) {
+		$("#insert_img_btn").attr("hidden",false);
+	} else {
+		$("#insert_img_btn").attr("hidden",true);
+	}
+	
 	for (var i = 0; i < files.length; i++) {
 		const file = files[i];
 		if (isImage(file)) {

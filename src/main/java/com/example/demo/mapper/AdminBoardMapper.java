@@ -19,6 +19,8 @@ public interface AdminBoardMapper
 	
 	public int saveAttach(List<AttachBoard> alist);
 
+	public int moreAttach(List<AttachBoard> alist);
+	
 	public int saveAttach_admin(List<AttachBoard> alist);
 
 	public List<Map<String, Object>> detailByQnum(int qnum);

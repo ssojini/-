@@ -228,11 +228,42 @@ public class ShopController {
 
 		return map;
 	}
+	
+	@GetMapping("/searchgoods")
+	public String searchGoods(@RequestParam(value="searchbox") String searchbox, Model m)
+	{
+		List<GoodsAndAtt> list = svc.search(searchbox);
+		m.addAttribute("goodslist", list);
+		return "html/shop/searchgoods";
+	}
+	
+	@GetMapping("/category1")
+	public String category1(Model m)
+	{
+		List<GoodsAndAtt> list = svc.category1();
+		m.addAttribute("goodslist", list);
+		return "html/shop/category1";
+	}
+	@GetMapping("/category2")
+	public String category2(Model m)
+	{
+		List<GoodsAndAtt> list = svc.category2();
+		m.addAttribute("goodslist", list);
+		return "html/shop/category2";
+	}
+	@GetMapping("/category3")
+	public String category3(Model m)
+	{
+		List<GoodsAndAtt> list = svc.category3();
+		m.addAttribute("goodslist", list);
+		return "html/shop/category3";
+	}
+	
 
 	/* 종빈 */
 	@GetMapping("/main")
 	public String main() {
-		return "html/shop/main";
+		return "html/shop/ShopMain";
 	}
 
 	@GetMapping("/mypage/{userid}")

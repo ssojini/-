@@ -295,45 +295,11 @@ public class ShopService
 			both.setGoodsnum(big2.intValue());
 			both.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
 			//goods.getAttlist().add(att);
-			System.out.println("server pic:  "+ both.getMainpic_server());
 			goodslists.add(both);
 		}
-		System.out.println("goods:  "+ goodslists.toString());
 		return goodslists;
 	}
   
-	
-	public List<Goods> mainpagegoods()
-	{
-		
-		List<Map<String,Object>> goodslist = map.mainpagegoods();
-		List<Goods> goodslists = new ArrayList<>();
-		//System.out.println("goodslist:  "+ goodslist.toString());
-		for(int i=0; i<goodslist.size(); i++)
-		{
-			Map<String, Object> m = goodslist.get(i);
-			
-			Goods goods = new Goods();
-			BigDecimal big = (BigDecimal) m.get("PRICE");
-			goods.setPrice(big.intValue());   //bigdecimal
-			BigDecimal big1 = (BigDecimal) m.get("GOODSNUM");
-			goods.setGoodsnum(big1.intValue());
-			goods.setGoodsname((String) goodslist.get(i).get("GOODSNAME"));
-			goods.setCategory((String) goodslist.get(i).get("CATEGORY"));
-			goods.setGoods_detail((String) goodslist.get(i).get("GOODS_DETAIL"));
-			
-			AddGoods_Att att = new AddGoods_Att();
-			BigDecimal big2 = (BigDecimal) m.get("GOODSNUM");
-			att.setGoodsnum(big2.intValue());
-			att.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
-			//goods.getAttlist().add(att);
-			
-			goodslists.add(goods);
-		}
-		System.out.println("goods:  "+ goodslists.toString());
-		return goodslists;
-	}
-
 	 private final Path fileStorageLocation;
 
 	 @Autowired
@@ -432,7 +398,6 @@ public class ShopService
 					att.setDetail_original(detail_original);
 					 list.add(att);
 					 addatt = map.addgoods_att(list);
-
 				}
 				boolean added = false;
 				if(add>0 && addatt>0)
@@ -440,10 +405,24 @@ public class ShopService
 					added =true;
 				}
 				return added;
-
-		   
 		  }
-	
-
+	 
+	 public List<GoodsAndAtt> search(String searchbox){
+		 List<GoodsAndAtt> list = map.search(searchbox);
+		 return list;
+	 }
+	 
+	 public List<GoodsAndAtt> category1(){
+		 List<GoodsAndAtt> list = map.category1();
+		 return list;
+	 }
+	 public List<GoodsAndAtt> category2(){
+		 List<GoodsAndAtt> list = map.category2();
+		 return list;
+	 }
+	 public List<GoodsAndAtt> category3(){
+		 List<GoodsAndAtt> list = map.category3();
+		 return list;
+	 }
 
 }
