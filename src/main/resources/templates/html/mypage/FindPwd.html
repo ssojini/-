@@ -8,54 +8,10 @@
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
-<div id="leftbox" style="float:left; width: 200px; height: 200px;">
-
-	<div class="profile_area" style="width">
-	    <div class="profile_inner">
-	        <a href="#" onclick="changeImage()" class="photo">
-	            <img th:src="${user.profile}" width="84" height="84" alt="프로필 이미지">
-	            <span class="photo_edit"></span>
-	        </a>
-	        <div id="myp" class="profile">
-	            <p class="useid">[[${user.userid}]]</p>
-	            <p class="usemail">[[${user.email}]]</p>
-	        </div>
-	    </div>    
-	</div>
-
-    <div id="headerLeft" class="header_left">
-
-        <ul class="left_menu" role="menu">
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true">
-                    <div class="menu_text on">내정보</div>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{'/health/useredit/'+ ${user.userid}}" class="left_item" role="menuitem" onclick="" aria-current=>
-                    <div class="menu_text ">개인정보 수정</div>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{'/health/findpwd/'+ ${user.userid}}" class="left_item" role="menuitem" onclick="" aria-current=>
-                    <div class="menu_text ">비밀번호 수정</div>
-                </a>
-            </li>
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
-                    <div class="menu_text ">게시글 관리</div>
-                </a>
-            </li>
-        </ul>
-        <ul class="left_link">
-            <li><a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)">
-                    <div class="link_text">기타</div>
-                </a>
-            </li>
-        </ul>
-	</div>
+<div>
+    <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
-
+<link rel="stylesheet" href="/css/findpwd.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 $(function(){
@@ -142,9 +98,9 @@ function checkPw2(){
 
 </script>
 
+<form id="pwdchangeform" >
 <h2>비밀번호 변경</h2>
-<form id="pwdchangeform">
-<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
+<input type="hidden" id="userid" name="userid" th:value="${session.userid}">
 	<p>
 		<label for='pwd'>현재 비밀번호</label>
 		<input type="password" id='now_pwd' name='now_pwd' required>
@@ -160,113 +116,7 @@ function checkPw2(){
 		<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
 	</p>
 	<button type="button" onclick="changepwd();">비밀번호 변경</button>
-=======
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-$(function(){
-	//이벤트 핸들러 연결
-	pwd1.addEventListener("focusout", checkPw);
-	pwd.addEventListener("focusout", checkPw2);
-});
 
-//비밀번호
-function checkPw(){
-	var pwd1 = document.querySelector('#new_pwd');
-	var error = document.querySelectorAll('.error_next_box');
-	var pwPattern = /[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,16}/;
-	if(pwd1.value === ""){
-		error[0].innerHTML ="필수 정보입니다.";
-        error[0].style.display = "block";
-        error[0].style.color = "red";
-	}else if(!pwPattern.test(pwd1.value)){
-        error[0].innerHTML = "8~16자의 영문 대 소문자, 숫자,특수문자를 사용하세요.";
-        
-        //pwdMsg.innerHTML = "사용불가"
-        //pwdMsg.style.display = "block";
-        
-        error[0].style.display = "block";
-        error[0].style.color = "red";
-	}else{
-		error[0].innerHTML = "안전";
-        //pwdMsg.innerHTML = "안전"
-       /* 	pwdMsg.style.display = "block";
-    	pwdMsg.style.color = "#08A600"; */
-        error[0].style.display = "none";
-    	
-	}
-}
-
-//비밀번호 재확인
-function checkPw2(){
-	var pwd = document.querySelector('#new_pwd2');
-	var pwd1 = document.querySelector('#new_pwd');
-	var error = document.querySelectorAll('.error_next_box');
-	if(pwd.value===pwd1.value && pwd.value!=""){
-		error[1].style.display = "none";
-	}else if(pwd.value!==pwd1.value){
-		error[1].innerHTML = "비밀번호가 일치하지 않습니다";
-		error[1].style.display = "block";
-		error[1].style.color = "red";
-	}
-	if(pwd.value===""){
-		error[1].innerHTML = "필수 정보입니다.";
-		error[1].style.display="block";
-		error[1].style.color = "red";
-	}
-}
-
-	var obj=$('#pwdchangeform').serialize();
-	var uid = '[[${user.userid}]]'
-	var now_pwd = '[[${user.pwd}]]'
-	var new_pwd = document.querySelector('#pwd');
-/*
-	if(now_pwd==new_pwd)
-		{
-			function changepwd()
-			{
-				$.ajax({
-					url:'/health/checkpwd',
-					method:'post',
-					data:obj,
-					cache:false,
-					dataType:'json',
-					success:function(res){
-						alert("변경됨")
-						location.href="/health/"
-					},
-					error : function(xhr,status,err){
-						alert('에러:' + err);
-					}
-				});
-			}		
-		}
-	else{
-		alert("정확한 비밀번호를 입력해 주세요.")
-		location.href= "/health/findpwd/"+uid;
-	}*/
-	
-</script>
-</head>
-<body>
-<h2>비밀번호 변경</h2>
-
-<form id="pwdchangeform" method="post">
-	<p>
-		<label for='pwd'>현재 비밀번호</label>
-		<input type="password" id='pwd' name='pwd'>
-	</p>
-	<p>
-		<label for='new_pwd'>새 비밀번호</label>
-		<input type="password" id='new_pwd' name='new_pwd' required>
-		<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
-	</p>
-	<p>
-		<label for='new_pwd2'>새 비밀번호 확인</label>
-		<input type="password" id='new_pwd2' name='new_pwd2' required>
-		<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
-	</p>
-	<button type="submit">비밀번호 변경</button>
->>>>>>> branch 'master' of https://github.com/pastebean/EzenFinal.git
 </form>
 </body>
 </html>

@@ -6,55 +6,58 @@
 </head>
 <body>
 <div th:fragment="mypagenav">
-<form id="editUserInfo" encType="multipart/form-data" 
-		style="float:left; width:1200px; height:200px; ">
 
-	<div class="profile_area" style="widt">
-	    <div class="profile_inner">
-	        <a href="#" onclick="changeImage()" class="photo">
-	            <img th:src="${user.profile}" width="84" height="84" alt="프로필 이미지">
-	            <span class="photo_edit"></span>
-	        </a>
+<div id="leftbox" style="float:left; width: 30%; height: 100%; border-right: solid 0.5px black;">
+
+	<div class="profile_area" style="display: flex; justify-content: center;">
+	    <div class="profile_inner" style=" padding-top:70px; text-align: center;">
+	    	<div style="width: 150px;height: 150px; border-radius: 70%;overflow: hidden;">
+		        <a href="#" onclick="changeImage()" class="photo">
+		            <img th:src="${user.profile}" style="width:100%; height:100%; " alt="프로필 이미지">
+		            <span class="photo_edit"></span>
+		        </a>
+	        </div>
 	        <div id="myp" class="profile">
-	            <p class="useid">[[${user.userid}]]</p>
-	            <p class="usemail">[[${user.email}]]</p>
+	            <div class="useid" style="font-size:1.5em; color:black; font-weight: bold;">[[${user.userid}]]</div>
+	            <div class="usemail">[[${user.email}]]</div>
 	        </div>
 	    </div>    
 	</div>
 
-    <div id="headerLeft" class="header_left">
+    <div id="headerLeft" class="header_left" style="width:250px; height:300px; margin: auto;">
 
-        <ul class="left_menu" role="menu">
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true">
+        <ul class="left_menu" role="menu" style="display: inline;">
+            <li style="padding-top:50px; font-size:1.2em;">
+                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true" style="color:black;">
                     <div class="menu_text on">내정보</div>
                 </a>
             </li>
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+            <li style="padding-top:20px; font-size:1.2em;">
+                <a th:href="@{'/health/useredit/'+ ${session.userid}}"class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">개인정보 수정</div>
                 </a>
             </li>
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+            <li style="padding-top:20px; font-size:1.2em;">
+                <a th:href="@{'/health/findpwd/'+ ${session.userid}}" class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">비밀번호 수정</div>
                 </a>
             </li>
-            <li>
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current=>
+            <li style="padding-top:20px; font-size:1.2em;">
+                <a href="" class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">게시글 관리</div>
                 </a>
             </li>
         </ul>
         <ul class="left_link">
-            <li><a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)">
+            <li style="padding-top:20px; font-size:1.2em;">
+            	<a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)" style="color:black;">
                     <div class="link_text">기타</div>
                 </a>
             </li>
         </ul>
 	</div>
+</div>
 
-</form>
 </div>
 </body>
 </html>

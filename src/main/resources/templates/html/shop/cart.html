@@ -145,6 +145,7 @@ function buySel(){
 		
 	var valueArr = new Array();
 	var list = $("input[name='rowCheck']");
+	var loop_cnt=0;
 	
 	for (var i = 0; i < list.length; i++) {
 		if(list[i].checked){
@@ -153,7 +154,12 @@ function buySel(){
 			var userid = list[i].nextElementSibling.nextElementSibling.value;
 			var obj = {"cartnum":cartnum,"userid":userid};
 			valueArr.push(obj);
+			loop_cnt++;
 		}
+	}
+	if(loop_cnt==0){
+		alert("선택상품이 없습니다.");
+		return false;
 	}
 	//console.log(JSON.stringify(valueArr));
 	$('#items').val(JSON.stringify(valueArr));
@@ -164,7 +170,7 @@ function buySel(){
 
 	function buyAll() {
 		var chk_listArr = $("input[name='rowCheck']");
-		console.log(chk_listArr);
+		//console.log(chk_listArr);
 		for (var i=0; i<chk_listArr.length; i++){
 			chk_listArr[i].checked = true;
 		}
@@ -178,7 +184,8 @@ function buySel(){
 
 	<main>
 		<h3>장바구니</h3>
-		<form id="buyCart" action="/shop/buycart"><input id="items" name="items" type="hidden"></form>
+		<form id="buyCart" action="/shop/buycart" method="post">
+		<input id="items" name="items" type="hidden"></form>
 		<div style="height:20%; width:100%; background-color:#2F4F4F; color: white;">
 		Head</div>	
 		<div class="contents">	
@@ -202,7 +209,7 @@ function buySel(){
 							 <!--  login 연결후 수정 -->
 							<input type="hidden" name="userid" th:value="asdf">
 						</td>
-						<td><img alt="mainpic_original" th:src="'/images/addgoods/'+${n.mainpic_server}"></td>
+						<td>[[${n.mainpic_server}]]<img alt="mainpic" th:src="'/images/goodsimg:'+${n.mainpic_server}"></td>
 						<td>
 							<a th:href="'/shop/detail/'+${n.goodsnum}">[[${n.goodsname}]]</a>
 						</td>

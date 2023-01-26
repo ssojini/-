@@ -63,4 +63,15 @@
 		WHERE  category = '식품'
 	</select>
 	
+	<select id="newproduct" parameterType="String" resultType="map">
+		select * FROM 
+		(
+    		select a.*,ROWNUM AS rn from 
+    		( 
+        		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum order by t.goodsnum DESC
+    		)a
+		)  
+		<![CDATA[where rn<=3]]>
+	</select>
+	
 </mapper>

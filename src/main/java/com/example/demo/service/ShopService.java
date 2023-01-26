@@ -29,13 +29,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.interfaces.AddGoods_AttReopsitory;
 import com.example.demo.interfaces.CartRepository;
 import com.example.demo.interfaces.GoodsRepository;
+import com.example.demo.interfaces.OrderRepository;
 import com.example.demo.mapper.ShopMapper;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Cart;
 import com.example.demo.vo.Goods;
-import com.example.demo.vo.Shop;
 import com.example.demo.vo.GoodsAndAtt;
+import com.example.demo.vo.Order;
+import com.example.demo.vo.Shop;
 import com.google.gson.JsonObject;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,6 +54,9 @@ public class ShopService
 	
 	@Autowired //장바구니
 	private CartRepository cart_repo;
+	
+	@Autowired //구매
+	private OrderRepository order_repo;
 
 	
 	
@@ -75,7 +80,7 @@ public class ShopService
 		return list;
 	}
 
-	//상품 상세보기 끝
+	/*상품 상세보기 끝*/
 	
 	/*장바구니 시작*/
 	//장바구니 담기
@@ -174,11 +179,10 @@ public class ShopService
 		return orderlist;
 	}
 	
-	//장바구니 선택 구매
+	//장바구니 구매(선택/전체)
 	public List<Cart> buyCart(String items) {
 		
-		List<Cart> orderlist = new ArrayList<>();
-		
+		List<Cart> orderlist = new ArrayList<>();		
 		JSONParser parser = new JSONParser(); 
 		try 
 		{ 
@@ -188,26 +192,66 @@ public class ShopService
 				JSONObject jsObj= (JSONObject) jsArr.get(i); 
 				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
 				String userid = (String) jsObj.get("userid");
-				System.err.println("cartnum: "+cartnum);
+				//System.err.println("cartnum: "+cartnum);
 				Cart cart = cart_repo.findByCartnumAndUserid(cartnum,userid);
 				orderlist.add(cart);
 				
 			}
 		} catch (ParseException e) { 
-			e.printStackTrace(); }
-		System.err.println(orderlist);
-		
+			e.printStackTrace(); 
+			}
+		//System.err.println("orderlist: "+orderlist);		
 		return orderlist;
 	}
 	
-	//장바구니 전체 구매
-	public void buyAll() {
-		
-	}
-		
-	
-	
 	/*장바구니 끝*/
+	
+	/* 결제 시작*/
+	public String payment(String items, String userid, String address) {
+		
+		JSONParser parser = new JSONParser();
+		try {
+			JSONArray jsArr= (JSONArray) parser.parse(items);
+			for( int i=0; i<jsArr.size();i++) 
+			{ 
+				Order order = new Order();
+				JSONObject jsObj = (JSONObject) jsArr.get(i); 
+				
+				int goodsnum = Integer.valueOf((String) jsObj.get("goodsnum"));
+				String goodsname = (String) jsObj.get("goodsname");
+				int price = Integer.valueOf((String) jsObj.get("price"));
+				int prod_cnt = Integer.valueOf((String) jsObj.get("prod_cnt"));
+				int sum = Integer.valueOf((String) jsObj.get("sum"));				
+				String mainpic_server = (String) jsObj.get("mainpic_server");
+				int itempoint = (int)(sum*0.03);
+				
+				order.setUserid(userid);
+				order.setGoodsnum(goodsnum);
+				order.setGoodsname(goodsname);
+				order.setPrice(price);
+				order.setProd_cnt(prod_cnt);
+				order.setSum(sum);
+				order.setItempoint(itempoint);
+				order.setMainpic_server(mainpic_server);
+				order.setStatus("상품준비중");
+				System.err.println("order: "+order);							
+				Order save_or = order_repo.save(order);
+				System.err.println("order저장: "+save_or);	
+				
+				// 구매한 상품 장바구니 삭제
+				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
+				if(cartnum!=0) {
+					cart_repo.deleteById(cartnum);
+				}
+			}
+			return "주문이 완료되었습니다.";
+		} catch (ParseException e) {			
+			e.printStackTrace();
+		}
+		return "주문이 실패하였습니다.";
+	}
+	
+	/* 결제 끝*/	
 	
 	/* 상욱 끝 */
 	
@@ -254,6 +298,33 @@ public class ShopService
 			goodslists.add(both);
 		}
 		return goodslists;
+	}
+	
+	public List<GoodsAndAtt> newproduct()
+	{
+		List<Map<String,Object>> goodslist = map.newproduct();
+		List<GoodsAndAtt> newproduct = new ArrayList<>();
+		for(int i=0; i<goodslist.size(); i++)
+		{
+			Map<String, Object> m = goodslist.get(i);
+			
+			GoodsAndAtt both = new GoodsAndAtt();
+
+			BigDecimal big = (BigDecimal) m.get("PRICE");
+			both.setPrice(big.intValue());  
+			BigDecimal big1 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big1.intValue());
+			both.setGoodsname((String) goodslist.get(i).get("GOODSNAME"));
+			both.setCategory((String) goodslist.get(i).get("CATEGORY"));
+			both.setGoods_detail((String) goodslist.get(i).get("GOODS_DETAIL"));
+			
+
+			BigDecimal big2 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big2.intValue());
+			both.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
+			newproduct.add(both);
+		}
+		return newproduct;
 	}
   
 	 private final Path fileStorageLocation;
@@ -380,6 +451,5 @@ public class ShopService
 		 List<GoodsAndAtt> list = map.category3();
 		 return list;
 	 }
-
 
 }
