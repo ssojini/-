@@ -323,6 +323,8 @@ public class AdminBoardSerivce
 		if(arow>0 && brow>0) return true;
 		return false;
 	}
+	
+	
 	/* end of Q&A 관련 메소드*/
 	
 	/*AdminBoard관련 메소드 */
@@ -489,8 +491,7 @@ public class AdminBoardSerivce
 						attb.setAdnum(adminb.getAdnum());
 						log.info("adnum값"+adminb.getAdnum());
 						alist.add(attb);
-					//	log.info("svc, attb 목록"+ alist );
-	//					return uploaded;
+
 				}
 				
 				int arow =mapper.moreAttach_admin(alist);

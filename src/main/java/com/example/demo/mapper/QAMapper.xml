@@ -121,7 +121,7 @@
 		resultType="com.example.demo.vo.AttachBoard"
 		parameterType="Integer"
 	>
-	SELECT * FROM attach WHERE qnum=#{qnum}
+		SELECT * FROM attach WHERE qnum=#{qnum}
 	</select>
 	
 	<select
@@ -129,10 +129,18 @@
 		resultType="com.example.demo.vo.AttachBoard"
 		parameterType="Integer"
 	>
-	SELECT * FROM attach WHERE attid=#{attid}
+		SELECT * FROM attach WHERE attid=#{attid}
 	</select>
 
-
+	<select
+		id="search"
+		resultType="com.example.demo.vo.OneBoard"
+		parameterType="String"
+	>
+		SELECT * FROM queBoard
+		WHERE title LIKE '%' || #{key} ||'%' 
+	</select>
+ 
 
 
 </mapper>

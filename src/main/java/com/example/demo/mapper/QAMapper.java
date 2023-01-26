@@ -36,4 +36,6 @@ public interface QAMapper {
 	public List<AttachBoard> getAttachList(int qnum);
 		
 	public AttachBoard getAttach(int attid);
+	
+	public OneBoard search(String key);
 }
