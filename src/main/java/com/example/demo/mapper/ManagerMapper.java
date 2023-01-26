@@ -3,7 +3,6 @@ package com.example.demo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.domain.Page;
 
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Shop;

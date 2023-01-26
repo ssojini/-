@@ -1,5 +1,6 @@
 package com.example.demo.vo;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.ToString;
 					"phone","birth","nickname","address"})
 @AllArgsConstructor 
 @NoArgsConstructor
+@Entity
 @Table(name="userjoin")
 public class UserJoinJpa {
 	@Id

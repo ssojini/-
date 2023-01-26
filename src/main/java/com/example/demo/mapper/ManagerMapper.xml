@@ -16,11 +16,11 @@
 		SELECT * FROM userjoin WHERE userid=#{userid, jdbcType=VARCHAR}
 	</select>
 	
-	<select id="userBoard" parameterType="string" resultType="com.example.demo.vo.FreeBoard">
+	<select id="userBoard" parameterType="string" resultType="com.example.demo.vo.Freeboard">
 		SELECT * FROM free_board WHERE author=#{userid, jdbcType=VARCHAR}
 	</select>
 	
-	<select id="boardDetail" parameterType="int" resultType="com.example.demo.vo.FreeBoard">
+	<select id="boardDetail" parameterType="int" resultType="com.example.demo.vo.Freeboard">
 		SELECT * FROM free_board WHERE fbnum=#{fbnum}
 	</select>
 	
