@@ -193,8 +193,9 @@ public class ShopController {
 	@GetMapping("/ShopMainPage")
 	public String shopmainpage(Model m)
 	{
-		List<GoodsAndAtt> both = svc.maingoods();
-		m.addAttribute("goodslist", both);
+		m.addAttribute("goodslist", svc.maingoods());
+		m.addAttribute("newproduct", svc.newproduct());
+		
 		return "html/shop/ShopMain";
 	}
 

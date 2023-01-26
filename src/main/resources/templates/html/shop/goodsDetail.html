@@ -89,8 +89,8 @@ $(function(){
 <h3>구매-상품 상세보기</h3>
 <div>상품사진</div>
   <div th:if="${!#lists.isEmpty(attList)}">
-  <input type="hidden" name="mainpic_server" th:value="${attList.get(0).getMainpic_server}">
-	<img alt="mainpic" th:src="'/images/goodsimg:'+${attList.get(0).getMainpic_server}">
+  <input type="hidden" name="mainpic" value="">
+	<img alt="mainpic" th:src="'/images/goodsimg/'+${attList.get(0).getMainpic_server}">
 	</div>	
 <input type="hidden" name="goodsnum" th:value="${goods.getGoodsnum}"> 
 <input type="hidden" name=category th:value="${goods.getCategory}">

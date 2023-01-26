@@ -25,7 +25,7 @@ function s_function() {
 	<div id="container">
 		<div id="slideShow">
 			<div id="slides">
-				<img src="/shopmain/001.png" alt="">
+			<img src="/shopmain/001.png" alt="">
 				<img src="/shopmain/002.png" alt="">
 				<img src="/shopmain/003.png" alt="">
 				<button id="prev">&lang;</button>
@@ -38,9 +38,9 @@ function s_function() {
 				<ul>
 				<h2>추천상품</h2>
 					<li th:each="goods: ${goodslist}">
-					<a href="#">
+					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
-							<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
 							<p th:text="${goods.goodsname}"/>
 							<p th:text="${goods.price}"/>
 						</a>
@@ -50,10 +50,10 @@ function s_function() {
 			<div id="links1">
 				<ul>
 				<h2>신상품</h2>
-					<li th:each="goods: ${goodslist}">
-					<a href="#">
+					<li th:each="goods: ${newproduct}">
+					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
-							<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
 							<p th:text="${goods.goodsname}"/>
 							<p th:text="${goods.price}"/>
 						</a>
@@ -63,12 +63,12 @@ function s_function() {
 			<div id="links2">
 				<ul>
 				<h2>할인상품</h2>
-					<li th:each="goods: ${goodslist}">
-					<a href="#">
+					<li th:each="goods: ${newproduct}">
+					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
-							<img th:src="'/images/goodsimg:'+ ${goods.mainpic_server}" alt="" >
+							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
 							<p th:text="${goods.goodsname}"/>
-							<p th:text="${goods.price}"/>
+							<span style="text-decoration:line-through; color:#999999; "><span th:text="${goods.price}"/></span> → <span th:text="${goods.price}"/>
 						</a>
 					</li>
 				</ul>
