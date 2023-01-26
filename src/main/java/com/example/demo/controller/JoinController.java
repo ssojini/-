@@ -53,19 +53,18 @@ public class JoinController
 		return "session: "+session.getId()+"JoinController 초기 데이터 생성 완료";
 
 	}
-	
-	
-	@GetMapping("/join1")
+	//이용약관
+	@GetMapping("/rules")
 	public String showjoinForm1()
 	{
-		return "html/thymeleaf/userJoin1";
+		return "html/join/rules";
 	}
-	@GetMapping("/join2")
+	//회원가입폼
+	@GetMapping("/joinForm")
 	public String showjoinForm2()
 	{
-		return "html/thymeleaf/userJoin2";
+		return "html/join/userJoin";
 	}
-	
 	//중복확인
 	@PostMapping("/idcheck")
 	@ResponseBody
@@ -86,7 +85,6 @@ public class JoinController
 		
 		return map;
 	}
-		
 	//가입
 	@PostMapping("/join")
 	@ResponseBody
@@ -96,7 +94,6 @@ public class JoinController
 		map.put("join", repo.save(user));
 		return map;
 	}
-	
 	//이메일인증
 	@PostMapping("/sendemail")
 	@ResponseBody
@@ -164,6 +161,9 @@ public class JoinController
 	public String authCheck(@PathVariable("rdStr")String rdStrCheck,
 							@PathVariable("sid") String sid)
 	{		
+		log.info("sid:"+sid);
+		log.info(rdStrCheck);
+		
 		HttpSession orgSession = HttpSessionHandler.map.get(sid);
 		System.err.println("original: "+orgSession);
 		
