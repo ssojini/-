@@ -16,7 +16,7 @@ function addReply() {
 		success:function(res) {
 			$("#reply_contents").val("");
 			//refleshReply();
-			location.href = "/freeboard/detail?fbnum="+$("#fbnum");
+			location.href = "/freeboard/detail?fbnum="+$("#fbnum").text();
 		},
 		error:function(xhs,status,err) {
 			alert(err);

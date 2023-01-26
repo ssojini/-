@@ -1,0 +1,177 @@
+@charset "UTF-8";
+main {
+	width: 100vw;
+	height: 77vh;
+	margin: 0px;
+	padding: 0px;
+}
+
+main > hr {
+	border-top: 1px solid grey;
+}
+
+#main-1 {
+	font-size: 0;
+	
+	width: 100%;
+	heigth: 30px;
+	font-size: 0;
+}
+
+#bname {
+	box-sizing: border-box;
+	display: inline-box;
+	
+	width: 20%;
+	heigth: 100%;
+	
+	font-size: initial;
+}
+
+#title {
+	box-sizing: border-box;
+	display: inline-box;
+	
+	width: 80%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	
+	font-size: initial;
+}
+
+#contentsDiv {
+	box-sizing: border-box;
+	
+	width: 100vw;
+	height: 50vh;
+	font-size: 0;
+}
+
+#contents {
+	overflow: auto;
+	
+	width: fit-contents;
+	height: 100%;
+	font-size: initial;
+}
+
+#fileListDiv {
+}
+
+#file_div {
+}
+
+#listAttach {
+	overflow: auto;
+	
+	width: 100%;
+	height: 10vh;
+}
+
+#file_btn_div {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	
+	width: fit-contents;
+	height: 30px;
+	font-size: 0px;
+}
+
+#file_upload_btn {
+	background-color: white;
+	display: inline-block;
+	
+	margin: 0 auto;
+	border: 1px solid black;
+	
+	width: 100px;
+    height: 30px;
+    color: black;
+    font-size: initial;
+    text-align: center;
+    float:left;
+}
+
+#delete_file_btn {
+	background-color: white;
+	
+	margin: 0px;
+	border: 1px solid black;
+	padding: 0px;
+	
+	width: 100px;
+    height: 30px;
+    color: black;
+    font-size: initial;
+    float:left;
+}
+
+#insert_img_btn {
+	background-color: white;
+	
+	margin: 0px;
+	border: 1px solid black;
+	padding: 0px;
+	
+	width: 100px;
+    height: 30px;
+    color: black;
+    font-size: initial;
+    float:left;
+}
+
+#files {
+	position: absolute;
+	
+	margin: 0px;
+    padding: 0;
+    
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+#freeboard_btn_div {
+	background-color: white;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	
+	width: fit-contents;
+	font-size: 0px;
+}
+
+#goback_btn {
+	position: fixed;
+	botton: 0px;
+	left: 0px;
+	
+	background-color: white;
+	margin: 0px;
+	border: 1px solid black;
+	padding: 0px;
+	
+	width: 100px;
+	height: 30px;
+	color: black;
+	font-size: initial;
+}
+
+#add_freeboard_btn {
+	position: fixed;
+	botton: 0px;
+	right: 0px;
+	
+	background-color: white;
+	margin: 0px;
+	border: 1px solid black;
+	padding: 0px;
+	
+	width: 100px;
+	height: 30px;
+	color: black;
+	font-size: initial;
+}

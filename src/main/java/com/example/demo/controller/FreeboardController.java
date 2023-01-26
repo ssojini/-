@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.FreeboardAttachService;
 import com.example.demo.service.FreeboardReplyService;
@@ -35,28 +37,23 @@ public class FreeboardController {
 	private FreeboardReplyService replyService;
 	
 	@GetMapping({"","/"})
-	public String freeboard(Model m, String bname, @PageableDefault(size=3, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
-		List<Freeboard> listFreeBoard = freeboardService.getListByBname(bname!=null?bname:"free",pageable);
-		m.addAttribute("listFreeBoard", listFreeBoard);
+	public String freeboard(Model m, String bname, String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
+		System.out.println("public String freeboard():");
+		System.out.println("bname:"+bname);
+		System.out.println("title:"+title);
+		System.out.println("pageable:"+pageable);
+		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
 		m.addAttribute("bname",bname);
-		m.addAttribute("pageable",pageable);
-		return "html/freeboard/freeBoard";
+		m.addAttribute("title",title);
+		m.addAttribute("pageFreeboard", pageFreeboard);
+		return "html/freeboard/freeboard";
 	}
-
-	/*
-	@PostMapping("/getListMap")
-	@ResponseBody
-	public List<Map<String, Object>> getListMap(Model m, String bname, Pageable pageable) {
-		List<Map<String, Object>> listMap = freeboardService.getListMapByBname(bname, pageable);
-		return listMap;
-	}
-	*/
 
 	@GetMapping("/add")
 	public String add(Model m, String bname) {
-		System.out.println("FreeboardController/add(Model m, String bname)");
-		m.addAttribute("bname", bname);
-		return "html/freeboard/addFreeBoard";
+		m.addAttribute("bname",bname);
+		freeboardService.getFbnum();
+		return "html/freeboard/addFreeboard";
 	}
 	@PostMapping("/add")
 	@ResponseBody
@@ -85,7 +82,7 @@ public class FreeboardController {
 		Freeboard freeBoard = freeboardService.getByFbnum(fbnum);
 		m.addAttribute("freeBoard",freeBoard);
 		m.addAttribute("listReply",replyService.findAllByPnum(fbnum));
-		return "html/freeboard/detailFreeBoard";
+		return "html/freeboard/detailFreeboard";
 	}
 	
 	@PostMapping("/delete")
@@ -101,9 +98,9 @@ public class FreeboardController {
 	
 	@GetMapping("/edit")
 	public String edit(Model m, Integer fbnum) {
-		m.addAttribute("freeBoard",freeboardService.getByFbnum(fbnum));
+		m.addAttribute("freeboard",freeboardService.getByFbnum(fbnum));
 		m.addAttribute("listAttach", attachService.getList(fbnum));
-		return "html/freeBoard/editFreeBoard";
+		return "html/freeBoard/addFreeboard";
 	}
 	@PostMapping("/edit")
 	@ResponseBody

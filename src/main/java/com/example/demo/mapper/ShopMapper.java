@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Goods;
+import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 
 @Mapper
@@ -24,4 +25,12 @@ public interface ShopMapper {
 	public Shop detail(String ordernum);
 	
 	public List<Map<String,Object>> mainpagegoods();
+	
+	public List<GoodsAndAtt> search(String searchbox);
+	
+	public List<Map<String,Object>> newproduct();
+	
+	public List<GoodsAndAtt> category1();
+	public List<GoodsAndAtt> category2();
+	public List<GoodsAndAtt> category3();
 }

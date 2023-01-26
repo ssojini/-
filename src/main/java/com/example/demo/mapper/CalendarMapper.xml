@@ -4,9 +4,8 @@
 
 <mapper namespace="com.example.demo.mapper.CalendarMapper">
 
-	<insert id = "saveCalendar"
-		parameterType="com.example.demo.vo.Calendar">
-		INSERT INTO calendar(num,datetime)
+	<insert id = "saveCalendar" parameterType="com.example.demo.vo.HCalendar">
+		INSERT INTO hcalendar(num,datetime)
 		VALUES(CALENDAR_SEQ.NEXTVAL,#{datetime})
 	</insert>
 	<insert id="saveSchedule" parameterType="com.example.demo.vo.Schedule">
@@ -14,8 +13,7 @@
 		VALUES(CALEN_SCHEDULE_SEQ.NEXTVAL, (SELECT MAX(num) FROM calendar), #{when}, #{content})
 	</insert>
 	
-	<update id = "saveAttach" 
-		parameterType="list">
+	<update id = "saveAttach" parameterType="list">
 		INSERT INTO attachcalendar(num,pnum,fname,pname)
 		SELECT CALEN_ATTACH_SEQ.NEXTVAL AS num,t.* FROM 
 		(
@@ -24,5 +22,22 @@
 			</foreach>
 		)t
 	</update>
+	
+	<select id="scheduleShow" parameterType="Date" resultType="map">
+		SELECT a.num, a.datetime, b.pnum, b.when, b.content
+		FROM hcalendar a LEFT OUTER JOIN calen_schedule b
+		ON a.num = b.pnum
+		WHERE a.datetime = #{datetime}
+	</select>
+	
+	<select id="todo" parameterType="Integer" resultType="map">
+		SELECT a.num, a.year, a.month, a.day, b.pnum, b.when, b.content
+		FROM (SELECT num, extract(year FROM DATETIME) year, extract(month FROM DATETIME) month, extract(day FROM DATETIME)day FROM hcalendar) a
+		LEFT OUTER JOIN calen_schedule b
+		ON a.num = b.pnum
+		WHERE a.year = #{year} AND a.month = #{month}
+	</select>
+	
+	
 	
 </mapper>

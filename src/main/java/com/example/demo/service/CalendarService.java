@@ -4,8 +4,11 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
 import com.example.demo.vo.AttachCalendar;
-import com.example.demo.vo.Calendar;
+import com.example.demo.vo.HCalendar;
 import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.ServletContext;
@@ -28,7 +31,7 @@ public class CalendarService
 {
 	@Autowired
 	private CalendarMapper cm;
-
+	
 	private final Path fileStorageLocation;
 
 	@Autowired
@@ -44,7 +47,7 @@ public class CalendarService
 		}
 	}
 	
-	public boolean add(MultipartFile[] mfiles,HttpServletRequest request,Calendar cal, AttachCalendar attcal,Schedule sc)
+	public boolean add(MultipartFile[] mfiles,HttpServletRequest request,HCalendar cal, AttachCalendar attcal,Schedule sc)
 	{
 		log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context = request.getServletContext();
@@ -86,4 +89,33 @@ public class CalendarService
 		return false;
 	}
 	
+	public Map<String, Object> getCalendar(LocalDate day) 
+	{
+		Map<String, Object> map = new HashMap<>();
+		
+		java.util.Calendar cDay = java.util.Calendar.getInstance();
+		
+		 if(day == null) {
+			 day = LocalDate.now();
+		 } else {
+			 cDay.set(day.getYear(), day.getMonthValue()-1, day.getDayOfMonth()); // 오늘날짜에서 day값과 동일한 값으로...
+		 }
+
+		java.util.Calendar firstDay = cDay;
+		firstDay.set(java.util.Calendar.DATE, 1); // cDay에서 일만 1일로 변경
+		
+		
+		map.put("year", cDay.get(java.util.Calendar.YEAR));		//
+		map.put("month", cDay.get(java.util.Calendar.MONTH)+1);		//
+		map.put("day", day);	//
+		map.put("lastDay", cDay.getActualMaximum(java.util.Calendar.DATE));		
+		map.put("today",LocalDate.now());
+		map.put("firstDayOfWeek", firstDay.get(java.util.Calendar.DAY_OF_WEEK));
+		
+		List<Map<String,String>> listMap = cm.todo(cDay.get(java.util.Calendar.YEAR), cDay.get(java.util.Calendar.MONTH)+1);
+		
+		map.put("listMap", listMap);
+		
+		return map;
+	}
 }

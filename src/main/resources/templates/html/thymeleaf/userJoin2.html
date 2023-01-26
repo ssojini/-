@@ -282,6 +282,7 @@ function auth()
 			if(res){
 				alert("인증 되었습니다");
 				joinUser();
+				location.href = "/team/login";
 			}else{
 				alert("이메일 인증하세요");
 			}
