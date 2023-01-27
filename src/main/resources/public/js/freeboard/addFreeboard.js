@@ -124,7 +124,7 @@ function changeFiles() {
 	for (var i = 0; i < files.length; i++) {
 		const file = files[i];
 		if (isImage(file)) {
-			$("#fileListDiv").append($("<span><input type='checkbox' value='"+files[i].name+"'>"+files[i].name+"</span>"));
+			$("#fileListDiv").append($("<div><input type='checkbox' value='"+files[i].name+"'>"+files[i].name+"</div>"));
 		}
 	}
 	$("#contents > img").remove();
