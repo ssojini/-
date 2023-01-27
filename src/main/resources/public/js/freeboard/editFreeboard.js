@@ -47,26 +47,28 @@ function deleteFile() {
 			removeImg(anum+"_"+aname);
 		}
 	}
-	$.ajax({
-		url:"/file/delete",
-		method:"post",
-		data:{
-			"arrAttach":JSON.stringify(arrAttach)
-		},
-		cache:false,
-		dataType:"json",
-		success:function(res) {
-			console.log("contents:"+$("#contents").html());
-			if (res.result) {
-				location.href = "/freeboard/edit?fbnum="+$("#fbnum").text()+"&title="+$("#title").val()+"&contents="+$("#contents").html();
-			} else {
-				alert("파일삭제 실패");
+	if (arrAttach.length > 0) {
+		$.ajax({
+			url:"/file/delete",
+			method:"post",
+			data:{
+				"arrAttach":JSON.stringify(arrAttach)
+			},
+			cache:false,
+			dataType:"json",
+			success:function(res) {
+				console.log("contents:"+$("#contents").html());
+				if (res.result) {
+					location.href = "/freeboard/edit?fbnum="+$("#fbnum").text()+"&title="+$("#title").val()+"&contents="+$("#contents").html();
+				} else {
+					alert("파일삭제 실패");
+				}
+			},
+			error:function(xhs,status,err) {
+				alert(err);
 			}
-		},
-		error:function(xhs,status,err) {
-			alert(err);
-		}
-	});
+		});
+	}
 }
 
 function removeImg(filename) {
