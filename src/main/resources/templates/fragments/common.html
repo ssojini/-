@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head th:fragment="html-head">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -20,16 +20,12 @@
 		<!-- 상단 로그인 부분 session 사용해서 로그인 정보 띄우기-->
 		<nav style="float: right;">
 			<ul style="list-style: none; padding-right: 40px; padding-top: 10px;">
-				<li>
-					<span th:if="${session.userid}!=null">[[${session.userid}]]
-						<a href="/">마이페이지</a>
-						<a href="/team/logout">로그아웃</a>
-					</span> 
-					<span th:unless="${session.userid}!=null"><a
+				<li><span th:if="${session.userid}!=null">[[${session.userid}]] ||
+						<a href="/team/logout">로그아웃</a>|| 
+						<a th:href="'useredit/'+ ${session.userid}">마이페이지</a>
+				</span> <span th:unless="${session.userid}!=null"><a
 						style="color: inherit; text-decoration: none; font-size: medium"
-						href="/team/login">로그인</a>
-					</span>
-				</li>
+						href="/team/login">로그인</a></span></li>
 			</ul>
 		</nav>
 
@@ -62,17 +58,18 @@
 
 							<div class="collapse navbar-collapse" id="tmMainNav">
 								<ul class="navbar-nav mx-auto tm-navbar-nav">
-									<li class="nav-item"><a class="nav-link"
+									<li class="nav-item active"><a class="nav-link"
 										href="/health/main">Home <span class="sr-only">(current)</span></a></li>
-									<li class="nav-item"><a class="nav-link" href="/shop/main">Shop</a>
+									<li class="nav-item"><a class="nav-link" href="/calen/getCalendar">Calendar</a>
 									</li>
 									<li class="nav-item"><a class="nav-link"
-										href="/health/freeBoard">community</a></li>
-									<li class="nav-item"><a class="nav-link" href="#">Company</a>
+										href="/freeboard">community</a></li>
+									<li class="nav-item"><a class="nav-link" href="/shop/ShopMainPage">Shop</a>
 									</li>
 									<li class="nav-item"><a class="nav-link" href="#">Contact</a>
 									</li>
-									<li class="nav-item"><a class="nav-link external" href="/health/useredit/smith">My Page</a></li>
+									<li class="nav-item"><a class="nav-link external" href="#">FB
+											Page</a></li>
 								</ul>
 							</div>
 						</nav>
