@@ -69,13 +69,8 @@ function deleteFile() {
 }
 
 function removeImg(filename) {
-	console.log("removeImg");
-	console.log(filename);
 	var imgs = $("img[src='/images/"+filename+"']");
-	console.log(imgs);
-	console.log(imgs.length);
 	for (var i = 0; i < imgs.length; i++) {
-		console.log(imgs[i]);
 		imgs[i].remove();
 	}
 }
