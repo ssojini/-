@@ -167,16 +167,16 @@ public class ShopController {
 
 	
 	// 결제
-	@GetMapping("/payment")
-	@ResponseBody
+	@GetMapping("/payment")	
 	public String payment(@RequestParam String items
 			, @RequestParam("userid") String userid
-			, @RequestParam("address") String address) 
+			, @RequestParam("address") String address
+			, Model m) 
 	{
-		System.err.println("here");
-		System.err.println("string items: "+items);
-		String paid = svc.payment(items,userid,address);
-		return paid;
+		//System.err.println("here");
+		//System.err.println("string items: "+items);
+		m.addAttribute("completeBuy", svc.payment(items,userid,address));
+		return "html/shop/completeBuy";
 	}
 	//결제성공
 	@GetMapping("/completeBuy")
