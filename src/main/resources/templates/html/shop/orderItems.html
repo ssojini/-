@@ -186,7 +186,7 @@ function requestPay() {
       }, function (rsp) { // callback
         if (rsp.success) {
             alert("테스트 결제성공");
-            location.href='/shop/completeBuy';
+            payment();
         } else {
             alert("실패");
         }
