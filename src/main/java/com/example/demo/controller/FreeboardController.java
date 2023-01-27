@@ -97,8 +97,15 @@ public class FreeboardController {
 	}
 	
 	@GetMapping("/edit")
-	public String edit(Model m, Integer fbnum) {
-		m.addAttribute("freeboard",freeboardService.getByFbnum(fbnum));
+	public String edit(Model m, Integer fbnum, String title, String contents) {
+		System.out.println("title:"+title);
+		System.out.println("contents:"+contents);
+		Freeboard freeboard = freeboardService.getByFbnum(fbnum);
+		if (title != null) {
+			freeboard.setTitle(title);
+			freeboard.setContents(contents);
+		}
+		m.addAttribute("freeboard",freeboard);
 		m.addAttribute("listAttach", attachService.getList(fbnum));
 		return "html/freeBoard/editFreeboard";
 	}

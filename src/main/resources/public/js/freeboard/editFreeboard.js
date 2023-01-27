@@ -56,8 +56,9 @@ function deleteFile() {
 		cache:false,
 		dataType:"json",
 		success:function(res) {
+			console.log("contents:"+$("#contents").html());
 			if (res.result) {
-				updateContents();
+				location.href = "/freeboard/edit?fbnum="+$("#fbnum").text()+"&title="+$("#title").val()+"&contents="+$("#contents").html();
 			} else {
 				alert("파일삭제 실패");
 			}
@@ -73,25 +74,6 @@ function removeImg(filename) {
 	for (var i = 0; i < imgs.length; i++) {
 		imgs[i].remove();
 	}
-}
-
-function updateContents() {
-	$.ajax({
-		url:"/freeboard/updateContents",
-		method:"post",
-		data:{
-			"fbnum":$("#fbnum").text(),
-			"contents":$("#contents").html()
-		},
-		cache:false,
-		dataType:"json",
-		success:function(res) {
-			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
-		},
-		error:function(xhs,status,err) {
-			alert(err);
-		}
-	});
 }
 
 function deleteFreeboard(fbnum) {
@@ -114,7 +96,6 @@ function deleteFreeboard(fbnum) {
 }
 
 function changeFile() {
-	updateContents();
 	let data = new FormData();
 	let files = $("#files")[0].files;
 	for (var i = 0; i < files.length; i++) {
@@ -132,7 +113,7 @@ function changeFile() {
 		timeout: 600000,
 		dataType:"json",
 		success:function(res) {
-			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
+			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text()+"&title="+$("#title").val()+"&contents="+$("#contents").html();
 		},
 		error:function(xhs,status,err) {
 			alert(err);
