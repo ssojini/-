@@ -17,18 +17,20 @@
 	<th>조회수</th>
 	<th>등록일</th>
 </tr>
-<tr th:each="notice: ${nlist}">
-	<td>[[${notice.num}]]</td>
+<tr th:each="faq: ${list}">
+	<td>[[${faq.adnum}]]</td>
 	<td>
-		<a th:href= "|/health/notice|">
-		[[${notice.title}]]
+		<a th:href= "|/admin/detail_faq/${faq.adnum}|">
+		[[${faq.title}]]
 		 </a>
 	</td>
-	<td>[[${notice.author}]]></td>
-	<td>[[${notice.hit}]]</td>
-	<td>[[${notice.qdate}]]></td>	
+	<td>[[${faq.author}]]></td>
+	<td>[[${faq.hit}]]</td>
+	<td>[[${faq.date_admin}]]></td>	
 </tr>
 </table>
-
+	<span th:each="page, i: ${list}">
+	<a th:href = "|/faqList/${i}/10|"> [[${i.index+1}]]</a>
+	</span>
 </body>
 </html>

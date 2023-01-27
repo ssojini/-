@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.QAMapper">
+
+	<select id="qaList"
+		resultType="map">
+        SELECT qnum, 
+        LPAD('　', (LEVEL-1)*3, '　') || title title,
+        author, qdate, content, hit, anum
+        FROM queBoard
+        START WITH anum=0
+        CONNECT BY PRIOR qnum=anum
+        ORDER SIBLINGS BY qnum DESC
+
+	</select>
+
+	
+	<select id="detailByQnum"
+		parameterType="Integer"
+		resultType="map"
+	>
+		SELECT * FROM(
+		SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, attsize, attname, attid
+		FROM queBoard q LEFT OUTER JOIN attach a
+		ON q.qnum = a.qnum
+		ORDER BY q.qnum DESC, attid ASC
+		)t
+		WHERE qnum=#{qnum}
+		
+	</select>
+
+	<select id="findQueBoard" 
+	   parameterType="Integer" 
+	   resultType="com.example.demo.vo.OneBoard"
+	>
+	    SELECT * FROM queBoard WHERE qnum=#{qnum}
+	</select>	
+
+	<update id="increaseHit"
+		parameterType="Integer">
+		UPDATE queBoard SET hit =hit+1 WHERE qnum= #{qnum}
+	</update>
+	
+	
+	<insert id="addQueBoard"
+		parameterType="com.example.demo.vo.OneBoard">
+		INSERT INTO queBoard(qnum, title, author, qdate, content, hit, anum)
+		VALUES(QUEBOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit}, #{anum} )
+		
+	</insert>
+	
+	
+	<update id="saveAttach"
+	parameterType="list">
+	INSERT INTO attach (attid, attsize, attname, qnum, anum)
+	SELECT
+	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		#{item.attsize} AS attsize, 
+		#{item.attname} AS attname, 
+		(SELECT MAX(qnum) FROM queBoard) AS qnum, 
+		(SELECT MAX(anum) FROM queBoard) AS anum 
+		FROM DUAL
+		</foreach>
+	)t
+	</update> 
+
+<!-- 수정할 때 추가하는 첨부파일 -->	
+	<update id="moreAttach" 
+	parameterType="list">
+	INSERT INTO attach (attid, attsize, attname, qnum, anum)
+	SELECT
+	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
+	(
+		<foreach collection="list" item="item" index="index" separator=" union all ">
+		SELECT
+		#{item.attsize} AS attsize, 
+		#{item.attname} AS attname, 
+		#{item.qnum} AS qnum,
+		(SELECT MAX(anum) FROM queBoard) AS anum
+		FROM DUAL
+		</foreach>
+	)t
+	</update> 	
+
+	<update 
+		id="updateQueB"
+		parameterType="com.example.demo.vo.OneBoard"
+	>
+	UPDATE queBoard SET title=#{title}, content=#{content} WHERE qnum=#{qnum}
+	</update>	
+
+	
+	<delete 
+		id="deleteAllF"
+		parameterType="Integer"
+	>
+	DELETE FROM attach WHERE qnum=#{qnum} 
+	</delete>
+	
+	<delete
+		id="deleteQueB"
+		parameterType="Integer"
+	>
+	DELETE FROM queBoard WHERE qnum=#{qnum}
+	</delete>
+
+	<delete
+	id="deleteAttach"
+	parameterType="Integer"
+	>
+	DELETE FROM attach WHERE attid=#{attid}
+	</delete>
+	
+	<select
+		id="getAttachList"
+		resultType="com.example.demo.vo.AttachBoard"
+		parameterType="Integer"
+	>
+	SELECT * FROM attach WHERE qnum=#{qnum}
+	</select>
+	
+	<select
+		id="getAttach"
+		resultType="com.example.demo.vo.AttachBoard"
+		parameterType="Integer"
+	>
+	SELECT * FROM attach WHERE attid=#{attid}
+	</select>
+
+
+
+
+</mapper>

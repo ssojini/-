@@ -149,15 +149,15 @@ public class ShopController {
 
 	// 상품 구매
 	// 즉시 구매
-	@GetMapping("/buynow")
+	@PostMapping("/buynow")
 	public String buyNow(Cart cart, Model m) {
 		// 구매목록을 orderList에 담아 보낸다.
-		m.addAttribute("orderlist", svc.buyNow(cart));
+		m.addAttribute("orderlist", svc.buyNow(cart));		
 		return "html/shop/orderItems";
 	}
 
 	// 장바구니 구매 (선택/전체)
-	@GetMapping("/buycart")
+	@PostMapping("/buycart")
 	public String buyCart(@RequestParam String items, Model m) {
 
 		m.addAttribute("orderlist",svc.buyCart(items));
@@ -165,28 +165,28 @@ public class ShopController {
 		return "html/shop/orderItems";
 	}
 
-	@PostMapping("/buy")
+	
+	// 결제
+	@GetMapping("/payment")
 	@ResponseBody
-	public String buy(@RequestParam String paramList) {
+	public String payment(@RequestParam String items
+			, @RequestParam("userid") String userid
+			, @RequestParam("address") String address) 
+	{
 		System.err.println("here");
-
-		JSONParser parser = new JSONParser();
-		try {
-			JSONArray jsArr = (JSONArray) parser.parse(paramList);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-//		String json= parameters.get("paramList").toString();
-//		ObjectMapper mapper = new ObjectMapper();
-//	    List<Map<String, Object>> paramList = mapper.readValue(json, new TypeReference<ArrayList<Map<String, Object>>>(){});
-
-		// List<dto> paramList = mapper.readValue(json, new
-		// TypeReference<ArrayList<dto>>(){});
-		// System.err.println(itemArr);
-		return "성공";
+		System.err.println("string items: "+items);
+		String paid = svc.payment(items,userid,address);
+		return paid;
 	}
+	//결제성공
+	@GetMapping("/completeBuy")
+	public String completeBuy()
+	{
+		return "html/shop/completeBuy";
+	}
+	
+	
+	
 
 	/*--------------------- 상욱 끝 ----------------------*/
 

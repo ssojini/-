@@ -21,10 +21,15 @@ import lombok.NoArgsConstructor;
 @Entity
 //@Table(name="freeboard")
 public class Freeboard {
+	public Freeboard(String bname, String title) {
+		this.bname = bname;
+		this.title = title;
+	}
 	@Id
 	@SequenceGenerator(name="FREEBOARD_FBNUM_GEN",allocationSize=1,sequenceName="FREEBOARD_FBNUM_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FREEBOARD_FBNUM_GEN")
 	private Integer fbnum;
+	@Column(name = "bname", nullable = false)
 	private String bname;
 	@Column(name = "title", nullable = false)
 	private String title;

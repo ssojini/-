@@ -18,7 +18,7 @@ import com.example.demo.vo.Freeboard;
 public class FreeboardService {
 	@Autowired
 	private FreeboardRepository repo;
-
+	
 	public Freeboard getByFbnum(Integer fbnum) {
 		Optional<Freeboard> freeBoard = repo.findById(fbnum);
 		return freeBoard.isPresent()?freeBoard.get():null;
