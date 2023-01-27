@@ -216,7 +216,7 @@ $(function(){
 			<tbody>
 				<tr>
 					<th scope="row" style="width:100px;">계정</th>
-					<td>[[${user.userid}]]</td>
+					<td>[[${session.userid}]]</td>
 				</tr>
 				<tr>
 					<th scope="row">프로필사진</th>
@@ -246,7 +246,11 @@ $(function(){
 							<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" value="meroro"  style="float:left;">
 						</div> 
 						<div  style="float:left;">
+<<<<<<< HEAD
+							@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21" value="naver.com">
+=======
 							<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
+>>>>>>> refs/remotes/origin/master
 						</div>	
 						<div  style="float:left;">
 						<select name="select_email" onChange="selectEmail(this)">
