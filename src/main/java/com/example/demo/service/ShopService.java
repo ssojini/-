@@ -207,7 +207,7 @@ public class ShopService
 	/*장바구니 끝*/
 	
 	/* 결제 시작*/
-	public String payment(String items, String userid, String address) {
+	public boolean payment(String items, String userid, String address) {
 		
 		JSONParser parser = new JSONParser();
 		try {
@@ -244,11 +244,11 @@ public class ShopService
 					cart_repo.deleteById(cartnum);
 				}
 			}
-			return "주문이 완료되었습니다.";
+			return true;
 		} catch (ParseException e) {			
 			e.printStackTrace();
 		}
-		return "주문이 실패하였습니다.";
+		return false;
 	}
 	
 	/* 결제 끝*/	

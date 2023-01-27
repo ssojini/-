@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/common :: html-head">
+<head>
 <meta charset="UTF-8">
 <title>구매하기</title>
 </head>
@@ -186,7 +186,7 @@ function requestPay() {
       }, function (rsp) { // callback
         if (rsp.success) {
             alert("테스트 결제성공");
-            location.href='/shop/completeBuy';
+            payment();
         } else {
             alert("실패");
         }
