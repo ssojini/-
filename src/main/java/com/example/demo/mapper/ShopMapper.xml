@@ -74,4 +74,15 @@
 		<![CDATA[where rn<=3]]>
 	</select>
 	
+	<select id="randomproduct" parameterType="String" resultType="map">
+		select * FROM 
+		(
+		    select a.*,ROWNUM AS rn from 
+		    ( 
+		        select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum order by DBMS_RANDOM.RANDOM
+		    )a
+		) 
+		<![CDATA[where rn<=4]]>
+	</select>
+	
 </mapper>

@@ -282,6 +282,33 @@ public class ShopService
 		}
 		return newproduct;
 	}
+	
+	public List<GoodsAndAtt> randomproduct()
+	{
+		List<Map<String,Object>> goodslist = map.randomproduct();
+		List<GoodsAndAtt> randomproduct = new ArrayList<>();
+		for(int i=0; i<goodslist.size(); i++)
+		{
+			Map<String, Object> m = goodslist.get(i);
+			
+			GoodsAndAtt both = new GoodsAndAtt();
+
+			BigDecimal big = (BigDecimal) m.get("PRICE");
+			both.setPrice(big.intValue());  
+			BigDecimal big1 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big1.intValue());
+			both.setGoodsname((String) goodslist.get(i).get("GOODSNAME"));
+			both.setCategory((String) goodslist.get(i).get("CATEGORY"));
+			both.setGoods_detail((String) goodslist.get(i).get("GOODS_DETAIL"));
+			
+
+			BigDecimal big2 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big2.intValue());
+			both.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
+			randomproduct.add(both);
+		}
+		return randomproduct;
+	}
   
 	 private final Path fileStorageLocation;
 
@@ -318,7 +345,6 @@ public class ShopService
 		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 		   
 		    File targetFile = new File(fileRoot +"\\"+ savedFileName);
-		    System.out.println("targetFile:  "+targetFile);
 		    File targetFile2 = new File(fileRoot2 + savedFileName);//summernote priview
 		    
 		    try {

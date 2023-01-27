@@ -1,0 +1,17 @@
+@charset "utf-8";
+h3{
+	text-align : center;
+	margin: 30px auto 30px auto;
+}
+p{
+	text-align : center;
+}
+table{
+	margin: auto;
+	margin-bottom: 30px;
+}
+.btn-ac{
+		text-align: center;
+	margin: auto;
+	margin-bottom: 30px;
+}
