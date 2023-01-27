@@ -8,7 +8,6 @@ function addReply() {
 		method:"post",
 		data:{
 			"pnum":$("#fbnum").text(),
-			"author":$("#reply_author").text(),
 			"contents":$("#reply_contents").val()
 			},
 		cache:false,
