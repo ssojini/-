@@ -21,13 +21,7 @@
 <body>
 	<div th:replace="fragments/common :: header"></div>
 	<main>
-		<div id="bname_div">
-			<select id="bname" onchange="changeBoard($('#bname').val());">
-				<option value="free">자유게시판</option>
-				<option value="meal">식단공유게시판</option>
-				<option value="beforafter">비포에프터게시판</option>
-			</select>
-		</div>
+		<input type="hidden" id="bname" th:value="${bname}">
 		<table id="freeboard_table">
 			<tr>
 				<th>번호</th>
