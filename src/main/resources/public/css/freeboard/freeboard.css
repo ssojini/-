@@ -1,20 +1,48 @@
 @charset "UTF-8";
 
+body {
+}
+
 main {
+	width: 100vw;
+	height: 100vh;
+}
+
+#bname_div {
+	border: 1px solid black;
+	text-align: center;
 }
 
 #bname {
+	width: 200px;
+	height: 50px;
+	-o-appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
 
 #search_freeboard_div {
+	margin: auto;
+	border: 1px solid orange;
+	width: 100%;
+	height: 10%;
+	text-align: center;
 }
 
-#freeboard_table_div {
-	
+#freeboard_table {
+	margin: auto;
+	border: 1px solid yellow;
+	width: 100%;
+	height: 80%;
+	text-align: center;
 }
 
 #freeboard_page {
+	border: 1px solid green;
+	height: 10%;
 }
 
 #add_freeboard_btn {
+	border: 1px solid blue;
 }

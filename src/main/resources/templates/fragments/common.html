@@ -18,6 +18,7 @@
 		<!-- https://getbootstrap.com/ -->
 		<link rel="stylesheet" href="/css/tooplate-style.css" />
 		<!-- 상단 로그인 부분 session 사용해서 로그인 정보 띄우기-->
+		<link rel="stylesheet" href="/css/common.css" />
 		<nav style="float: right;">
 			<ul style="list-style: none; padding-right: 40px; padding-top: 10px;">
 				<li><span th:if="${session.userid}!=null">[[${session.userid}]] ||
@@ -57,13 +58,20 @@
 							</button>
 
 							<div class="collapse navbar-collapse" id="tmMainNav">
-								<ul class="navbar-nav mx-auto tm-navbar-nav">
+								<script src="/js/common/tmMainNav.js"></script>
+								<ul class="navbar-nav mx-auto tm-navbar-nav" onmouseover="overTmMainNav();" onmouseleave="leaveTmMainNav();">
 									<li class="nav-item active"><a class="nav-link"
 										href="/health/main">Home <span class="sr-only">(current)</span></a></li>
 									<li class="nav-item"><a class="nav-link" href="/calen/getCalendar">Calendar</a>
 									</li>
-									<li class="nav-item"><a class="nav-link"
-										href="/freeboard">community</a></li>
+									<li class="nav-item">
+										<a class="nav-link">community</a>
+										<ul class="navbar_item_menu" style="display: none;">
+											<li><a href="/freeboard?bname=free">자유게시판</a></li>
+											<li><a href="/freeboard?bname=meal">식단게시판</a></li>
+											<li><a href="/freeboard?bname=beforafter">비포에프터게시판</a></li>
+										</ul>
+									</li>
 									<li class="nav-item"><a class="nav-link" href="/shop/ShopMainPage">Shop</a>
 									</li>
 									<li class="nav-item"><a class="nav-link" href="#">Contact</a>
