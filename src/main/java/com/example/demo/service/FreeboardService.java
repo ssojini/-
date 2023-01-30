@@ -20,8 +20,14 @@ public class FreeboardService {
 	private FreeboardRepository repo;
 	
 	public Freeboard getByFbnum(Integer fbnum) {
-		Optional<Freeboard> freeBoard = repo.findById(fbnum);
-		return freeBoard.isPresent()?freeBoard.get():null;
+		Optional<Freeboard> findFreeboard = repo.findById(fbnum);
+		if (findFreeboard.isPresent()) {
+			// 조회수 증가
+			findFreeboard.get().setHit(findFreeboard.get().getHit());
+			repo.save(findFreeboard.get());
+			return findFreeboard.get();
+		}
+		return null;
 	}
 
 	public List<Freeboard> getList() {

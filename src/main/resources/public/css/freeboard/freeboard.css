@@ -5,44 +5,52 @@ body {
 
 main {
 	width: 100vw;
-	height: 100vh;
-}
-
-#bname_div {
-	border: 1px solid black;
+	height: 77vh;
 	text-align: center;
 }
 
-#bname {
-	width: 200px;
-	height: 50px;
-	-o-appearance: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-}
-
-#search_freeboard_div {
-	margin: auto;
-	border: 1px solid orange;
-	width: 100%;
-	height: 10%;
-	text-align: center;
-}
-
-#freeboard_table {
-	margin: auto;
-	border: 1px solid yellow;
+#freeboard_table_div {
 	width: 100%;
 	height: 80%;
 	text-align: center;
 }
-
-#freeboard_page {
-	border: 1px solid green;
-	height: 10%;
+#freeboard_table {
+	margin: auto;
+	width: 80%;
+	text-align: center;
 }
 
-#add_freeboard_btn {
-	border: 1px solid blue;
+#freeboard_table > tbody > tr {
+	background-color: red;
+	width: 80%;
+}
+
+#freeboard_page_div {
+	background-color: purple;
+	margin: auto;
+	width: 80%;
+	height: 10%;
+	text-align: center;
+}
+
+#freeboard_page {
+	height: 50%;
+}
+
+#freeboard_interface_div {
+	margin: auto;
+	height: 50%;
+	background-color: blue;
+	text-align: center;
+}
+
+#search_freeboard_div {
+	height: 100%;
+	display: inline-block;
+}
+
+#freeboard_btn_div {
+	height: 100%;
+	display: inline-block;
+	vertical-align: middle;
 }
