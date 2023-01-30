@@ -18,7 +18,6 @@
 		<!-- https://getbootstrap.com/ -->
 		<link rel="stylesheet" href="/css/tooplate-style.css" />
 		<!-- 상단 로그인 부분 session 사용해서 로그인 정보 띄우기-->
-		<link rel="stylesheet" href="/css/common.css" />
 		<nav style="float: right;">
 			<ul style="list-style: none; padding-right: 40px; padding-top: 10px;">
 				<li><span th:if="${session.userid}!=null">[[${session.userid}]] ||
@@ -61,6 +60,7 @@
 								<!-- 
 								tmMainNav에서 동작하는 javascript는 밑에 js파일에 작성하시오.
 								 -->
+								<link rel="stylesheet" href="/css/common/tmMainNav.css" />
 								<script src="/js/common/tmMainNav.js"></script>
 								<ul class="navbar-nav mx-auto tm-navbar-nav" onmouseover="overTmMainNav();" onmouseleave="leaveTmMainNav();">
 									<li class="nav-item active"><a class="nav-link"
