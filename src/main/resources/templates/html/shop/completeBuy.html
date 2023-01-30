@@ -25,17 +25,16 @@ body {
 <main>
 	<div>
 		<div th:replace="fragments/shopnav :: shopnav"></div>
-	</div>
-		<h1>주문 완료</h1>
-	<!-- 
-	 <div th:if="${completeBuy}=='true'"> 
+	</div>		
+	
+	 <div th:if="${completeBuy}"> 
 		<h1>주문 성공</h1>
-	</div>
-	<div th:if="${completeBuy}=='false'"> 
+	</div>	
+	<div th:unless="${completeBuy}"> 
 		<h1 style="color: red;">주문 실패</h1>
 	</div>
-	 -->
-		<br><br>
+	
+		<br>
 		<a href="/shop/main">홈으로</a>
 	
 	</main>

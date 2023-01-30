@@ -174,14 +174,18 @@ public class ShopController {
 			, Model m) 
 	{
 		//System.err.println("here");
-		//System.err.println("string items: "+items);
-		m.addAttribute("completeBuy", svc.payment(items,userid,address));
+		//System.err.println("address: "+address);
+		
+		boolean completeBuy = svc.payment(items,userid,address);
+		//System.err.println("completeBuy: "+completeBuy);
+		m.addAttribute("completeBuy", completeBuy);
 		return "html/shop/completeBuy";
 	}
-	//결제성공
+	//결제 테스트 (결제 실패)
 	@GetMapping("/completeBuy")
-	public String completeBuy()
+	public String completeBuy(Model m)
 	{
+		m.addAttribute("completeBuy", false);
 		return "html/shop/completeBuy";
 	}
 	
