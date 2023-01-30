@@ -233,10 +233,11 @@ public class ShopService
 				order.setSum(sum);
 				order.setItempoint(itempoint);
 				order.setMainpic_server(mainpic_server);
+				order.setAddress(address);
 				order.setStatus("상품준비중");
-				System.err.println("order: "+order);							
+				//System.err.println("order: "+order);							
 				Order save_or = order_repo.save(order);
-				System.err.println("order저장: "+save_or);	
+				//System.err.println("order저장: "+save_or);	
 				
 				// 구매한 상품 장바구니 삭제
 				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
