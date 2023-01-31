@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -142,9 +143,19 @@ public class mypageService {
 		return changed;
 	}
 	
-	public Freeboard getmyboard(String userid)
+	public List<Freeboard> getmyboard(String userid)
 	{
-		return map.getmyboard(userid);
+		List<Freeboard>myboard= map.getmyboard(userid);
+		/*for(int i=0; i<myboard.size();i++)
+		{
+			String a =myboard.get(i).getDatetime().toString();
+			String[]time = a.split(" ");
+			Timestamp newtime =Timestamp.valueOf(time[0]);
+
+			myboard.get(i).setDatetime(newtime);
+		}*/
+
+		return myboard;
 	}
 	
 }

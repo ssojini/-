@@ -58,7 +58,11 @@ public class HealthController {
 	@GetMapping("/myboard/{userid}")
 	public String getmyboard(@PathVariable(value = "userid", required = false) String userid,Model m)
 	{
+		System.out.println("uid: "+ userid);
 		m.addAttribute("board",mp_svc.getmyboard(userid));
+		System.out.println("data: " + mp_svc.getmyboard(userid).toString());
+		
+		
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/myboard";
 	}

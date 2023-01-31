@@ -3,6 +3,11 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
+<style>
+	span{
+		float:left;
+	}
+</style>
 </head>
 <div>
     <div th:replace="fragments/common :: header"></div>
@@ -11,9 +16,12 @@
 <div>
     <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
-<div>${board.title}</div>
-<div>${board.author}</div>
-
+<ul th:each="board: ${board}">
+	<li th:text="${board.fbnum}"></li>
+	<li th:text="${board.title}"></li>
+	<li th:text="${board.datetime}"></li>
+</ul>
+<button></button>
 
 </body>
 </html>
