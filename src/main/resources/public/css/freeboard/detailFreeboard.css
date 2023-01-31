@@ -1,1 +1,52 @@
 @charset "UTF-8";
+
+main {
+	margin: 0px;
+	padding: 0px;
+	width: 100vw;
+	height: 77vh;
+	color: black;
+}
+
+#detail_freeboard_div {
+	background-color: green;
+	margin: auto;
+	padding: 0px;
+	border: 0px;
+	width: 80%;
+	min-height: 50%;
+}
+
+#fbnum {
+	margin: auto;
+	width: 20%;
+}
+#fbnum_span1 {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	width: 50%;
+}
+#fbnum_span2 {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	width: 50%;
+}
+
+#detail_freeboard_button_div {
+	background: red;
+	margin: auto;
+	padding: 0px;
+	width: 80%;
+	height: auto;
+	text-align: center;
+}
+#detail_freeboard_button {
+	display: inline-block;
+	width: 100px;
+	height: 100%;
+	margin: auto;
+	border: 1px solid black;
+	padding: 0px;
+}

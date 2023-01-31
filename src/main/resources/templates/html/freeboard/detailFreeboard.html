@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>detailFreeboard</title>
-<link href="/css/freeboard/detailFreeboard.css">
+<link rel="stylesheet" href="/css/freeboard/detailFreeboard.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="/js/freeboard/detailFreeboard.js"></script>
 <script type="text/javascript">
@@ -17,14 +17,14 @@ window.onload = function() {
     <div th:replace="fragments/common :: header"></div>
 </div>
 	<main>
-		<div th:if="${freeBoard!=null}">
-			<div id="fbnum">[[${freeBoard.fbnum}]]</div>
+		<div id="detail_freeboard_div" th:if="${freeBoard!=null}">
+			<div id="fbnum"><span id="fbnum_span1">번호:</span><span id="fbnum_span2">[[${freeBoard.fbnum}]]</span></div>
 			<div id="title">[[${freeBoard.title}]]</div>
 			<div id="author">[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
-			<div>
-				<button type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
-			</div>
+		</div>
+		<div id="detail_freeboard_button_div">
+			<button id="detail_freeboard_button" type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 		</div>
 		<div>
 			<div id="reply_author">[[${param.userid}]]</div>
