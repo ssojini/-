@@ -32,7 +32,7 @@ public class Freeboard {
 	@Column(name = "bname", nullable = false)
 	private String bname;
 	@Column(name = "title", nullable = false)
-	private String title;
+	private String ;
 	private String author;
 	@Column(length = 50000000) // 50MB
 	private String contents;
