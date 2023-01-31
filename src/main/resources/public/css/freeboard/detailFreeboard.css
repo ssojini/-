@@ -9,33 +9,51 @@ main {
 }
 
 #detail_freeboard_div {
-	background-color: green;
-	margin: auto;
+	margin: 10px auto;
 	padding: 0px;
 	border: 0px;
 	width: 80%;
 	min-height: 50%;
+	font-size: 0;
 }
-
+#detail_freeboard_div1 {
+	
+}
 #fbnum {
-	margin: auto;
-	width: 20%;
+	background: rgb(223,223,223);
+	margin: 1px 1px;
+	border-radius: 10px;
+	display: inline-block;
+	font-size: initial;
 }
 #fbnum_span1 {
 	display: inline-block;
-	margin: 0px;
-	padding: 0px;
-	width: 50%;
 }
 #fbnum_span2 {
 	display: inline-block;
 	margin: 0px;
 	padding: 0px;
-	width: 50%;
+}
+#title {
+	background: rgb(223,223,223);
+	margin: 1px 1px;
+	border-radius: 10px;
+	display: inline-block;
+	font-size: initial;
+}
+#title_span1 {
+	display: inline-block;
+}
+#title_span2 {
+	display: inline-block;
+}
+#author {
+	background: rgb(223,223,223);
+	display: inline-block;
+	margin: 1px;
 }
 
 #detail_freeboard_button_div {
-	background: red;
 	margin: auto;
 	padding: 0px;
 	width: 80%;

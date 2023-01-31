@@ -18,8 +18,10 @@ window.onload = function() {
 </div>
 	<main>
 		<div id="detail_freeboard_div" th:if="${freeBoard!=null}">
-			<div id="fbnum"><span id="fbnum_span1">번호:</span><span id="fbnum_span2">[[${freeBoard.fbnum}]]</span></div>
-			<div id="title">[[${freeBoard.title}]]</div>
+			<div id="detail_freeboard_div1">
+				<div id="fbnum"><span id="fbnum_span1">번호:</span><span id="fbnum_span2">[[${freeBoard.fbnum}]]</span></div>
+				<div id="title"><span id="title_span1">제목:</span><span id="title_span2">[[${freeBoard.title}]]</span></div>
+			</div>
 			<div id="author">[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
 		</div>
