@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.UserEditMapper;
+import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.UserJoin;
 
 import lombok.extern.slf4j.Slf4j;
@@ -139,6 +140,11 @@ public class mypageService {
 			changed= true;
 		}
 		return changed;
+	}
+	
+	public Freeboard getmyboard(String userid)
+	{
+		return map.getmyboard(userid);
 	}
 	
 }

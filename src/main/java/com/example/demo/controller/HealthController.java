@@ -55,11 +55,12 @@ public class HealthController {
 	@Autowired
 	ResourceLoader resourceLoader;
 
-	
-	@GetMapping("/")
-	@ResponseBody
-	public String userlist() {
-		return mp_svc.userlist().toString();
+	@GetMapping("/myboard/{userid}")
+	public String getmyboard(@PathVariable(value = "userid", required = false) String userid,Model m)
+	{
+		m.addAttribute("board",mp_svc.getmyboard(userid));
+		m.addAttribute("user", mp_svc.userinfo(userid));
+		return "html/mypage/myboard";
 	}
 
 	@GetMapping("/calorie")
