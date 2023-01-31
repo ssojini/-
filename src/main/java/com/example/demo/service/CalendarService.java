@@ -105,8 +105,8 @@ public class CalendarService
 		firstDay.set(java.util.Calendar.DATE, 1); // cDay에서 일만 1일로 변경
 		
 		
-		map.put("year", cDay.get(java.util.Calendar.YEAR));		//
-		map.put("month", cDay.get(java.util.Calendar.MONTH)+1);		//
+		map.put("year", cDay.get(java.util.Calendar.YEAR));
+		map.put("month", cDay.get(java.util.Calendar.MONTH)+1);	
 		map.put("day", day);	//
 		map.put("lastDay", cDay.getActualMaximum(java.util.Calendar.DATE));		
 		map.put("today",LocalDate.now());
@@ -115,6 +115,7 @@ public class CalendarService
 		List<Map<String,String>> listMap = cm.todo(cDay.get(java.util.Calendar.YEAR), cDay.get(java.util.Calendar.MONTH)+1);
 		
 		map.put("listMap", listMap);
+		log.info("listMap"+listMap);
 		
 		return map;
 	}
