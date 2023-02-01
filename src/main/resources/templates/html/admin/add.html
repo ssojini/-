@@ -18,7 +18,7 @@ $(function(){
 		$('#btnUpload').prop('disabled', true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
 		
 		$.ajax({
-			url:'/health/addAdmin',
+			url:'/health/add',
 			method:'post',
 			enctype: 'multipart/form-data',
 			data: data,
@@ -31,7 +31,7 @@ $(function(){
 				$('#btnUpload').prop('disabled', false);
 				if(res.added){
 					alert('저장 되었습니다.');
-					location.href= "/health/addAdmin"
+					location.href= "/health/add"
 				}
 			},
 			error: function(e){
@@ -47,7 +47,7 @@ $(function(){
 		var name = '[[${name}]]'; 
 	//	console.log($("#name").val());
 		$("#name").val(name).prop("selected", true);
-		$("#goBack").attr("onclick","location.href='/health/?addAdmin="+name+"';");
+		$("#goBack").attr("onclick","location.href='/health/?add="+name+"';");
 	};
 </script>
 </head>

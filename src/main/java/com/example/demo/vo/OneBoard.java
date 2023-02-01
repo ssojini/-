@@ -25,11 +25,12 @@ private int qnum;
  private int anum;
  private String title;
  private String author;
- private java.sql.Timestamp qdate;
+ private String qdate;
  private java.sql.Timestamp adate;
  private int hit;
  private String content;
  private List<AttachBoard> attList = new ArrayList<>();
  private String key;
+
  
 }

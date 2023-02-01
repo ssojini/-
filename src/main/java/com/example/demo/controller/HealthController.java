@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FileStorageService;
+import com.example.demo.service.HealthService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.AdminAttachBoard;
 import com.example.demo.vo.AdminBoard;
@@ -164,22 +165,29 @@ public class HealthController {
 	@Autowired 
 	private AdminBoardSerivce absvc;
 	
-	@GetMapping("/qaList/{pg}/{cnt}") //1:1 문의 리스트
-	public String qaList(Model m, @PathVariable int pg, @PathVariable int cnt)
+	@Autowired
+	private HealthService hsvc;
+	
+	@GetMapping("/qna/{pg}/{cnt}")
+	public String qa(Model m, @PathVariable int pg, 
+			@PathVariable int cnt, 
+			HttpSession session)
 	{
-		PageInfo<Map<String, Object>> pageInfo =  absvc.getPage(pg, cnt);
-		List<OneBoard> list = absvc.qaList(pageInfo.getList());
+		String userid = (String)session.getAttribute("userid");
+		log.info("ctrl, session에서 전달된 author:"+ userid);
+		PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
+		List<OneBoard> list = hsvc.qna(pageInfo.getList());
 		m.addAttribute("list", list);
 		
-		return "html/admin/qaList";
+		return "html/admin/qna";
 	}
 	
 	@GetMapping("/writeQueB")
 	public String writeQueBForm(HttpSession session, Model m) 
 	{
-		session.setAttribute("userid", "smith");		//임의로 하드코딩 한 id
-		String id =(String)session.getAttribute("userid");
-		m.addAttribute("userid", id);
+		String userid =(String)session.getAttribute("userid");
+		session.setAttribute("userid", userid);		//임의로 하드코딩 한 id
+		m.addAttribute("userid", userid);
 		return "html/admin/writeQueB";
 	}
 	
