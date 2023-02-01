@@ -7,6 +7,46 @@
     <div th:replace="fragments/common :: header"></div>
 </div>
 <style>
+
+.main input[type=radio] {
+	display: none;
+}
+#tab-1:checked ~ .tab label:nth-child(1),
+#tab-2:checked ~ .tab label:nth-child(2) {
+	background-color: rgba(0, 0, 0, 0.2);
+  	box-shadow: none;
+}
+.content > div {
+	display: none;
+}
+#tab-1:checked ~ .content div:nth-child(1),
+#tab-2:checked ~ .content div:nth-child(2){
+	display: block;
+}
+.main {
+  margin: 0 auto;
+  main-width:1380px;
+  max-width: 100%;
+}
+.tab {
+  overflow: hidden;
+}
+.tab label {
+    font-size: 18px;
+    cursor: pointer;
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding: 15px 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+/* .content {
+  min-height: 450px;
+} */
     div.gd-left {
         float: left;
         width: 100px; 
@@ -29,9 +69,18 @@
     div.gd-title {
         height: 40px;
         background-color: gray;
-    } 
+    }
+ table {
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #444444;
+    padding: 10px;
+  }    
+        
 </style>
-
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
@@ -44,47 +93,160 @@ function clickDay(t) {
 	obj.date = year + '-' + mon + '-' + day;
 /* 	alert(obj.date); */
 	
-	window.open("/calen/showCalen?day="+obj.date, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=800, height=400, left=0, top=0");
-	
+	window.location.href = "/calen/showCalen?day="+obj.date;
+
+	//window.open("/calen/showCalen?day="+obj.date, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=800, height=400, left=0, top=0");
 }
+
+$('.btn-example').click(function(){
+    var $href = $(this).attr('href');
+    layer_popup($href);
+});
+function layer_popup(el){
+
+    var $el = $(el);    //레이어의 id를 $el 변수에 저장
+    var isDim = $el.prev().hasClass('dimBg'); //dimmed 레이어를 감지하기 위한 boolean 변수
+
+    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+    var $elWidth = ~~($el.outerWidth()),
+        $elHeight = ~~($el.outerHeight()),
+        docWidth = $(document).width(),
+        docHeight = $(document).height();
+
+    // 화면의 중앙에 레이어를 띄운다.
+    if ($elHeight < docHeight || $elWidth < docWidth) {
+        $el.css({
+            marginTop: -$elHeight /2,
+            marginLeft: -$elWidth/2
+        })
+    } else {
+        $el.css({top: 0, left: 0});
+    }
+
+    $el.find('a.btn-layerClose').click(function(){
+        isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+        return false;
+    });
+
+    $('.layer .dimBg').click(function(){
+        $('.dim-layer').fadeOut();
+        return false;
+    });
+
+}
+
 </script>
 </head>
 <body>
-	<h3 th:text="${year+'년'}"></h3>
-	
-    <h3 th:text="${month+'월'}"></h3>
-    
+<h3 th:text="${year+'년'}"></h3>
+<h3 th:text="${month+'월'}"></h3>
     <div>
         <a th:href="@{/calen/getCalendar(day=${day.plusMonths(-1)})}">이전</a> 
         <a th:href="@{/calen/getCalendar(day=${day.plusMonths(1)})}">다음</a>
     </div>
-    
-    <div class="gd-left gd-clear gd-title">일</div>
-    <div class="gd-left gd-title">월</div>
-    <div class="gd-left gd-title">화</div>
-    <div class="gd-left gd-title">수</div>
-    <div class="gd-left gd-title">목</div>
-    <div class="gd-left gd-title">금</div>
-    <div class="gd-left gd-title">토</div>
+<div class="main"> 
+	<input type="radio" id="tab-1" name="show" />
+	<input type="radio" id="tab-2" name="show" checked="checked"/>
+	<div class="tab">
+		<label for="tab-1">월간</label>
+		<label for="tab-2">목록</label>
+	</div>
+	<div class="content">
+		<div class="content-dis" id="list1">
+		    <div class="gd-left gd-clear gd-title">일</div>
+		    <div class="gd-left gd-title">월</div>
+		    <div class="gd-left gd-title">화</div>
+		    <div class="gd-left gd-title">수</div>
+		    <div class="gd-left gd-title">목</div>
+		    <div class="gd-left gd-title">금</div>
+		    <div class="gd-left gd-title">토</div>
+	
+	    <!-- 5월달 lastDay==31 -->
+			<div th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+(i-(firstDayOfWeek-1))))} ? 'background: skyblue'"
+		     	 th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}" 
+		         th:class="${index.index%7} ==0 ? 'gd-clear gd-left':  'gd-left'"
+		         th:onclick="clickDay(this);"
+		         >
+		         [[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]
+			    	<div
+			    		th:each="map : ${listMap}"
+			    		th:if="${map.DAY == i}"
+			   		 	>
+				    	<a th:href="javascript"> 
+				    		<div>
+					   		 	<span th:if="${#maps.containsKey(map, 'WHEN')}">[[${map.WHEN}]]</span>
+					   		 	<span th:if="${#maps.containsKey(map, 'CONTENT')}">[[${map.CONTENT}]]</span>
+				   			</div>
+				  	 	</a>
+			    	</div>
+			   	</div>
+			</div>
+		<div class="content-dis" id="list1">
+			<table>
+				<thead>
+					<tr>
+						<td>일자</td>
+						<td>요일</td>
+						<td>식사</td>
+						<td>사진</td>
+						<td>내용</td>
+						<td>상세정보</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}"
+						>
+						<td th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+(i-(firstDayOfWeek-1))))} ? 'background: skyblue'" >
+        				[[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]
+        				</td>
+        				<td th:switch=${index.index%7}>
+	        				<span th:case="0">일</span> 
+	        				<span th:case="1">월</span> 
+	        				<span th:case="2">화</span> 
+	        				<span th:case="3">수</span> 
+	        				<span th:case="4">목</span> 
+	        				<span th:case="5">금</span> 
+	        				<span th:case="6">토</span>	
+        				</td>
+        				<td >
+	        				<div th:each="map : ${listMap}"
+				    				 th:if="${map.DAY == i}">
+					    	<div>
+					    	<a th:href="'javacript:layer_popup('+${map.PNUM}+');'">
+					   		<span th:if="${#maps.containsKey(map, 'WHEN')}">[[${map.WHEN}]]</span>
+					   		</a>
+				   			</div>
+			    			</div>
+			    		</td>
+			    		<td >
+	        				<div th:each="map : ${listMap}"
+				    				 th:if="${map.DAY == i}">
+					    	<div>
+					   		<img th:if="${#maps.containsKey(map, 'PNAME')}" th:src="@{/images/calendar/}+${map.PNAME}" width="84" height="84">
+				   			</div>
+			    			</div>
+			    		</td>
+			    		<td >
+	        				<div th:each="map : ${listMap}"
+				    				 th:if="${map.DAY == i}">
+					    	<div>
+					   		<span th:if="${#maps.containsKey(map, 'CONTENT')}">[[${map.CONTENT}]]</span>
+				   			</div>
+			    			</div>
+			    		</td>
+			    		<td>
+			    			<button type="button">상세정보</button>
+			    		</td>
+			    	
+					</tr>
+				</tbody>
+			
 
- 
-    <!-- 5월달 lastDay==31 -->
-    <div th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+(i-(firstDayOfWeek-1))))} ? 'background: skyblue'"
-     	 th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}" 
-         th:class="${index.index%7} ==0 ? 'gd-clear gd-left':  'gd-left'"
-         th:onclick="clickDay(this);"
-         >
-         [[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]
-    	<div
-    		th:each="map : ${listMap}"
-    		th:if="${map.DAY == i}"
-   		 	>
-   		 	<div>
-   		 	<span th:if="${#maps.containsKey(map, 'WHEN')}">[[${map.WHEN}]]</span>
-   		 	<span th:if="${#maps.containsKey(map, 'CONTENT')}">[[${map.CONTENT}]]</span>
-   		 	</div>
-    	</div>
-    </div>
-   
+			</table>
+		</div>
+	</div>
+</div>
+
 </body>
 </html>
