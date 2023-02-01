@@ -9,14 +9,19 @@ function addFreeboard() {
 			data: {
 				"bname": $("#bname").val(),
 				"title": $("#title").val(),
+				"author": $("#author").val(),
 				"contents": $("#contents").html()
 			},
 			dataType: "json",
 			cache: false,
 			success: function(res) {
 				if (res.result) {
-					alert("저장 성공");
-					location.href = "/freeboard";
+					if ($("#files")[0].files.length != 0) {
+						uploadFiles(res.freeboard);
+					} else {
+						alert("저장 성공");
+						location.href = "/freeboard";
+					}
 				} else {
 					alert("저장 실패");
 				}
@@ -28,9 +33,40 @@ function addFreeboard() {
 	}
 }
 
-function uploadFiles(fbnum) {
+function updateContents(listAttach) {
+	var img = $("#contents > img");
+	for (var i = 0; i < img.length; i++) {
+		for (var j = 0; j < listAttach.length; j++) {
+			if (img[i].className == listAttach[j].aname) {
+				img[i].src = "/images/" + listAttach[j].anum + "_" + listAttach[j].aname;
+			}
+		}
+	}
+	$.ajax({
+		url:"/freeboard/updateContents",
+		method:"post",
+		data:{
+			"fbnum":listAttach[0].fbnum,
+			"contents":$("#contents").html()
+			},
+		cache:false,
+		dataType:"json",
+		success:function(res) {
+			alert(res.result?"저장 성공":"저장 실패");
+			if (res.result) {
+				location.href = "/freeboard";
+			}
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
+}
+
+function uploadFiles(freeboard) {
 	var data = getFormData();
-	data.append("fbnum",fbnum);
+	freeboard.contents = $("#contents").html();
+	data.append("fbnum",freeboard.fbnum);
 	if (data != null) {
 	$.ajax({
 		url: "/file/upload",
@@ -43,52 +79,13 @@ function uploadFiles(fbnum) {
 		contentType: false,
 		timeout: 600000,
 		success: function(res) {
-			if (res.result) {
-				alert("파일업로드 성공");
-			} else {
-				alert("파일업로드 실패");
-			}
+			updateContents(res.liAttach);
 		},
 		error: function(xhs, status, err) {
 			alert(err);
 		}
 	});
 	}
-}
-
-function changeFile(fbnum) {
-	$.ajax({
-		url:"/file/list",
-		method:"post",
-		data:{
-			"fbnum":fbnum
-		},
-		cache:false,
-		dataType:"json",
-		success:function(res) {
-			if (res.result) {
-				var listAttach = res.listAttach;
-				for (var i = 0; i < listAttach.length; i++) {
-					var attach = listAttach[i];
-					var $attachDiv = $("<div id='attach"+attach.anum+"'></div>");
-					var $checkbox = $("<input type='checkbox' value='"+attach.anum+"'>");
-					$attachDiv.append($checkbox);
-					var $anumSpan = $("<span id='anum"+attach.anum+"'>"+attach.anum+"</span>");
-					$attachDiv.append($anumSpan);
-					var $anameSpan = $("<span id='aname"+attach.anum+"'>"+attach.aname+"</span>");
-					$attachDiv.append($anameSpan);
-					var $asizeSpan = $("<span id='asize"+attach.anum+"'>"+attach.asize+"</span>");
-					$attachDiv.append($asizeSpan);
-					$("#listAttach").append($attachDiv);
-				}
-			} else {
-				alert("파일불러오기 실패");
-			}
-		},
-		error:function(xhs,status,err) {
-			alert(err);
-		}
-	});
 }
 
 function getFormData() {
@@ -109,6 +106,30 @@ function getFormData() {
 	return formData;
 }
 
+function changeFile() {
+	changeFiles();
+}
+
+function changeFiles() {
+	const files = $("#files")[0].files;
+	$("#fileListDiv *").remove("");
+	
+	// 파일이 있을 때 이미지 넣기 버튼 활성화
+	if (files.length > 0) {
+		$("#insert_img_btn").attr("hidden",false);
+	} else {
+		$("#insert_img_btn").attr("hidden",true);
+	}
+	
+	for (var i = 0; i < files.length; i++) {
+		const file = files[i];
+		if (isImage(file)) {
+			$("#fileListDiv").append($("<div><input type='checkbox' value='"+files[i].name+"'>"+files[i].name+"</div>"));
+		}
+	}
+	$("#contents > img").remove();
+}
+
 function isImage(file) {
 	if (file.type == "image/png") {
 		return true;
@@ -120,61 +141,44 @@ function isImage(file) {
 }
 
 function insertImg() {
-	var attachInput = $("#listAttach input[type=checkbox]");
-	for (var i = 0; i < attachInput.length; i++) {
-		if (attachInput[i].checked == true) {
-			$img = $("<img src='/images/"+attachInput[i].value + "_" + $("#aname"+attachInput[i].value).text() + "'>");
-			$("#contents").append($img);
+	var input = $("input[type=checkbox]");
+	for (var i = 0; i < input.length; i++) {
+		if (input[i].checked == true) {
+			appendImage(input[i].value);
 		}
 	}
 }
 
-function deleteFile() {
-	var checkbox = $("#listAttach input[type=checkbox]");
-	var arrAttach = new Array();
-	for (var i = 0; i < checkbox.length; i++) {
-		if (checkbox[i].checked) {
-			var div = $("#attach"+checkbox[i].value);
-			var child = div.children();
-			var fbnum = $("#fbnum").val();
-			var anum = child.eq(1).text();
-			var aname = child.eq(2).text();
-			var asize = child.eq(3).text();
-			
-			var attach = new Object();
-			attach.fbnum = fbnum;
-			attach.anum = anum;
-			attach.aname = aname;
-			attach.asize = asize;
-			
-			arrAttach.push(attach);
-			
-			removeImg(anum+"_"+aname);
+function insertImg2() {
+	var input = $("input[type=checkbox]");
+	for (var i = 0; i < input.length; i++) {
+		if (input[i].checked == true) {
+			$img = $("<img src='/images/"+input[i].value+"'>");
 		}
 	}
-	$.ajax({
-		url:"/file/delete",
-		method:"post",
-		data:{
-			"arrAttach":JSON.stringify(arrAttach)
-		},
-		cache:false,
-		dataType:"json",
-		success:function(res) {
-			if (res.result) {
-				changeFile(res.fbnum);
-			} else {
-				alert("파일삭제 실패");
-			}
-		},
-		error:function(xhs,status,err) {
-			alert(err);
+}
+
+function appendImage(filename) {
+	var imgtag = document.createElement("img");
+	imgtag.className = filename;
+	$("#contents").append(imgtag);
+	showImage(getFileByName(filename),imgtag);
+}
+
+function getFileByName(filename) {
+	var files = $("#files")[0].files;
+	for (var i = 0; i < files.length; i++) {
+		if (files[i].name == filename) {
+			return files[i];
 		}
-	});
+	}
+	return null;
 }
 
-function removeImg(filename) {
-	var contentsImg = $("#contents img")[0];
-	console.log(contentsImg);
+function showImage(file,img) {
+	var fr = new FileReader();
+	fr.onload = function() {
+		img.src = fr.result;
+	}
+	fr.readAsDataURL(file);
 }
-

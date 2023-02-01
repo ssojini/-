@@ -29,6 +29,7 @@ public interface ShopMapper {
 	public List<GoodsAndAtt> search(String searchbox);
 	
 	public List<Map<String,Object>> newproduct();
+	public List<Map<String,Object>> randomproduct();
 	
 	public List<GoodsAndAtt> category1();
 	public List<GoodsAndAtt> category2();

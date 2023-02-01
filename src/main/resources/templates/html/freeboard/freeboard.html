@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>freeboard</title>
+<link rel="stylesheet" href="/css/freeboard/freeboard.css">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+	crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/freeboard/freeboard.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		/*
+		changeBoard($("#bname").val());
+		 */
+		var bname = "[[${bname}]]";
+		$("#bname").val(bname).prop("selected", true);
+	};
+</script>
+</head>
+<body>
+	<div th:replace="fragments/common :: header"></div>
+	<main>
+		<select id="bname" onchange="changeBoard($('#bname').val());">
+			<option value="free">자유게시판</option>
+			<option value="meal">식단공유게시판</option>
+			<option value="beforafter">비포에프터게시판</option>
+		</select>
+		<table id="freeboard_table_div">
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>저자</th>
+			</tr>
+			<tr class="boardTr" th:each="board : ${pageFreeboard}">
+				<td>[[${board.fbnum}]]</td>
+				<td><a th:href="@{/freeboard/detail(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
+				<td>[[${board.author}]]</td>
+			</tr>
+		</table>
+		<div id="search_freeboard_div">
+			<input id="search_freeboard_input" type="text" onkeypress="search_freeboard_onkeypress(event);">
+			<button type="button" onclick="search_freeboard_onkeypress()">검색</button>
+		</div>
+		<div id="freeboard_page">
+			<input id="title" type="hidden" th:value="${title}">
+			<span th:if="${pageFreeboard.getNumber() gt 9}"><a
+				th:href="'javascript:goPage(\''+${pageFreeboard.getNumber()/10*10-1}+'\');'">이전</a></span>
+				
+			<span th:if="${i le pageFreeboard.getTotalPages()}" th:each="i : ${#numbers.sequence(pageFreeboard.getNumber()/10*10+1,pageFreeboard.getNumber()/10*10+10)}">
+				<a th:if="${i!=pageFreeboard.getNumber()+1}" th:href="'javascript:goPage(\''+${i-1}+'\');'">[[${i}]]</a>
+				<span th:if="${i==pageFreeboard.getNumber()+1}" th:href="'javascript:goPage(\''+${i-1}+'\')'">[[${i}]]</span>
+			</span>
+			
+			<span th:if="${(pageFreeboard.getNumber()/10*10+10)<pageFreeboard.getTotalPages()}">
+				<a th:href="'javascript:goPage(\''+${pageFreeboard.getNumber()/10*10+10}+'\')'">다음</a>
+			</span>
+		</div>
+		<button id="add_freeboard_btn" onclick="addFreeboard();">글 쓰기</button>
+	</main>
+</body>
+</html>

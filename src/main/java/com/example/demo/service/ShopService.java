@@ -207,7 +207,7 @@ public class ShopService
 	/*장바구니 끝*/
 	
 	/* 결제 시작*/
-	public String payment(String items, String userid, String address) {
+	public boolean payment(String items, String userid, String address) {
 		
 		JSONParser parser = new JSONParser();
 		try {
@@ -233,10 +233,11 @@ public class ShopService
 				order.setSum(sum);
 				order.setItempoint(itempoint);
 				order.setMainpic_server(mainpic_server);
+				order.setAddress(address);
 				order.setStatus("상품준비중");
-				System.err.println("order: "+order);							
+				//System.err.println("order: "+order);							
 				Order save_or = order_repo.save(order);
-				System.err.println("order저장: "+save_or);	
+				//System.err.println("order저장: "+save_or);	
 				
 				// 구매한 상품 장바구니 삭제
 				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
@@ -244,11 +245,11 @@ public class ShopService
 					cart_repo.deleteById(cartnum);
 				}
 			}
-			return "주문이 완료되었습니다.";
+			return true;
 		} catch (ParseException e) {			
 			e.printStackTrace();
 		}
-		return "주문이 실패하였습니다.";
+		return false;
 	}
 	
 	/* 결제 끝*/	
@@ -326,6 +327,33 @@ public class ShopService
 		}
 		return newproduct;
 	}
+	
+	public List<GoodsAndAtt> randomproduct()
+	{
+		List<Map<String,Object>> goodslist = map.randomproduct();
+		List<GoodsAndAtt> randomproduct = new ArrayList<>();
+		for(int i=0; i<goodslist.size(); i++)
+		{
+			Map<String, Object> m = goodslist.get(i);
+			
+			GoodsAndAtt both = new GoodsAndAtt();
+
+			BigDecimal big = (BigDecimal) m.get("PRICE");
+			both.setPrice(big.intValue());  
+			BigDecimal big1 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big1.intValue());
+			both.setGoodsname((String) goodslist.get(i).get("GOODSNAME"));
+			both.setCategory((String) goodslist.get(i).get("CATEGORY"));
+			both.setGoods_detail((String) goodslist.get(i).get("GOODS_DETAIL"));
+			
+
+			BigDecimal big2 = (BigDecimal) m.get("GOODSNUM");
+			both.setGoodsnum(big2.intValue());
+			both.setMainpic_server((String)goodslist.get(i).get("MAINPIC_SERVER"));
+			randomproduct.add(both);
+		}
+		return randomproduct;
+	}
   
 	 private final Path fileStorageLocation;
 
@@ -362,7 +390,6 @@ public class ShopService
 		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 		   
 		    File targetFile = new File(fileRoot +"\\"+ savedFileName);
-		    System.out.println("targetFile:  "+targetFile);
 		    File targetFile2 = new File(fileRoot2 + savedFileName);//summernote priview
 		    
 		    try {

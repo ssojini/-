@@ -167,21 +167,25 @@ public class ShopController {
 
 	
 	// 결제
-	@GetMapping("/payment")
-	@ResponseBody
+	@GetMapping("/payment")	
 	public String payment(@RequestParam String items
 			, @RequestParam("userid") String userid
-			, @RequestParam("address") String address) 
+			, @RequestParam("address") String address
+			, Model m) 
 	{
-		System.err.println("here");
-		System.err.println("string items: "+items);
-		String paid = svc.payment(items,userid,address);
-		return paid;
+		//System.err.println("here");
+		//System.err.println("address: "+address);
+		
+		boolean completeBuy = svc.payment(items,userid,address);
+		//System.err.println("completeBuy: "+completeBuy);
+		m.addAttribute("completeBuy", completeBuy);
+		return "html/shop/completeBuy";
 	}
-	//결제성공
+	//결제 테스트 (결제 실패)
 	@GetMapping("/completeBuy")
-	public String completeBuy()
+	public String completeBuy(Model m)
 	{
+		m.addAttribute("completeBuy", false);
 		return "html/shop/completeBuy";
 	}
 	
@@ -203,6 +207,7 @@ public class ShopController {
 	{
 		m.addAttribute("goodslist", svc.maingoods());
 		m.addAttribute("newproduct", svc.newproduct());
+		m.addAttribute("random", svc.randomproduct());
 		
 		return "html/shop/ShopMain";
 	}
@@ -241,30 +246,26 @@ public class ShopController {
 	@GetMapping("/searchgoods")
 	public String searchGoods(@RequestParam(value="searchbox") String searchbox, Model m)
 	{
-		List<GoodsAndAtt> list = svc.search(searchbox);
-		m.addAttribute("goodslist", list);
+		m.addAttribute("goodslist", svc.search(searchbox));
 		return "html/shop/searchgoods";
 	}
 	
 	@GetMapping("/category1")
 	public String category1(Model m)
 	{
-		List<GoodsAndAtt> list = svc.category1();
-		m.addAttribute("goodslist", list);
+		m.addAttribute("goodslist", svc.category1());
 		return "html/shop/category1";
 	}
 	@GetMapping("/category2")
 	public String category2(Model m)
 	{
-		List<GoodsAndAtt> list = svc.category2();
-		m.addAttribute("goodslist", list);
+		m.addAttribute("goodslist", svc.category2());
 		return "html/shop/category2";
 	}
 	@GetMapping("/category3")
 	public String category3(Model m)
 	{
-		List<GoodsAndAtt> list = svc.category3();
-		m.addAttribute("goodslist", list);
+		m.addAttribute("goodslist", svc.category3());
 		return "html/shop/category3";
 	}
 	
