@@ -3,6 +3,7 @@ package com.example.demo.vo;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -38,5 +39,6 @@ public class Freeboard {
 	private String contents;
 	@CreationTimestamp
 	private Timestamp datetime;
+	@ColumnDefault("0")
 	private Integer hit;
 }
