@@ -4,122 +4,72 @@
 <meta charset="UTF-8">
 <title>상품 세부내용</title>
 </head>
-<style type="text/css">
-	main{
-		text-align: center;
-	}
-</style>
+<link rel="stylesheet" href="/css/shop/goodsDetail.css">
+<script src="/js/shop/goodsDetail.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-/* 상품 리뷰
- $(function(){          
-    var includes2 = $('[data-include2="review"]');
-    jQuery.each(includes2, function(){
-      $(this).load('review');
-    });
-  }); */
 
-
-	function total(){
-		var price = parseInt("[[${goods.getPrice}]]");
-		var num = parseInt($('#prod_cnt').val());
-		$('#sum').text(price*num);		
-	}
-	
-	function addCart(){
-		var price = parseInt("[[${goods.getPrice}]]");
-		var num = parseInt($('#prod_cnt').val());
-		var cart = $('#cartForm').serialize();		
-		cart +="&sum="+price*num;
-		//cart +="&userid="+"asdf";
-		//console.log(cart);
-		$.ajax({
-			url: '/shop/cart',
-			method:'post',
-			cache:false,
-			data: cart,
-			dataType:'json',
-			success:function(res){
-				alert(res.msg);
-				if(res.added){
-					if(confirm("장바구니 보러가기?")){
-						location.href='/shop/cart';
-					}else{
-						false;
-					}					
-				}
-			},error:function(xhr,status,err){
-				alert("에러: "+err);
-			}			
-		});
-	}
-	
-	function buyNow(){
-		//alert("상품번호: "+goodsnum+" 수량: "+prod_cnt);
-		var goodsnum = "[[${goods.getGoodsnum}]]";		
-		var prod_cnt = $('#prod_cnt').val();
-				
-		var item = new Object();
-		item.goodsnum = goodsnum;
-		item.prod_cnt = prod_cnt;
-				
-		$.ajax({
-			url:'/shop/buynow',
-			method:'post',
-			cache:false,
-			data: item,
-			dataType:'text',
-			success:function(res){
-				alert(res);
-			},error:function(xhr,status,err){
-				alert("에러: "+err);
-			}			
-		}); 
-		
-	}	
-	
-</script>
 <body>
-<main>
-<div>
-    <div th:replace="fragments/shopnav :: shopnav"></div>
-</div>
+		<div>
+			<div th:replace="fragments/shopnav :: shopnav"></div>
+		</div>
+	<main>
 
-<form id="cartForm" action="/shop/buynow" method="post">
-<input type="hidden" name="userid" value="asdf">
-<h3>구매-상품 상세보기</h3>
-<div>상품사진</div>
-  <div th:if="${!#lists.isEmpty(attList)}">
-  <input type="hidden" name="mainpic_server" th:value="${attList.get(0).getMainpic_server}">
-	<img alt="mainpic" th:src="'/images/goodsimg/'+${attList.get(0).getMainpic_server}">
-	</div>	
-<input type="hidden" name="goodsnum" th:value="${goods.getGoodsnum}"> 
-<input type="hidden" name=category th:value="${goods.getCategory}">
-<div>카테고리: <span th:text="${goods.getCategory}"></span></div>
-<div><input type="hidden" name="goodsname" th:value="${goods.getGoodsname}">상품명: 
-<span th:text="${goods.getGoodsname}"></span>
-</div>
-<div><input type="hidden" name="price" th:value="${goods.getPrice}">가격: <span>[[${goods.getPrice}]]</span>
-</div>
-<div>수량: <input id="prod_cnt" name="prod_cnt" type="number" min="1" value="1" onchange="total()"></div>
-<div>합계: <span id="sum" th:text="${goods.getPrice}"></span> </div>
-<div><input type="button" value="장바구니 담기" onclick="addCart()"></div>
-<div><input type="submit" value="즉시구매" ></div>
-<div>상품설명</div>
-<div th:text="${goods.getDescription}"></div>
-<div>상품세부</div>
-<div th:text="${goods.getGoods_detail}"></div>
-<div>
-	<img alt="detail_pic" th:src="'/images/goodsimg/'+${attList.get(0).getDetail_server}">
-</div>
-</form>
+		<form id="cartForm" action="/shop/buynow" method="post">
+			<input type="hidden" name="userid" value="asdf"> <input
+				type="hidden" id="price" name="price" th:value="${goods.getPrice}">
+			<input type="hidden" id="goodsnum" name="goodsnum"
+				th:value="${goods.getGoodsnum}">
+			<h3>구매-상품 상세보기</h3>
+			<div>상품사진</div>
+			<div th:if="${!#lists.isEmpty(attList)}">
+				<input type="hidden" name="mainpic_server"
+					th:value="${attList.get(0).getMainpic_server}"> <img
+					alt="mainpic"
+					th:src="'/images/goodsimg/'+${attList.get(0).getMainpic_server}">
+			</div>
+			<input type="hidden" name="goodsnum" th:value="${goods.getGoodsnum}">
+			<input type="hidden" name=category th:value="${goods.getCategory}">
+			<div>
+				카테고리: <span th:text="${goods.getCategory}"></span>
+			</div>
+			<div>
+				<input type="hidden" name="goodsname"
+					th:value="${goods.getGoodsname}">상품명: <span
+					th:text="${goods.getGoodsname}"></span>
+			</div>
+			<div>
+				<input type="hidden" name="price" th:value="${goods.getPrice}">가격:
+				<span>[[${goods.getPrice}]]</span>
+			</div>
+			<div>
+				수량: <input id="prod_cnt" name="prod_cnt" type="number" min="1"
+					value="1" onchange="total()">
+			</div>
+			<div>
+				합계: <span id="sum" th:text="${goods.getPrice}"></span>
+			</div>
+			<div>
+				<input type="button" value="장바구니 담기" onclick="addCart()">
+			</div>
+			<div>
+				<input type="submit" value="즉시구매">
+			</div>
+			<div>상품설명</div>
+			<div th:text="${goods.getDescription}"></div>
+			<div>상품세부</div>
+			<div th:text="${goods.getGoods_detail}"></div>
+			<div>
+				<img alt="detail_pic"
+					th:src="'/images/goodsimg/'+${attList.get(0).getDetail_server}">
+			</div>
+		</form>
 
-<hr>
-<!-- 
+		<hr>
+		<!-- 
 <div>리뷰</div>
 
 <div data-include2="review" id="review"></div>
  -->
-</main>
+	</main>
 </body>
 </html>
