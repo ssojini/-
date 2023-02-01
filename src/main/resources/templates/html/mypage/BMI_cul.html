@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <title>user_detail</title>
 </head>
+
 <body>
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
+<link rel="stylesheet" href="/css/bmi.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 function bmi_view(){
@@ -108,8 +110,9 @@ function bmi_view(){
 								-->
 								<p>나의BMI(신체질량지수)는 <em class="bold" id="guide_bmi2"></em> 이고, <em class="em_b_blue" id="guide_sttus">정상</em>입니다.</p>
 							</div>
-
+						<div id="com" class="com" style="text-align: center">
 							<em class="em_blue">0 저체중 ／ 18.5 정상</em> | <em class="black">23 과체중 ／ 25 경도비만</em> | <em class="em_red">30 중등도비만 ／BMI</em>
+						</div>	
 							<p class="margin_t_20">※신체질량지수(BMI : Body Mass Index)는 질병관리본부에서 제공하는 계산법입니다.</p>
 </body>
 </html>

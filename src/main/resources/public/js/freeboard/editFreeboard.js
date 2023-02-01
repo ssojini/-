@@ -47,56 +47,35 @@ function deleteFile() {
 			removeImg(anum+"_"+aname);
 		}
 	}
-	$.ajax({
-		url:"/file/delete",
-		method:"post",
-		data:{
-			"arrAttach":JSON.stringify(arrAttach)
-		},
-		cache:false,
-		dataType:"json",
-		success:function(res) {
-			if (res.result) {
-				updateContents();
-			} else {
-				alert("파일삭제 실패");
+	if (arrAttach.length > 0) {
+		$.ajax({
+			url:"/file/delete",
+			method:"post",
+			data:{
+				"arrAttach":JSON.stringify(arrAttach)
+			},
+			cache:false,
+			dataType:"json",
+			success:function(res) {
+				console.log("contents:"+$("#contents").html());
+				if (res.result) {
+					location.href = "/freeboard/edit?fbnum="+$("#fbnum").text()+"&title="+$("#title").val()+"&contents="+$("#contents").html();
+				} else {
+					alert("파일삭제 실패");
+				}
+			},
+			error:function(xhs,status,err) {
+				alert(err);
 			}
-		},
-		error:function(xhs,status,err) {
-			alert(err);
-		}
-	});
-}
-
-function removeImg(filename) {
-	console.log("removeImg");
-	console.log(filename);
-	var imgs = $("img[src='/images/"+filename+"']");
-	console.log(imgs);
-	console.log(imgs.length);
-	for (var i = 0; i < imgs.length; i++) {
-		console.log(imgs[i]);
-		imgs[i].remove();
+		});
 	}
 }
 
-function updateContents() {
-	$.ajax({
-		url:"/freeboard/updateContents",
-		method:"post",
-		data:{
-			"fbnum":$("#fbnum").text(),
-			"contents":$("#contents").html()
-		},
-		cache:false,
-		dataType:"json",
-		success:function(res) {
-			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
-		},
-		error:function(xhs,status,err) {
-			alert(err);
-		}
-	});
+function removeImg(filename) {
+	var imgs = $("img[src='/images/"+filename+"']");
+	for (var i = 0; i < imgs.length; i++) {
+		imgs[i].remove();
+	}
 }
 
 function deleteFreeboard(fbnum) {
@@ -119,7 +98,6 @@ function deleteFreeboard(fbnum) {
 }
 
 function changeFile() {
-	updateContents();
 	let data = new FormData();
 	let files = $("#files")[0].files;
 	for (var i = 0; i < files.length; i++) {
@@ -137,7 +115,7 @@ function changeFile() {
 		timeout: 600000,
 		dataType:"json",
 		success:function(res) {
-			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text();
+			location.href = "/freeboard/edit?fbnum="+$("#fbnum").text()+"&title="+$("#title").val()+"&contents="+$("#contents").html();
 		},
 		error:function(xhs,status,err) {
 			alert(err);

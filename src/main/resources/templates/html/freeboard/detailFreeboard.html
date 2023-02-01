@@ -23,11 +23,11 @@ window.onload = function() {
 			<div id="author">[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
 			<div>
-				<button type="button" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
+				<button type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 			</div>
 		</div>
 		<div>
-			<div id="reply_author">[[${userid}]]</div>
+			<div id="reply_author">[[${param.userid}]]</div>
 			<textarea id="reply_contents"></textarea>
 			<button type="button" onclick="addReply();">댓글</button>
 		</div>

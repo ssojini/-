@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.UserJoin;
 
 
@@ -20,5 +21,7 @@ public interface UserEditMapper {
 	public int deleteuser(String userid);
 	
 	public int changepwd(UserJoin userjoin);
+	
+	public List<Freeboard> getmyboard(String userid);
 	
 }

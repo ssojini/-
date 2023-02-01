@@ -44,34 +44,63 @@
 	</select>
 	
 	<select id="search" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
-		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		select * from 
+        (
+           select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
+        )
 		WHERE goodsname LIKE '%'||#{searchbox}||'%' 
 	</select>
 	
 	<select id="category1" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
-		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		 select * from 
+        (
+           select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
+        )
 		WHERE category = '건강보조식품'
 	</select>
 	
 	<select id="category2" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
-		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		 select * from 
+        (
+           select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
+        )
 		WHERE category = '건강기능식품'
 	</select>
 	
 	<select id="category3" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
-		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum
+		 select * from 
+        (
+           select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
+        )
 		WHERE  category = '식품'
 	</select>
 	
 	<select id="newproduct" parameterType="String" resultType="map">
+	select * FROM 
+		(
+		    select a.*,ROWNUM AS rn from 
+		    ( 
+		         select  g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.goodsnum, g.price, g.goodsname, t.mainpic_server order by g.goodsnum DESC
+		    )a
+		) 
+		<![CDATA[where rn<=3]]>
+	</select>
+	
+	<select id="randomproduct" parameterType="String" resultType="map">
 		select * FROM 
 		(
-    		select a.*,ROWNUM AS rn from 
-    		( 
-        		select * from goods g inner join addgoods_att t on g.goodsnum=t.goodsnum order by t.goodsnum DESC
-    		)a
-		)  
-		<![CDATA[where rn<=3]]>
+		    select a.*,ROWNUM AS rn from 
+		    ( 
+		         select  g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.goodsnum, g.price, g.goodsname, t.mainpic_server order by DBMS_RANDOM.RANDOM
+		    )a
+		) 
+		<![CDATA[where rn<=4]]>
 	</select>
 	
 </mapper>
