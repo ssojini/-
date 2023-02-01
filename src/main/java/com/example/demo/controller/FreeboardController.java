@@ -80,8 +80,10 @@ public class FreeboardController {
 	@GetMapping("/detail")
 	public String detail(Model m,Integer fbnum) {
 		Freeboard freeBoard = freeboardService.getByFbnum(fbnum);
-		freeBoard.setHit(freeBoard.getHit()+1);
-		freeboardService.save(session, freeBoard);
+		if (freeBoard != null) {
+			freeBoard.setHit(freeBoard.getHit()+1);
+			freeboardService.save(session, freeBoard);
+		}
 		m.addAttribute("freeBoard",freeBoard);
 		m.addAttribute("listReply",replyService.findAllByPnum(fbnum));
 		return "html/freeboard/detailFreeboard";
@@ -124,6 +126,7 @@ public class FreeboardController {
 	@PostMapping("/addReply")
 	@ResponseBody
 	public Map<String,Object> addReply(FreeboardReply reply) {
+		System.out.println("addReply()");
 		Map<String,Object> map = new HashMap<>();
 		String userid = (String)session.getAttribute("userid");
 		reply.setAuthor(userid);
