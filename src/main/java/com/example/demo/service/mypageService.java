@@ -105,6 +105,7 @@ public class mypageService {
 			
 			userjoin.setEmail(email);
 			userjoin.setProfile("/images/profile/"+fileName);
+			
 
 			int edit =  map.useredit(userjoin);
 			

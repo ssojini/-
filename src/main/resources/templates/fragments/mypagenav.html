@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title>mypagenav</title>
 </head>
 <body>
 <div th:fragment="mypagenav">
@@ -34,7 +34,7 @@
             </li>
             <li style="padding-top:20px; font-size:1.2em;">
                 <a th:href="@{'/health/useredit/'+ ${session.userid}}"class="left_item" role="menuitem" onclick="" style="color:black;">
-                    <div class="menu_text ">개인정보 수정</div>
+                    <div class="menu_text ">개인정보 관리</div>
                 </a>
             </li>
             <li style="padding-top:20px; font-size:1.2em;">
@@ -50,8 +50,8 @@
         </ul>
         <ul class="left_link">
             <li style="padding-top:20px; font-size:1.2em;">
-            	<a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)" style="color:black;">
-                    <div class="link_text">기타</div>
+            	 <a href="" class="left_item" role="menuitem" onclick="" style="color:black;">
+                    <div class="menu_text ">기타</div>
                 </a>
             </li>
         </ul>
