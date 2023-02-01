@@ -24,9 +24,6 @@ public class FreeboardService {
 	public Freeboard getByFbnum(Integer fbnum) {
 		Optional<Freeboard> findFreeboard = repo.findById(fbnum);
 		if (findFreeboard.isPresent()) {
-			// 조회수 증가
-			findFreeboard.get().setHit(findFreeboard.get().getHit());
-			repo.save(findFreeboard.get());
 			return findFreeboard.get();
 		}
 		return null;
@@ -62,8 +59,6 @@ public class FreeboardService {
 	}
 
 	public Freeboard save(HttpSession session, Freeboard freeBoard) {
-		String userid = (String)session.getAttribute("userid");
-		freeBoard.setAuthor(userid);
 		Freeboard saveFreeBoard = repo.save(freeBoard);
 		return saveFreeBoard;
 	}

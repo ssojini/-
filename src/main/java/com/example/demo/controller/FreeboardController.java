@@ -41,11 +41,8 @@ public class FreeboardController {
 	
 	@GetMapping({"","/"})
 	public String freeboard(Model m, String bname, String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
-		System.out.println("public String freeboard():");
-		System.out.println("bname:"+bname);
-		System.out.println("title:"+title);
-		System.out.println("pageable:"+pageable);
 		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
+		System.out.println("pageFreeboard:"+pageFreeboard.toList());
 		m.addAttribute("bname",bname);
 		m.addAttribute("title",title);
 		m.addAttribute("pageFreeboard", pageFreeboard);
@@ -83,6 +80,8 @@ public class FreeboardController {
 	@GetMapping("/detail")
 	public String detail(Model m,Integer fbnum) {
 		Freeboard freeBoard = freeboardService.getByFbnum(fbnum);
+		freeBoard.setHit(freeBoard.getHit()+1);
+		freeboardService.save(session, freeBoard);
 		m.addAttribute("freeBoard",freeBoard);
 		m.addAttribute("listReply",replyService.findAllByPnum(fbnum));
 		return "html/freeboard/detailFreeboard";
@@ -126,6 +125,8 @@ public class FreeboardController {
 	@ResponseBody
 	public Map<String,Object> addReply(FreeboardReply reply) {
 		Map<String,Object> map = new HashMap<>();
+		String userid = (String)session.getAttribute("userid");
+		reply.setAuthor(userid);
 		FreeboardReply saveReply = replyService.save(reply);
 		map.put("result",true);
 		return map;
