@@ -28,7 +28,71 @@
 		DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
 	</delete>
 	
-	<select id="orderlist" parameterType="String" resultType="com.example.demo.vo.Shop">
-		SELECT * FROM shop WHERE userid=#{userid, jdbcType=VARCHAR}
+	<select id="shop1" parameterType="string" resultType="com.example.demo.vo.Shop">
+		<![CDATA[
+		SELECT *
+		FROM 
+ 		(
+ 			 SELECT *
+ 			 FROM shop
+ 			 WHERE status=#{status jdbcType=VARCHAR}
+  			 ORDER BY ordernum DESC
+ 		)
+		WHERE ROWNUM <= 3
+		]]>
 	</select>
+	<select id="shop2" parameterType="string" resultType="com.example.demo.vo.Shop">
+		<![CDATA[
+		SELECT *
+		FROM 
+ 		(
+ 			 SELECT *
+ 			 FROM shop
+ 			 WHERE status=#{status jdbcType=VARCHAR}
+  			 ORDER BY ordernum DESC
+ 		)
+		WHERE ROWNUM <= 3
+		]]>
+	</select>
+	<select id="shop3" parameterType="string" resultType="com.example.demo.vo.Shop">
+		<![CDATA[
+		SELECT *
+		FROM 
+ 		(
+ 			 SELECT *
+ 			 FROM shop
+ 			 WHERE status=#{status jdbcType=VARCHAR}
+  			 ORDER BY ordernum DESC
+ 		)
+		WHERE ROWNUM <= 3
+		]]>
+	</select>
+	<select id="shop4" parameterType="string" resultType="com.example.demo.vo.Shop">
+		<![CDATA[
+		SELECT *
+		FROM 
+ 		(
+ 			 SELECT *
+ 			 FROM shop
+ 			 WHERE status=#{status jdbcType=VARCHAR}
+  			 ORDER BY ordernum DESC
+ 		)
+		WHERE ROWNUM <= 3
+		]]>
+	</select>
+	<select id="getshop" parameterType="string" resultType="com.example.demo.vo.Shop">
+		SELECT ordernum, userid, itemname, quantity, totalprice, to_char(pdate, 'YYYY. MM. DD') AS pdate, status
+		FROM shop
+ 		WHERE status=#{status jdbcType=VARCHAR}
+  		ORDER BY ordernum ASC
+	</select>
+	<select id="shopdetail" parameterType="int" resultType="com.example.demo.vo.Shop">
+		SELECT ordernum, userid, itemname, quantity, totalprice, to_char(pdate, 'YYYY. MM. DD') AS pdate, status, price, itempoint, address 
+		FROM shop
+ 		WHERE ordernum=#{ordernum jdbcType=NUMBER}
+	</select>
+	<update id="shopUpdate" parameterType="com.example.demo.vo.Shop">
+		UPDATE shop SET status=#{status, jdbcType=VARCHAR}
+		WHERE ordernum=#{ordernum}
+	</update>
 </mapper>

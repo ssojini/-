@@ -108,11 +108,14 @@ $(function(){
 });
 
 </script>
-<body>
+<body style="margin:0 auto">
+<div>
+    <div th:replace="fragments/managernav :: header"></div>
+</div>
 <h2>상품등록</h2>
 <form id="addgoods" enctype="multipart/form-data" >
 
-<table >
+<table style="margin-left:230px;">
 	<tbody>
 		<tr id="name">
 		<th scope="row">상품명</th>
@@ -156,7 +159,9 @@ $(function(){
 		</tr>
 	</tbody>
 </table>
+<div style="margin-left:230px;">
  <textarea id="summernote" name="editordata"></textarea>
+ </div>
 </form>
 
 <script type="text/javascript"> 

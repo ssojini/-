@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.usertable {
+	width:60%;
+	height:100%;
+	}
+	table.type11 {
+	  border-collapse: separate;
+	  border-spacing: 1px;
+	  text-align: center;
+	  line-height: 1.5;
+	}
+	table.type11 th {
+	  width: 15%;
+	  padding: 10px;
+	  font-weight: bold;
+	  vertical-align: top;
+	  color: #fff;
+	  background: #ce4869 ;
+	}
+	table.type11 td {
+	  width: 15%;
+	  padding: 10px;
+	  vertical-align: top;
+	  border-bottom: 1px solid #ccc;
+	  background: #eee;
+	}
+  	.btn {
+  	text-align:center;
+  	margin: 0 auto;
+  	margin-top:20px;
+  	margin-right:5%;
+  	}
+  	h3{
+  	margin:50px 0 10px 10px;
+  	float:left;
+  	}
+  	.main{
+  	 margin-left:240px; 	 
+  	 }
+</style>
+</head>
+<body style="margin:0 auto; padding: 0px">
+<div>
+    <div th:replace="fragments/managernav :: header"></div>
+</div>
+	<h3 class="main" style="width:80vw;" th:text="${status}"></h3>
+<div class="usertable main">
+	<table class="type11" style="float: top; width:80%">
+		<tr>
+			<th>주문번호</th>
+			<th>구매자</th>
+			<th>품목</th>
+			<th>구매가격</th>
+			<th>결제일</th>
+			<th>배송상태</th>
+		</tr>
+		<tr id="shop" th:each="shop : ${shop}" th:onclick="|location.href='@{'/'+ ${url} + '?ordernum=' + ${shop.ordernum}}'|" style="cursor:pointer;">
+
+			<td>
+				<span th:text="${shop.ordernum}" id="ordernum"></span>
+			</td>
+			<td>
+				<span th:text="${shop.userid}"></span>
+			</td>
+			<td>
+				<span th:text="${shop.itemname}"></span>
+			</td>
+			<td>
+				<span th:text="${shop.totalprice}"></span>
+			</td>
+			<td>
+				<span th:text="${shop.pdate}"></span>
+			</td>
+			<td>
+				<span th:text="${shop.status}"></span>
+			</td>
+		</tr>	
+	</table>
+	<div style="margin-top:40px; ">
+	<span th:if="${shop.getNumber() gt 9}"><a
+		th:href="@{/manager/shoplist(page=${shop.getNumber()/10*10-1})}">이전</a></span>
+		
+	<span th:if="${i le shop.getTotalPages()}" th:each="i : ${#numbers.sequence(shop.getNumber()/10*10+1,shop.getNumber()/10*10+10)}">
+		<a th:if="${i!=shop.getNumber()+1}" th:href="@{/manager/shoplist(page=${i-1},status=${status})}">[[${i}]]</a>
+		<span th:if="${i==shop.getNumber()+1}" th:href="@{/manager/shoplist(page=${i-1},status=${status})}">[[${i}]]</span>
+	</span>
+	
+	<span th:if="${(shop.getNumber()/10*10+10)<shop.getTotalPages()}">
+		<a th:href="@{/manager/shoplist(page=${shop.getNumber()/10*10+10})}">다음</a>
+	</span>
+</div>	
+</div>		
+</body>
+</html>
