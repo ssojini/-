@@ -57,6 +57,7 @@ public class FreeboardController {
 	@PostMapping("/add")
 	@ResponseBody
 	public Map<String,Object> add(Model m, Freeboard freeBoard) {
+		java.sql.Date date = new java.sql.Date(100);
 		System.out.println("FreeboardController/add(Model m, Freeboard freeBoard)");
 		Map<String,Object> map = new HashMap<>();
 		Freeboard addFreeboard = freeboardService.save(freeBoard);
@@ -96,10 +97,17 @@ public class FreeboardController {
 	}
 	
 	@GetMapping("/edit")
-	public String edit(Model m, Integer fbnum) {
-		m.addAttribute("freeboard",freeboardService.getByFbnum(fbnum));
+	public String edit(Model m, Integer fbnum, String title, String contents) {
+		System.out.println("title:"+title);
+		System.out.println("contents:"+contents);
+		Freeboard freeboard = freeboardService.getByFbnum(fbnum);
+		if (title != null) {
+			freeboard.setTitle(title);
+			freeboard.setContents(contents);
+		}
+		m.addAttribute("freeboard",freeboard);
 		m.addAttribute("listAttach", attachService.getList(fbnum));
-		return "html/freeBoard/addFreeboard";
+		return "html/freeBoard/editFreeboard";
 	}
 	@PostMapping("/edit")
 	@ResponseBody

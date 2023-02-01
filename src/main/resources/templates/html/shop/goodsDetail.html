@@ -11,12 +11,13 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 <script type="text/javascript">
-$(function(){          
+/* 상품 리뷰
+ $(function(){          
     var includes2 = $('[data-include2="review"]');
     jQuery.each(includes2, function(){
       $(this).load('review');
     });
-  });
+  }); */
 
 
 	function total(){
@@ -108,12 +109,17 @@ $(function(){
 <div th:text="${goods.getDescription}"></div>
 <div>상품세부</div>
 <div th:text="${goods.getGoods_detail}"></div>
+<div>
+	<img alt="detail_pic" th:src="'/images/goodsimg/'+${attList.get(0).getDetail_server}">
+</div>
 </form>
 
 <hr>
+<!-- 
 <div>리뷰</div>
 
 <div data-include2="review" id="review"></div>
+ -->
 </main>
 </body>
 </html>

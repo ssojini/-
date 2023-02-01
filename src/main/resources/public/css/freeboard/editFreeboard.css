@@ -1,1 +1,120 @@
 @charset "UTF-8";
+
+body {
+}
+
+#freeboard > hr {
+	border-top: 1px solid grey;
+}
+
+#title_div {
+	width: 100%;
+	height: 10%;
+	font-size: 0px;
+}
+
+#bname {
+	font-size: initial;
+	width: 20%;
+}
+
+#title {
+	font-size: initial;
+	width: 80%;
+}
+
+#contents {
+	overflow: auto;
+	width: 100%;
+	height: 40vh;
+}
+
+#listAttach {
+	overflow: auto;
+	width: 100%;
+	height: 10vh;
+}
+
+#btn_div {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	
+	width: fit-contents;
+	height: 30px;
+	font-size: 0px;
+}
+
+#file_upload_btn {
+	background-color: white;
+	float: left;
+	
+	margin: 0 auto;
+	border: 1px solid black;
+	
+	width: 100px;
+    height: 30px;
+    color: black;
+    font-size: initial;
+    text-align: center;
+}
+
+#delete_file_btn {
+	background-color: white;
+	float: left;
+	
+	margin: 0 auto;
+	border: 1px solid black;
+	
+	width: 100px;
+    height: 30px;
+    color: black;
+    font-size: initial;
+    text-align: center;
+}
+
+#insert_img_btn {
+	background-color: white;
+	float: left;
+	
+	margin: 0px;
+	border: 1px solid black;
+	padding: 0px;
+	
+	width: 100px;
+    height: 30px;
+    color: black;
+    font-size: initial;
+}
+
+#delete_freeboard_btn {
+	position: fixed;
+	botton: 0px;
+	left: 0px;
+	
+	background-color: white;
+	margin: 0px;
+	border: 1px solid black;
+	padding: 0px;
+	
+	width: 100px;
+	height: 30px;
+	color: black;
+	font-size: initial;
+}
+
+#add_freeboard_btn {
+	position: fixed;
+	botton: 0px;
+	right: 0px;
+	
+	background-color: white;
+	margin: 0px;
+	border: 1px solid black;
+	padding: 0px;
+	
+	width: 100px;
+	height: 30px;
+	color: black;
+	font-size: initial;
+}

@@ -18,7 +18,7 @@
 		        </a>
 	        </div>
 	        <div id="myp" class="profile">
-	            <div class="useid" style="font-size:1.5em; color:black; font-weight: bold;">[[${user.userid}]]</div>
+	            <div class="useid" style="font-size:1.5em; color:black; font-weight: bold;">[[${session.userid}]]</div>
 	            <div class="usemail">[[${user.email}]]</div>
 	        </div>
 	    </div>    
@@ -43,7 +43,7 @@
                 </a>
             </li>
             <li style="padding-top:20px; font-size:1.2em;">
-                <a href="" class="left_item" role="menuitem" onclick="" style="color:black;">
+                <a th:href="@{'/health/myboard/'+ ${session.userid}}" class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">게시글 관리</div>
                 </a>
             </li>

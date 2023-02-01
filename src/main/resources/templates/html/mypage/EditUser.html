@@ -9,60 +9,8 @@
     <div th:replace="fragments/common :: header"></div>
 </div>
 <div style="width:100vw; height:100vh;">
-<div id="leftbox" style="float:left; width: 30%; height: 100%; border-right: solid 0.5px black;">
-
-	<div class="profile_area" style="display: flex; justify-content: center;">
-	    <div class="profile_inner" style=" padding-top:70px; text-align: center;">
-	    	<div style="width: 150px;height: 150px; border-radius: 70%;overflow: hidden;">
-		        <a href="#" onclick="changeImage()" class="photo">
-		            <img th:src="${user.profile}" style="width:100%; height:100%; " alt="프로필 이미지">
-		            <span class="photo_edit"></span>
-		        </a>
-	        </div>
-	        <div id="myp" class="profile">
-	            <div class="useid" style="font-size:1.5em; color:black; font-weight: bold;">[[${user.userid}]]</div>
-	            <div class="usemail">[[${user.email}]]</div>
-	        </div>
-	    </div>    
-	</div>
-
-    <div id="headerLeft" class="header_left" style="width:250px; height:300px; margin: auto;">
-
-        <ul class="left_menu" role="menu" style="display: inline;">
-            <li style="padding-top:50px; font-size:1.2em;">
-                <a href="" class="left_item" role="menuitem" onclick="" aria-current="true" style="color:black;">
-                    <div class="menu_text on">내정보</div>
-                </a>
-            </li>
-            <li style="padding-top:20px; font-size:1.2em;">
-                <a href="@{'/health/useredit/'+ ${user.userid}}" class="left_item" role="menuitem" onclick="" style="color:black;">
-                    <div class="menu_text ">개인정보 수정</div>
-                </a>
-            </li>
-            <li style="padding-top:20px; font-size:1.2em;">
-                <a th:href="@{'/health/findpwd/'+ ${user.userid}}" class="left_item" role="menuitem" onclick="" style="color:black;">
-                    <div class="menu_text ">비밀번호 수정</div>
-                </a>
-            </li>
-            <li style="padding-top:20px; font-size:1.2em;">
-                <a href="" class="left_item" role="menuitem" onclick="" style="color:black;">
-                    <div class="menu_text ">게시글 관리</div>
-                </a>
-            </li>
-            <li style="padding-top:20px; font-size:1.2em;">
-                <a th:href="@{'/health/qna/1/10'}" class="left_item" role="menuitem" onclick="" style="color:black;">
-                    <div class="menu_text ">1:1 문의</div>
-                </a>
-            </li>
-        </ul>
-        <ul class="left_link">
-            <li style="padding-top:20px; font-size:1.2em;">
-            	<a href="" class="left_item" onclick="clickcr(this,'fot.smartbot','','',event)" style="color:black;">
-                    <div class="link_text">기타</div>
-                </a>
-            </li>
-        </ul>
-	</div>
+<div>
+    <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -211,7 +159,6 @@ $(function(){
 })
 
 </script>
-</script>
 <form id="editUserInfo" encType="multipart/form-data" style="float:left; width: 70%; height: 100%; ">
 	<input type="hidden" id="userid" name="userid" th:value="${user.userid}">
 	<div style="padding:70px 0 0 70px;">
@@ -251,11 +198,11 @@ $(function(){
 							<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" value="meroro"  style="float:left;">
 						</div> 
 						<div  style="float:left;">
-<<<<<<< HEAD
+
 							@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21" value="naver.com">
-=======
+
 							<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
->>>>>>> refs/remotes/origin/master
+
 						</div>	
 						<div  style="float:left;">
 						<select name="select_email" onChange="selectEmail(this)">
