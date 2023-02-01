@@ -18,28 +18,32 @@ window.onload = function() {
 </div>
 	<main>
 		<div id="detail_freeboard_div" th:if="${freeBoard!=null}">
-			<div id="detail_freeboard_div1">
-				<div id="fbnum"><span id="fbnum_span1">번호:</span><span id="fbnum_span2">[[${freeBoard.fbnum}]]</span></div>
-				<div id="title"><span id="title_span1">제목:</span><span id="title_span2">[[${freeBoard.title}]]</span></div>
+			<div id="fbnum">번호:[[${freeBoard.fbnum}]]</div>
+			<div id="bname">
+				[[${#strings.equals(freeBoard.bname,'free')?'게시판:자유':null}]]
+				[[${#strings.equals(freeBoard.bname,'meal')?'게시판:식단':null}]]
+				[[${#strings.equals(freeBoard.bname,'beforafter')?'게시판:비포에프터':null}]]
 			</div>
-			<div id="author">[[${freeBoard.author}]]</div>
+			<div id="title">제목:[[${freeBoard.title}]]</div>
+			<div id="author">작성자:[[${freeBoard.author}]]</div>
 			<div id="contents">[[${freeBoard.contents}]]</div>
 		</div>
 		<div id="detail_freeboard_button_div">
-			<button id="detail_freeboard_button" type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
+			<button id="freeboard_goback_button" onclick="location.href='/freeboard?bname='">뒤로가기</button>
+			<button id="freeboard_edit_button" type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 		</div>
-		<div>
+		<div id="reply">
 			<div id="reply_author">[[${param.userid}]]</div>
 			<textarea id="reply_contents"></textarea>
 			<button type="button" onclick="addReply();">댓글</button>
+			<table id="listReply">
+				<tr th:each="reply : ${listReply}">
+					<td th:text="${reply.author}"></td>
+					<td th:text="${reply.contents}"></td>
+					<td th:text="${reply.datetime}"></td>
+				</tr>
+			</table>
 		</div>
-		<table id="listReply">
-			<tr th:each="reply : ${listReply}">
-				<td th:text="${reply.author}"></td>
-				<td th:text="${reply.contents}"></td>
-				<td th:text="${reply.datetime}"></td>
-			</tr>
-		</table>
 	</main>
 </body>
 </html>

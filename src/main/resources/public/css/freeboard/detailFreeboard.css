@@ -16,41 +16,46 @@ main {
 	min-height: 50%;
 	font-size: 0;
 }
-#detail_freeboard_div1 {
-	
-}
 #fbnum {
 	background: rgb(223,223,223);
+	padding: 5px 10px;
 	margin: 1px 1px;
 	border-radius: 10px;
 	display: inline-block;
 	font-size: initial;
 }
-#fbnum_span1 {
+#bname {
+	background: rgb(223,223,223);
+	padding: 5px 10px;
+	margin: 1px 1px;
+	border-radius: 10px;
 	display: inline-block;
-}
-#fbnum_span2 {
-	display: inline-block;
-	margin: 0px;
-	padding: 0px;
+	font-size: initial;
 }
 #title {
 	background: rgb(223,223,223);
+	padding: 5px 10px;
 	margin: 1px 1px;
 	border-radius: 10px;
 	display: inline-block;
 	font-size: initial;
 }
-#title_span1 {
-	display: inline-block;
-}
-#title_span2 {
-	display: inline-block;
-}
 #author {
 	background: rgb(223,223,223);
+	padding: 5px 10px;
+	margin: 1px 1px;
+	border-radius: 10px;
 	display: inline-block;
-	margin: 1px;
+	font-size: initial;
+}
+#contents {
+	background: rgb(223,223,223);
+	display: block;
+	margin: 1px 1px;
+	border-radius: 10px;
+	padding: 5px 10px;
+	min-height: 500px;
+	font-size: initial;
 }
 
 #detail_freeboard_button_div {
@@ -60,11 +65,31 @@ main {
 	height: auto;
 	text-align: center;
 }
-#detail_freeboard_button {
+#freeboard_goback_button {
 	display: inline-block;
-	width: 100px;
-	height: 100%;
-	margin: auto;
+	margin: 1px 1px;
+	border-radius: 10px;
 	border: 1px solid black;
-	padding: 0px;
+	padding: 5px 10px;
+	font-size: initial;
+}
+#freeboard_edit_button {
+	display: inline-block;
+	margin: 1px 1px;
+	border-radius: 10px;
+	border: 1px solid black;
+	padding: 5px 10px;
+	font-size: initial;
+}
+
+#reply {
+	background-color: red;
+	margin: 10px auto;
+	width: 80%;
+}
+#reply_author {
+	background-color: blue;
+}
+#reply_contents {
+	
 }
