@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.interfaces.FreeboardRepository;
 import com.example.demo.vo.Freeboard;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class FreeboardService {
 	@Autowired
@@ -59,7 +61,9 @@ public class FreeboardService {
 		return listMap;
 	}
 
-	public Freeboard save(Freeboard freeBoard) {
+	public Freeboard save(HttpSession session, Freeboard freeBoard) {
+		String userid = (String)session.getAttribute("userid");
+		freeBoard.setAuthor(userid);
 		Freeboard saveFreeBoard = repo.save(freeBoard);
 		return saveFreeBoard;
 	}
