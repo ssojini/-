@@ -17,11 +17,11 @@
 	</select>
 	
 	<select id="userBoard" parameterType="string" resultType="com.example.demo.vo.Freeboard">
-		SELECT * FROM free_board WHERE author=#{userid, jdbcType=VARCHAR}
+		SELECT * FROM freeboard WHERE author=#{userid, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="boardDetail" parameterType="int" resultType="com.example.demo.vo.Freeboard">
-		SELECT * FROM free_board WHERE fbnum=#{fbnum}
+		SELECT * FROM freeboard WHERE fbnum=#{fbnum}
 	</select>
 	
 	<delete id="useridDel" parameterType="String">
@@ -114,4 +114,17 @@
         WHERE goodsnum=#{goodsnum}
        	ORDER BY goodsnum
 	</select>
+	<select id="getboardlist" parameterType="string" resultType="com.example.demo.vo.Freeboard" >
+		select *
+		From FreeBoard
+		WHERE bname=#{bname jdbcType=VARCHAR}
+		ORDER BY fbnum
+	</select>
+	
+	<delete id="deletegoods" parameterType="int">
+		delete goods where goodsnum=#{goodsnum}
+	</delete>
+	<delete id="deletegoodsatt" parameterType="int">
+		delete addgoods_att where goodsnum=#{goodsnum}
+	</delete>
 </mapper>

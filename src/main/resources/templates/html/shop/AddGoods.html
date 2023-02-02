@@ -45,11 +45,11 @@ function checkprice() {
 	var error = document.querySelectorAll('.error_next_box');
     var isprice = /([0-9])/;
 
-    if(price.value === "") {
+    if(prices.value === "") {
     	error[1].innerHTML = "필수 정보입니다.";
     	error[1].style.display = "block";
     	error[1].style.color="red";
-    } else if(!isprice.test(price.value)) {
+    } else if(!isprice.test(prices.value)) {
     	error[1].innerHTML = "숫자만 입력가능합니다.";
     	error[1].style.display = "block";
     	error[1].style.color="red";
@@ -138,7 +138,7 @@ $(function(){
 		<tr id="price">
 		<th scope="row">가격</th>
 			<td>
-				<input type='text' id="price" name="price"></input>
+				<input type='text' id="prices" name="price"></input>
 				<span class="error_next_box"></span>
 			</td>
 		</tr>

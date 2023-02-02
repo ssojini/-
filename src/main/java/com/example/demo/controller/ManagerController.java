@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.service.FreeboardAttachService;
+import com.example.demo.service.FreeboardReplyService;
+import com.example.demo.service.FreeboardService;
 import com.example.demo.service.ManagerService;
 import com.example.demo.service.ShopService;
+import com.example.demo.vo.Admin;
+import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.FreeboardAttach;
 import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
 import com.github.pagehelper.PageInfo;
 
-
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -38,11 +45,29 @@ public class ManagerController {
 	@Autowired
 	private ShopService ssvc;
 	
+	@Autowired
+	private FreeboardService freeboardService;
+	
+	@Autowired
+	private FreeboardAttachService attachService;
+	
+	@Autowired
+	private FreeboardReplyService replyService;
+
+	
 	@GetMapping("/")
 	public String managermain()
 	{
 		return "html/manager/managerLogin";
 	}
+	
+
+	@PostMapping("/login")
+	@ResponseBody
+	public Map<String,Object> loginProc(Admin admin)
+	{
+		return svc.login(admin.getAdminid(),admin.getAdminpwd());
+	} 
 	
 	@GetMapping("/userlist")
 	public String userList(Model m, @PageableDefault(size=10,sort="userid", page=0) Pageable pageable) throws Exception
@@ -60,14 +85,7 @@ public class ManagerController {
 		m.addAttribute("url", "manager/userboard/detail");
 		return "html/manager/userdetail";
 	}
-	
-	@GetMapping("/userboard/detail/{fbnum}")
-	public String boarddetail(@PathVariable int fbnum, Model m) 
-	{
-		m.addAttribute("boarddetail",svc.boarddetail(fbnum));
-		return "html/manager/boardDetail";
-	}
-	
+
 	@PostMapping("/DelAccount")
 	@ResponseBody
 	public Map<String, Object> DelAccount(String userid, Model m)
@@ -120,9 +138,31 @@ public class ManagerController {
 	}
 	
 	@GetMapping("/board")
-	public String boardList(Model m)
+	public String boardList(@RequestParam String bname, Model m, @PageableDefault(size=10,sort="fbnum", page=0) Pageable pageable) throws Exception
 	{
+		Page<Freeboard> list = svc.getboardlist(bname, pageable);
+		m.addAttribute("blist",list);
+		m.addAttribute("bname",bname);
+		m.addAttribute("url","manager/board/detail");
 		return "html/manager/boardList";
+	}
+	
+	@GetMapping("/board/detail")
+	public String boarddetail(@RequestParam int fbnum, Model m) 
+	{
+		m.addAttribute("freeBoard",svc.boarddetail(fbnum));
+		return "html/manager/boardDetail";
+	}
+	
+	@PostMapping("/board/delete")
+	@ResponseBody
+	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
+		Map<String,Object> map = new HashMap<>();
+		boolean delete = freeboardService.deleteByFbnum(fbnum);
+		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
+		replyService.deleteByPnum(fbnum);
+		map.put("result", delete);
+		return map;
 	}
 	
 	@GetMapping("/shopitem")
@@ -146,5 +186,15 @@ public class ManagerController {
 	{
 		m.addAttribute("goods", ssvc.editGoodspage(goodsnum));
 		return "html/shop/goodsedit";
+		
+	}
+	
+	@PostMapping("/deletegoods/{goodsnum}")
+	@ResponseBody
+	public Map<String,Object> deletegoods(@PathVariable int goodsnum)
+	{
+		Map<String,Object> map = new HashMap<>();
+		map.put("deleted",svc.deletegoods(goodsnum));
+		return map;
 	}
 }	
