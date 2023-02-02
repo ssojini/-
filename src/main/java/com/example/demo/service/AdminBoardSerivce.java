@@ -326,6 +326,8 @@ public class AdminBoardSerivce
 		AdminBoard adminb = new AdminBoard(big.intValue());
 		adminb.setTitle((String)map.get("TITLE"));
 		adminb.setAuthor((String)map.get("AUTHOR"));
+		adminb.setContent((String)map.get("CONTENT"));
+
 		try {
 			String jts = String.valueOf(map.get("DATE_ADMIN"));
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
