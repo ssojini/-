@@ -1,20 +1,82 @@
 @charset "UTF-8";
 
+body {
+}
+
 main {
-}
-
-#bname {
-}
-
-#search_freeboard_div {
+	width: 100vw;
+	height: 77vh;
+	text-align: center;
 }
 
 #freeboard_table_div {
-	
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid dotted;
+	width: 100%;
+	height: 80%;
+	text-align: center;
+}
+
+#freeboard_table {
+	margin: auto;
+	width: 80%;
+	text-align: center;
+}
+
+#freeboard_table > tbody > tr {
+	width: 80%;
+}
+
+#freeboard_page_div {
+	margin: auto;
+	width: 80%;
+	height: 10%;
+	text-align: center;
 }
 
 #freeboard_page {
+	height: 50%;
+}
+
+#freeboard_interface_div {
+	margin: 0px;
+	height: 50%;
+	text-align: center;
+}
+
+#search_freeboard_div {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	display: inline-block;
+}
+
+#search_freeboard_input {
+	margin: 0px;
+	padding: 0px;
+	width: 200px;
+	height: 25px;
+}
+
+#search_freeboard_button {
+	margin: 0px;
+	padding: 0px;
+	width: 100px;
+	height: 25px;
+}
+
+#freeboard_btn_div {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	height: 100%;
+	display: inline-block;
 }
 
 #add_freeboard_btn {
+	margin: 0px;
+	padding: 0px;
+	width: 100px;
+	height: 25px;
 }
