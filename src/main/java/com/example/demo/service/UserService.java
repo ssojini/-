@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserService 
 {
-	@Autowired
-	private JavaMailSender sender;
+//	@Autowired
+//	private JavaMailSender sender;
 	@Autowired
 	public HttpSession session;
 	@Autowired
@@ -37,6 +37,8 @@ public class UserService
 			map.put("msg","로그인 성공");			
 			session.setAttribute("userid", user.getUserid());
 	
+			// 닉네임도 같이 세션에 저장
+			session.setAttribute("nickname", user.getNickname());
 		}else {
 			map.put("login",false);			
 			map.put("msg","로그인 실패");

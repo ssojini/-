@@ -1,31 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-function deleteBoard(fbnum, userid) {
-	alert("정말로 삭제하시겠습니까?")
-
-	alert(userid);
-	$.ajax({
-		url:"/health/deleteFreeBoard",
-		method:"post",
-		data:{"fbnum":fbnum},
-		dataType:"json",
-		cache:false,
-		success:function(res) {
-			alert(res.result?"삭제 성공":"삭제 실패");
-			if (res.result) {
-				alert("/manager/userdetail/"+userid);
-				location.href = "/manager/userdetail/"+userid;
-			}
-		},
-		error:function(xhs,status,err) {
-			alert(err);
-		}
-	});
-}
-</script>
 <style>
 	table {
     width: 100%;
@@ -38,50 +13,60 @@ function deleteBoard(fbnum, userid) {
     text-align: center;
   	}
 </style>
+<link rel="stylesheet" href="/css/freeboard/detailFreeboard.css">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="/js/freeboard/detailFreeboard.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	document.getElementById("contents").innerHTML = document.getElementById("contents").innerText;
+}
 
+function deleteBoard(fbnum, userid, bname) {
+	alert("정말로 삭제하시겠습니까?")
+
+	$.ajax({
+		url:"/manager/board/delete",
+		method:"post",
+		data:{"fbnum":fbnum},
+		dataType:"json",
+		cache:false,
+		success:function(res) {
+			alert(res.result?"삭제 성공":"삭제 실패");
+			if (res.result) {
+				location.href = "/manager/board?bname="+bname;
+			}
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
+}
+</script>
 </head>
-<body style="margin:0; padding: 0px">
+<body style="margin:0; padding: 0px; background-color: rgb(223,223,223);">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
-<div style="margin-left:230px;">
-<form>
-	<table>
-		<tr>
-			<th>글번호</th>
-			<th>게시판</th>
-			<th>작성자</th>
-			<th>제목</th>
-			<th>내용</th>
-			<th>작성일</th>
-		</tr>
-		<tr>
-			<td>
-				<span th:text="${boarddetail.fbnum}"></span>
-			</td>
-			<td>
-				<span th:text="${boarddetail.bname}"></span>
-			</td>
-			<td>
-				<span th:text="${boarddetail.author}"></span>
-			</td>
-			<td>
-				<span th:text="${boarddetail.title}"></span>
-			</td>
-			<td>
-				<span th:text="${boarddetail.contents}"></span>
-			</td>
-			<td>
-				<span th:text="${boarddetail.dateTime}"></span>
-			</td>
-		</tr>	
-	</table>
-	<p>
-	<div>
-		<button type="button" th:onclick="deleteBoard([[${boarddetail.fbnum}]],[[${boarddetail.author}]]);">DELETE</button>
+<main th:if="${freeBoard!=null}" style="padding-top:50px; height:100vh">
+	<div style="text-align: center">
+		<h2>상세정보</h2>
 	</div>
-	<input type="button" value="BACK" onClick="history.go(-1)"> 
-</form>
-</div>
+	<div id="detail_freeboard_div" th:if="${freeBoard!=null}"  style="margin-left:230px; ">
+		<div id="fbnum_div">번호:<span id="fbnum">[[${freeBoard.fbnum}]]</span></div>
+		<div id="bname">
+			[[${#strings.equals(freeBoard.bname,'free')?'게시판:자유':null}]]
+			[[${#strings.equals(freeBoard.bname,'meal')?'게시판:식단':null}]]
+			[[${#strings.equals(freeBoard.bname,'beforafter')?'게시판:비포에프터':null}]]
+		</div>
+		<div id="author">작성자:[[${freeBoard.author!=null?freeBoard.author:'none'}]]</div>
+		<div id="title">제목:<span id="title_text">[[${freeBoard.title}]]</span></div>
+		<div id="contents">[[${freeBoard.contents}]]</div>
+	</div>
+	<div style="text-align: center; padding-top:30px;">
+		<button type="button" th:onclick="deleteBoard([[${freeBoard.fbnum}]],[[${freeBoard.author}]],[[${freeBoard.bname}]]);">DELETE</button>
+		<input type="button" value="BACK" onClick="history.go(-1)"> 
+	</div>
+</main>
+
 </body>
 </html>

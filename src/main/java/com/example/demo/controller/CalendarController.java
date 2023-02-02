@@ -46,12 +46,7 @@ public class CalendarController
 		model.addAttribute("lastDay", map.get("lastDay")); // 마지막 일
 		model.addAttribute("today", map.get("today"));
 		model.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
-//		model.addAttribute("listMap", cs.listCalendar(datetime));
-		model.addAttribute("listMap", map.get("listMap"));
-		
-		log.info("todayday"+map.get("todayday"));
-		log.info("day"+ map.get("today"));
-		log.info("dayday"+map.get("dayday"));
+		model.addAttribute("list",cs.listCalendar());
 		
 	 	return "html/calendar/Calendar";
 	}

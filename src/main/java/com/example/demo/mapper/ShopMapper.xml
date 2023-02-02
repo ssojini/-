@@ -103,4 +103,17 @@
 		<![CDATA[where rn<=4]]>
 	</select>
 	
+	<select id="editGoodspage" parameterType="int" resultType="com.example.demo.vo.GoodsAndAtt">
+		select * FROM 
+		(
+		    select a.*,ROWNUM AS rn from 
+		    ( 
+		         select  g.goodsnum, g.price, g.goodsname,g.category,g.description,g.goods_detail,t.detail_server, t.mainpic_server 
+                 from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.goodsnum, g.price, g.goodsname, g.category,g.description,g.goods_detail,t.detail_server, t.mainpic_server 
+		    )a
+		) 
+		where goodsnum=#{goodsnum} and rn=1
+	</select>
+	
 </mapper>

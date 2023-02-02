@@ -1,22 +1,23 @@
 package com.example.demo.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.interfaces.AdminLoginRepository;
 import com.example.demo.interfaces.ShopListRepository;
 import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
+import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,24 +34,41 @@ public class ManagerService {
 	@Autowired
 	private ShopListRepository srepo;
 	
-	public List<UserJoin> userList()
+	@Autowired
+	private BoardListRepository brepo;
+	
+	@Autowired
+	private AdminLoginRepository arepo;
+	
+	public List<User> userList()
 	{
 		return map.userList();
-	}
+	}	
+
+	public Map<String, Object> login(String adminid, String adminpwd) {
+		Map<String,Object> map = new HashMap<>();
+		Admin admin = arepo.findByAdminidAndAdminpwd(adminid, adminpwd);
+		if(admin!=null) {
+			map.put("login",true);			
+			map.put("msg","로그인 성공");			
 	
+		}else {
+			map.put("login",false);			
+			map.put("msg","로그인 실패");	
+		}
+		return map;
+	}
+
 	public Page<User> getUserList(Pageable pageable) throws Exception {
         Page<User> page = urepo.findAll(pageable);
-        return page;
+
+        return page; 
+
     }
 	
-	public UserJoin userdetail(String userid)
+	public User userdetail(String userid)
 	{
 		return map.userDetail(userid);
-	}
-	
-	public List<Freeboard> userboard(String userid)
-	{
-		return map.userBoard(userid);
 	}
 
 	public Freeboard boarddetail(int fbnum) {
@@ -102,4 +120,27 @@ public class ManagerService {
 		return map.shopitem();
 	}
 
+	public GoodsAndAtt itemedit(int goodsnum) {
+		return map.getitem(goodsnum);
+	}
+	public boolean deletegoods(int goodsnum)
+	{
+		boolean deleted= false;
+		int deletedgoods = map.deletegoods(goodsnum);
+		int deletedatt = map.deletegoodsatt(goodsnum);
+		if (deletedgoods>0 && deletedatt>0)
+		{
+			deleted=true;
+		}
+		return deleted;
+	}
+
+	public List<Freeboard> getboardlist(String bname) {
+		return map.getboardlist(bname);
+	}
+
+	public Page<Freeboard> getboardlist(String bname, Pageable pageable) {
+		Page<Freeboard> page = brepo.findBybname(pageable, bname);
+		return page;
+	}
 }

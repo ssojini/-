@@ -118,22 +118,17 @@ public class CalendarService
 		map.put("todayday", LocalDate.now().getDayOfMonth());
 		map.put("dayday", cDay.get(java.util.Calendar.DATE));
 		
-		List<Map<String, String>> listMap = cm.todo(cDay.get(java.util.Calendar.YEAR), cDay.get(java.util.Calendar.MONTH)+1);
-		
-		map.put("listMap", listMap);
 		return map;
 	}
-	public List<Map<String,Object>> listCalendar(int num)
+	public List<Map<String,Object>> listCalendar()
 	{
+		List<Map<String,Object>> mlist = cm.list();
 		
-		List<Map<String,Object>> mlist = cm.detail(num);
 		List<Map<String,Object>> list = new ArrayList<>();
-		
-		Map<String, Object> map = new HashMap<>();
-		
-		
+	
 		for (int i = 0; i < mlist.size(); i++) 
 		{
+			Map<String, Object> map = new HashMap<>();
 			Map<String, Object> m = mlist.get(i);
 			
 			HCalendar cal = new HCalendar();
@@ -145,25 +140,43 @@ public class CalendarService
 			Date tdate = new Date(time.getTime());
 			cal.setDatetime(tdate);
 			
+			map.put("tdate", tdate.getDate());
+			map.put("tmonth", tdate.getMonth()+1);
+			
 			Schedule sch = new Schedule();
 			
 			sch.setWhen((String) m.get("WHEN"));
+			BigDecimal sbig = (java.math.BigDecimal)m.get("NUM");
+			sch.setNum(sbig.intValue());
+			BigDecimal big1 = (java.math.BigDecimal)m.get("PNUM");
+			sch.setPnum(big1.intValue());
 			sch.setContent((String)m.get("CONTENT"));
 			
-			AttachCalendar att = new AttachCalendar();
+			
+			String sPname = (String) m.get("PNAME");
+			String[] file = sPname.split(",");
+			for (int j = 0; j < file.length; j++) {
 				
-			BigDecimal abig = (BigDecimal) m.get("NUM");
-			att.setFname((String)m.get("FNAME"));
-			att.setPname((String)m.get("PNAME"));
-			att.setNum(abig.intValue());
+				AttachCalendar att = new AttachCalendar();
 				
-			sch.getAttlist().add(att);
+				BigDecimal abig = (BigDecimal) m.get("NUM");
+				BigDecimal acbig = (BigDecimal) m.get("PNUM");
+				att.setPnum(acbig.intValue());
+				att.setFname((String) m.get("FNAME"));
+				att.setPname(file[j]);
+				att.setNum(abig.intValue());
+				
+				sch.getAttlist().add(att);
+			}
+			
 			map.put("cal", cal);
 			map.put("sch", sch);
-		}
 			
 			list.add(map);
+		}
+			
 		System.err.println(list);
+		
 		return list;
 	}
 
@@ -212,8 +225,5 @@ public class CalendarService
 		return list;
 	}
 	
-	public boolean deleteCal()
-	{
-		return false;
-	}
+
 }

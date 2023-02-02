@@ -38,7 +38,7 @@ function s_function() {
 			<div id="links">
 				<ul>
 				<h2>추천상품</h2>
-					<li th:each="goods: ${random}">d
+					<li th:each="goods: ${random}">
 					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
 							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
@@ -74,9 +74,7 @@ function s_function() {
 					</li>
 				</ul>
 			</div>
-		<div>
-    <div th:replace="fragments/footernav :: footernav"></div>
-</div>
+
 	</div>
 	
 	<script src="/js/shopMain.js"></script>

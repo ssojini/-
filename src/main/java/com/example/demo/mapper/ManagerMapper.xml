@@ -4,24 +4,24 @@
 
 <mapper namespace="com.example.demo.mapper.ManagerMapper">
 
-	<select id="findUser" resultType="com.example.demo.vo.UserJoin">
+	<select id="findUser" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin
 	</select>
 	
-	<select id="userList" resultType="com.example.demo.vo.UserJoin">
+	<select id="userList" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin
 	</select>
 	
-	<select id="userDetail" parameterType="string" resultType="com.example.demo.vo.UserJoin">
+	<select id="userDetail" parameterType="string" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin WHERE userid=#{userid, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="userBoard" parameterType="string" resultType="com.example.demo.vo.Freeboard">
-		SELECT * FROM free_board WHERE author=#{userid, jdbcType=VARCHAR}
+		SELECT * FROM freeboard WHERE author=#{userid, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="boardDetail" parameterType="int" resultType="com.example.demo.vo.Freeboard">
-		SELECT * FROM free_board WHERE fbnum=#{fbnum}
+		SELECT * FROM freeboard WHERE fbnum=#{fbnum}
 	</select>
 	
 	<delete id="useridDel" parameterType="String">
@@ -101,5 +101,30 @@
            select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
                  GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
         )
+       	ORDER BY goodsnum
 	</select>
+	<select id="getitem" parameterType="int" resultType="com.example.demo.vo.GoodsAndAtt">
+		select goodsnum, mainpic_server, goodsname from 
+        (
+          	select  
+           		g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server 
+           	from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
+        )
+        WHERE goodsnum=#{goodsnum}
+       	ORDER BY goodsnum
+	</select>
+	<select id="getboardlist" parameterType="string" resultType="com.example.demo.vo.Freeboard" >
+		select *
+		From FreeBoard
+		WHERE bname=#{bname jdbcType=VARCHAR}
+		ORDER BY fbnum
+	</select>
+	
+	<delete id="deletegoods" parameterType="int">
+		delete goods where goodsnum=#{goodsnum}
+	</delete>
+	<delete id="deletegoodsatt" parameterType="int">
+		delete addgoods_att where goodsnum=#{goodsnum}
+	</delete>
 </mapper>

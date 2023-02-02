@@ -21,7 +21,7 @@
 			<ul style="list-style: none; padding-right: 40px; padding-top: 10px;">
 				<li><span th:if="${session.userid}!=null">[[${session.userid}]] ||
 						<a href="/team/logout">로그아웃</a>|| 
-						<a th:href="'useredit/'+ ${session.userid}">마이페이지</a>
+						<a th:href="'/health/useredit/'+ ${session.userid}">마이페이지</a>
 				</span> <span th:unless="${session.userid}!=null"><a
 						style="color: inherit; text-decoration: none; font-size: medium"
 						href="/team/login">로그인</a></span></li>
@@ -88,6 +88,7 @@
 											<li><a href="/admin/notice/1/10">공지사항</a>
 											<li><a href="/health/qna/1/10">1:1 문의</a>
 										</ul>
+
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="/shop/ShopMainPage">Shop</a>
