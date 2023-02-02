@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination span {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination span.active {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination span:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
