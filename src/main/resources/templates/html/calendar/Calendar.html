@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <div>
-    <div th:replace="fragments/common :: header"></div>
-</div>
+ 
 <style>
 
 .main input[type=radio] {
@@ -98,47 +96,13 @@ function clickDay(t) {
 	//window.open("/calen/showCalen?day="+obj.date, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=800, height=400, left=0, top=0");
 }
 
-$('.btn-example').click(function(){
-    var $href = $(this).attr('href');
-    layer_popup($href);
-});
-function layer_popup(el){
-
-    var $el = $(el);    //레이어의 id를 $el 변수에 저장
-    var isDim = $el.prev().hasClass('dimBg'); //dimmed 레이어를 감지하기 위한 boolean 변수
-
-    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
-
-    var $elWidth = ~~($el.outerWidth()),
-        $elHeight = ~~($el.outerHeight()),
-        docWidth = $(document).width(),
-        docHeight = $(document).height();
-
-    // 화면의 중앙에 레이어를 띄운다.
-    if ($elHeight < docHeight || $elWidth < docWidth) {
-        $el.css({
-            marginTop: -$elHeight /2,
-            marginLeft: -$elWidth/2
-        })
-    } else {
-        $el.css({top: 0, left: 0});
-    }
-
-    $el.find('a.btn-layerClose').click(function(){
-        isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-        return false;
-    });
-
-    $('.layer .dimBg').click(function(){
-        $('.dim-layer').fadeOut();
-        return false;
-    });
-
-}
 
 </script>
 </head>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 <h3 th:text="${year+'년'}"></h3>
 <h3 th:text="${month+'월'}"></h3>
     <div>
@@ -173,7 +137,7 @@ function layer_popup(el){
 			    		th:each="map : ${listMap}"
 			    		th:if="${map.DAY == i}"
 			   		 	>
-				    	<a th:href="javascript"> 
+				    	<a th:href="@{'/calen/detail/'+${map.PNUM}}">
 				    		<div>
 					   		 	<span th:if="${#maps.containsKey(map, 'WHEN')}">[[${map.WHEN}]]</span>
 					   		 	<span th:if="${#maps.containsKey(map, 'CONTENT')}">[[${map.CONTENT}]]</span>
@@ -191,14 +155,13 @@ function layer_popup(el){
 						<td>식사</td>
 						<td>사진</td>
 						<td>내용</td>
-						<td>상세정보</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}"
 						>
-						<td th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+(i-(firstDayOfWeek-1))))} ? 'background: skyblue'" >
-        				[[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]
+						<td th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+(i-(firstDayOfWeek-1))))} ? 'background: skyblue'">
+        					[[${(i-(firstDayOfWeek-1))}]] 
         				</td>
         				<td th:switch=${index.index%7}>
 	        				<span th:case="0">일</span> 
@@ -212,33 +175,30 @@ function layer_popup(el){
         				<td >
 	        				<div th:each="map : ${listMap}"
 				    				 th:if="${map.DAY == i}">
-					    	<div>
-					    	<a th:href="'javacript:layer_popup('+${map.PNUM}+');'">
-					   		<span th:if="${#maps.containsKey(map, 'WHEN')}">[[${map.WHEN}]]</span>
-					   		</a>
-				   			</div>
+						    	<div>
+							    	<a th:href="@{'/calen/detail/'+${map.PNUM}}">
+							   			<span th:if="${#maps.containsKey(map, 'WHEN')}">[[${map.WHEN}]]</span>
+							   		</a>
+					   			</div>
+					   			
 			    			</div>
 			    		</td>
 			    		<td >
 	        				<div th:each="map : ${listMap}"
-				    				 th:if="${map.DAY == i}">
-					    	<div>
-					   		<img th:if="${#maps.containsKey(map, 'PNAME')}" th:src="@{/images/calendar/}+${map.PNAME}" width="84" height="84">
-				   			</div>
+				    			 th:if="${map.DAY == i}">
+						    	<div>
+						   			<img th:if="${#maps.containsKey(map, 'PNAME')}" th:src="@{/images/calendar/}+${map.PNAME}" width="84" height="84">
+					   			</div>
 			    			</div>
 			    		</td>
 			    		<td >
 	        				<div th:each="map : ${listMap}"
-				    				 th:if="${map.DAY == i}">
-					    	<div>
-					   		<span th:if="${#maps.containsKey(map, 'CONTENT')}">[[${map.CONTENT}]]</span>
-				   			</div>
+				    		     th:if="${map.DAY == i}">
+						    	<div>
+						   			<span th:if="${#maps.containsKey(map, 'CONTENT')}">[[${map.CONTENT}]]</span>
+					   			</div>
 			    			</div>
 			    		</td>
-			    		<td>
-			    			<button type="button">상세정보</button>
-			    		</td>
-			    	
 					</tr>
 				</tbody>
 			

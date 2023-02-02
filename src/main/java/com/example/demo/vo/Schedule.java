@@ -1,5 +1,8 @@
 package com.example.demo.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,4 +20,7 @@ public class Schedule {
 	private int pnum;
 	private String when;
 	private String content;
+	
+	private List<AttachCalendar> attlist = new ArrayList<>();
 }
+

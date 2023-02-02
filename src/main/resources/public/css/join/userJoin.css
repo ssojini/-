@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+form {
+	width: 50%;
+	padding: 12px 20px;
+	margin: 30px 0;
+	box-sizing: border-box;
+}
+
+input[type=text], select {
+	width: 100%;
+	padding: 8px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input[type=text]:focus {
+	background-color: lightblue;
+	border: 3px solid #555;
+}

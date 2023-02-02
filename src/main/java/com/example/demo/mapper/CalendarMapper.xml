@@ -14,19 +14,21 @@
 	</insert>
 	
 	<update id = "saveAttach" parameterType="list">
-		INSERT INTO attachcalendar(num,pnum,fname,pname)
+		INSERT INTO attachcalendar(num,fname,pname,pnum)
 		SELECT CALEN_ATTACH_SEQ.NEXTVAL AS num,t.* FROM 
 		(
 			<foreach collection="list" item="item" index="index" separator="union all">
-				SELECT (SELECT MAX(num) FROM calen_schedule), #{item.fname},#{item.pname} FROM DUAL
+				SELECT #{item.fname},#{item.pname} , (SELECT MAX(num) FROM calen_schedule)AS pnum FROM DUAL
 			</foreach>
 		)t
 	</update>
 	
-	<select id="scheduleShow" parameterType="Date" resultType="map">
-		SELECT a.num, a.datetime, b.pnum, b.when, b.content
+	<select id="scheduleShow" parameterType="String" resultType="map">
+		SELECT  a.num, a.datetime, b.num, b.pnum, b.when, b.content, c.pnum, c.pname, c.fname
 		FROM hcalendar a LEFT OUTER JOIN calen_schedule b
 		ON a.num = b.pnum
+		LEFT OUTER JOIN attachcalendar c
+		ON b.num = c.pnum
 		WHERE a.datetime = #{datetime}
 	</select>
 	
@@ -41,6 +43,24 @@
 		ORDER BY b.pnum ASC
 	</select>
 	
+	<select id="list" resultType="map">
+		SELECT a.num, a.datetime, b.num, b.pnum, b.when, b.content, c.pnum, c.pname, c.fname
+		FROM hcalendar a 
+		LEFT OUTER JOIN calen_schedule b
+		ON a.num = b.pnum
+		LEFT OUTER JOIN attachcalendar c
+		ON b.num = c.pnum
+		ORDER BY a.num = #{num}
+	</select>
 	
+	<select id="detail" parameterType="Integer" resultType="map">
+		SELECT a.num, a.datetime, b.num, b.pnum, b.when, b.content, c.pnum, c.pname, c.fname
+		FROM hcalendar a 
+		LEFT OUTER JOIN calen_schedule b
+		ON a.num = b.pnum
+		LEFT OUTER JOIN attachcalendar c
+		ON b.num = c.pnum
+		WHERE a.num = #{num}
+	</select>
 	
 </mapper>
