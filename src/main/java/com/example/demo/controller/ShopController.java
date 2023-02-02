@@ -46,9 +46,8 @@ public class ShopController {
 
 	// 초기 테스트용
 	@GetMapping("/")
-	@ResponseBody
 	public String index() {
-		return "Shop Index";
+		return "html/shop/index";
 	}
 
 	// 초기 테스트 데이터 생성 메소드

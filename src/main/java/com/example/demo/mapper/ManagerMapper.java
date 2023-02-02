@@ -9,7 +9,6 @@ import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
-
 @Mapper
 public interface ManagerMapper {
 	public List<User> findUser();

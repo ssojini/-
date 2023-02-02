@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +33,13 @@ public class ManagerService {
 	public List<User> userList()
 	{
 		return map.userList();
-	}
-	
+	}	
+
 
 	public Page<User> getUserList(Pageable pageable) throws Exception {
         Page<User> page = urepo.findAll(pageable);
 
         return page; 
-
 
     }
 	
