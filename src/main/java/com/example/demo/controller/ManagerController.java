@@ -182,9 +182,7 @@ public class ManagerController {
 
 		m.addAttribute("goods", ssvc.editGoodspage(goodsnum));
 		return "html/shop/goodsedit";
-		
 	}
-	
 	
 	@PostMapping("/deletegoods/{goodsnum}")
 	@ResponseBody
