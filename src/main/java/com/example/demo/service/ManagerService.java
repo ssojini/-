@@ -15,7 +15,6 @@ import com.example.demo.mapper.ManagerMapper;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +31,7 @@ public class ManagerService {
 	@Autowired
 	private ShopListRepository srepo;
 	
-	public List<UserJoin> userList()
+	public List<User> userList()
 	{
 		return map.userList();
 	}
@@ -42,7 +41,7 @@ public class ManagerService {
         return page;
     }
 	
-	public UserJoin userdetail(String userid)
+	public User userdetail(String userid)
 	{
 		return map.userDetail(userid);
 	}

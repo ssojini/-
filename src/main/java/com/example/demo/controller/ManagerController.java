@@ -23,7 +23,7 @@ import com.example.demo.service.ManagerService;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
+import com.example.demo.vo.User;
 import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;

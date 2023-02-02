@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.vo.User;
 
 public interface UserListRepository extends JpaRepository<User, String> {
-	Page<User> findAll(Pageable pageable);
+	Page<User> findAll(Pageable pageable); 
 }
