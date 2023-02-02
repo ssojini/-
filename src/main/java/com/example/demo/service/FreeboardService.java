@@ -37,9 +37,9 @@ public class FreeboardService {
 		if (bname == null || bname.equals(""))
 			bname = "free";
 		if (title == null || title.equals("")) {
-			return repo.findByBname(bname, pageable);
+			return repo.findByBnameOrderByDatetimeDesc(bname, pageable);
 		} else {
-			return repo.findByBnameAndTitle(bname, title, pageable);
+			return repo.findByBnameAndTitleOrderByDatetimeDesc(bname, title, pageable);
 		}
 	}
 
