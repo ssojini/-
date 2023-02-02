@@ -36,7 +36,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-
 @Slf4j
 public class AdminBoardSerivce 
 {
@@ -62,40 +61,35 @@ public class AdminBoardSerivce
 		for(int i=0; i<mlist.size(); i++)
 		{
 			Map<String, Object> map= mlist.get(i);
-			BigDecimal big = (java.math.BigDecimal)map.get("QNUM");
+			OneBoard oneb = parseOneb(map);
 			
-			OneBoard oneb = new OneBoard(big.intValue());
-			boolean found= false;
-			if(list.contains(oneb)) {
-				oneb= list.get(list.indexOf(oneb));
-				found =true;
-			}
-			oneb.setTitle((String)map.get("TITLE"));
-			oneb.setAuthor((String)map.get("AUTHOR"));
-				
-			/*
-			oracle.sql.TIMESTAMP ots = (oracle.sql.TIMESTAMP) map.get("QDATE");
-			java.sql.Timestamp jts = null;
-			try {
-				jts = ots.timestampValue();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			*/
-			try {
-				String jts = String.valueOf(map.get("QDATE"));
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-				Date parseDate;
-				parseDate = dateFormat.parse(jts);
-				oneb.setQdate(new java.sql.Timestamp(parseDate.getTime()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}		
-			big = (java.math.BigDecimal)map.get("HIT");
+			BigDecimal big = (java.math.BigDecimal)map.get("HIT");
 			oneb.setHit((big.intValue()));
 			list.add(oneb);
 		}
 		return list;
+	}
+	
+	public OneBoard parseOneb(Map<String, Object> map)
+	{
+		BigDecimal big = (java.math.BigDecimal)map.get("QNUM");
+		
+		OneBoard oneb = new OneBoard(big.intValue());
+		oneb.setTitle((String)map.get("TITLE"));
+		oneb.setAuthor((String)map.get("AUTHOR"));
+
+		try {
+			String jts = String.valueOf(map.get("QDATE"));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date parseDate;
+			log.info("날짜:" + dateFormat.format(map.get("QDATE"))); 
+			String date =dateFormat.format(map.get("QDATE"));
+			oneb.setQdate(date);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		
+		return oneb;
 	}
 	
 	@Transactional
@@ -119,27 +113,22 @@ public class AdminBoardSerivce
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
 				for(int i=0; i<mfiles.length; i++) {
-						//log.info("mfiles length"+ mfiles.length);
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
 						
 						AttachBoard attb = new AttachBoard();
 						attb.setAttname(mfiles[i].getOriginalFilename());
 						attb.setAttsize(mfiles[i].getSize());
 						alist.add(attb);
-					//	log.info("svc, attb 목록"+ alist );
-	//					return uploaded;
-				}
-				
+				}		
 				int arow =qamapper.saveAttach(alist);
 				uploaded = brow>0 && arow>0;
 				return uploaded;
 				
 			}else {//첨부파일 없으면
 				uploaded = brow>0;
-				return uploaded;
-				
+				return uploaded;		
 			}
-			
+		
 		} catch (Exception e) {	
 				e.printStackTrace();
 		}
@@ -150,37 +139,16 @@ public class AdminBoardSerivce
 	
 	public OneBoard detailByQnum(int num)
 	{
-		List<Map<String, Object>> mlist = qamapper.detailByQnum(num);
-		
+		List<Map<String, Object>> mlist = qamapper.detailByQnum(num);	
 		Map<String, Object> boardMap = mlist.get(0);
-		
-		OneBoard oneb = new OneBoard();
-		java.math.BigDecimal big =(java.math.BigDecimal)boardMap.get("QNUM");
-		oneb.setQnum(big.intValue());
-		String title =(String)boardMap.get("TITLE");
-		oneb.setTitle(title);
-		String author = (String)boardMap.get("AUTHOR");
-		oneb.setAuthor(author);
-		String content = (String)boardMap.get("CONTENT");
-		oneb.setContent(content);
-		try {
-			String jts = String.valueOf(boardMap.get("QDATE"));
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-			Date parseDate;
-			parseDate = dateFormat.parse(jts);
-			oneb.setQdate(new java.sql.Timestamp(parseDate.getTime()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
+		OneBoard oneb = parseOneb(boardMap);
 		if(boardMap.get("ATTID")!=null)
 		{
 			for(int i=0; i<mlist.size(); i++)
 			{
 				boardMap =mlist.get(i); //새로 boardMap을 해줘야지 안그러면 위에서 한 mlist.get(0)으로만 돌아간다.
-			
 				AttachBoard att = new AttachBoard();
-				
+		
 				String attname = (String)boardMap.get("ATTNAME");
 				log.info("attname:"+attname);
 				att.setAttname(attname);
@@ -192,10 +160,7 @@ public class AdminBoardSerivce
 				oneb.getAttList().add(att);
 			}
 		}
-		//log.info("svc, attlist에 있는 첨부파일"+ oneb.getAttList());
-		
 		qamapper.increaseHit(num);
-		//oneb =mapper.findQueBoard(num);
 		return oneb;
 	}
 	
@@ -339,62 +304,47 @@ public class AdminBoardSerivce
 	public List<AdminBoard> adminBList(List<Map<String, Object>> mlist)
 	{
 		List<AdminBoard> list = new ArrayList<>();
+		
 		for(int i=0; i<mlist.size(); i++)
 		{
 			Map<String, Object> map= mlist.get(i);
-			log.info("mlist값"+mlist.get(0));
-			BigDecimal big = (java.math.BigDecimal)map.get("ADNUM");
+
+			AdminBoard adminb =parseAdminB(map);
 			
-			AdminBoard adminb = new AdminBoard(big.intValue());
-			boolean found= false;
-			if(list.contains(adminb)) {
-				adminb= list.get(list.indexOf(adminb));
-				found =true;
-			}
-			adminb.setTitle((String)map.get("TITLE"));
-			adminb.setAuthor((String)map.get("AUTHOR"));
-	
-			try {
-				String jts = String.valueOf(map.get("DATE_ADMIN"));
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-				Date parseDate;
-				parseDate = dateFormat.parse(jts);
-				adminb.setDate_admin((new java.sql.Timestamp(parseDate.getTime())));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}		
-			big = (java.math.BigDecimal)map.get("HIT");
+			BigDecimal big = (java.math.BigDecimal)map.get("HIT");
 			adminb.setHit((big.intValue()));
 			list.add(adminb);
 		}
-		log.info("서비스로 넘어오는:"+ list);
 		return list;
 	}
 	
+	public AdminBoard parseAdminB( Map<String, Object> map)
+	{
+		BigDecimal big = (java.math.BigDecimal)map.get("ADNUM");
+		
+		AdminBoard adminb = new AdminBoard(big.intValue());
+		adminb.setTitle((String)map.get("TITLE"));
+		adminb.setAuthor((String)map.get("AUTHOR"));
+		try {
+			String jts = String.valueOf(map.get("DATE_ADMIN"));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date parseDate;
+			log.info("날짜:" + dateFormat.format(map.get("DATE_ADMIN"))); 
+			String date = dateFormat.format(map.get("DATE_ADMIN"));
+			adminb.setDate_admin(date);
+			//adminb.setDate_admin(new java.sql.Timestamp(parseDate.getTime()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return adminb;
+	}
 	public AdminBoard detail_adminb(int adnum)
 	{
 		List<Map<String, Object>> mlist = mapper.detail_adminb(adnum);
-		log.info("mlist값"+ mlist);
 		Map<String, Object> boardMap = mlist.get(0);
 		
-		AdminBoard adminb = new AdminBoard();
-		java.math.BigDecimal big =(java.math.BigDecimal)boardMap.get("ADNUM");
-		adminb.setAdnum(big.intValue());
-		String title =(String)boardMap.get("TITLE");
-		adminb.setTitle(title);
-		String author = (String)boardMap.get("AUTHOR");
-		adminb.setAuthor(author);
-		String content = (String)boardMap.get("CONTENT");
-		adminb.setContent(content);
-		try {
-			String jts = String.valueOf(boardMap.get("DATE_ADMIN"));
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-			Date parseDate;
-			parseDate = dateFormat.parse(jts);
-			adminb.setDate_admin(new java.sql.Timestamp(parseDate.getTime()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		AdminBoard adminb =parseAdminB(boardMap);
 		
 		if(boardMap.get("ATTID")!=null)
 		{
@@ -480,7 +430,6 @@ public class AdminBoardSerivce
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
 				for(int i=0; i<mfiles.length; i++) {
-						//log.info("mfiles length"+ mfiles.length);
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
 						
 						AdminAttachBoard attb = new AdminAttachBoard();

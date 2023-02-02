@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>이용자 페이지 -1:1 문의 </title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+<div>1:1 문의</div>
+<span>[[${userid}]]</span>
+<div>
+<a href="/health/writeQueB">[문의하기]</a>
+</div>
+
+<div>
+	<input type="text" name="key">
+</div>   
+
+<div> search box</div>   
+
+<table>
+
+<tr>
+	<th>번호</th>
+	<th>제목</th>
+	<th>작성자</th>
+	<th>조회수</th>
+	<th>등록일</th>
+</tr>
+<tr th:each="board: ${list}">
+	<td>[[${board.qnum}]]</td>
+	<td>
+		<a th:href= "|/health/detailByQnum/${board.qnum}|">	
+		[[${board.title}]]
+		</a>
+	</td>
+	<td>[[${userid}]]</td>
+	<td>[[${board.hit}]]</td>
+	<td>[[${board.qdate}]]</td>	
+	
+</tr>
+</table>
+	<span th:each="page, i: ${list}">
+	<a th:href = "|/qaList/${i}/10|"> [[${i.index+1}]]</a>
+	</span>
+</body>
+</html>

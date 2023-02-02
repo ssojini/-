@@ -11,7 +11,10 @@ import com.example.demo.vo.OneBoard;
 @Mapper
 public interface QAMapper {
 
+	
 	public List<Map<String, Object>> qaList();
+	
+	public List<Map<String, Object>> qna(String author);
 	
 	public int addQueBoard(OneBoard oneb);	
 		
