@@ -37,9 +37,9 @@ public class ManagerService {
 	}
 	
 
-	public List<User> getUserList(Pageable pageable) throws Exception {
+	public Page<User> getUserList(Pageable pageable) throws Exception {
         Page<User> page = urepo.findAll(pageable);
-        return page.toList();
+        return page;
 
     }
 	
