@@ -6,21 +6,22 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.User;
 import com.example.demo.vo.UserJoin;
 
 
 @Mapper
 public interface UserEditMapper {
 	
-	public List<UserJoin> userlist();
+	public List<User> userlist();
 	
-	public UserJoin userinfo(String userid);
+	public User userinfo(String userid);
 	
-	public int useredit(UserJoin userjoin);
+	public int useredit(User userjoin);
 	
 	public int deleteuser(String userid);
 	
-	public int changepwd(UserJoin userjoin);
+	public int changepwd(User userjoin);
 	
 	public List<Freeboard> getmyboard(String userid);
 	

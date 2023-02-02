@@ -10,6 +10,7 @@ function s_function() {
 </script>
 
 <link rel="stylesheet" href="/css/shopmain.css">
+<link rel="stylesheet" href="/css/footernav.css">
 </head>
 <body>
 <div>
@@ -37,7 +38,7 @@ function s_function() {
 			<div id="links">
 				<ul>
 				<h2>추천상품</h2>
-					<li th:each="goods: ${random}">
+					<li th:each="goods: ${random}">d
 					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
 							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
@@ -73,27 +74,9 @@ function s_function() {
 					</li>
 				</ul>
 			</div>
-		<footer>
-			<div id="bottomMenu">
-				<ul>
-				<li><a href="#">회사 소개</a></li>
-				<li><a href="#">개인정보처리방침</a></li>
-				<li><a href="#">쇼핑몰약관</a></li>
-				<li><a href="#">사이트맵</a></li>
-			</ul>
-			<div id="sns">
-				<ul>
-					<li><a href="#"><img class="sns-img" src="/shopmain/facebook.png"></a></li>
-					<li><a href="#"><img class="sns-img" src="/shopmain/twitter.png"></a></li>
-					<li><a href="#"><img class="sns-img" src="/shopmain/instagram.png"></a></li>
-					<li><a href="#"><img class="sns-img" src="/shopmain/kakao-talk.png"></a></li>
-				</ul>
-			</div>
-			</div>
-			<div id="company">
-				<p>서울특별시 관악구 신림로 340 르네상스쇼핑몰 6층 (대표전화) 123-456-7890</p>
-			</div>
-		</footer>
+		<div>
+    <div th:replace="fragments/footernav :: footernav"></div>
+</div>
 	</div>
 	
 	<script src="/js/shopMain.js"></script>

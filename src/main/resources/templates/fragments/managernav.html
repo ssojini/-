@@ -9,11 +9,20 @@
     padding: 0;">
 <link rel="stylesheet" href="/css/managernav.css" />
 
-<ul>
+<ul class="menu">
 	<li><a class="job" href="#">MENU</a></li>
-	<li><a href="/manager/userlist">유저관리</a></li>
-	<li><a href="#">배송관리</a></li>
-	<li><a href="#">Q&A</a></li>
+	<li><a class="job" href="/manager/userlist">유저관리</a></li>
+	<li><a class="job" href="/manager/shop">배송관리</a></li>
+	<li>
+        <a class="job" href="#">컨텐츠관리</a>
+        <ul class="submenu">
+          <li><a href="/manager/board">자유게시판</a></li>
+          <li><a href="#">비포에프터게시판</a></li>
+          <li><a href="#">식단공유게시판</a></li>
+        </ul>
+      </li>
+	<li><a class="job" href="/shop/addgoods/admin">상품등록</a></li>
+	<li><a class="job" href="#">Q&A</a></li>
 </ul>
 </div>
 </body>

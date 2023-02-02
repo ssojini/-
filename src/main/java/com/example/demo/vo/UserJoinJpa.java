@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @Data 
 @ToString
-@EqualsAndHashCode(exclude= {"profile","pwd","email","email1","email2",
+@EqualsAndHashCode(exclude= {"profile","pwd","email",
 					"phone","birth","nickname","address"})
 @AllArgsConstructor 
 @NoArgsConstructor

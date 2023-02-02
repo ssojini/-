@@ -47,7 +47,7 @@ public class CalendarController
 		model.addAttribute("today", map.get("today"));
 		model.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
 		model.addAttribute("listMap", map.get("listMap"));
-
+		
 	 	return "html/calendar/Calendar";
 	}
 	@GetMapping("/showCalen")
@@ -82,5 +82,20 @@ public class CalendarController
 		log.info(""+map);
 		return map;
 	}
+	@GetMapping("/detail")
+	public String calenDetail() 
+	{
+		
+		return "html/calendar/CalendarDetail";
+	}
+	@PostMapping("/delete")
+	@ResponseBody
+	public Map<String,Object> deleteById(int empno)
+	{
+		Map<String,Object> map = new HashMap<>();
+		map.put("deleted", true);
+		return map;
+	}
+
 }
 

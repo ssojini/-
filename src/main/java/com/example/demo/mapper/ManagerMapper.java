@@ -17,4 +17,11 @@ public interface ManagerMapper {
 	public Freeboard boardDetail(int fbnum);
 	public int useridDel(String userid);
 	public List<Shop> orderlist(String userid);
+	public List<Shop> shop1(String status);
+	public List<Shop> shop2(String status);
+	public List<Shop> shop3(String status);
+	public List<Shop> shop4(String status);
+	public List<Shop> getshop(String status);
+	public Shop shopdetail(int ordernum);
+	public int shopUpdate(Shop findshop);
 }
