@@ -35,6 +35,9 @@ public class ManagerService {
 	private ShopListRepository srepo;
 	
 	@Autowired
+	private BoardListRepository brepo;
+	
+	@Autowired
 	private AdminLoginRepository arepo;
 	
 	public List<User> userList()
@@ -134,5 +137,10 @@ public class ManagerService {
 
 	public List<Freeboard> getboardlist(String bname) {
 		return map.getboardlist(bname);
+	}
+
+	public Page<Freeboard> getboardlist(String bname, Pageable pageable) {
+		Page<Freeboard> page = brepo.findBybname(pageable, bname);
+		return page;
 	}
 }

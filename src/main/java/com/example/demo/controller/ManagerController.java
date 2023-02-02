@@ -23,6 +23,7 @@ import com.example.demo.service.FreeboardService;
 import com.example.demo.service.ManagerService;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.Admin;
+import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.FreeboardAttach;
 import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
@@ -137,9 +138,10 @@ public class ManagerController {
 	}
 	
 	@GetMapping("/board")
-	public String boardList(@RequestParam String bname,Model m)
+	public String boardList(@RequestParam String bname, Model m, @PageableDefault(size=10,sort="fbnum", page=0) Pageable pageable) throws Exception
 	{
-		m.addAttribute("blist",svc.getboardlist(bname));
+		Page<Freeboard> list = svc.getboardlist(bname, pageable);
+		m.addAttribute("blist",list);
 		m.addAttribute("bname",bname);
 		m.addAttribute("url","manager/board/detail");
 		return "html/manager/boardList";
