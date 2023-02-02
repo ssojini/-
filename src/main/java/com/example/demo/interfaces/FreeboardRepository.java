@@ -12,4 +12,5 @@ public interface FreeboardRepository extends JpaRepository<Freeboard, Integer> {
 	public Page<Freeboard> findAll(Pageable pageable);
 	public Page<Freeboard> findByBname(String bname, Pageable pageable);
 	public Page<Freeboard> findByBnameAndTitle(String bname, String title, Pageable pageable);
+	public List<Freeboard> findAllByOrderByHitDesc();
 }

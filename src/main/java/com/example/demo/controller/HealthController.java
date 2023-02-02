@@ -12,6 +12,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +27,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FileStorageService;
+import com.example.demo.service.FreeboardService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.AdminAttachBoard;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
+import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.UserJoin;
 import com.github.pagehelper.PageInfo;
@@ -44,6 +49,8 @@ public class HealthController {
 
 	@Autowired
 	private FileStorageService fss;
+	@Autowired
+	private FreeboardService freeboardService;
 	
 	/* 다루한 */
 	/* 다루한 */
@@ -161,6 +168,10 @@ public class HealthController {
 	/* 종빈 */
 	@GetMapping("/main")
 	public String main1(Model m) {
+		// 메인페이지 오늘의 베스트 출력
+		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
+		m.addAttribute("listFreeboard",listFreeboard);
+		
 		return "html/mainPage";
 	}
 	/* 종빈 */

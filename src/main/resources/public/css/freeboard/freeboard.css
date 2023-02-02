@@ -4,17 +4,13 @@ body {
 }
 
 main {
-	width: 100vw;
-	height: 77vh;
 	text-align: center;
 }
 
 #freeboard_table_div {
+	background-color: red;
 	margin: 0px;
 	padding: 0px;
-	border: 1px solid dotted;
-	width: 100%;
-	height: 80%;
 	text-align: center;
 }
 
@@ -58,12 +54,14 @@ main {
 	width: 200px;
 	height: 25px;
 }
-
 #search_freeboard_button {
-	margin: 0px;
-	padding: 0px;
-	width: 100px;
-	height: 25px;
+	background: rgb(239,239,239);
+	display: inline-block;
+	margin: 5px 2.5px 0px 2.5px;
+	border-radius: 10px;
+	border: 1px solid black;
+	padding: 5px 10px;
+	font-size: initial;
 }
 
 #freeboard_btn_div {
@@ -73,10 +71,12 @@ main {
 	height: 100%;
 	display: inline-block;
 }
-
 #add_freeboard_btn {
-	margin: 0px;
-	padding: 0px;
-	width: 100px;
-	height: 25px;
+	background: rgb(239,239,239);
+	display: inline-block;
+	margin: 5px 2.5px 0px 2.5px;
+	border-radius: 10px;
+	border: 1px solid black;
+	padding: 5px 10px;
+	font-size: initial;
 }
