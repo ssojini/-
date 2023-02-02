@@ -38,6 +38,22 @@
 				<span th:text="${board.hit}"></span>
 			</td>
 		</tr>	
+		<link rel="stylesheet" href="/css/manager/pagination.css" />
+		<div style=" margin-left:150px; padding-top:20px; text-align: center; width: 80%;">
+			<div class="pagination">
+				<span th:if="${blist.getNumber() gt 9}">
+					<a th:href="@{/manager/board(page=${blist.getNumber()/10*10-1})}">이전</a></span>
+					
+				<span th:if="${i le blist.getTotalPages()}" th:each="i : ${#numbers.sequence(blist.getNumber()/10*10+1,blist.getNumber()/10*10+10)}">
+					<a th:if="${i!=blist.getNumber()+1}" th:href="@{/manager/board(page=${i-1})}">[[${i}]]</a>
+					<a th:if="${i==blist.getNumber()+1}" class="disable">[[${i}]]</a>
+				</span>
+				
+				<span th:if="${(blist.getNumber()/10*10+10)<blist.getTotalPages()}">
+					<a th:href="@{/manager/board(page=${blist.getNumber()/10*10+10})}">다음</a>
+				</span>
+			</div>	
+		</div>
 	</table>	
 </div>
 </body>
