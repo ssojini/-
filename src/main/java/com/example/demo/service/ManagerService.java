@@ -120,7 +120,17 @@ public class ManagerService {
 	public GoodsAndAtt itemedit(int goodsnum) {
 		return map.getitem(goodsnum);
 	}
-
+	public boolean deletegoods(int goodsnum)
+	{
+		boolean deleted= false;
+		int deletedgoods = map.deletegoods(goodsnum);
+		int deletedatt = map.deletegoodsatt(goodsnum);
+		if (deletedgoods>0 && deletedatt>0)
+		{
+			deleted=true;
+		}
+		return deleted;
+	}
 
 	public List<Freeboard> getboardlist(String bname) {
 		return map.getboardlist(bname);

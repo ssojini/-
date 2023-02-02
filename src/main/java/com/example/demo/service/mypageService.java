@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class mypageService {
 	@Autowired
 	private UserEditMapper map;
+	
 
 	private Path fileStorageLocation;
 	
@@ -145,9 +146,10 @@ public class mypageService {
 		return changed;
 	}
 	
-	public List<Freeboard> getmyboard(String userid)
+	public List<Freeboard> getmyboard(String nickname)
 	{
-		List<Freeboard>myboard= map.getmyboard(userid);
+		nickname = "smash";
+		List<Freeboard>myboard= map.getmyboard(nickname);
 		/*for(int i=0; i<myboard.size();i++)
 		{
 			String a =myboard.get(i).getDatetime().toString();

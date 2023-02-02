@@ -120,4 +120,11 @@
 		WHERE bname=#{bname jdbcType=VARCHAR}
 		ORDER BY fbnum
 	</select>
+	
+	<delete id="deletegoods" parameterType="int">
+		delete goods where goodsnum=#{goodsnum}
+	</delete>
+	<delete id="deletegoodsatt" parameterType="int">
+		delete addgoods_att where goodsnum=#{goodsnum}
+	</delete>
 </mapper>

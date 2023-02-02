@@ -184,5 +184,15 @@ public class ManagerController {
 	{
 		m.addAttribute("goods", ssvc.editGoodspage(goodsnum));
 		return "html/shop/goodsedit";
+		
+	}
+	
+	@PostMapping("/deletegoods/{goodsnum}")
+	@ResponseBody
+	public Map<String,Object> deletegoods(@PathVariable int goodsnum)
+	{
+		Map<String,Object> map = new HashMap<>();
+		map.put("deleted",svc.deletegoods(goodsnum));
+		return map;
 	}
 }	
