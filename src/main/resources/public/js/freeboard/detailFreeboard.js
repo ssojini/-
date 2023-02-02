@@ -22,6 +22,24 @@ function addReply() {
 	});
 }
 
+function deleteReply(num) {
+	$.ajax({
+		url:"/freeboard/deleteReply",
+		method:"post",
+		data:{
+			"num":num
+		},
+		cache:false,
+		dataType:"json",
+		success:function(res) {
+			location.href = "/freeboard/detail?fbnum="+$("#fbnum").text();
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
+}
+
 function refleshReply() {
 	$.ajax({
 		url:"/freeboard/getReply",

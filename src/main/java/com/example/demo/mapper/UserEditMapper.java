@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.User;
 
-
 @Mapper
 public interface UserEditMapper {
 	

@@ -1,11 +1,9 @@
 package com.example.demo.mapper;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.json.simple.JSONArray;
 
 import com.example.demo.vo.AttachCalendar;
 import com.example.demo.vo.HCalendar;
@@ -21,8 +19,12 @@ public interface CalendarMapper
 	
 	int saveSchedule(Schedule schedule);
 
-	JSONArray scheduleShow(Date datetime);
+	//List<Map<String,Object>> scheduleShow(String datetime);
 
 	List<Map<String,String>> todo(Integer year, Integer month);
+
+	List<Map<String, Object>> detail(int num);
+
+	List<Map<String, Object>> list();
 
 }

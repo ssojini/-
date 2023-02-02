@@ -60,6 +60,9 @@ public class FreeboardController {
 		java.sql.Date date = new java.sql.Date(100);
 		System.out.println("FreeboardController/add(Model m, Freeboard freeBoard)");
 		Map<String,Object> map = new HashMap<>();
+		String nickname = (String)session.getAttribute("nickname");
+		System.out.println("nickname:"+nickname);
+		freeBoard.setAuthor(nickname);
 		Freeboard addFreeboard = freeboardService.save(session, freeBoard);
 		map.put("result", true);
 		map.put("freeboard", freeboardService.freeboardToMap(addFreeboard));
@@ -128,18 +131,28 @@ public class FreeboardController {
 	public Map<String,Object> addReply(FreeboardReply reply) {
 		System.out.println("addReply()");
 		Map<String,Object> map = new HashMap<>();
-		String userid = (String)session.getAttribute("userid");
+		String userid = (String)session.getAttribute("nickname");
 		reply.setAuthor(userid);
 		FreeboardReply saveReply = replyService.save(reply);
 		map.put("result",true);
 		return map;
 	}
 	
+	@PostMapping("/deleteReply")
+	@ResponseBody
+	public Map<String,Object> deleteReply(Integer num) {
+		System.out.println("num:"+num);
+		Map<String,Object> map = new HashMap<>();
+		replyService.deleteByNum(num);
+		map.put("result", true);
+		return map;
+	}
+	
 	@PostMapping("/getReply")
 	@ResponseBody
-	public Map<String,Object> getReply(Integer pnum) {
+	public Map<String,Object> getReply(Integer num) {
 		Map<String,Object> map = new HashMap<>();
-		List<Map<String,String>> listReply = replyService.findAllByPnumToListMap(pnum);
+		List<Map<String,String>> listReply = replyService.findAllByPnumToListMap(num);
 		map.put("listReply", listReply);
 		return map;
 	}

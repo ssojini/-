@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.vo.AdminAttachBoard;
 import com.example.demo.vo.AdminBoard;
+import com.example.demo.vo.OneBoard;
 import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,15 +35,25 @@ public class AdminBoardController
 	@Autowired 
 	private AdminBoardSerivce absvc;
 
-	@GetMapping("/addAdmin")
+	@GetMapping("/qaList/{pg}/{cnt}") 
+	public String qaList(Model m, @PathVariable int pg, @PathVariable int cnt)
+	{
+		PageInfo<Map<String, Object>> pageInfo =  absvc.getPage(pg, cnt);
+		List<OneBoard> list = absvc.qaList(pageInfo.getList());
+		m.addAttribute("list", list);
+		
+		return "html/admin/qaList";
+	}
+	
+	@GetMapping("/add")
 	public String addAdminForm(Model m, String name)
 	{
 		m.addAttribute("name", name);
 		m.addAttribute("userid", "관리자");
-		return "html/admin/writeBoard_admin";
+		return "html/admin/add";
 	}
 	
-	@PostMapping("/addAdmin")
+	@PostMapping("/add")
 	@ResponseBody
 	public Map<String,Object> addAdmin(HttpServletRequest request,Model m, 
 			AdminBoard adminb, @RequestParam("attach") MultipartFile[] mfiles) {
@@ -202,5 +213,4 @@ public class AdminBoardController
 		return map;
 	}
 	
-	/* */
 }

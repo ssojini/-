@@ -36,8 +36,7 @@ $(function(){
 			success: function (data) {
 		           $('#btnUpload').prop('disabled', false);
 		           alert('저장되었습니다')
-		           opener.parent.location.reload();
-		           window.close();
+		           location.href='/calen/getCalendar'
 		        },
 		        error: function (e) {
 		            $('#btnUpload').prop('disabled', false);
@@ -46,23 +45,6 @@ $(function(){
 		});
 	})	
 })
-/*
-window.onload = function() {
-    for (var image of event.target.files) {
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          var img = document.createElement("img");
-          img.setAttribute("src", event.target.result);
-          document.querySelector("div#preview").appendChild(img);
-       
-          img.addEventListener("click",function(){
-        	document.querySelector("div#preview").removeChild(img);
-       	 })
-        }      
-        reader.readAsDataURL(image);
-	}
-}  */
-
 var fileCount = 0;// 파일 현재 필드 숫자 totalCount랑 비교값
 var totalCount = 10;// 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
 var fileNum = 0;// 파일 고유넘버
@@ -105,6 +87,7 @@ function fileDelete(fileNum){
 
 </script>
 <body>
+
 <form id="addForm" action="/calen/add" method="post" enctype="multipart/form-data">
 	<div>
 		<input type="date" id="datetime" name="datetime" th:value="${day}">	

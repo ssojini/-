@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
 import com.example.demo.service.CalendarService;
-import com.example.demo.vo.AttachCalendar;
 import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +36,7 @@ public class CalendarController
 	private CalendarMapper cm;
 	
 	@GetMapping("/getCalendar")
-	public String getCalendar(@RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day, Model model)
+	public String getCalendar(@RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day, Model model,String datetime)
 	{
 		Map<String, Object> map = cs.getCalendar(day);
 		
@@ -46,7 +46,12 @@ public class CalendarController
 		model.addAttribute("lastDay", map.get("lastDay")); // 마지막 일
 		model.addAttribute("today", map.get("today"));
 		model.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
+//		model.addAttribute("listMap", cs.listCalendar(datetime));
 		model.addAttribute("listMap", map.get("listMap"));
+		
+		log.info("todayday"+map.get("todayday"));
+		log.info("day"+ map.get("today"));
+		log.info("dayday"+map.get("dayday"));
 		
 	 	return "html/calendar/Calendar";
 	}
@@ -75,22 +80,22 @@ public class CalendarController
 	@PostMapping("/add")
 	@ResponseBody
 	public Map<String,Object> morningAdd(@RequestParam("files")MultipartFile[] mfiles,
-            com.example.demo.vo.HCalendar cal, AttachCalendar attcal, Schedule sc, HttpServletRequest request, Model m) 
+            com.example.demo.vo.HCalendar cal, Schedule sc, HttpServletRequest request, Model m) 
 	{	
 		Map<String,Object> map = new HashMap<>();
-		map.put("add", cs.add(mfiles, request, cal, attcal, sc));
+		map.put("add", cs.add(mfiles, request, cal, sc));
 		log.info(""+map);
 		return map;
 	}
-	@GetMapping("/detail")
-	public String calenDetail() 
+	@GetMapping("/detail/{PNUM}")
+	public String calenDetail(@PathVariable("PNUM") int num, Model model)
 	{
-		
+		model.addAttribute("mlist",cs.detailCalendar(num));
 		return "html/calendar/CalendarDetail";
 	}
 	@PostMapping("/delete")
 	@ResponseBody
-	public Map<String,Object> deleteById(int empno)
+	public Map<String,Object> deleteById(int num)
 	{
 		Map<String,Object> map = new HashMap<>();
 		map.put("deleted", true);

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+img {
+	width:100px; 
+	height:100px;
+}
+</style>
+</head>
+<body style="margin:0 auto;">
+<div>
+    <div th:replace="fragments/managernav :: header"></div>
+</div>
+<div style="margin-left:230px;">
+	<h3>상품준비중</h3>
+	<table>
+		<tr>
+			<th>상품번호</th>
+			<th>상품 이미지</th>
+			<th>상품이름</th>
+		</tr>
+		<tr id="shop" th:each="shop : ${shopitem}">
+			<td>
+				<span th:text="${shop.goodsnum}"></span>
+			</td>
+			<td>
+				<img th:src="'/images/goodsimg/'+ ${shop.mainpic_server}" alt="">
+			</td>
+			<td>
+				<span th:text="${shop.goodsname}"></span>
+			</td>
+		</tr>	
+	</table>
+</div>
+</body>
+</html>

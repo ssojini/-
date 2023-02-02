@@ -4,7 +4,7 @@
 	display: block;
 }
 
-.navbar-nav:hover .navbar_item_menu {
+.com:hover .navbar_item_menu {
 	display: block;
 }
 
@@ -15,20 +15,21 @@
 	font-size: 17px;
 }
 
-.navbar_item_menu > li {
+.navbar_item_menu > .com {
 	display: block;
 	width: 100%;
 }
-.navbar_item_menu > li:hover {
+.navbar_item_menu > .com:hover {
 	background-color: rgb(255,195,172);
+	display: block;
 }
 
-.navbar_item_menu > li > a {
+.navbar_item_menu > .com > a {
 	display: block;
 	width: 100%;
 	color: #F2EEE5;
 }
 
-.navbar_item_menu > li:hover a {
+.navbar_item_menu > .com:hover a {
 	color: rgb(98,98,98);
 }

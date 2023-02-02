@@ -242,6 +242,23 @@ public class ShopController {
 		return map;
 	}
 	
+	@GetMapping("/editgoods/{goodsnum}")
+	public String editGoodspage(@PathVariable(value = "goodsnum") int goodsnum, Model m)
+	{
+		m.addAttribute("goods", svc.editGoodspage(goodsnum));
+		return "html/shop/goodsedit";
+	}
+	
+	@PostMapping("/editgoods")
+	@ResponseBody
+	public  Map<String, Object> editGoods(@RequestParam("main_file") MultipartFile file,
+			@RequestParam("goods_detail") String goods_detail, @RequestParam("file[]") List<String> fileList,
+			HttpServletRequest request, Goods goods, AddGoods_Att att)
+	{
+		svc.editgoods();
+		return null;
+	}
+	
 	@GetMapping("/searchgoods")
 	public String searchGoods(@RequestParam(value="searchbox") String searchbox, Model m)
 	{

@@ -20,6 +20,9 @@ import com.example.demo.service.ManagerService;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
+import com.github.pagehelper.PageInfo;
+
+
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -33,7 +36,7 @@ public class ManagerController {
 	@GetMapping("/")
 	public String managermain()
 	{
-		return "html/manager/ManagerMain";
+		return "html/manager/managerLogin";
 	}
 	
 	@GetMapping("/userlist")
@@ -117,5 +120,12 @@ public class ManagerController {
 	public String boardList(Model m)
 	{
 		return "html/manager/boardList";
+	}
+	
+	@GetMapping("/shopitem")
+	public String shopitem(Model m)
+	{
+		m.addAttribute("shopitem",svc.shopitem());
+		return "html/manager/shopitem";
 	}
 }	
