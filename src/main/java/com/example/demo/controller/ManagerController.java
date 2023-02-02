@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ManagerService;
+import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
@@ -101,8 +102,6 @@ public class ManagerController {
 	@ResponseBody
 	public Map<String,Object> shopedit(int ordernum, String status) 
 	{
-		System.out.println("shop ordernum : "+ordernum);
-		System.out.println("shop Status : "+status);
 		Map<String,Object> map = new HashMap<>();
 		Shop shop = new Shop();
 		shop.setOrdernum(ordernum);
@@ -122,7 +121,16 @@ public class ManagerController {
 	@GetMapping("/shopitem")
 	public String shopitem(Model m)
 	{
+		m.addAttribute("eurl", "manager/item/edit");
+		m.addAttribute("durl", "manager/item/delete");
 		m.addAttribute("shopitem",svc.shopitem());
 		return "html/manager/shopitem";
+	}
+	
+	@GetMapping("/item/edit/{goodsnum}")
+	public String itemedit(@PathVariable int goodsnum, Model m)
+	{
+		m.addAttribute("item",svc.itemedit(goodsnum)); 
+		return "html/manager/shopitemedit";
 	}
 }	

@@ -5,22 +5,28 @@
 <title>Insert title here</title>
 <style>
 img {
-	width:100px; 
-	height:100px;
+	width:70px; 
+	height:70px;
 }
 </style>
+<link rel="stylesheet" href="/css/manager/managertable.css" />
 </head>
 <body style="margin:0 auto;">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
 <div style="margin-left:230px;">
-	<h3>상품준비중</h3>
-	<table>
+	<div class="table_box">
+	<div style="text-align: center">
+		<h2>상품 목록</h2>
+	</div>
+	<table class="table">
 		<tr>
-			<th>상품번호</th>
+			<th>상품 번호</th>
 			<th>상품 이미지</th>
-			<th>상품이름</th>
+			<th>상품 이름</th>
+			<th>상품 수정</th>
+			<th>상품 삭제</th>
 		</tr>
 		<tr id="shop" th:each="shop : ${shopitem}">
 			<td>
@@ -32,8 +38,19 @@ img {
 			<td>
 				<span th:text="${shop.goodsname}"></span>
 			</td>
+			<td>
+				<a th:href="@{'/'+ ${eurl} + '/' + ${shop.goodsnum}}">
+					<button type=button>edit</button>
+				</a>
+			</td>
+			<td>
+				<a th:href="@{'/'+ ${durl} + '/' + ${shop.goodsnum}}">
+					<button type=button>delete</button>
+				</a>
+			</td>
 		</tr>	
 	</table>
+	</div>
 </div>
 </body>
 </html>
