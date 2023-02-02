@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(exclude= {"adminpwd"})
 @AllArgsConstructor 
+@Entity
 @NoArgsConstructor
 @Entity
 @Table(name="admin")

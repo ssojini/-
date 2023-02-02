@@ -8,10 +8,22 @@
 	// 전체선택/해제
 	$("input[name='allCheck']").click(function(){
 		var chk_listArr = $("input[name='rowCheck']");
+		
+		// 전체살품 구매 갯수/금액
+		var total = 0;
+		var cnt = 0;
 		for (var i=0; i<chk_listArr.length; i++){
 			chk_listArr[i].checked = this.checked;
-		}
+			if(chk_listArr[i].checked){
+				var sum = chk_listArr[i].nextElementSibling.nextElementSibling.value;
+				total+=parseInt(sum);
+				cnt++;
+				}				
+			}
+		$('#total_sum').text(total);
+		$('#total_cnt').text(cnt+'개 상품');
 	});
+	
 	
 	// 각 선택창이 모두 선택/해제되면 전체선택란 체크/체크해제
 	$("input[name='rowCheck']").click(function(){
@@ -25,14 +37,18 @@
 	var list = $("input[name='rowCheck']");
 	var loop_cnt=0;	
 	var total = 0;
+	var cnt = 0;
 	for(var i=0; i<list.length; i++){
 		if(list[i].checked){
+			
 			var sum = list[i].nextElementSibling.nextElementSibling.value;
 			//console.log("sum: "+sum);
 			total+=parseInt(sum);
+			cnt++;
 		}
 	}
 	$('#total_sum').text(total);
+	$('#total_cnt').text(cnt+'개 상품');
 		
 	});	
 });
@@ -135,6 +151,15 @@ function buySel(){
 	
 }
 
+	function buyOne(cartnum,userid){
+		alert(cartnum+" "+userid);
+		var valueArr = new Array();		
+		var obj = {"cartnum":cartnum,"userid":"asdf"};
+		valueArr.push(obj);
+		//alert(obj+" "+JSON.stringify(valueArr));
+		$('#items').val(JSON.stringify(valueArr));
+		$('#buyCart').submit();	
+	}
 
 	function buyAll() {
 		var chk_listArr = $("input[name='rowCheck']");
