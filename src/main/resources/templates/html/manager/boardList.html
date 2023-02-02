@@ -2,9 +2,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>boardList</title>
+<link rel="stylesheet" href="/css/manager/boardList.css">
 </head>
 <body>
-
+<header>
+	<h1>Community</h1>
+</header>
+<main>
+	<div id="boardList_div">
+		<table>
+			<tbody>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>저자</th>
+					<th>조회수</th>
+				<tr>
+				<tr th:if="${listFreeboard != null}" th:each="freeboard : ${listFreeboard}">
+					<td>[[${freeboard.fbnum}]]</td>
+					<td>[[${freeboard.title}]]</td>
+					<td>[[${freeboard.author}]]</td>
+					<td>[[${freeboard.hit}]]</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div id="btn_div">
+		<button class="freeboard_btn" type="button" th:onclick="'location.href=\''+@{/manager/userlist}+'\''">뒤로가기</button>
+	</div>
+</main>
 </body>
 </html>

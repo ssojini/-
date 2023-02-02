@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.service.FreeboardService;
 import com.example.demo.service.ManagerService;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
@@ -30,6 +31,8 @@ public class ManagerController {
 	
 	@Autowired
 	private ManagerService svc;
+	@Autowired
+	private FreeboardService freeboardService;
 	
 	@GetMapping("/")
 	public String managermain()
@@ -115,8 +118,10 @@ public class ManagerController {
 	}
 	
 	@GetMapping("/board")
-	public String boardList(Model m)
+	public String boardList(Model m, Pageable page, String title)
 	{
+		System.out.println("title:"+title);
+		m.addAttribute("listFreeboard",freeboardService.getListByBnameAndTitle(title, "", page));
 		return "html/manager/boardList";
 	}
 	
