@@ -135,11 +135,21 @@ public class FreeboardController {
 		return map;
 	}
 	
+	@PostMapping("/deleteReply")
+	@ResponseBody
+	public Map<String,Object> deleteReply(Integer num) {
+		System.out.println("num:"+num);
+		Map<String,Object> map = new HashMap<>();
+		replyService.deleteByNum(num);
+		map.put("result", true);
+		return map;
+	}
+	
 	@PostMapping("/getReply")
 	@ResponseBody
-	public Map<String,Object> getReply(Integer pnum) {
+	public Map<String,Object> getReply(Integer num) {
 		Map<String,Object> map = new HashMap<>();
-		List<Map<String,String>> listReply = replyService.findAllByPnumToListMap(pnum);
+		List<Map<String,String>> listReply = replyService.findAllByPnumToListMap(num);
 		map.put("listReply", listReply);
 		return map;
 	}

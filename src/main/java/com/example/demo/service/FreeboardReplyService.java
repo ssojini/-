@@ -48,4 +48,8 @@ public class FreeboardReplyService {
 		repo.deleteByPnum(pnum);
 		return true;
 	}
+	public boolean deleteByNum(Integer num) {
+		repo.deleteById(num);
+		return true;
+	}
 }
