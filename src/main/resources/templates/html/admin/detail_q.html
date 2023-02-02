@@ -8,25 +8,25 @@
 
 function deleteQueB()
 {
-	$.ajax({
-		url:'/health/deleteQueB',
-		method:'post',
-		data: {"qnum": [[${qnum}]]},
-		dataType: 'json',
-		cache: false,
-		success: function(res){
-			//alert("삭제 되었습니다.")
-			alert(res.deleted?"삭제 성공": "삭제 실패")
-			if(res.deleted){
-				location.href='/health/qaList'
-			}
-		},
-		error: function(xhr, status, err){
-			alert("서버 문제로 삭제 실패 되었습니다.")
-			log.info("error이유:"+err)
-		}
-		
-	})
+   $.ajax({
+      url:'/health/deleteQueB',
+      method:'post',
+      data: {"qnum": [[${qnum}]]},
+      dataType: 'json',
+      cache: false,
+      success: function(res){
+         //alert("삭제 되었습니다.")
+         alert(res.deleted?"삭제 성공": "삭제 실패")
+         if(res.deleted){
+            location.href='/health/qaList'
+         }
+      },
+      error: function(xhr, status, err){
+         alert("서버 문제로 삭제 실패 되었습니다.")
+         log.info("error이유:"+err)
+      }
+      
+   })
 }
 
 
@@ -34,32 +34,35 @@ function deleteQueB()
 </script>
 </head>
 <body>
-<h3> 고객 관리</h3> 
-<div>1:1 문의</div>
-<div><a th:href= "|/health/reply/${oneb.qnum}|">[답변하기]</a></div>
-	<div>제목
-		<span>[[${oneb.title}]]</span>
-	</div>
-	<div>작성자
-		<span>[[${userid}]]</span>
-	</div>
-	<div>조회수
-		<span>[[${oneb.hit}]]</span>
-	</div>
-	<div>등록일
-		<span>[[${oneb.qdate}]]</span>
-	</div>
-	<div>내용
-		<span>[[${oneb.content}]]</span>
-	</div>
+<div th:replace="fragments/common :: header"></div>
+<div style="margin:0 auto; width: 500px; height:500px; padding-top:30px;">
+
+<div style="float:right">
+<a th:href= "|/health/reply/${oneb.qnum}|">답변하기</a>
+</div>
+	   <div>제목
+	      <span>[[${oneb.title}]]</span>
+	   </div>
+	   <div>작성자
+	      <span>[[${userid}]]</span>
+	   </div>
+	   <div>조회수
+	      <span>[[${oneb.hit}]]</span>
+	   </div>
+	   <div>등록일
+	      <span>[[${oneb.qdate}]]</span>
+	   </div>
+	   <div>내용
+	      <span>[[${oneb.content}]]</span>
+	   </div>
+	   
+	   <div>첨부파일</div>
+	   <span th:if= "${oneb.attList.size()>0}"></span>
+	   <span th:each="att: ${oneb.attList}"> [[${att.attname}]]</span>
 	
-	<div>첨부파일</div>
-	<span th:if= "${oneb.attList.size()>0}"></span>
-	<span th:each="att: ${oneb.attList}"> [[${att.attname}]]</span>
-
-<a th:href= "|/health/edit_q/${oneb.qnum}|">[수정하기]</a>
-<p>
-<button type="button" onclick="deleteQueB();"> 삭제</button>
-
+	<a th:href= "|/health/edit_q/${oneb.qnum}|">[수정하기]</a>
+	<p>
+	<button type="button" onclick="deleteQueB();"> 삭제</button>
+</div>
 </body>
 </html>
