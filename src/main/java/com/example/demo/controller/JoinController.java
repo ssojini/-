@@ -18,7 +18,6 @@ import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
