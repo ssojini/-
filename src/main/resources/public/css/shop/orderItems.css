@@ -4,15 +4,19 @@
 	padding: 0;
 	box-sizing: border-box;
 }
-
-h3 {
-	
-}
-
 body {
 	text-align: center;
 	height: 100%
 }
+
+h3{
+	text-align: center;
+}
+tr {
+	vertical-align: middle;
+}
+
+
 /* .contents{ 
 	display: flex
 	height:auto; overflow: hidden;	
@@ -27,6 +31,10 @@ body {
 .tb_cart {
 	float: left;
 	width: 60%;
+}
+.shipping_info{
+	text-align: center;
+	width:40%
 }
 
 .left_box {

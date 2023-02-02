@@ -1,16 +1,17 @@
 /**
  * 
  */
- // 구매금액 합계 구하기
+ // 구매금액 갯수/합계 구하기
 window.onload = (function(){
 	var total = 0;
 	var list = $("input[name='cartnum']");
-	for(var i=0; i<list.length;i++){
+	var i = 0;
+	for(i; i<list.length;i++){
 		var sum = list[i].nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value;	
 //		console.log("sum: "+sum);
 		total+=parseInt(sum);
 	}
-	
+	$('#total_cnt').text(i+' 개 품목');
 	$('#total_sum').text(total);
 });
  

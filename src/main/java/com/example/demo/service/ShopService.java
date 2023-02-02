@@ -192,7 +192,7 @@ public class ShopService
 				JSONObject jsObj= (JSONObject) jsArr.get(i); 
 				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
 				String userid = (String) jsObj.get("userid");
-				//System.err.println("cartnum: "+cartnum);
+				System.err.println("cartnum: "+cartnum);
 				Cart cart = cart_repo.findByCartnumAndUserid(cartnum,userid);
 				orderlist.add(cart);
 				
