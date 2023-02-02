@@ -20,7 +20,7 @@ function addFreeboard() {
 						uploadFiles(res.freeboard);
 					} else {
 						alert("저장 성공");
-						location.href = "/freeboard";
+						location.href = "/freeboard?bname="+$("#bname").val();
 					}
 				} else {
 					alert("저장 실패");
