@@ -4,21 +4,21 @@
 
 <mapper namespace="com.example.demo.mapper.UserEditMapper">
 
-<select id="userlist" resultType="com.example.demo.vo.UserJoin">
+<select id="userlist" resultType="com.example.demo.vo.User">
 	SELECT * FROM userjoin
 </select>
-<select id="userinfo" parameterType="string" resultType="com.example.demo.vo.UserJoin">
+<select id="userinfo" parameterType="string" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin WHERE userid=#{userid, jdbcType=VARCHAR}
 </select>
 <update id="useredit" parameterType="string">
 	UPDATE userjoin SET nickname=#{nickname, jdbcType=VARCHAR}, email=#{email,jdbcType=VARCHAR}, 
 	phone=#{phone,jdbcType=VARCHAR}, profile=#{profile,jdbcType=VARCHAR}, address=#{address} WHERE userid=#{userid,jdbcType=VARCHAR}
 </update>
-<delete id="deleteuser" parameterType="com.example.demo.vo.UserJoin">
+<delete id="deleteuser" parameterType="com.example.demo.vo.User">
 	DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
 </delete>
 
-<update id="changepwd" parameterType="com.example.demo.vo.UserJoin">
+<update id="changepwd" parameterType="com.example.demo.vo.User">
 	UPDATE userjoin SET pwd=#{pwd,jdbcType=VARCHAR} WHERE userid=#{userid,jdbcType=VARCHAR}
 </update>
 

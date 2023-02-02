@@ -31,6 +31,8 @@ public class User
 	private String phone;
 	//이메일
 	private String email;
+	private String email1;
+	private String email2;
 	//프로필사진
 	private String profile;
 	//주소

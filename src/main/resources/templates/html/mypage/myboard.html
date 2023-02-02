@@ -2,7 +2,9 @@
 <html>
 <head>
 <meta charset="utf-8">
+
 <title>myboard</title>
+
 <style>
 	body { background: #fff; }
 .blueone {
@@ -34,6 +36,7 @@
 <div>
     <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
+
 <table class="blueone">
 	<tr><th></th><th>제목</th><th>작성일</th><th>조회</th></tr>
 	<tr th:each="board: ${board}">

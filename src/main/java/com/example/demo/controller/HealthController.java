@@ -34,6 +34,7 @@ import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.OneBoard;
+import com.example.demo.vo.User;
 import com.example.demo.vo.UserJoin;
 import com.github.pagehelper.PageInfo;
 
@@ -102,7 +103,7 @@ public class HealthController {
 	@ResponseBody
 
 	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
-			HttpServletRequest request, UserJoin userjoin) 
+			HttpServletRequest request, User userjoin) 
 	{
 		Map<String,Object> map= new HashMap<>();
 		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, userjoin));
@@ -126,7 +127,7 @@ public class HealthController {
 
 	@PostMapping("/deleteuser")
 	@ResponseBody
-	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid,  UserJoin userjoin, Model m) {
+	public Map<String, Object> deleteuser(@PathVariable(value = "userid", required = false) String userid,  User userjoin, Model m) {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		Map<String, Object>map = new HashMap<>();
 		map.put("deleted", mp_svc.deleteuser(userjoin));
