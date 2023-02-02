@@ -27,4 +27,5 @@ public interface ManagerMapper {
 	public int shopUpdate(Shop findshop);
 	public List<GoodsAndAtt> shopitem();
 	public GoodsAndAtt getitem(int goodsnum);
+	public List<Freeboard> getboardlist(String bname);
 }

@@ -1,15 +1,19 @@
 package com.example.demo.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.interfaces.AdminLoginRepository;
 import com.example.demo.interfaces.ShopListRepository;
 import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
+import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
@@ -30,11 +34,27 @@ public class ManagerService {
 	@Autowired
 	private ShopListRepository srepo;
 	
+	@Autowired
+	private AdminLoginRepository arepo;
+	
 	public List<User> userList()
 	{
 		return map.userList();
 	}	
 
+	public Map<String, Object> login(String adminid, String adminpwd) {
+		Map<String,Object> map = new HashMap<>();
+		Admin admin = arepo.findByAdminidAndAdminpwd(adminid, adminpwd);
+		if(admin!=null) {
+			map.put("login",true);			
+			map.put("msg","로그인 성공");			
+	
+		}else {
+			map.put("login",false);			
+			map.put("msg","로그인 실패");	
+		}
+		return map;
+	}
 
 	public Page<User> getUserList(Pageable pageable) throws Exception {
         Page<User> page = urepo.findAll(pageable);
@@ -46,11 +66,6 @@ public class ManagerService {
 	public User userdetail(String userid)
 	{
 		return map.userDetail(userid);
-	}
-	
-	public List<Freeboard> userboard(String userid)
-	{
-		return map.userBoard(userid);
 	}
 
 	public Freeboard boarddetail(int fbnum) {
@@ -106,4 +121,8 @@ public class ManagerService {
 		return map.getitem(goodsnum);
 	}
 
+
+	public List<Freeboard> getboardlist(String bname) {
+		return map.getboardlist(bname);
+	}
 }
