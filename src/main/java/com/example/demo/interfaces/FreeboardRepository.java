@@ -10,7 +10,7 @@ import com.example.demo.vo.Freeboard;
 
 public interface FreeboardRepository extends JpaRepository<Freeboard, Integer> {
 	public Page<Freeboard> findAll(Pageable pageable);
-	public Page<Freeboard> findByBname(String bname, Pageable pageable);
-	public Page<Freeboard> findByBnameAndTitle(String bname, String title, Pageable pageable);
+	public Page<Freeboard> findByBnameOrderByDatetimeDesc(String bname, Pageable pageable);
+	public Page<Freeboard> findByBnameAndTitleOrderByDatetimeDesc(String bname, String title, Pageable pageable);
 	public List<Freeboard> findAllByOrderByHitDesc();
 }
