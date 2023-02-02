@@ -26,7 +26,7 @@
 	        LPAD('　', (LEVEL-1)*3, '　') || title title,
 	        author, qdate, content, hit, anum
 	        FROM queBoard
-	        START WITH author= '#{author}'
+	        START WITH author=#{author}
 	        CONNECT BY PRIOR qnum=anum
 	        ORDER SIBLINGS BY qnum DESC
 	    )t1
