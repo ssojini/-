@@ -13,7 +13,21 @@
 				<h1>건끼 : Shop</h1>
 			</a>
 		</div>
-		<nav>
+		
+		<nav id="navlog">
+			<ul >
+				<li>
+					<span th:if="${session.userid}!=null">[[${session.userid}]] ||
+						<a href="/team/logout">로그아웃</a>|| 
+						<a th:href="'/health/useredit/'+ ${session.userid}">마이페이지</a>
+					</span> 
+					<span th:unless="${session.userid}!=null">
+						<a href="/team/login">로그인</a>
+					</span>
+				</li>
+			</ul>
+		</nav>
+		<nav id="navbar">
 			<ul id="topMenu">
 				<li><a href="#">상품카테고리<span>▼</span></a>
 					<ul>
@@ -33,6 +47,7 @@
 				<li><a href="/health/main">건끼로 돌아가기</a></li>
 			</ul>		
 		</nav>
+		
 	</header>
 </div>		
 </body>
