@@ -28,4 +28,7 @@ public interface ManagerMapper {
 	public List<GoodsAndAtt> shopitem();
 	public GoodsAndAtt getitem(int goodsnum);
 	public List<Freeboard> getboardlist(String bname);
+	
+	public int deletegoods(int goodsnum);
+	public int deletegoodsatt(int goodsnum);
 }
