@@ -101,5 +101,17 @@
            select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
                  GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
         )
+       	ORDER BY goodsnum
+	</select>
+	<select id="getitem" parameterType="int" resultType="com.example.demo.vo.GoodsAndAtt">
+		select goodsnum, mainpic_server, goodsname from 
+        (
+          	select  
+           		g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server 
+           	from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
+        )
+        WHERE goodsnum=#{goodsnum}
+       	ORDER BY goodsnum
 	</select>
 </mapper>

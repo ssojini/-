@@ -102,4 +102,8 @@ public class ManagerService {
 		return map.shopitem();
 	}
 
+	public GoodsAndAtt itemedit(int goodsnum) {
+		return map.getitem(goodsnum);
+	}
+
 }

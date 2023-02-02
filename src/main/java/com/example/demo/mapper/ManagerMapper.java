@@ -26,4 +26,5 @@ public interface ManagerMapper {
 	public Shop shopdetail(int ordernum);
 	public int shopUpdate(Shop findshop);
 	public List<GoodsAndAtt> shopitem();
+	public GoodsAndAtt getitem(int goodsnum);
 }
