@@ -30,13 +30,10 @@ import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.mypageService;
-import com.example.demo.vo.AdminAttachBoard;
-import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
 import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
