@@ -97,4 +97,8 @@ public class FreeboardService {
 		map.put("hit", ""+freeboard.getHit());
 		return map;
 	}
+	
+	public List<Freeboard> getListByOrderByHitDesc() {
+		return repo.findAllByOrderByHitDesc();
+	}
 }

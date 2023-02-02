@@ -29,7 +29,7 @@ window.onload = function() {
 			<div id="contents">[[${freeBoard.contents}]]</div>
 		</div>
 		<div id="detail_freeboard_button_div">
-			<button id="freeboard_goback_button" th:onclick="location.href='/freeboard?bname=${freeBoard.bname}'">뒤로가기</button>
+			<button id="freeboard_goback_button" th:onclick="'location.href=\'/freeboard?fbnum='+${freeBoard.fbnum}+'\''">뒤로가기</button>
 			<button id="freeboard_edit_button" type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 		</div>
 		<div id="add_reply_div">
