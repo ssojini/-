@@ -44,13 +44,11 @@
 	</select>
 	
 	<select id="list" resultType="map">
-		SELECT a.num, a.datetime, b.num, b.pnum, b.when, b.content, c.pnum, c.pname, c.fname
-		FROM hcalendar a 
-		LEFT OUTER JOIN calen_schedule b
-		ON a.num = b.pnum
-		LEFT OUTER JOIN attachcalendar c
-		ON b.num = c.pnum
-		ORDER BY a.num DESC
+		SELECT num, datetime, pnum, when, content,LISTAGG(PNAME,',')
+		WITHIN GROUP (ORDER BY PNAME)AS PNAME
+		FROM EATED_LIST
+		GROUP BY num, datetime, pnum, when, content
+		ORDER BY NUM DESC
 	</select>
 	
 	<select id="detail" parameterType="Integer" resultType="map">
@@ -62,5 +60,17 @@
 		ON b.num = c.pnum
 		WHERE a.num = #{num}
 	</select>
+	
+	<delete id = "caldelete" parameterType="com.example.demo.vo.HCalendar">
+		DELETE FROM hcalendar WHERE num = #{num}
+	</delete>
+	
+	<delete id = "schdelete" parameterType="com.example.demo.vo.Schedule">
+		DELETE FROM calen_schedule WHERE num = #{num}
+	</delete>
+	
+	<delete id = "attcaldelete" parameterType="com.example.demo.vo.AttachCalendar">
+		DELETE FROM attachcalendar WHERE num = #{num}
+	</delete>
 	
 </mapper>
