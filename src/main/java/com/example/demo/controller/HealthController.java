@@ -206,7 +206,11 @@ public class HealthController {
 			HttpSession session)
 	{
 		String userid = (String)session.getAttribute("userid");
-		log.info("ctrl, session에서 전달된 author:"+ userid);
+		log.info("ctrl, session에서 전달된 userid:"+ userid);
+		if(userid==null)
+		{
+			return "html/admin/qna";
+		}
 		m.addAttribute("userid", userid);
 		PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
 		List<OneBoard> list = hsvc.qna(pageInfo.getList());
@@ -268,7 +272,6 @@ public class HealthController {
 		m.addAttribute("oneb", oneb);
 		String userid =(String)session.getAttribute("userid");
 		m.addAttribute("userid", userid);
-		//log.info("oneb에서 나오는 첨부파일:"+oneb.getAttList());
 		return "html/admin/detail_q";
 	}
 	

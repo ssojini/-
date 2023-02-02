@@ -77,6 +77,7 @@ public class AdminBoardSerivce
 		OneBoard oneb = new OneBoard(big.intValue());
 		oneb.setTitle((String)map.get("TITLE"));
 		oneb.setAuthor((String)map.get("AUTHOR"));
+		oneb.setContent((String)map.get("CONTENT"));
 
 		try {
 			String jts = String.valueOf(map.get("QDATE"));

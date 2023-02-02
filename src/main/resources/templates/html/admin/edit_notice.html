@@ -6,15 +6,23 @@
 <style>
 .title{
 	text-align: center;
+	margin-top: 10px;
 }
-.container{
-	 width: 400px;
-	 height:400px;
+.containera{
+	 width: 600px;
+	 height:600px;
 	 margin: 0 auto;
 	 outline: solid 1px black;
 	 display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top:5px;
+}
+
+.btn{
+	width:100%;
+	margin: 0 auto;
+	
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -81,8 +89,11 @@ $(function(){
 </script>
 </head>
 <body>
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 <h3 class="title">수정하기</h3>
-<div class= "container"> 
+<div class= "containera"> 
 <form id="editForm" >
 
 	<div>제목
@@ -114,7 +125,7 @@ $(function(){
 		<label for="attach">첨부파일 추가</label>
 		<input type="file" name="attach" multiple="multiple">
 </div>
-<div>
+<div class="btn">
 	<button type="button" id="btnUpload"> 저장</button>
 	<button type="reset">취소</button>
 </div>
