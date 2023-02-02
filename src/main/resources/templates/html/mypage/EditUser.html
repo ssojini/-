@@ -145,7 +145,7 @@ $(function(){
 				if(res.edited)
 				{
 					alert("수정성공");
-					location.href="/health/";
+					location.href="/health/useredit/smith";
 				}
 				else alert("수정실패");
 			},
@@ -214,6 +214,13 @@ $(function(){
 					        <option value="1">직접입력</option>
 						</select>
 						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">주소</th>
+					<td>
+						<input type='text' id="address" name="address" th:value="${user.address}"></input>
+						<span class="error_next_box"></span>  
 					</td>
 				</tr>
 			</tbody>
