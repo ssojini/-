@@ -50,7 +50,7 @@
 		ON a.num = b.pnum
 		LEFT OUTER JOIN attachcalendar c
 		ON b.num = c.pnum
-		ORDER BY a.num = #{num}
+		ORDER BY a.num DESC
 	</select>
 	
 	<select id="detail" parameterType="Integer" resultType="map">

@@ -25,4 +25,6 @@ public interface CalendarMapper
 
 	List<Map<String, Object>> detail(int num);
 
+	List<Map<String, Object>> list();
+
 }
