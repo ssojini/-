@@ -18,7 +18,6 @@ import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +40,7 @@ public class JoinController
 	//초기 데이터 생성 메소드
 	@GetMapping("/add")
 	@ResponseBody
-	public void add(HttpSession session)
+	public String add(HttpSession session)
 	{
 		//상욱
 		Date date = Date.valueOf("2022-12-31");
@@ -50,6 +49,7 @@ public class JoinController
 		
 		// 현주 
 
+		return added.toString();
 	}
 	//이용약관
 	@GetMapping("/rules")

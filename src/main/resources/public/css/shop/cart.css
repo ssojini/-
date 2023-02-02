@@ -1,0 +1,45 @@
+@charset "UTF-8";
+* { 
+	    margin: 0;
+	    padding: 0;
+	    box-sizing: border-box;
+	}
+		
+	body {
+		text-align: center;
+		height:100%
+		
+	}
+	tr{
+	 vertical-align: middle;
+	}
+	
+	/* .contents{ 
+	display: flex
+	height:auto; overflow: hidden;	
+	} */
+	.mymenu{
+		background: #F0FFF0;
+		float: left;
+		width: 20%;
+		height: 100vh;
+		
+	}
+	.tb_cart{ 		
+	 	float: left;		
+		width: 60%;
+	}
+	.right_box{
+		background: #696969;
+		width: 20%; height: 100vh;
+		float: right;
+	}
+	.btn_buy{
+		
+		top: 100px;
+		position: sticky; top:0px; 
+		
+	}
+	
+	.tb_head{
+	}

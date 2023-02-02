@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +10,16 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ManagerService;
-import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Shop;
-import com.example.demo.vo.UserJoin;
-import com.example.demo.vo.UserJoinJpa;
-import com.github.pagehelper.PageInfo;
+import com.example.demo.vo.User;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -46,7 +39,7 @@ public class ManagerController {
 	@GetMapping("/userlist")
 	public String userList(Model m, @PageableDefault(size=10,sort="userid", page=0) Pageable pageable) throws Exception
 	{
-		Page<UserJoinJpa> list = svc.getUserList(pageable);
+		Page<User> list = svc.getUserList(pageable);
 		m.addAttribute("userList",list);
 		m.addAttribute("url", "manager/userdetail");
 		return "html/manager/userList";

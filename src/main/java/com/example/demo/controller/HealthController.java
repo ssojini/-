@@ -35,7 +35,6 @@ import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
 import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;

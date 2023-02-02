@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,7 @@ import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Shop;
-import com.example.demo.vo.UserJoin;
-import com.example.demo.vo.UserJoinJpa;
+import com.example.demo.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,17 +29,17 @@ public class ManagerService {
 	@Autowired
 	private ShopListRepository srepo;
 	
-	public List<UserJoin> userList()
+	public List<User> userList()
 	{
 		return map.userList();
 	}
 	
-	public Page<UserJoinJpa> getUserList(Pageable pageable) throws Exception {
-        Page<UserJoinJpa> page = urepo.findAll(pageable);
+	public Page<User> getUserList(Pageable pageable) throws Exception {
+        Page<User> page = urepo.findAll(pageable);
         return page;
     }
 	
-	public UserJoin userdetail(String userid)
+	public User userdetail(String userid)
 	{
 		return map.userDetail(userid);
 	}
