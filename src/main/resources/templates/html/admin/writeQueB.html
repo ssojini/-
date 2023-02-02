@@ -3,24 +3,31 @@
 <head>
 <meta charset="utf-8">
 <title>이용자 1:1 문의 페이지</title>
+
 <style>
 .title{
 	text-align: center;
+	margin-top: 10px;
 }
-.container{
-	 width: 400px;
-	 height:400px;
+.containera{
+	 width: 600px;
+	 height:600px;
 	 margin: 0 auto;
 	 outline: solid 1px black;
 	 display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 5px;
+}
+.btn{
+	width: 100%
+	margin: 0 auto;	
 }
 </style>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" 
+	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
+	crossorigin="anonymous"></script>
 <script type="text/javascript">
-
-
 $(function(){
 	$('#btnUpload').on('click',function(event){
 		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
@@ -60,8 +67,11 @@ $(function(){
 </script>
 </head>
 <body>
+<div>
+<div th:replace="fragments/common :: header"></div>
+</div>
 <h3 class="title">1:1 문의</h3>
-<div class="container">
+<div class="containera">
 <form id ="questionForm" >
 	<div>
 		<script>
@@ -85,8 +95,10 @@ $(function(){
 		<input type="file" name="attach" multiple="multiple">
 	</div>
 	<p>
+	<div class="btn"> 
 	<button type="button" id="btnUpload">저장</button>
 	<button type="reset">취소</button>
+	</div>
 </form>
 </div>
 </body>
