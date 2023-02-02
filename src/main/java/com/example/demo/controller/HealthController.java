@@ -30,8 +30,6 @@ import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.mypageService;
-import com.example.demo.vo.AdminAttachBoard;
-import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.OneBoard;
@@ -69,7 +67,6 @@ public class HealthController {
 		System.out.println("uid: "+ userid);
 		m.addAttribute("board",mp_svc.getmyboard(userid));
 		System.out.println("data: " + mp_svc.getmyboard(userid).toString());
-		
 		
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/myboard";

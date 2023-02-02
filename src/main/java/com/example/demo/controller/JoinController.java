@@ -110,7 +110,7 @@ public class JoinController
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<String,Object> loginProc(User user)
-	{					
+	{
 		return us.login(user.getUserid(),user.getPwd());
 	}
 	@GetMapping("/findLoginInfo")
@@ -161,6 +161,7 @@ public class JoinController
 		log.info("sid:"+sid);
 		log.info(rdStrCheck);
 		
+		System.out.println("HttpSessionHandler.map:"+HttpSessionHandler.map);
 		HttpSession orgSession = HttpSessionHandler.map.get(sid);
 		System.err.println("original: "+orgSession);
 		

@@ -13,6 +13,7 @@ import com.example.demo.interfaces.ShopListRepository;
 import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
@@ -39,7 +40,9 @@ public class ManagerService {
 
 	public Page<User> getUserList(Pageable pageable) throws Exception {
         Page<User> page = urepo.findAll(pageable);
+
         return page; 
+
 
     }
 	
@@ -96,6 +99,10 @@ public class ManagerService {
 		findshop.setStatus(shop.getStatus());	
 		int updateshop = map.shopUpdate(findshop);
 		return updateshop;
+	}
+
+	public List<GoodsAndAtt> shopitem() {
+		return map.shopitem();
 	}
 
 }

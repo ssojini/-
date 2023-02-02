@@ -66,12 +66,22 @@
   
 }
 
-.menu > li:hover {
+.menu > .con:hover {
   background-color: #94a9ff;
   transition-duration: 0.5s;
 }
 
-.menu > li:hover .submenu {
+.menu > .con:hover .submenu {
   height: 150px; /*서브메뉴 li한개의 높이 50*5*/
   transition-duration: 1s;
+}
   
+.menu > .item:hover {
+  background-color: #94a9ff;
+  transition-duration: 0.5s;
+}
+
+.menu > .item:hover .submenu {
+  height: 100px; /*서브메뉴 li한개의 높이 50*5*/
+  transition-duration: 1s;
+}
