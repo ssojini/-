@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.service.ManagerService;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Shop;
+import com.example.demo.vo.User;
 import com.example.demo.vo.UserJoin;
-import com.example.demo.vo.UserJoinJpa;
 import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,7 +46,7 @@ public class ManagerController {
 	@GetMapping("/userlist")
 	public String userList(Model m, @PageableDefault(size=10,sort="userid", page=0) Pageable pageable) throws Exception
 	{
-		Page<UserJoinJpa> list = svc.getUserList(pageable);
+		Page<User> list = svc.getUserList(pageable);
 		m.addAttribute("userList",list);
 		m.addAttribute("url", "manager/userdetail");
 		return "html/manager/userList";

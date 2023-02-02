@@ -14,8 +14,8 @@ import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Shop;
+import com.example.demo.vo.User;
 import com.example.demo.vo.UserJoin;
-import com.example.demo.vo.UserJoinJpa;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,8 +37,8 @@ public class ManagerService {
 		return map.userList();
 	}
 	
-	public Page<UserJoinJpa> getUserList(Pageable pageable) throws Exception {
-        Page<UserJoinJpa> page = urepo.findAll(pageable);
+	public Page<User> getUserList(Pageable pageable) throws Exception {
+        Page<User> page = urepo.findAll(pageable);
         return page;
     }
 	
