@@ -25,10 +25,10 @@
 		<div id="freeboard_table_div">
 			<table id="freeboard_table" >
 				<tr>
-					<th><b>번호</b></th>
-					<th><b>제목</b></th>
-					<th><b>저자</b></th>
-					<th><b>조회수</b></th>
+					<th class="freeboard_table_num"><b>번호</b></th>
+					<th class="freeboard_table_title"><b>제목</b></th>
+					<th class="freeboard_table_author"><b>저자</b></th>
+					<th class="freeboard_table_hit"><b>조회수</b></th>
 				</tr>
 				<tr class="boardTr" th:each="board : ${pageFreeboard}">
 					<td>[[${board.fbnum}]]</td>
