@@ -131,7 +131,7 @@ public class FreeboardController {
 	public Map<String,Object> addReply(FreeboardReply reply) {
 		System.out.println("addReply()");
 		Map<String,Object> map = new HashMap<>();
-		String userid = (String)session.getAttribute("userid");
+		String userid = (String)session.getAttribute("nickname");
 		reply.setAuthor(userid);
 		FreeboardReply saveReply = replyService.save(reply);
 		map.put("result",true);
