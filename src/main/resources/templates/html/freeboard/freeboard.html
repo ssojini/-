@@ -43,12 +43,9 @@
 				<input id="title" type="hidden" th:value="${title}">
 				<span th:if="${pageFreeboard.getNumber() gt 9}"><a
 					th:href="'javascript:goPage(\''+${pageFreeboard.getNumber()/10*10-1}+'\');'">이전</a></span>
-					
 				<th:block th:if="${i le pageFreeboard.getTotalPages()}" th:each="i : ${#numbers.sequence(pageFreeboard.getNumber()/10*10+1,pageFreeboard.getNumber()/10*10+10)}">
-					<a th:if="${i!=pageFreeboard.getNumber()+1}" th:href="'javascript:goPage(\''+${i-1}+'\');'">[[${i}]]</a>
-					<span th:if="${i==pageFreeboard.getNumber()+1}">[[${i}]]</span>
+					<span th:class="${i-1 == pageFreeboard.getNumber()}?'current_page_span':'page_span'" th:text="${i}"><a th:if="${i!=pageFreeboard.getNumber()+1}" th:href="'javascript:goPage(\''+${i-1}+'\');'"></a></span>
 				</th:block>
-				
 				<span th:if="${(pageFreeboard.getNumber()/10*10+10)<pageFreeboard.getTotalPages()}">
 					<a th:href="'javascript:goPage(\''+${pageFreeboard.getNumber()/10*10+10}+'\')'">다음</a>
 				</span>
