@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.UserEditMapper;
 import com.example.demo.vo.Freeboard;
-import com.example.demo.vo.UserJoin;
+import com.example.demo.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,12 +33,12 @@ public class mypageService {
 
 	private Path fileStorageLocation;
 	
-	public List<UserJoin> userlist()
+	public List<User> userlist()
 	{
 		return map.userlist();
 	}
 	
-	public UserJoin userinfo(String userid)
+	public User userinfo(String userid)
 	{
 		System.out.println("useridfo:   "+ map.userinfo(userid));
 		return map.userinfo(userid);
@@ -67,14 +67,14 @@ public class mypageService {
 		    return fileNameParts[fileNameParts.length - 1];
 		  }
 
-	 public boolean storeFile(MultipartFile file, UserJoin userjoin) {
+	 public boolean storeFile(MultipartFile file, User user) {
 		    // Normalize file name
 		 String fileName= null;
 		 //map.userinfo(userid).getProfile();
-		 //System.out.println("fname:  "+  map.userinfo(userjoin.getUserid()).getProfile());
+		 //System.out.println("fname:  "+  map.userinfo(user.getUserid()).getProfile());
 		 if(file.isEmpty())
 		 {
-			 fileName = map.userinfo(userjoin.getUserid()).getProfile();
+			 fileName = map.userinfo(user.getUserid()).getProfile();
 		 }
 		 else {			 
 			 String originalFileName = file.getOriginalFilename();	//오리지날 파일명
@@ -99,14 +99,14 @@ public class mypageService {
 		    }
 		 }
 		    
-		    String email1 = userjoin.getEmail1();
-			String email2 = userjoin.getEmail2();
+		    String email1 = user.getEmail1();
+			String email2 = user.getEmail2();
 			String email = email1 + "@" + email2;
 			
-			userjoin.setEmail(email);
-			userjoin.setProfile("/images/profile/"+fileName);
+			user.setEmail(email);
+			user.setProfile("/images/profile/"+fileName);
 
-			int edit =  map.useredit(userjoin);
+			int edit =  map.useredit(user);
 			
 			boolean editted = false;
 			if(edit>0)
@@ -117,14 +117,14 @@ public class mypageService {
 		  }
 
 	
-	public boolean deleteuser(UserJoin userjoin)
+	public boolean deleteuser(User user)
 	{
-		String db_pwd = map.userinfo(userjoin.getUserid()).getPwd();
+		String db_pwd = map.userinfo(user.getUserid()).getPwd();
 
 		boolean deleted=false;
-		if(db_pwd.equals(userjoin.getPwd()))
+		if(db_pwd.equals(user.getPwd()))
 		{
-			int delete = map.deleteuser(userjoin.getUserid());
+			int delete = map.deleteuser(user.getUserid());
 			if(delete>0)
 			{
 				deleted=true;
@@ -133,10 +133,10 @@ public class mypageService {
 		return deleted;
 	}
 	
-	public boolean changepwd(UserJoin userjoin)
+	public boolean changepwd(User user)
 	{
 		boolean changed= false;
-		if(map.changepwd(userjoin)>0)
+		if(map.changepwd(user)>0)
 		{
 			changed= true;
 		}
