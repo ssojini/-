@@ -5,26 +5,35 @@ body {
 
 main {
 	background-color: rgb(223,223,223);
+	width: 100vw;
+	height: 100vh;
 	text-align: center;
 }
 
 #freeboard_table_div {
-	background-color: rgb(256,256,256);
+	background: white;
 	margin: auto;
-	border-radius: 10px;
-	padding: 0px;
+	padding: 5px;
 	width: 80%;
-	text-align: center;
 }
-
 #freeboard_table {
-	margin: auto;
-	width: 80%;
-	text-align: center;
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: separate;
+	border-spacing: 5px;
 }
-
+#freeboard_table > tbody {
+}
 #freeboard_table > tbody > tr {
-	width: 80%;
+}
+#freeboard_table > tbody > tr > th {
+	background-color: rgb(223,223,223);
+	border-radius: 10px;
+	width: 25%;
+}
+#freeboard_table > tbody > tr > td {
+}
+.boardTr {
 }
 
 #freeboard_page_div {
@@ -52,7 +61,7 @@ main {
 }
 
 #freeboard_interface_div {
-	margin: 0px;
+	margin: 5px 0px 0px;
 	height: 50%;
 	text-align: center;
 }
