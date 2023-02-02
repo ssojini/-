@@ -478,5 +478,17 @@ public class ShopService
 		 List<GoodsAndAtt> list = map.category3();
 		 return list;
 	 }
+	 
+	 public List<GoodsAndAtt> editGoodspage(int goodsnum){
+		 List<GoodsAndAtt> list = map.editGoodspage(goodsnum);
+		 return list;
+	 }
+	 
+	 public boolean editgoods()
+	 {
+		 return false;
+	 }
+	 
+	 
 
 }

@@ -34,4 +34,6 @@ public interface ShopMapper {
 	public List<GoodsAndAtt> category1();
 	public List<GoodsAndAtt> category2();
 	public List<GoodsAndAtt> category3();
+	
+	public List<GoodsAndAtt> editGoodspage(int goodsnum);
 }
