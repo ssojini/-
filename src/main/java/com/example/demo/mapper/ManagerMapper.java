@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.UserJoin;
 
@@ -24,4 +25,5 @@ public interface ManagerMapper {
 	public List<Shop> getshop(String status);
 	public Shop shopdetail(int ordernum);
 	public int shopUpdate(Shop findshop);
+	public List<GoodsAndAtt> shopitem();
 }
