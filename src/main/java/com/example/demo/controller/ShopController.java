@@ -242,12 +242,6 @@ public class ShopController {
 		return map;
 	}
 	
-	@GetMapping("/editgoods/{goodsnum}")
-	public String editGoodspage(@PathVariable(value = "goodsnum") int goodsnum, Model m)
-	{
-		m.addAttribute("goods", svc.editGoodspage(goodsnum));
-		return "html/shop/goodsedit";
-	}
 	
 	@PostMapping("/editgoods")
 	@ResponseBody

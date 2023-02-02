@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ManagerService;
+import com.example.demo.service.ShopService;
 import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
@@ -33,6 +34,9 @@ public class ManagerController {
 	
 	@Autowired
 	private ManagerService svc;
+	
+	@Autowired
+	private ShopService ssvc;
 	
 	@GetMapping("/")
 	public String managermain()
@@ -124,7 +128,7 @@ public class ManagerController {
 	@GetMapping("/shopitem")
 	public String shopitem(Model m)
 	{
-		m.addAttribute("eurl", "manager/item/edit");
+		m.addAttribute("eurl", "manager/editgoods");
 		m.addAttribute("durl", "manager/item/delete");
 		m.addAttribute("shopitem",svc.shopitem());
 		return "html/manager/shopitem";
@@ -135,5 +139,12 @@ public class ManagerController {
 	{
 		m.addAttribute("item",svc.itemedit(goodsnum)); 
 		return "html/manager/shopitemedit";
+	}
+	
+	@GetMapping("/editgoods/{goodsnum}")
+	public String editGoodspage(@PathVariable(value = "goodsnum") int goodsnum, Model m)
+	{
+		m.addAttribute("goods", ssvc.editGoodspage(goodsnum));
+		return "html/shop/goodsedit";
 	}
 }	
