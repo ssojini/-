@@ -4,15 +4,15 @@
 
 <mapper namespace="com.example.demo.mapper.ManagerMapper">
 
-	<select id="findUser" resultType="com.example.demo.vo.UserJoin">
+	<select id="findUser" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin
 	</select>
 	
-	<select id="userList" resultType="com.example.demo.vo.UserJoin">
+	<select id="userList" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin
 	</select>
 	
-	<select id="userDetail" parameterType="string" resultType="com.example.demo.vo.UserJoin">
+	<select id="userDetail" parameterType="string" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin WHERE userid=#{userid, jdbcType=VARCHAR}
 	</select>
 	

@@ -60,6 +60,9 @@ public class FreeboardController {
 		java.sql.Date date = new java.sql.Date(100);
 		System.out.println("FreeboardController/add(Model m, Freeboard freeBoard)");
 		Map<String,Object> map = new HashMap<>();
+		String nickname = (String)session.getAttribute("nickname");
+		System.out.println("nickname:"+nickname);
+		freeBoard.setAuthor(nickname);
 		Freeboard addFreeboard = freeboardService.save(session, freeBoard);
 		map.put("result", true);
 		map.put("freeboard", freeboardService.freeboardToMap(addFreeboard));

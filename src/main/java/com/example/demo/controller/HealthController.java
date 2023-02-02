@@ -68,7 +68,6 @@ public class HealthController {
 		m.addAttribute("board",mp_svc.getmyboard(userid));
 		System.out.println("data: " + mp_svc.getmyboard(userid).toString());
 		
-		
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		return "html/mypage/myboard";
 	}

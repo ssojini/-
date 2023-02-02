@@ -18,7 +18,6 @@ import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
-import com.example.demo.vo.UserJoin;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -111,7 +110,7 @@ public class JoinController
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<String,Object> loginProc(User user)
-	{					
+	{
 		return us.login(user.getUserid(),user.getPwd());
 	}
 	@GetMapping("/findLoginInfo")
