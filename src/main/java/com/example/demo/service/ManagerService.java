@@ -13,6 +13,7 @@ import com.example.demo.interfaces.ShopListRepository;
 import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 import com.example.demo.vo.UserJoin;
@@ -95,6 +96,10 @@ public class ManagerService {
 		findshop.setStatus(shop.getStatus());	
 		int updateshop = map.shopUpdate(findshop);
 		return updateshop;
+	}
+
+	public List<GoodsAndAtt> shopitem() {
+		return map.shopitem();
 	}
 
 }
