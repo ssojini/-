@@ -41,7 +41,7 @@ function deleteQueB()
 		<span>[[${oneb.title}]]</span>
 	</div>
 	<div>작성자
-		<span>[[${oneb.author}]]</span>
+		<span>[[${userid}]]</span>
 	</div>
 	<div>조회수
 		<span>[[${oneb.hit}]]</span>
@@ -60,5 +60,6 @@ function deleteQueB()
 <a th:href= "|/health/edit_q/${oneb.qnum}|">[수정하기]</a>
 <p>
 <button type="button" onclick="deleteQueB();"> 삭제</button>
+
 </body>
 </html>

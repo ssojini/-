@@ -20,17 +20,16 @@
 		resultType="map"
 		parameterType="String"
 		>
-	   SELECT * FROM
+	    SELECT * FROM
 	    (
 	        SELECT qnum, 
 	        LPAD('　', (LEVEL-1)*3, '　') || title title,
 	        author, qdate, content, hit, anum
 	        FROM queBoard
-	        START WITH anum=0
+	        START WITH author= '#{author}'
 	        CONNECT BY PRIOR qnum=anum
 	        ORDER SIBLINGS BY qnum DESC
 	    )t1
-	    WHERE author =#{author}
 
 	</select>
 	

@@ -180,6 +180,7 @@ public class HealthController {
 	{
 		String userid = (String)session.getAttribute("userid");
 		log.info("ctrl, session에서 전달된 author:"+ userid);
+		m.addAttribute("userid", userid);
 		PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
 		List<OneBoard> list = hsvc.qna(pageInfo.getList());
 		m.addAttribute("list", list);
@@ -234,20 +235,24 @@ public class HealthController {
 	
 	
 	@GetMapping("/detailByQnum/{qnum}")
-	public String detailByQnum(@PathVariable("qnum") int qnum, Model m)
+	public String detailByQnum(@PathVariable("qnum") int qnum, Model m, HttpSession session)
 	{
 		OneBoard oneb = absvc.detailByQnum(qnum);
 		m.addAttribute("oneb", oneb);
+		String userid =(String)session.getAttribute("userid");
+		m.addAttribute("userid", userid);
 		//log.info("oneb에서 나오는 첨부파일:"+oneb.getAttList());
 		return "html/admin/detail_q";
 	}
 	
 	@GetMapping("/edit_q/{num}")
-	public String editTestForm(@PathVariable("num") int num, Model m)
+	public String editTestForm(@PathVariable("num") int num, Model m, HttpSession session)
 	{
 		OneBoard oneb = absvc.detailByQnum(num);
 		m.addAttribute("oneb", oneb);
 		m.addAttribute("qnum", num);
+		String userid = (String)session.getAttribute("userid");
+		m.addAttribute("userid", userid);
 	//	log.info("num값:" +num);
 		return "html/admin/edit_q";
 	}
