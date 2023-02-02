@@ -32,7 +32,7 @@ function delFiles(index)
 {
 	//alert('삭제대상:'+index);
 	//console.log($('#attid'+index).val());
-	alert($('#attid'+index).val());
+	//alert($('#attid'+index).val());
 	var id =$('#attid'+index).val();
 	
 	$.ajax({
@@ -62,7 +62,7 @@ $(function(){
 				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
 		
 		
-		alert("게시글 수정용 ajax 돌아감");		
+	//	alert("게시글 수정용 ajax 돌아감");		
 		$.ajax({
 			url:'/health/edit_q/[[${qnum}]]',
 			method:'post',
