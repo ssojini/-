@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+
+<script src="/js/manager.js"></script>
+<style>
+	.usertable {
+	width:60%;
+	height:100%;
+	}
+	table.type11 {
+	  border-collapse: separate;
+	  border-spacing: 1px;
+	  text-align: center;
+	  line-height: 1.5;
+	}
+	table.type11 th {
+	  width: 15%;
+	  padding: 10px;
+	  font-weight: bold;
+	  vertical-align: top;
+	  color: #fff;
+	  background: #ce4869 ;
+	}
+	table.type11 td {
+	  width: 15%;
+	  padding: 10px;
+	  vertical-align: top;
+	  border-bottom: 1px solid #ccc;
+	  background: #eee;
+	}
+  	.btn {
+  	text-align:center;
+  	margin: 0 auto;
+  	margin-top:20px;
+  	margin-right:5%;
+  	}
+  	h3{
+  	margin:50px 0 10px 10px;
+  	float:left;
+  	}
+  	.main{
+  	 margin-left:240px; 	 
+  	 }
+</style>
+</head>
+<body style="margin:0 auto; padding: 0px">
+<div>
+    <div th:replace="fragments/managernav :: header"></div>
+</div>
+	<h3 class="main" style="width:80vw;" th:text="${status}"></h3>
+<form class="usertable main">
+	<table class="type11" style="float: top; width:80%">
+		<thead>
+			<tr>
+				<th>주문번호</th>
+				<th>구매자</th>
+				<th>상품번호</th>
+				<th>품목</th>
+				<th>개당가격</th>
+				<th>수량</th>
+			</tr>
+		</thead>
+		<tbody>	
+			<tr id="shop" th:each="shop : ${shop}">
+	
+				<td>
+					<span th:text="${shop.ordernum}" id="ordernum" th:name="ordernum"></span>
+				</td>
+				<td>
+					<span th:text="${shop.userid}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.itemid}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.itemname}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.price}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.quantity}"></span>
+				</td>
+			</tr>
+		</tbody>		
+		<thead>
+			<tr>
+				<th>결제금액</th>
+				<th>결제일</th>
+				<th>주소</th>
+				<th>적립포인트</th>
+				<th>배송상태</th>
+				<th>배송상태변경</th>
+			</tr>
+		</thead>
+		<tbody>	
+			<tr id="shop" th:each="shop : ${shop}">
+	
+				<td>
+					<span th:text="${shop.totalprice}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.pdate}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.address}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.itempoint}"></span>
+				</td>
+				<td>
+					<span th:text="${shop.status}"></span>
+				</td>
+				<td>
+					<select id="status" name="status">
+						<option value="선택">선택하세요</option>
+				        <option value="상품준비중" th:if="${shop.status != '상품준비중'}">상품준비중</option>
+				        <option value="배송준비중" th:if="${shop.status != '배송준비중'}">배송준비중</option>
+				        <option value="배송중" th:if="${shop.status != '배송중'}">배송중</option>
+				        <option value="배송완료" th:if="${shop.status != '배송완료'}">배송완료</option>
+			      	</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<button type="button" th:onclick="'javascript:save('+${shop.ordernum}+');'">save</button>
+</form>	
+	
+</body>
+</html>

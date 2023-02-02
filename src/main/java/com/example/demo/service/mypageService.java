@@ -103,8 +103,10 @@ public class mypageService {
 			String email2 = user.getEmail2();
 			String email = email1 + "@" + email2;
 			
+
 			user.setEmail(email);
 			user.setProfile("/images/profile/"+fileName);
+
 
 			int edit =  map.useredit(user);
 			

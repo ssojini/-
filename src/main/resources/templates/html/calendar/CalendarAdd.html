@@ -17,13 +17,9 @@ $(function(){
 		
 		console.log(data);
 		for (var key of data.keys()) {
-
 			  console.log("키"+key);
-
 			}
-
 			for (var value of data.values()) {
-
 			  console.log("내용"+value);
 
 			}
@@ -50,18 +46,8 @@ $(function(){
 		});
 	})	
 })
-window.onload = function(){
-	target = document.getElementById('pname');
-	target.addEventListener('change', function(){
-		fileList = "";
-		for(i = 0; i < target.files.length; i++){
-			fileList += target.files[i].name + '<button type=button id= deleted>삭제</button><br>';
-		}
-		target2 = document.getElementById('showFiles');
-		target2.innerHTML = fileList;
-	});
-}
-function insertImg(input) {
+/*
+window.onload = function() {
     for (var image of event.target.files) {
         var reader = new FileReader();
         reader.onload = function(event) {
@@ -75,30 +61,47 @@ function insertImg(input) {
         }      
         reader.readAsDataURL(image);
 	}
-} 
+}  */
 
-</script>
+var fileCount = 0;// 파일 현재 필드 숫자 totalCount랑 비교값
+var totalCount = 10;// 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
+var fileNum = 0;// 파일 고유넘버
+var content_files = [];
 
-function insertImg(input) {
-    for (var image of event.target.files) {
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          var img = document.createElement("img");
-          img.setAttribute("src", event.target.result);
-          document.querySelector("div#preview").appendChild(img);
-       
-          
-          event.target.value="";
-          img.addEventListener("click",function(){
-        	document.querySelector("div#preview").removeChild(img);
-       	 })
-        }
+function fileCheck(input) {
+	var files = event.target.files;
+	console.log(files);
 
-        //console.log(image);       
-        reader.readAsDataURL(image);
-	}
-} 
- 
+// 파일 배열 담기
+	var filesArr = Array.prototype.slice.call(files);
+	console.log(files,filesArr);
+	filesArr.forEach(function (f) {
+		console.log(f);
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			content_files.push(f);
+			var $elem = '<div class="file_list" id="file' + fileNum + '"><span class="file_name">' + f.name + '</span>' +
+					     '<button class="close" onclick="fileDelete(\'file' + fileNum + '\')">' + 'X' + '</button></div>';
+			$('.bu.name').append($elem);
+			fileNum ++;
+		};
+		reader.readAsDataURL(f);
+	});
+	
+	console.log(content_files);
+	//초기화 한다.
+	$("#input_file").val("");
+		
+}
+function fileDelete(fileNum){
+    var no = fileNum.replace(/[^0-9]/g, "");
+    content_files[no].is_delete = true;
+	$('#' + fileNum).remove();
+	fileCount--;
+    console.log(content_files);
+    console.log(fileCount);
+    console.log(fileNum);
+}
 
 </script>
 <body>
@@ -113,16 +116,13 @@ function insertImg(input) {
 		<input type="radio" name="when" id="snack" value="간식">간식
 	</div>	
 	<textarea id ="m_content" name="content" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+<div class="sd_input file">
+	<input type="file" id="pname" name="files" multiple="multiple" onChange="fileCheck();"> 
+	<div class="bu name"></div>
 	
-	<input type="file" id="pname" name="files" multiple="multiple" onchange="insertImg(this);"> 
-<<<<<<< HEAD
-	<input type="button" value="삭제" onclick="delFile();">
-	<div id="preview"></div>	
-=======
- 	<div id="showFiles"></div>
-	<div id="preview"></div>	
-	<button type="reset">취소</button>
->>>>>>> refs/remotes/origin/sojin
+ <!-- 	<div id="showFiles"></div>
+	<div id="preview"></div>	 -->
+	</div>
 	<button type="button" id="btnUpload">저장</button>
 </form>
 </body>

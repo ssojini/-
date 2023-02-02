@@ -2,11 +2,31 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+
+<title>myboard</title>
+
 <style>
-	span{
-		float:left;
-	}
+	body { background: #fff; }
+.blueone {
+  border-collapse: collapse;
+  border-spacing: 100px;
+}  
+.blueone th {
+  padding: 10px;
+  
+  border-bottom: 3px solid #626262;
+  text-align: left;
+}
+.blueone td {
+  
+  padding: 10px;
+  
+  border-bottom: 1px solid #ddd;
+}
+.blueone tr:hover td {
+  color: #004;
+}
+
 </style>
 </head>
 <div>
@@ -16,11 +36,17 @@
 <div>
     <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
-<ul th:each="board: ${board}">
-	<li th:text="${board.fbnum}"></li>
-	<li th:text="${board.title}"></li>
-	<li th:text="${board.datetime}"></li>
-</ul>
+
+<table class="blueone">
+	<tr><th></th><th>제목</th><th>작성일</th><th>조회</th></tr>
+	<tr th:each="board: ${board}">
+		<td th:text="${board.fbnum}"></td>
+		<td th:text="${board.title}"></td>
+		<td th:text="${board.datetime}"></td>
+		<td th:text="${board.hit}"></td>
+	</tr>
+</table>
+
 <button type="button" onclick="location.href='/freeboard/add'">글쓰기</button>
 
 </body>

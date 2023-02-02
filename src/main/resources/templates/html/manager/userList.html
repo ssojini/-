@@ -7,7 +7,7 @@
 <style>
 	.usertable {
 	width:60%;
-	height:500px;
+	height:100%;
 	
 	}
 	table {
@@ -31,8 +31,8 @@
   	margin:50px 0 10px 10px;
   	float:left;
   	}
-  	form{
-  	 margin-left:230px;
+  	.main{
+  	 margin-left:230px; 	 
   	 }
 </style>
 
@@ -41,6 +41,7 @@
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
+<div class="main">
 <form>
 	<div class="usertable">
 	<h3>유저 목록</h3>
@@ -49,9 +50,9 @@
 			<th>userid</th>
 			<th>nickname</th>
 		</tr>
-		<tr id="userlist" th:each="user : ${userlist}">
+		<tr id="userlist" th:each="user : ${userList}">
 			<td>
-				<a th:href="@{'/'+ ${url} + '/' + ${user.userid}}" th:text="${user.userid}"></a>
+				<a th:href="@{'/'+ ${url} + '/' + ${user.userid}}" th:text="${user.userid}" id="userid"></a>
 			</td>
 			<td>
 				<span th:text="${user.nickname}"></span>
@@ -60,24 +61,20 @@
 	</table>
 	</div>
 </form>
-<nav>
-    <ul>
-        <!-- getPrePage : 이전 페이지 -->
-        <li th:classappend="${users.getPrePage() == 0} ? 'disabled'">
-            <!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 -->
-            <a th:href="@{/page(pageNum=${users.getPrePage()}, keyword=${search.getKeyword()}, search=${search.getSearch()})}">Previous</a>
-        </li>
-        <!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
-        <!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
-        <li th:each="page: ${#numbers.sequence(users.getNavigateFirstPage(), users.getNavigateLastPage())}" th:classappend="${page == users.getPageNum()} ? 'active'">
-            <a th:text="${page}" th:href="@{/page(pageNum=${page}, keyword=${search.getKeyword()}, search=${search.getSearch()})}"></a>
-        </li>
-        <!-- getPrePage : 다음 페이지 -->
-        <li th:classappend="${users.getNextPage() == 0} ? 'disabled'">
-            <!-- href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 -->
-            <a th:href="@{/page(pageNum=${users.getNextPage()}, keyword=${search.getKeyword()}, search=${search.getSearch()})}">Next</a>
-        </li>
-    </ul>
-</nav>
+
+<div style="margin-top:40px; ">
+	<span th:if="${userList.getNumber() gt 9}"><a
+		th:href="@{/manager/userlist(page=${userList.getNumber()/10*10-1})}">이전</a></span>
+		
+	<span th:if="${i le userList.getTotalPages()}" th:each="i : ${#numbers.sequence(userList.getNumber()/10*10+1,userList.getNumber()/10*10+10)}">
+		<a th:if="${i!=userList.getNumber()+1}" th:href="@{/manager/userlist(page=${i-1})}">[[${i}]]</a>
+		<span th:if="${i==userList.getNumber()+1}" th:href="@{/manager/userlist(page=${i-1})}">[[${i}]]</span>
+	</span>
+	
+	<span th:if="${(userList.getNumber()/10*10+10)<userList.getTotalPages()}">
+		<a th:href="@{/manager/userlist(page=${userList.getNumber()/10*10+10})}">다음</a>
+	</span>
+</div>	
+</div>
 </body>
 </html>

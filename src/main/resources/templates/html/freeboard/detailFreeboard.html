@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>detailFreeboard</title>
-<link href="/css/freeboard/detailFreeboard.css">
+<link rel="stylesheet" href="/css/freeboard/detailFreeboard.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="/js/freeboard/detailFreeboard.js"></script>
 <script type="text/javascript">
@@ -16,28 +16,36 @@ window.onload = function() {
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
-	<main>
-		<div th:if="${freeBoard!=null}">
-			<div id="fbnum">[[${freeBoard.fbnum}]]</div>
-			<div id="title">[[${freeBoard.title}]]</div>
-			<div id="author">[[${freeBoard.author}]]</div>
-			<div id="contents">[[${freeBoard.contents}]]</div>
-			<div>
-				<button type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
+	<main th:if="${freeBoard!=null}">
+		<div id="detail_freeboard_div">
+			<div id="fbnum_div">번호:<span id="fbnum">[[${freeBoard.fbnum}]]</span></div>
+			<div id="bname">
+				[[${#strings.equals(freeBoard.bname,'free')?'게시판:자유':null}]]
+				[[${#strings.equals(freeBoard.bname,'meal')?'게시판:식단':null}]]
+				[[${#strings.equals(freeBoard.bname,'beforafter')?'게시판:비포에프터':null}]]
 			</div>
+			<div id="author">작성자:[[${freeBoard.author!=null?freeBoard.author:'none'}]]</div>
+			<div id="title">제목:<span id="title_text">[[${freeBoard.title}]]</span></div>
+			<div id="contents">[[${freeBoard.contents}]]</div>
 		</div>
-		<div>
-			<div id="reply_author">[[${param.userid}]]</div>
-			<textarea id="reply_contents"></textarea>
-			<button type="button" onclick="addReply();">댓글</button>
+		<div id="detail_freeboard_button_div">
+			<button id="freeboard_goback_button" th:onclick="'location.href=\'/freeboard?fbnum='+${freeBoard.fbnum}+'\''">뒤로가기</button>
+			<button id="freeboard_edit_button" type="button" th:if="${#strings.equals(param.userid,author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
 		</div>
-		<table id="listReply">
-			<tr th:each="reply : ${listReply}">
-				<td th:text="${reply.author}"></td>
-				<td th:text="${reply.contents}"></td>
-				<td th:text="${reply.datetime}"></td>
-			</tr>
-		</table>
+		<div id="add_reply_div">
+			<textarea id="reply_contents" ></textarea>
+			<button id="add_reply_button" type="button" onclick="addReply();">댓글</button>
+		</div>
+		<div id="list_resply_div">
+			<table id="list_reply_table">
+				<tr class="reply_tr" th:each="reply : ${listReply}">
+					<td class="reply_author" th:text="${reply.author!=null?reply.author:'none'}"></td>
+					<td class="reply_datetime" th:text="${reply.datetime}"></td>
+					<td class="reply_btn"><button class="delete_reply_btn" type="button" th:onclick="delete_reply(${reply.num})">삭제</button></td>
+					<td class="reply_contents" th:text="${reply.contents}"></td>
+				</tr>
+			</table>
+		</div>
 	</main>
 </body>
 </html>

@@ -53,7 +53,9 @@ public class AdminBoardController
 		map.put("added", added);
 		log.info("불리언 값:"+added);
 		return map;
-	}	@GetMapping("/notice/{pg}/{cnt}") 
+	}	
+	
+	@GetMapping("/notice/{pg}/{cnt}") 
 	public String notice(Model m, @PathVariable int pg, @PathVariable int cnt)
 	{
 		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);

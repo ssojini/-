@@ -36,11 +36,10 @@
 	        		<div style="padding-left: 20px; padding-top: 20px; color:white;">오늘의 베스트</div>
         			<div style="padding-top: 20px; padding-left: 20px; color:white;">
 	        			<ul style="display: inline;">
-		        			<li><a href="" style=" color:white;">한달 운동없이</a></li>
-		        			<li><a href="" style=" color:white;">57에서 53입니다</a></li>
-		        			<li><a href="" style=" color:white;">160cm 47kg</a></li>
-		        			<li><a href="" style=" color:white;">한달 정도 몸무게 변화</a></li>
-		        		</ul>	
+	        				<th:block th:if="${listFreeboard!=null}" th:each="freeboard : ${listFreeboard}">
+			        			<li><a th:href="@{/freeboard/detail(fbnum=${freeboard.fbnum})}" style=" color:white;">[[${freeboard.title}]]</a></li>
+	        				</th:block>
+		        		</ul>
         			</div>
        			</div>
         			<div style="float:right; width:15%; height: 200px;">
