@@ -4,20 +4,45 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"href="/css/manager/login.css" />
+<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function login(){
+		var adminid = $('#adminid').val();
+		var adminpw = $('#adminpw').val();
+		
+		$.ajax({
+			url:'/manager/login',
+			method:'post',
+			cache:false,
+			data:{'adminid':adminid,'adminpwd':adminpw},
+			dataType:'json',
+			success: function(res){
+				if(res.login){
+					alert(res.msg);
+					location.href='/manager/userlist';
+				}else{
+				alert(res.msg);				
+				}
+			},error:function(xhr,status,err){
+				alert("에러: "+err);
+			}
+		});
+	}
+</script>
 </head>
 <body>
 <div class="login-box">
   <h2>Admin Login</h2>
   <form>
     <div class="user-box">
-      <input type="text" name="" required="required">
+      <input type="text" id="adminid" name="adminid" required="required">
       <label>Admin Id</label>
     </div>
     <div class="user-box">
-      <input type="password" name="" required="required">
+      <input type="password" id="adminpw" name="adminpw" required="required">
       <label>Password</label>
     </div>
-    <a href="#">
+    <a onclick="login();">
       <span></span>
       <span></span>
       <span></span>

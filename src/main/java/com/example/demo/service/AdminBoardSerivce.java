@@ -77,6 +77,7 @@ public class AdminBoardSerivce
 		OneBoard oneb = new OneBoard(big.intValue());
 		oneb.setTitle((String)map.get("TITLE"));
 		oneb.setAuthor((String)map.get("AUTHOR"));
+		oneb.setContent((String)map.get("CONTENT"));
 
 		try {
 			String jts = String.valueOf(map.get("QDATE"));
@@ -325,6 +326,8 @@ public class AdminBoardSerivce
 		AdminBoard adminb = new AdminBoard(big.intValue());
 		adminb.setTitle((String)map.get("TITLE"));
 		adminb.setAuthor((String)map.get("AUTHOR"));
+		adminb.setContent((String)map.get("CONTENT"));
+
 		try {
 			String jts = String.valueOf(map.get("DATE_ADMIN"));
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

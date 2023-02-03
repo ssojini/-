@@ -21,6 +21,6 @@ public interface UserEditMapper {
 	
 	public int changepwd(User userjoin);
 	
-	public List<Freeboard> getmyboard(String userid);
+	public List<Freeboard> getmyboard(String nickname);
 	
 }

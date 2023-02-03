@@ -1,4 +1,47 @@
 @charset "UTF-8";
+
+body{
+	
+}
 main{
-		text-align: center;
+	
 	}
+h3{
+	text-align: center;
+}
+.mainpic{
+	text-align: center;
+	/* background: gray; */
+	width: 50%;	height: 500px;
+	line-height: 250px;
+	float: left;
+}
+.goods_body{
+	/* background: silver; */
+	width: 50%; height: 500px;
+	float: right;
+	line-height: 50px;
+	
+	
+}
+.goods_detail{
+	text-align: center;
+	clear: both;
+	with:100%
+	
+}
+.title{
+	
+	font-size: 18px;
+	
+}
+/*
+.bttn{
+	background: rgb(223,223,223);
+	padding: 5px 10px;
+	border-radius: 10px;
+	
+	border: 1px solid black;
+	
+}
+*/

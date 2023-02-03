@@ -15,6 +15,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,17 +59,35 @@ public class HealthController {
 	@Autowired
 	private mypageService mp_svc;
 
-	@Autowired
-	ResourceLoader resourceLoader;
 
+	/*
 	@GetMapping("/myboard/{userid}")
-	public String getmyboard(@PathVariable(value = "userid", required = false) String userid,Model m)
+	public String getmyboard(@PathVariable(value = "userid", required = false)String userid, Model m)
 	{
-		System.out.println("uid: "+ userid);
-		m.addAttribute("board",mp_svc.getmyboard(userid));
-		System.out.println("data: " + mp_svc.getmyboard(userid).toString());
-		
+		String nickname = "smash";
+		List<Freeboard> list = mp_svc.getmyboard(nickname);
+		m.addAttribute("board",list);
 		m.addAttribute("user", mp_svc.userinfo(userid));
+
+		return "html/mypage/myboard";
+	}*/
+	
+	@GetMapping("/myboard/{userid}")
+	public String freeboard(@PathVariable(value = "userid", required = false)String userid, Model m, String nickname, String bname,
+			String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) 
+	{
+		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
+		
+		nickname = "smash";
+		List<Freeboard> list = mp_svc.getmyboard(nickname);
+		m.addAttribute("board",list);
+		m.addAttribute("user", mp_svc.userinfo(userid));
+
+		
+		
+		m.addAttribute("bname",bname);
+		m.addAttribute("title",title);
+		m.addAttribute("pageFreeboard", pageFreeboard);
 		return "html/mypage/myboard";
 	}
 
@@ -187,7 +206,11 @@ public class HealthController {
 			HttpSession session)
 	{
 		String userid = (String)session.getAttribute("userid");
-		log.info("ctrl, session에서 전달된 author:"+ userid);
+		log.info("ctrl, session에서 전달된 userid:"+ userid);
+		if(userid==null)
+		{
+			return "html/admin/qna";
+		}
 		m.addAttribute("userid", userid);
 		PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
 		List<OneBoard> list = hsvc.qna(pageInfo.getList());
@@ -249,7 +272,6 @@ public class HealthController {
 		m.addAttribute("oneb", oneb);
 		String userid =(String)session.getAttribute("userid");
 		m.addAttribute("userid", userid);
-		//log.info("oneb에서 나오는 첨부파일:"+oneb.getAttList());
 		return "html/admin/detail_q";
 	}
 	

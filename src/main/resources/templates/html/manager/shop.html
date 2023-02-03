@@ -3,46 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	.usertable {
-	width:60%;
-	height:100%;
-	
-	}
-	table {
-    width: 95%;
-    border: 1px solid #444444;
-    border-collapse: collapse;
- 	}
-  	th, td {
-    padding: 10px;
-    text-align: center;
-  	}
-  	th{
-  	font-size:20px;}
-  	.btn {
-  	text-align:center;
-  	margin: 0 auto;
-  	margin-top:20px;
-  	margin-right:5%;
-  	}
-  	h3{
-  	margin:20px 0 10px 10px;
-  	float:left;
-  	}
-  	.main{
-  	 margin-left:230px; 	 
-  	 }
-</style>
+	<link rel="stylesheet" href="/css/manager/managertable.css" />
 </head>
-<body style="margin:0 auto;">
+<body style="margin:0 auto; background-color: rgb(223,223,223);">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
 <div class="usertable main">
 	<table>
 	<a th:href="@{'/'+ ${url} + '?status=' + '상품준비중'}">
-	<h3>상품준비중</h3></a>
+	<h3 style="width:300px">상품준비중</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -74,7 +44,7 @@
 	</table>
 	<table>
 	<a th:href="@{'/'+ ${url} + '?status=' + '배송준비중'}">
-	<h3>배송준비중</h3></a>
+	<h3 style="width:300px">배송준비중</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -106,7 +76,7 @@
 	</table>
 	<table>
 	<a th:href="@{'/'+ ${url} + '?status=' + '배송중'}">
-	<h3>배송중</h3></a>
+	<h3 style="width:300px">배송중</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -138,7 +108,7 @@
 	</table>
 	<table>
 	<a th:href="@{'/'+ ${url} + '?status=' + '배송완료'}">
-	<h3>배송완료</h3></a>
+	<h3 style="width:300px">배송완료</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>

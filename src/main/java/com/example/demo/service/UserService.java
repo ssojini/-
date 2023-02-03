@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserService 
 {
-	@Autowired
-	private JavaMailSender sender;
+//	@Autowired
+//	private JavaMailSender sender;
 	@Autowired
 	public HttpSession session;
 	@Autowired

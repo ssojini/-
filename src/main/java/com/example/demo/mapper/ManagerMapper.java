@@ -9,7 +9,6 @@ import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
-
 @Mapper
 public interface ManagerMapper {
 	public List<User> findUser();
@@ -27,4 +26,9 @@ public interface ManagerMapper {
 	public Shop shopdetail(int ordernum);
 	public int shopUpdate(Shop findshop);
 	public List<GoodsAndAtt> shopitem();
+	public GoodsAndAtt getitem(int goodsnum);
+	public List<Freeboard> getboardlist(String bname);
+	
+	public int deletegoods(int goodsnum);
+	public int deletegoodsatt(int goodsnum);
 }

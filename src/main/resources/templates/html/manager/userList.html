@@ -4,77 +4,46 @@
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	.usertable {
-	width:60%;
-	height:100%;
-	
-	}
-	table {
-    width: 95%;
-    border: 1px solid #444444;
-    border-collapse: collapse;
- 	}
-  	th, td {
-    padding: 10px;
-    text-align: center;
-  	}
-  	th{
-  	font-size:20px;}
-  	.btn {
-  	text-align:center;
-  	margin: 0 auto;
-  	margin-top:20px;
-  	margin-right:5%;
-  	}
-  	h3{
-  	margin:50px 0 10px 10px;
-  	float:left;
-  	}
-  	.main{
-  	 margin-left:230px; 	 
-  	 }
-</style>
-
+<link rel="stylesheet" href="/css/manager/managertable.css" />
 </head>
-<body style="margin:0; padding: 0px">
+<body style="margin:0 auto; padding: 0px;">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
-<div class="main">
-<form>
-	<div class="usertable">
-	<h3>유저 목록</h3>
-	<table>
-		<tr>
-			<th>userid</th>
-			<th>nickname</th>
-		</tr>
-		<tr id="userlist" th:each="user : ${userList}">
-			<td>
-				<a th:href="@{'/'+ ${url} + '/' + ${user.userid}}" th:text="${user.userid}" id="userid"></a>
-			</td>
-			<td>
-				<span th:text="${user.nickname}"></span>
-			</td>
-		</tr>	
-	</table>
+<div class="usertable main">
+	<h3 style="width:80vw;">유저 목록</h3>
+	<div style="width:100%;">
+		<table style="float:top;">
+			<tr>
+				<th>userid</th>
+				<th>nickname</th>
+			</tr>
+			<tr id="userlist" th:each="user : ${userList}">
+				<td>
+					<a th:href="@{'/'+ ${url} + '/' + ${user.userid}}" th:text="${user.userid}" id="userid"></a>
+				</td>
+				<td>
+					<span th:text="${user.nickname}"></span>
+				</td>
+			</tr>	
+		</table>
+		<link rel="stylesheet" href="/css/manager/pagination.css" />
+		<div style=" margin-left:150px; padding-top:20px; text-align: center; width: 80%;">
+			<div class="pagination">
+				<span th:if="${userList.getNumber() gt 9}">
+					<a th:href="@{/manager/userlist(page=${userList.getNumber()/10*10-1})}">이전</a></span>
+					
+				<span th:if="${i le userList.getTotalPages()}" th:each="i : ${#numbers.sequence(userList.getNumber()/10*10+1,userList.getNumber()/10*10+10)}">
+					<a th:if="${i!=userList.getNumber()+1}" th:href="@{/manager/userlist(page=${i-1})}">[[${i}]]</a>
+					<a th:if="${i==userList.getNumber()+1}" class="disable">[[${i}]]</a>
+				</span>
+				
+				<span th:if="${(userList.getNumber()/10*10+10)<userList.getTotalPages()}">
+					<a th:href="@{/manager/userlist(page=${userList.getNumber()/10*10+10})}">다음</a>
+				</span>
+			</div>	
+		</div>
 	</div>
-</form>
-
-<div style="margin-top:40px; ">
-	<span th:if="${userList.getNumber() gt 9}"><a
-		th:href="@{/manager/userlist(page=${userList.getNumber()/10*10-1})}">이전</a></span>
-		
-	<span th:if="${i le userList.getTotalPages()}" th:each="i : ${#numbers.sequence(userList.getNumber()/10*10+1,userList.getNumber()/10*10+10)}">
-		<a th:if="${i!=userList.getNumber()+1}" th:href="@{/manager/userlist(page=${i-1})}">[[${i}]]</a>
-		<span th:if="${i==userList.getNumber()+1}" th:href="@{/manager/userlist(page=${i-1})}">[[${i}]]</span>
-	</span>
-	
-	<span th:if="${(userList.getNumber()/10*10+10)<userList.getTotalPages()}">
-		<a th:href="@{/manager/userlist(page=${userList.getNumber()/10*10+10})}">다음</a>
-	</span>
-</div>	
 </div>
 </body>
 </html>

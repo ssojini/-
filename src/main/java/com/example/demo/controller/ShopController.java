@@ -46,9 +46,8 @@ public class ShopController {
 
 	// 초기 테스트용
 	@GetMapping("/")
-	@ResponseBody
 	public String index() {
-		return "Shop Index";
+		return "html/shop/index";
 	}
 
 	// 초기 테스트 데이터 생성 메소드
@@ -241,6 +240,17 @@ public class ShopController {
 		map.put("added", added);
 
 		return map;
+	}
+	
+	
+	@PostMapping("/editgoods")
+	@ResponseBody
+	public  Map<String, Object> editGoods(@RequestParam("main_file") MultipartFile file,
+			@RequestParam("goods_detail") String goods_detail, @RequestParam("file[]") List<String> fileList,
+			HttpServletRequest request, Goods goods, AddGoods_Att att)
+	{
+		svc.editgoods();
+		return null;
 	}
 	
 	@GetMapping("/searchgoods")
