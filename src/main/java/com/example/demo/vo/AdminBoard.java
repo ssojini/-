@@ -20,7 +20,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AdminBoard 
+@Table(name="admin_board")
+public class AdminBoard // admin_board
 {
 	public AdminBoard(int adnum) {
 		this.adnum= adnum;

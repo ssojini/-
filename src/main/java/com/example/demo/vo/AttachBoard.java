@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="admin_board")
+@Table(name="attach_board")
 public class AttachBoard 
 {
 	@Id
