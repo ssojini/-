@@ -185,9 +185,9 @@ public class HealthController {
 
 	/* 종빈 */
 	@GetMapping("/main")
-	public String main1(Model m, @PageableDefault(size=5, page=0) Pageable page) {
+	public String main1(Model m) {
 		// 메인페이지 오늘의 베스트 출력
-		Page<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc(page);
+		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
 		
 		int pg=1; int cnt = 10;

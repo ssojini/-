@@ -104,8 +104,12 @@ public class FreeboardService {
 		return map;
 	}
 	
-	public Page<Freeboard> getListByOrderByHitDesc(Pageable page) {
-		Page<Freeboard> listFreeboard = repo.findAllByOrderByHitDesc(page);
+	public Page<Freeboard> getPageByOrderByHitDesc(Pageable page) {
+		Page<Freeboard> pageFreeboard = repo.findAllByOrderByHitDesc(page);
+		return pageFreeboard;
+	}
+	public List<Freeboard> getListByOrderByHitDesc() {
+		List<Freeboard> listFreeboard = repo.findAllByOrderByHitDesc();
 		return listFreeboard;
 	}
 }
