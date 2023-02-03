@@ -5,8 +5,9 @@ body {
 
 main {
 	background-color: rgb(223,223,223);
-	height: 100vh;
 	padding: 5px;
+	width: 100vw;
+	height: 100vh;
 }
 
 #addFreeboard_div {
