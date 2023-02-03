@@ -16,6 +16,9 @@
 			<div th:replace="fragments/shopnav :: shopnav"></div>
 		</div>
 	<main>	
+	<div
+			style="text-align: center; height: 20%; width: 100%; background-color: #2F4F4F; color: white;">
+			Items</div>
 
 		<form id="cartForm" action="/shop/buynow" method="post">
 			<input type="hidden" name="userid" value="asdf"> <input
@@ -24,7 +27,7 @@
 				th:value="${goods.getGoodsnum}">
 			<!-- <h3>구매-상품 상세보기</h3>  -->
 			<div class="mainpic">
-				<h3> Product </h3>
+				<h3> Photo </h3>
 				<div th:if="${!#lists.isEmpty(attList)}"></div>
 				<input type="hidden" name="mainpic_server"
 					th:value="${attList.get(0).getMainpic_server}"> <img

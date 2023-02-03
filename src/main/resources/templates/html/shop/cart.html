@@ -66,8 +66,8 @@
 							<td><input type="button" value="변경"
 								th:onclick="cnt_change([[${n.cartnum}]])"></td>
 							<td th:text="${n.sum}+원"></td>
-							<!-- session userid javascript:buyOne([[${n.cartnum}]])-->
-							<td><a href="" th:onclick="|javascript:buyOne(${n.cartnum},'asdf')|">주문하기</a></td>
+							<!-- session userid javascript:buyOne([[${n.cartnum}]]) // th:onclick="|javascript:buyOne('${n.cartnum}','asdf')|" -->
+							<td><a th:href = " 'javascript:buyOne(\'' + ${n.cartnum} + '\',\'asdf\')' " >주문하기</a></td>
 						</tr>
 					</tbody>
 				</table>
