@@ -157,6 +157,7 @@ public class ManagerController {
 		return "html/manager/boardDetail";
 	}
 	
+	/*
 	@PostMapping("/board/delete")
 	@ResponseBody
 	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
@@ -164,7 +165,7 @@ public class ManagerController {
 		boolean delete = freeboardService.deleteByFbnum(request, fbnum);
 		map.put("result", delete);
 		return map;
-	}
+	}*/
 	
 	@GetMapping("/shopitem")
 	public String shopitem(Model m)
