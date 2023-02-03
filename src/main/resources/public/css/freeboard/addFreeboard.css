@@ -54,10 +54,15 @@ main {
 	height: 40vh;
 }
 
-#fileListDiv {
-	overflow: auto;
+#fileListDiv_div {
 	padding: 5px;
 	width: 100%;
+}
+#fileListDiv {
+	overflow: auto;
+	border-top: 1px solid grey;
+	border-bottom: 1px solid grey;
+	padding: 5px;
 	height: 10vh;
 }
 
