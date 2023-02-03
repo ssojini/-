@@ -60,6 +60,7 @@ function deleteCal(num)
 				<div th:each="sch : ${list.sch}">
 					<div th:each="att : ${sch.attlist}">
 						<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">		
+						<input type="hidden"  th:value="${att.pnum}">
 					</div>
 				</div>
 			</td>
