@@ -36,23 +36,23 @@
 	        		<div style="padding-left: 20px; padding-top: 20px; color:white;">오늘의 베스트</div>
         			<div style="padding-top: 20px; padding-left: 20px; color:white;">
 	        			<ul style="display: inline;">
-	        				<th:block th:if="${listFreeboard!=null}" th:each="freeboard : ${listFreeboard}">
+	        				<th:block th:if="${pageFreeboard!=null}" th:each="freeboard : ${pageFreeboard}">
 			        			<li><a th:href="@{/freeboard/detail(fbnum=${freeboard.fbnum})}" style=" color:white;">[[${freeboard.title}]]</a></li>
 	        				</th:block>
 		        		</ul>
         			</div>
        			</div>
-        			<div style="float:right; width:15%; height: 200px;">
-       				<div style="float:top;height:33.33%; text-align: center; padding-top:17px; border: 0.3px solid white;">
-       					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png"></a>     					
-       				</div>
-       				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
-       					<a href="#"><img style="width:80%; height:80%; object-fit:cover; cursor:pointer;" alt="upicon" src="/img/icon-up.png"></a> 
-       				</div>
-       				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
-       					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-down.png"></a> 
-       				</div>
-        			</div>
+       			<div style="float:right; width:15%; height: 200px;">
+      				<div style="float:top;height:33.33%; text-align: center; padding-top:17px; border: 0.3px solid white;">
+      					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png"></a>     					
+      				</div>
+      				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
+      					<a th:href="${pageFreeboard!=null}?'/health/main?page='+${pageFreeboard.getPageable().getPageNumber()-1}:'/health/main'"><img style="width:80%; height:80%; object-fit:cover; cursor:pointer;" alt="upicon" src="/img/icon-up.png"></a> 
+      				</div>
+      				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
+      					<a th:href="${pageFreeboard!=null}?'/health/main?page='+${pageFreeboard.getPageable().getPageNumber()+1}:'/health/main'"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-down.png"></a> 
+      				</div>
+       			</div>
 	        	</div>
 	        	<div style="float:right; width:44%; height: 200px; background:#FFB59F;">
 					<div style="float:left; widht:80px;">
