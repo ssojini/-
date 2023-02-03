@@ -155,6 +155,7 @@ public class CalendarService
 			
 			
 			String sPname = (String) m.get("PNAME");
+			
 			String[] file = sPname.split(",");
 			for (int j = 0; j < file.length; j++) {
 				
