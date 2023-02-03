@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,24 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FreeboardAttachService;
 import com.example.demo.service.FreeboardReplyService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.ManagerService;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.Admin;
-import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.Freeboard;
-import com.example.demo.vo.FreeboardAttach;
-import com.example.demo.vo.GoodsAndAtt;
 import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
-import com.github.pagehelper.PageInfo;
-
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -157,16 +149,16 @@ public class ManagerController {
 		return "html/manager/boardDetail";
 	}
 	
-	@PostMapping("/board/delete")
-	@ResponseBody
-	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
-		Map<String,Object> map = new HashMap<>();
-		boolean delete = freeboardService.deleteByFbnum(fbnum);
-		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
-		replyService.deleteByPnum(fbnum);
-		map.put("result", delete);
-		return map;
-	}
+//	@PostMapping("/board/delete")
+//	@ResponseBody
+//	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
+//		Map<String,Object> map = new HashMap<>();
+//		boolean delete = freeboardService.deleteByFbnum(fbnum);
+//		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
+//		replyService.deleteByPnum(fbnum);
+//		map.put("result", delete);
+//		return map;
+//	}
 	
 	@GetMapping("/shopitem")
 	public String shopitem(Model m)
