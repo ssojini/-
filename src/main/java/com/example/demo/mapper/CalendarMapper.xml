@@ -61,16 +61,32 @@
 		WHERE a.num = #{num}
 	</select>
 	
+	<update id="updateContenet" parameterType="com.example.demo.vo.Schedule">
+		UPDATE calen_schedule 
+		SET content = '#{content}'
+		WHERE num = #{num};
+	</update>
+	
+	
 	<delete id = "caldelete" parameterType="com.example.demo.vo.HCalendar">
 		DELETE FROM hcalendar WHERE num = #{num}
 	</delete>
 	
-	<delete id = "schdelete" parameterType="com.example.demo.vo.Schedule">
-		DELETE FROM calen_schedule WHERE num = #{num}
+<!--	<delete id = "schdelete" parameterType="com.example.demo.vo.Schedule">
+		DELETE FROM calen_schedule WHERE pnum = #{pnum}
 	</delete>
 	
-	<delete id = "attcaldelete" parameterType="com.example.demo.vo.AttachCalendar">
-		DELETE FROM attachcalendar WHERE num = #{num}
+	<delete id = "attcaldelete" parameterType="Integer">
+		DELETE FROM attachcalendar WHERE pnum = #{pnum}
+	</delete> -->
+	
+	<delete id = "schattdelete" parameterType="Integer">
+		DELETE FROM calen_schedule a
+		WHERE EXISTS(
+		SELECT 1
+		FROM attachcalendar b
+		WHERE a.num = b.num
+		AND a.pnum = #{pnum} )	
 	</delete>
 	
 </mapper>

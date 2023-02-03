@@ -34,12 +34,18 @@ public class FreeboardService {
 	}
 
 	public Page<Freeboard> getListByBnameAndTitle(String bname, String title, Pageable pageable) {
-		if (bname == null || bname.equals(""))
-			bname = "free";
 		if (title == null || title.equals("")) {
-			return repo.findByBnameOrderByDatetimeDesc(bname, pageable);
+			if (bname == null || bname.equals("")) {
+				return repo.findAllByOrderByDatetimeDesc(pageable);
+			} else {
+				return repo.findByBnameOrderByDatetimeDesc(bname, pageable);
+			}
 		} else {
-			return repo.findByBnameAndTitleOrderByDatetimeDesc(bname, title, pageable);
+			if (bname == null || bname.equals("")) {
+				return repo.findByTitleOrderByDatetimeDesc(title, pageable);
+			} else {
+				return repo.findByBnameAndTitleOrderByDatetimeDesc(bname, title, pageable);
+			}
 		}
 	}
 
@@ -98,7 +104,12 @@ public class FreeboardService {
 		return map;
 	}
 	
+	public Page<Freeboard> getPageByOrderByHitDesc(Pageable page) {
+		Page<Freeboard> pageFreeboard = repo.findAllByOrderByHitDesc(page);
+		return pageFreeboard;
+	}
 	public List<Freeboard> getListByOrderByHitDesc() {
-		return repo.findAllByOrderByHitDesc();
+		List<Freeboard> listFreeboard = repo.findAllByOrderByHitDesc();
+		return listFreeboard;
 	}
 }

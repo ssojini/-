@@ -35,7 +35,7 @@ $(function(){
 
 	phone.addEventListener("focusout", checkPhoneNum);
 	email1.addEventListener("focusout", isEmailCorrect);
-	//email2.addEventListener("change", isEmailCorrect);
+	email2.addEventListener("change", isEmailCorrect);
 });
 	
 	//아이디 체크
@@ -106,8 +106,7 @@ $(function(){
 			error[2].innerHTML = "비밀번호가 일치하지 않습니다";
 			error[2].style.display = "block";
 			error[2].style.color = "red";
-		}
-		if(pwd.value===""){
+		}if(pwd.value===""){
 			error[2].innerHTML = "필수 정보입니다.";
 			error[2].style.display="block";
 			error[2].style.color = "red";
@@ -208,6 +207,7 @@ $(function(){
 	}
 	//이메일
 	function isEmailCorrect() {
+	    var email1 = document.querySelector('#email1');
 		var error = document.querySelectorAll('.error_next_box');
 	    var emailPattern = /[a-z0-9]{2,}/;
 
@@ -313,7 +313,7 @@ function joinUser()
 		dataType:'json',
 		success : function(res){
 			alert(res.join ? '저장성공' :'저장실패');
-			
+			location.href='/team/login';
 		},
         error : function(xhr, status, err)
         {

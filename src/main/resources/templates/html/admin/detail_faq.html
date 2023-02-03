@@ -33,7 +33,9 @@ function delAdminB()
 </script>
 </head>
 <body>
-<div th:replace="fragments/common :: header"></div>
+<div>
+	<div th:replace="fragments/common :: header"></div>
+</div>
 <div style="margin:0 auto; width: 500px; height:100px; padding-top:30px;">
 </div>
 <h3> FAQ</h3> 
@@ -57,7 +59,7 @@ function delAdminB()
 	<span th:if= "${faqb.attList.size()>0}"></span>
 	<span th:each="att: ${faqb.attList}"> [[${att.attname}]]</span>
 
-<a th:href= "|/admin/edit_faq/${faqb.adnum}|">[수정하기]</a>
+<a th:href= "|/admin/edit_faq_admin/${faqb.adnum}|">[수정하기]</a>
 <p>
 <button type="button" onclick="delAdminB();"> 삭제</button>
 

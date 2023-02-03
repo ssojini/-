@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+body {
+	background-color: rgb(223,223,223);
+	margin: 0px;
+	padding: 0px;
+}
+
+header {
+	margin: 5px;
+	padding: 5px;
+	text-align: center;
+}
+header > h1 {
+	margin: 0px;
+}
+
+main {
+}
+
+#boardList_div {
+	background-color: rgb(256,256,256);
+	margin: auto;
+	border-radius: 10px;
+	padding: 5px;
+	width: 80%;
+	height: 750px;
+}
+#boardList_div > table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+#boardList_div > table > tbody > tr > th {
+	width: 25%;
+}
+#boardList_div > table > tbody > tr > td {
+	width: 25%;
+	text-align: center;
+}
+
+#btn_div {
+	margin: 5px auto;
+	padding: 5px;
+	width: 80%;
+	text-align: center;
+}
+.freeboard_btn {
+	background-color: rgb(239,239,239);
+	border-radius: 10px;
+	padding: 5px 10px;
+	font-size: 15px;
+}

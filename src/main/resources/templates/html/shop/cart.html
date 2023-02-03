@@ -55,7 +55,7 @@
 								<input type="hidden" name="sum" th:value="${n.sum}">
 								 <!--  login 연결후 수정 -->
 								<input type="hidden" name="userid" th:value="asdf"></th>
-							<td><img alt="mainpic"
+							<td><img alt="mainpic" width="100px" height="100px"
 								th:src="'/images/goodsimg/'+${n.mainpic_server}"></td>
 							<th scope="row"><a th:href="'/shop/detail/'+${n.goodsnum}">[[${n.goodsname}]]</a>
 							</th>
@@ -66,8 +66,8 @@
 							<td><input type="button" value="변경"
 								th:onclick="cnt_change([[${n.cartnum}]])"></td>
 							<td th:text="${n.sum}+원"></td>
-							<!-- session userid javascript:buyOne([[${n.cartnum}]])-->
-							<td><a href="" th:onclick="|javascript:buyOne(${n.cartnum},'asdf')|">주문하기</a></td>
+							<!-- session userid javascript:buyOne([[${n.cartnum}]]) // th:onclick="|javascript:buyOne('${n.cartnum}','asdf')|" -->
+							<td><a th:href = " 'javascript:buyOne(\'' + ${n.cartnum} + '\',\'asdf\')' " >주문하기</a></td>
 						</tr>
 					</tbody>
 				</table>
