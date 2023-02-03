@@ -10,9 +10,12 @@
     <div th:replace="fragments/managernav :: header"></div>
 </div>
 <div class="usertable main">
+	<div style="text-align: center; padding-top:20px; margin-left:90px;">
+		<a th:href="@{'/'+ ${url} + '?status=' + '상품준비중'}"  style="text-decoration-line: none; color:black;">
+			<h2>상품 준비중</h2>
+		</a>
+	</div>
 	<table>
-	<a th:href="@{'/'+ ${url} + '?status=' + '상품준비중'}">
-	<h3 style="width:300px">상품준비중</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -29,22 +32,25 @@
 				<span th:text="${shop.userid}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.itemname}"></span>
+				<span th:text="${shop.goodsname}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.quantity}"></span>
+				<span th:text="${shop.prod_cnt}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.totalprice}"></span>
+				<span th:text="${shop.sum}"></span>
 			</td>
 			<td>
 				<span th:text="${shop.status}"></span>
 			</td>
 		</tr>	
 	</table>
+	<div style="text-align: center; padding-top:20px; margin-left:90px; padding-top:70px;">
+		<a th:href="@{'/'+ ${url} + '?status=' + '배송준비중'}"  style="text-decoration-line: none; color:black;">
+			<h2>배송 준비중</h2>
+		</a>
+	</div>
 	<table>
-	<a th:href="@{'/'+ ${url} + '?status=' + '배송준비중'}">
-	<h3 style="width:300px">배송준비중</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -61,22 +67,25 @@
 				<span th:text="${shop.userid}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.itemname}"></span>
+				<span th:text="${shop.goodsname}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.quantity}"></span>
+				<span th:text="${shop.prod_cnt}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.totalprice}"></span>
+				<span th:text="${shop.sum}"></span>
 			</td>
 			<td>
 				<span th:text="${shop.status}"></span>
 			</td>
 		</tr>	
 	</table>
+	<div style="text-align: center; padding-top:20px; margin-left:90px; padding-top:70px;">
+		<a th:href="@{'/'+ ${url} + '?status=' + '배송중'}"  style="text-decoration-line: none; color:black;">
+			<h2>배송중</h2>
+		</a>
+	</div>
 	<table>
-	<a th:href="@{'/'+ ${url} + '?status=' + '배송중'}">
-	<h3 style="width:300px">배송중</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -93,22 +102,25 @@
 				<span th:text="${shop.userid}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.itemname}"></span>
+				<span th:text="${shop.goodsname}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.quantity}"></span>
+				<span th:text="${shop.prod_cnt}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.totalprice}"></span>
+				<span th:text="${shop.sum}"></span>
 			</td>
 			<td>
 				<span th:text="${shop.status}"></span>
 			</td>
 		</tr>	
 	</table>
+	<div style="text-align: center; padding-top:20px; margin-left:90px; padding-top:70px;">
+		<a th:href="@{'/'+ ${url} + '?status=' + '상품준비중'}" style="text-decoration-line: none; color:black;">
+			<h2>배송 완료</h2>
+		</a>
+	</div>
 	<table>
-	<a th:href="@{'/'+ ${url} + '?status=' + '배송완료'}">
-	<h3 style="width:300px">배송완료</h3></a>
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -125,13 +137,13 @@
 				<span th:text="${shop.userid}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.itemname}"></span>
+				<span th:text="${shop.goodsname}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.quantity}"></span>
+				<span th:text="${shop.prod_cnt}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.totalprice}"></span>
+				<span th:text="${shop.sum}"></span>
 			</td>
 			<td>
 				<span th:text="${shop.status}"></span>

@@ -26,6 +26,7 @@ import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.FreeboardAttach;
 import com.example.demo.vo.GoodsAndAtt;
+import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
@@ -107,9 +108,9 @@ public class ManagerController {
 	}
 	
 	@GetMapping("/shoplist")
-	public String shoplist(@RequestParam String status,@PageableDefault(size=10,sort="ordernum", page=0) Pageable pageable, Model m)
+	public String shoplist(@RequestParam String status, @PageableDefault(size=10,sort="ordernum", page=0) Pageable pageable, Model m)
 	{
-		Page<Shop> list = svc.getshop(status, pageable);
+		Page<Order> list = svc.getshop(status, pageable);
 		m.addAttribute("status", status);
 		m.addAttribute("url", "manager/shop/detail");
 		m.addAttribute("shop", list);
