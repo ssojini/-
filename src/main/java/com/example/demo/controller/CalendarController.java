@@ -107,10 +107,10 @@ public class CalendarController
 	
 	@PostMapping("/delete")
 	@ResponseBody
-	public Map<String,Object> deleteById(int num)
+	public Map<String,Object> deleteById(int num,int anum)
 	{
 		Map<String,Object> map = new HashMap<>();
-		map.put("deleted", cs.deleteAll(num));
+		map.put("deleted", cs.deleteAll(num,anum));
 		return map;
 	}
 

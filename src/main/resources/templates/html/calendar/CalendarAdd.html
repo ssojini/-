@@ -87,7 +87,9 @@ function fileDelete(fileNum){
 
 </script>
 <body>
-
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 <form id="addForm" action="/calen/add" method="post" enctype="multipart/form-data">
 	<div>
 		<input type="date" id="datetime" name="datetime" th:value="${day}">	

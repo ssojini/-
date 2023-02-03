@@ -3,13 +3,8 @@ package com.example.demo.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -34,6 +29,7 @@ public class AdminBoard // admin_board
 	private String date_admin;
 	private int hit;
 	private String author;
+	
 	@Transient
 	private List<AdminAttachBoard> attList = new ArrayList<>();
 
