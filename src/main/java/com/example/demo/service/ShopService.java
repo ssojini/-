@@ -189,10 +189,11 @@ public class ShopService
 			JSONArray jsArr= (JSONArray) parser.parse(items);
 			for( int i=0; i<jsArr.size();i++) 
 			{ 
-				JSONObject jsObj= (JSONObject) jsArr.get(i); 
+				JSONObject jsObj= (JSONObject) jsArr.get(i);
+				//System.err.println("jsObj: "+jsObj);
 				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
 				String userid = (String) jsObj.get("userid");
-				System.err.println("cartnum: "+cartnum);
+				//System.err.println("cartnum: "+cartnum);
 				Cart cart = cart_repo.findByCartnumAndUserid(cartnum,userid);
 				orderlist.add(cart);
 				
