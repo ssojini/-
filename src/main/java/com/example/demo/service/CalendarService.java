@@ -241,15 +241,19 @@ public class CalendarService
 	@Transactional
 	public boolean deleteAll(int num)
 	{
+		int drow = cm.schattdelete(num);
+//		int crow = cm.attcaldelete(num);
+//		int brow = cm.schdelete(num);
 		int arow = cm.caldelete(num);
-		int brow = cm.schdelete(num);
-		int crow = cm.attcaldelete(num);
+		
+		log.info("num:"+num);
 		
 		System.err.println("arow"+arow);
-		System.err.println("brow"+brow);
-		System.err.println("crow"+crow);
+		System.err.println("drow"+drow);
+//		System.err.println("brow"+brow);
+//		System.err.println("crow"+crow);
 		// 수정필요
-		if(arow>0 && brow>0 && crow>0) return true;
+		if(arow>0 && drow>0) return true;
 		
 		return false;
 	}

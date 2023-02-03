@@ -35,6 +35,8 @@ public interface CalendarMapper
 
 	int attcaldelete(int num);
 
+	int schattdelete(int num);
+
 
 
 }
