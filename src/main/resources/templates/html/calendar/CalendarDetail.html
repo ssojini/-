@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="/js/Calendar/CalendarDetail.js"></script>
 <script type="text/javascript">
 function deleteCal(num)
 {
 	if(!confirm('정말로 현재 게시글을 삭제하시겠어요?')) return;
 
-	$.ajax
-	({
+	$.ajax ({
 		url : '/calen/delete',
 		method : 'post',
-		data : {"num":num},
+		data : {"num" : num},
 		cache : false,
 		dateType : 'json',
 		success : function(res){
-			alert(res.deleted? "삭제성공" : "삭제실패");
+			alert(res.deleted ? "삭제성공" : "삭제실패");
 			if(res.deleted)	{
 				location.href='/calen/getCalendar';
-			}else {
-				alert(res.msg);
-				location.href= res.url;
 			}
 		},
 		error:function(xhr,status,err){
@@ -30,7 +27,6 @@ function deleteCal(num)
 	}
 	});
 }
-
 </script>
 </head>
 <body>
@@ -60,16 +56,21 @@ function deleteCal(num)
 				th:text="${sch.content}">
 				
 			</td>
-			<td th:each="sch : ${list.sch}">
-			<div th:each="att : ${sch.attlist}">
-				<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
-			</div>
+			<td>
+				<div th:each="sch : ${list.sch}">
+					<div th:each="att : ${sch.attlist}">
+						<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">		
+					</div>
+				</div>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<div>
-	<button type="button" th:onclick="javascript:deleteCal('${cal.num}')">삭제</button>
+<div th:each="list : ${mlist}">
+	<div th:each="cal : ${list.cal}">
+		<button type="button" th:onclick="|location.href='@{'/calen/edit/'+${cal.num}}'|">수정</button>
+		<button type="button" th:onclick="|javascript:deleteCal('${cal.num}')|">삭제</button>
+	</div>
 </div>
 </body>
 </html>

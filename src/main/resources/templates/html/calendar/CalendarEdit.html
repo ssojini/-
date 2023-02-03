@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>건강한 한끼 : 건끼</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+function editCalendar()
+{
+	if(!confirm('정말로 현재 정보를 수정하시겠어요?')) return;
+	$.ajax({
+		url:'/calen/updateCon',
+		method:'post',
+		data:{
+			"num":$("#num").text(),
+			"content":$("#content").html()
+		},
+		cache : false,
+		dataType:'json',
+		success : function(res){
+			alert(res.update? '수정성공' :'수정실패');
+			if(res.update){
+				location.href = '/calen/getCalender';
+			}
+		},
+        error : function(xhr, status, err){
+           alert(err);
+        }
+
+	});	
+	return false;
+}
+</script>
+</head>
+<body>
+
+<main>
+
+	<div th:each="list : ${mlist}">
+		<div th:each="cal : ${list.cal}"
+			 th:text="${cal.datetime}">	 
+		</div>
+	</div>
+	<div th:each="list : ${mlist}">
+		<div th:each="sch : ${list.sch}"
+			 th:text="${sch.when}">	 
+		</div>
+	</div>
+	<div th:each="list : ${mlist}">
+		<div th:each="sch : ${list.sch}">
+		<div id="num" th:text="${sch.num}" hidden="true"></div>
+			<textarea id ="content" name="content" rows="10" cols="50" th:value="${sch.content}" th:text="${sch.content}"></textarea>
+		</div>
+	</div>
+	<div th:each="list : ${mlist}">
+		<div th:each="sch : ${list.sch}">
+			<div th:each="att : ${sch.attlist}">
+				<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
+				<input type="file" id="pname" name="files" multiple="multiple" onChange="fileCheck();"> 
+			</div>
+		</div>
+	</div>
+
+	<button type="button" onclick="editCalendar();">적용</button>
+</main>
+</body>
+</html>

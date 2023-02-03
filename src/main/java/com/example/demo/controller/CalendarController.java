@@ -48,7 +48,7 @@ public class CalendarController
 		model.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
 		model.addAttribute("list",cs.listCalendar());
 		
-	 	return "html/calendar/Calendar";
+	 	return "html/calendar/calendar";
 	}
 	@GetMapping("/showCalen")
 	public String showCalendarAdd(String day,Model model) 
@@ -70,7 +70,7 @@ public class CalendarController
 		
 		model.addAttribute("day",afterDate);
 		
-		return "html/calendar/CalendarAdd";
+		return "html/calendar/calendarAdd";
 	}
 	@PostMapping("/add")
 	@ResponseBody
@@ -82,18 +82,33 @@ public class CalendarController
 		log.info(""+map);
 		return map;
 	}
-	@GetMapping("/detail/{PNUM}")
-	public String calenDetail(@PathVariable("PNUM") int num, Model model)
+	@GetMapping("/detail/{num}")
+	public String calenDetail(@PathVariable("num") int num, Model model)
 	{
 		model.addAttribute("mlist",cs.detailCalendar(num));
 		return "html/calendar/CalendarDetail";
 	}
+	@GetMapping("/edit/{num}")
+	public String edit(@PathVariable("num")int num, Model model)
+	{
+		model.addAttribute("mlist",cs.detailCalendar(num));
+		return "html/calendar/calendarEdit";
+	}
+	@PostMapping("/updateCon")
+	@ResponseBody
+	public Map<String, Object> updateContent(Schedule sch)
+	{
+		Map<String, Object> map = new HashMap<>();
+		
+		return map;
+	}
+	
 	@PostMapping("/delete")
 	@ResponseBody
 	public Map<String,Object> deleteById(int num)
 	{
 		Map<String,Object> map = new HashMap<>();
-		map.put("deleted", true);
+		map.put("deleted", cs.deleteAll(num));
 		return map;
 	}
 
