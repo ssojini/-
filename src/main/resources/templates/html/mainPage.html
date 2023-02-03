@@ -60,11 +60,9 @@
 		        		<div style="padding-left: 20px; padding-top: 20px; color:white;">   		
 		        		공지사항</div>
 	        			<div style="padding-top: 20px; padding-left: 20px; color:white;">
-	        				<ul style="display: inline;">
-			        			<li><a href="" style=" color:white;">다이어트 2달 표시날까요?</a></li>
-			        			<li><a href="" style=" color:white;">92에서 62까지 -30kg 여정</a></li>
-			        			<li><a href="" style=" color:white;">49세 다이어트 1탄</a></li>
-			        			<li><a href="" style=" color:white;">살에 묻혀있던 눈코입 살리자</a></li>
+	        				<ul  th:each="notice: ${list}" style="display: inline;">
+			        			<li><a  th:href= "|/admin/detail_notice/${notice.adnum}|"
+			        			 style=" color:white;">[[${notice.title}]]</a></li>
 			        		</ul>
 	        			</div>
 	        		</a>

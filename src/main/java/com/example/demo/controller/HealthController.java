@@ -31,6 +31,7 @@ import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.mypageService;
+import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.OneBoard;
@@ -188,6 +189,11 @@ public class HealthController {
 		// 메인페이지 오늘의 베스트 출력
 		Page<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc(page);
 		m.addAttribute("listFreeboard",listFreeboard);
+		
+		int pg=1; int cnt = 10;
+		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
+		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
+		m.addAttribute("list", list);
 		
 		return "html/mainPage";
 	}
