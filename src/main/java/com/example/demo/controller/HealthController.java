@@ -184,10 +184,10 @@ public class HealthController {
 
 	/* 종빈 */
 	@GetMapping("/main")
-	public String main1(Model m, @PageableDefault(size=5, page=0) Pageable page) {
+	public String main1(Model m) {
 		// 메인페이지 오늘의 베스트 출력
-		Page<Freeboard> pageFreeboard = freeboardService.getListByOrderByHitDesc(page);
-		m.addAttribute("pageFreeboard",pageFreeboard);
+		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
+		m.addAttribute("listFreeboard",listFreeboard);
 		
 		return "html/mainPage";
 	}
