@@ -156,4 +156,13 @@ public class FreeboardController {
 		map.put("listReply", listReply);
 		return map;
 	}
+	
+	@PostMapping("/listFreeboard")
+	@ResponseBody
+	public Map<String,Object> listFreeboard() {
+		Map<String,Object> map = new HashMap<>();
+		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
+		map.put("listFreeboard", listFreeboard);
+		return map;
+	}
 }

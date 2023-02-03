@@ -50,7 +50,7 @@
 </div>
 	<h3 class="main" style="width:80vw;" th:text="${status}"></h3>
 <div class="usertable main">
-	<table class="type11" style="float: top; width:80%">
+	<table class="type11" style="float: top; width:100%">
 		<tr>
 			<th>주문번호</th>
 			<th>구매자</th>
@@ -68,10 +68,10 @@
 				<span th:text="${shop.userid}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.itemname}"></span>
+				<span th:text="${shop.goodsname}"></span>
 			</td>
 			<td>
-				<span th:text="${shop.totalprice}"></span>
+				<span th:text="${shop.sum}"></span>
 			</td>
 			<td>
 				<span th:text="${shop.pdate}"></span>

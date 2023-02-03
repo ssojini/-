@@ -22,7 +22,7 @@
 	
 	</div>
 	<div>
-		<label for="pwd1">비밀번호</label>
+		<label for="pwd">비밀번호</label>
 			<input type="password" name="pwd1" id="pwd1" required>
 			<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
 	</div>
@@ -38,35 +38,43 @@
 			<span class="error_next_box" id="nicknameMsg" style="display:none" aria-live="assertive"></span>
 	
 <!-- 생년월일 -->
-	<div>
-		<label for="yy">생년월일</label>
+	<div class="birth_div">
+		<label for="yy"><span>생년월일</span></label>
 			<!-- 생년 -->
-			<input type="hidden" name="birth">
-			<input type="text" name="birth1" id="yy" placeholder="년(4자)" aria-label="년(4자)" maxlength="4">
+			<span class="box">
+				<input type="hidden" name="birth">
+			</span>
+			<span class="box">
+				<input type="text" name="birth1" id="yy" placeholder="년(4자)" aria-label="년(4자)" maxlength="4">
+			</span>
 			<!-- 월 -->
-			<select name="birth2" id="mm" aria-label="월">
-				<option value="">월</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8">8</option>
-					<option value="9">9</option>
-					<option value="10">10</option>
-					<option value="11">11</option>
-					<option value="12">12</option>
-			</select>
+			<span class="box">
+				<select name="birth2" id="mm" aria-label="월">
+					<option value="">월</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+				</select>
+			</span>
 			<!-- 일 -->
-			<input type="text" name="birth3" id="dd" placeholder="일" aria-label="일" maxlength="2" >
+			<span class="box">
+				<input type="text" name="birth3" id="dd" placeholder="일" aria-label="일" maxlength="2" >
+			</span>
 	</div>
 		<span class="error_next_box"></span>  
 	<!-- 핸드폰번호 -->
 	<div>
 		<label for="phone">전화번호</label>
-		<input type="text" name="phone" id="phone" placeholder="전화번호입력" maxlength="16" >
+		<input type="text" name="phone" id="phone" placeholder="'-' 제외한 전화번호 입력" maxlength="16" >
 		<span class="error_next_box"></span>  
 	</div>
 	
@@ -74,8 +82,8 @@
 	<div>
 		<label for="email">이메일</label>
 		<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" >
-		@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
 		<span class="error_next_box"></span>  
+		@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
 			<select name="select_email" onChange="selectEmail(this)">
 		        <option value="" selected>선택하세요</option>
 		        <option value="naver.com">naver.com</option>

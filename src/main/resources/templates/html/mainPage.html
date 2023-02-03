@@ -31,28 +31,32 @@
 	        	<img src="/img/icon-smile.png" style="height:50%;object-fit:contain;">
 	        	 남들은 쉽게 빼는데 나는 왜 안되지라는 생각마라 그들도 죽을만큼 노력했다.
 	        </div>
-        	<div style="float:left; width:44%; height: 200px; background:#BDB9B1; ">
-        		<div style="float:left; widht:80px;">
-	        		<div style="padding-left: 20px; padding-top: 20px; color:white;">오늘의 베스트</div>
-        			<div style="padding-top: 20px; padding-left: 20px; color:white;">
-	        			<ul style="display: inline;">
-	        				<th:block th:if="${listFreeboard!=null}" th:each="freeboard : ${listFreeboard}">
-			        			<li><a th:href="@{/freeboard/detail(fbnum=${freeboard.fbnum})}" style=" color:white;">[[${freeboard.title}]]</a></li>
-	        				</th:block>
-		        		</ul>
+        	<div id="freeboard_todayBest" style="float:left; width:44%; height: 200px; background:#BDB9B1; overflow: hidden;">
+        		<script src="/js/mainPage/freeboard.js"></script>
+        		<div style="float:left; widht:80px; width: 85%; height: 100%">
+	        		<div style="color:white; padding-left:20px; padding-top:20px; text-align:left; height:20%;">오늘의 베스트</div>
+        			<div style="color:white; padding:20px; height: 80%; text-align:left; ">
+        				<div style="width: 100%; height: 100%; overflow: hidden;">
+		        			<ul id="freeboard_todayBest_ul" style="display: inline; font-size: 17px; line-height: 20px;">
+		        				<th:block th:if="${listFreeboard!=null}" th:each="freeboard, i : ${listFreeboard}">
+				        			<li th:class="'freeboard_'+${i.index / 6}"><a th:href="@{/freeboard/detail(fbnum=${freeboard.fbnum})}" style="color:white;">[[${freeboard.title}]]</a></li>
+		        				</th:block>
+			        		</ul>
+        				</div>
         			</div>
        			</div>
-        			<div style="float:right; width:15%; height: 200px;">
-       				<div style="float:top;height:33.33%; text-align: center; padding-top:17px; border: 0.3px solid white;">
-       					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png"></a>     					
-       				</div>
-       				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
-       					<a href="#"><img style="width:80%; height:80%; object-fit:cover; cursor:pointer;" alt="upicon" src="/img/icon-up.png"></a> 
-       				</div>
-       				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
-       					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-down.png"></a> 
-       				</div>
-        			</div>
+       			<div style="float:right; width:15%; height: 200px;">
+      				<div style="float:top;height:33.33%; text-align: center; padding-top:17px; border: 0.3px solid white;">
+      					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png"></a>     					
+      				</div>
+      				<input id="freeboard_currentPage" type="hidden" value="0">
+      				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
+      					<a onclick="freeboard_todayBest_previousBtn()"><img style="width:80%; height:80%; object-fit:cover; cursor:pointer;" alt="upicon" src="/img/icon-up.png"></a> 
+      				</div>
+      				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
+      					<a onclick="freeboard_todayBest_nextBtn()"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-down.png"></a> 
+      				</div>
+       			</div>
 	        	</div>
 	        	<div style="float:right; width:44%; height: 200px; background:#FFB59F;">
 					<div style="float:left; widht:80px;">
@@ -60,19 +64,17 @@
 		        		<div style="padding-left: 20px; padding-top: 20px; color:white;">   		
 		        		공지사항</div>
 	        			<div style="padding-top: 20px; padding-left: 20px; color:white;">
-	        				<ul style="display: inline;">
-			        			<li><a href="" style=" color:white;">다이어트 2달 표시날까요?</a></li>
-			        			<li><a href="" style=" color:white;">92에서 62까지 -30kg 여정</a></li>
-			        			<li><a href="" style=" color:white;">49세 다이어트 1탄</a></li>
-			        			<li><a href="" style=" color:white;">살에 묻혀있던 눈코입 살리자</a></li>
+	        				<ul  th:each="notice: ${list}" style="display: inline;">
+			        			<li><a  th:href= "|/admin/detail_notice/${notice.adnum}|"
+			        			 style=" color:white;">[[${notice.title}]]</a></li>
 			        		</ul>
 	        			</div>
 	        		</a>
 	        		
         			</div>
         			<div style="float:right; width:15%; height: 200px;">
-        				<div style="float:top;height:33.33%; text-align: center; padding-top:17px; border: 0.3px solid white; ">
-        					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png"></a>     					
+        				<div style="float:top;height:33.33%; text-align: center; padding-top:17px; border: 0.3px solid white;" >
+        					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png" ></a>     					
         				</div>
         				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">
         					<a href="#"><img style="width:80%; height:80%; object-fit:cover; cursor:pointer;" alt="upicon" src="/img/icon-up.png"></a> 
@@ -100,7 +102,7 @@
 						</div>
 						<div class="content">
 						    <div class="content-dis" id="list1">
-							    <ul style="display:flex;min-height:100%; width:100%; float:top;">
+							    <ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
   										<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -132,7 +134,7 @@
 					        				
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -164,7 +166,7 @@
 					        			</a>	
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -198,7 +200,7 @@
 			        			</ul>	
 						    </div>
 						    <div class="content-dis" id="list1">
-							    <ul style="display:flex;min-height:100%; width:100%; float:top;">
+							    <ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul"> 
 				        			<li>
   										<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -230,7 +232,7 @@
 					        				
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -262,7 +264,7 @@
 					        			</a>	
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -296,7 +298,7 @@
 			        			</ul>	
 						    </div>
 						    <div class="content-dis" id="list1">
-							    <ul style="display:flex;min-height:100%; width:100%; float:top;">
+							    <ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
   										<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -328,7 +330,7 @@
 					        				
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -360,7 +362,7 @@
 					        			</a>	
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -394,7 +396,7 @@
 			        			</ul>	
 						    </div>
 						    <div class="content-dis" id="list1">
-							    <ul style="display:flex;min-height:100%; width:100%; float:top;">
+							    <ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
   										<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -426,7 +428,7 @@
 					        				
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -458,7 +460,7 @@
 					        			</a>	
 				        			</li>
 			        			</ul>	
-			        			<ul style="display:flex;min-height:100%; width:100%; float:top;">
+			        			<ul style="display:flex;min-height:100%; width:100%; float:top;" class="ul">
 				        			<li>
 				        				<a href="#" style="color:black;">
 					        				<div class="image-boxl">
@@ -504,24 +506,24 @@
 	    		<div style="width:100%; height:150px;">
 	    			<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#CBCFB1; border: 0.5px solid white;">
 		        		<a href="/health/bmi">
-		        			<img src="/img/icon-bmi.png" style="cursor:pointer;width:90%; padding:30px 15px 30px 30px; object-fit: scale-down;">	
+		        			<img src="/img/icon-bmi.png" style="cursor:pointer;width:90%; height:90%; padding:30px 15px 30px 30px; object-fit: scale-down;">	
 		        		</a>
 		        	</div>	
-        			<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#A0DED3; border: 0.5px solid white;">
+        			<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#A0DED3; border: 0.5px solid white; ackground-size: cover;">
 		        		<a href="/calen/getCalendar">
-		        			<img src="/img/icon-calendar.png" style="cursor:pointer;width:90%; padding:30px 15px 30px 30px; object-fit: scale-down;">	
+		        			<img src="/img/icon-calendar.png" style="cursor:pointer; width:90%; height:90%; padding:30px 15px 30px 30px; object-fit: scale-down;">	
 		        		</a>
 		        	</div>	
 	        	</div>
 	        	<div style="width:100%; height:150px;">
 	        		<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#A0DED3; border: 0.5px solid white;">
 		        		<a href="/health/mappage">
-		        			<img src="/img/icon-find.png" style="cursor:pointer;width:90%; padding:30px 17px 30px 32px; object-fit: scale-down;">	
+		        			<img src="/img/icon-find.png" style="cursor:pointer;width:90%; height:90%; padding:30px 17px 30px 32px; object-fit: scale-down;">	
 		        		</a>
 		        	</div>	
 	        		<div style="width:50%; float:left; cursor:pointer; height:160px; background-color:#CBCFB1; border: 0.5px solid white;">
 		        		<a href="#">
-		        			<img src="/img/icon-trophy.png" style="cursor:pointer;width:89%; padding:30px 17px 30px 32px; object-fit: scale-down;">	
+		        			<img src="/img/icon-trophy.png" style="cursor:pointer;width:89%; height:90%; padding:30px 17px 30px 32px; object-fit: scale-down;">	
 		        		</a>
 		        	</div>	
 	        	</div>	

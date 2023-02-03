@@ -13,7 +13,7 @@ ul{
 ul>li{
 	list-style: none;
 }
-	
+
 a{
 	text-decoration: none;
 }
@@ -27,6 +27,7 @@ a{
 #form1{
 	width: 700px;
 	margin: 0 auto;
+	padding-top:30px;
 }
 
 ul.join_box{

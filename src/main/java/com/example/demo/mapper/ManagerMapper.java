@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
+import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
@@ -17,14 +18,13 @@ public interface ManagerMapper {
 	public List<Freeboard> userBoard(String userid);
 	public Freeboard boardDetail(int fbnum);
 	public int useridDel(String userid);
-	public List<Shop> orderlist(String userid);
-	public List<Shop> shop1(String status);
-	public List<Shop> shop2(String status);
-	public List<Shop> shop3(String status);
-	public List<Shop> shop4(String status);
-	public List<Shop> getshop(String status);
-	public Shop shopdetail(int ordernum);
-	public int shopUpdate(Shop findshop);
+	public List<Order> shop1(String status);
+	public List<Order> shop2(String status);
+	public List<Order> shop3(String status);
+	public List<Order> shop4(String status);
+	public List<Order> getshop(String status);
+	public Order shopdetail(int ordernum);
+	public int shopUpdate(Order findshop);
 	public List<GoodsAndAtt> shopitem();
 	public GoodsAndAtt getitem(int goodsnum);
 	public List<Freeboard> getboardlist(String bname);

@@ -27,4 +27,16 @@ public interface CalendarMapper
 
 	List<Map<String, Object>> list();
 
+	Schedule updateContenet();
+
+	int caldelete(int num);
+
+	int schdelete(int num);
+
+	int attcaldelete(int num);
+
+	int schattdelete(int num);
+
+
+
 }
