@@ -373,7 +373,87 @@ public class HealthController {
 			return map;
 		}
 		
+		
+		@GetMapping("/faq/{pg}/{cnt}") 
+		public String faq(Model m, @PathVariable int pg, @PathVariable int cnt)
+		{
+			PageInfo<Map<String, Object>> pageInfo = absvc.faqPage(pg, cnt);
+			List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
+			m.addAttribute("list", list);
+			
+			return "html/admin/faq";
+		}
+		
+		@GetMapping("/detail_faq/{adnum}")
+		public String detail_faq(@PathVariable("adnum") int adnum, Model m)
+		{
+			AdminBoard faqb = absvc.detail_adminb(adnum);
+			m.addAttribute("faqb", faqb);
+			return "html/admin/detail_faq";
+		}
+		
+		@GetMapping("/edit_faq/{adnum}")
+		public String editFaq(@PathVariable("adnum") int adnum, Model m)
+		{
+			AdminBoard adminb = absvc.detail_adminb(adnum);
+			m.addAttribute("adminb", adminb);
+			m.addAttribute("adnum", adnum);
+			return "html/admin/edit_faq";
+		}
+		
+		@PostMapping("/edit_faq/{adnum}")
+		@ResponseBody
+		public Map<String, Boolean> updateFaq(@PathVariable("adnum") int adnum,
+				AdminBoard adminb,
+				@RequestParam("attach") MultipartFile[] mfiles,
+				HttpServletRequest request)
+		{
+			boolean uploaded = absvc.updateAdminB(request, adminb, mfiles);
+			Map<String, Boolean> map = new HashMap<>();
+			map.put("uploaded", uploaded);
+			return map;
+		}	
 	
+		@GetMapping("/notice/{pg}/{cnt}") 
+		public String notice(Model m, @PathVariable int pg, @PathVariable int cnt)
+		{
+			PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
+			List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
+			m.addAttribute("list", list);
+			
+			return "html/admin/notice";
+		}
+		
+		@GetMapping("/detail_notice/{adnum}")
+		public String detail_notice(@PathVariable("adnum") int adnum, Model m)
+		{
+			AdminBoard noticeb = absvc.detail_adminb(adnum);
+			m.addAttribute("noticeb", noticeb);
+			return "html/admin/detail_notice";
+		}
+		
+		@GetMapping("/edit_notice/{adnum}")
+		public String editNotice(@PathVariable("adnum") int adnum, Model m)
+		{
+			AdminBoard adminb = absvc.detail_adminb(adnum);
+			m.addAttribute("adminb", adminb);
+			m.addAttribute("adnum", adnum);
+			return "html/admin/edit_notice";
+		}
+		
+		@PostMapping("/edit_notice/{adnum}")
+		@ResponseBody
+		public Map<String, Boolean> updateNotice(@PathVariable("adnum") int adnum,
+				AdminBoard adminb,
+				@RequestParam("attach") MultipartFile[] mfiles,
+				HttpServletRequest request)
+		{
+			boolean uploaded = absvc.updateAdminB(request, adminb, mfiles);
+			Map<String, Boolean> map = new HashMap<>();
+			map.put("uploaded", uploaded);
+			return map;
+		}
+		
 	/* 엘라 끝 */
 
 	@GetMapping("/bmi")
