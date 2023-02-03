@@ -26,6 +26,7 @@ import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -201,20 +202,25 @@ public class CalendarService
 		
 		Schedule sch = new Schedule();
 		
+		BigDecimal sbig = (java.math.BigDecimal)m.get("NUM");
+		sch.setNum(sbig.intValue());
+		BigDecimal big1 = (java.math.BigDecimal)m.get("PNUM");
+		sch.setPnum(big1.intValue());
 		sch.setWhen((String) m.get("WHEN"));
 		sch.setContent((String)m.get("CONTENT"));
 		
 		for (int i = 0; i < mlist.size(); i++) 
 		{
-			Map<String, Object> amap = mlist.get(0);
+			Map<String, Object> amap = mlist.get(i);
 			
 			AttachCalendar att = new AttachCalendar();
 				
 			BigDecimal abig = (BigDecimal) amap.get("NUM");
+			BigDecimal acbig = (BigDecimal) m.get("PNUM");
+			att.setPnum(acbig.intValue());
 			att.setFname((String)amap.get("FNAME"));
 			att.setPname((String)amap.get("PNAME"));
 			att.setNum(abig.intValue());
-				
 			sch.getAttlist().add(att);
 		}
 			map.put("cal", cal);
@@ -225,5 +231,27 @@ public class CalendarService
 		return list;
 	}
 	
+	public Schedule updateCon(Schedule sch)
+	{
+		Schedule upsch = cm.updateContenet();
+		sch.setContent(sch.getContent());
+		return null;
+	}
+	
+	@Transactional
+	public boolean deleteAll(int num)
+	{
+		int arow = cm.caldelete(num);
+		int brow = cm.schdelete(num);
+		int crow = cm.attcaldelete(num);
+		
+		System.err.println("arow"+arow);
+		System.err.println("brow"+brow);
+		System.err.println("crow"+crow);
+		// 수정필요
+		if(arow>0 && brow>0 && crow>0) return true;
+		
+		return false;
+	}
 
 }
