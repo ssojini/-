@@ -65,7 +65,7 @@
 								<input type="hidden" name="sum" th:value="${n.sum}"> <input
 								type="hidden" name="mainpic" th:value="${n.mainpic_server}">
 							
-								<img alt="mainpic"
+								<img alt="mainpic" width="100px" height="100px"
 								th:src="'/images/goodsimg/'+${n.mainpic_server}"></th>
 							<td>[[${n.goodsname}]]</td>
 							<td><span th:text="${n.prod_cnt}+개"></span><br>
