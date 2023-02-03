@@ -283,7 +283,6 @@ public class HealthController {
 		m.addAttribute("qnum", num);
 		String userid = (String)session.getAttribute("userid");
 		m.addAttribute("userid", userid);
-	//	log.info("num값:" +num);
 		return "html/admin/edit_q";
 	}
 	
@@ -307,10 +306,7 @@ public class HealthController {
 	{
 		AttachBoard attach = absvc.getAttach(attid);
 		
-		boolean result= absvc.deleteIndiv(attid);	// DB에서 지우기
-		//log.info("ctrl, result 값:"+result);
-		//return result.toString();
-		
+		boolean result= absvc.deleteIndiv(attid);	// DB에서 지우기	
 		boolean serverDeletion = deleteFile(attach);// 서버에서 지우기
 		//log.info("ctrl, deletion값:"+ serverDeletion);
 		boolean trueDeletion = (result == serverDeletion);
@@ -371,10 +367,8 @@ public class HealthController {
 			return map;
 		}
 		
-		
-
 	
-	/* 엘라 */
+	/* 엘라 끝 */
 
 	@GetMapping("/bmi")
 	public String bmi()
