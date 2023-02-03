@@ -109,7 +109,7 @@ public class AdminBoardController
 		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
 		m.addAttribute("list", list);
 		
-		return "html/admin/notice";
+		return "html/admin/notice_admin";
 	}
 	
 	@GetMapping("/detail_notice/{adnum}")
@@ -216,7 +216,7 @@ public class AdminBoardController
 		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
 		m.addAttribute("list", list);
 		
-		return "html/admin/faq";
+		return "html/admin/faq_admin";
 	}
 	
 	@GetMapping("/detail_faq/{adnum}")

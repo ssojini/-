@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.FreeboardAttachService;
 import com.example.demo.service.FreeboardReplyService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.ManagerService;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.Admin;
+import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.FreeboardAttach;
 import com.example.demo.vo.GoodsAndAtt;
@@ -198,4 +200,5 @@ public class ManagerController {
 		map.put("deleted",svc.deletegoods(goodsnum));
 		return map;
 	}
+
 }	

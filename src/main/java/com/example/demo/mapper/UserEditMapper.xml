@@ -23,6 +23,6 @@
 </update>
 
 <select id="getmyboard" parameterType="string" resultType="com.example.demo.vo.Freeboard">
-	SELECT * FROM freeboard where author=#{nickname}
+	SELECT * FROM freeboard where author='smash'
 </select>
 </mapper>
