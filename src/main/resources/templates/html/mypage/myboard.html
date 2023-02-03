@@ -28,11 +28,11 @@
 <div>
     <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
-	
-	<main>
+<div style="width:100vw;">
+	<main style="margin:0 auto; padding-top:40px; text-align: center">
 		<input type="hidden" id="bname" th:value="${bname}">
 		<div id="freeboard_table_div">
-			<table id="freeboard_table" >
+			<table id="freeboard_table" style="text-align: center; margin:0 auto;">
 				<tr>
 					<th class="freeboard_table_num"><b>번호</b></th>
 					<th class="freeboard_table_title"><b>제목</b></th>
@@ -68,6 +68,7 @@
 			</div>
 		</div>
 	</main>
+</div>
 </body>
 </html>
 <!-- 

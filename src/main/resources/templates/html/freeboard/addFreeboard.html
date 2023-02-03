@@ -19,24 +19,32 @@
 <body>
 	<div th:replace="fragments/common :: header"></div>
 	<main>
-		<div id="title_div">
-			<select id="bname">
-				<option th:value="free" th:selected="${#strings.equals(bname,'free')}">자유게시판</option>
-				<option th:value="meal" th:selected="${#strings.equals(bname,'meal')}">식단공유게시판</option>
-				<option th:value="beforafter" th:selected="${#strings.equals(bname,'beforafter')}">비포에프터게시판</option>
-			</select>
-			<input id="title" name="title">
+		<div id="addFreeboard_div">
+			<div id="title_div">
+				<select id="bname">
+					<option th:value="free" th:selected="${#strings.equals(bname,'free')}">자유게시판</option>
+					<option th:value="meal" th:selected="${#strings.equals(bname,'meal')}">식단공유게시판</option>
+					<option th:value="beforafter" th:selected="${#strings.equals(bname,'beforafter')}">비포에프터게시판</option>
+				</select>
+				<input id="title" name="title">
+			</div>
+			<div id="contents_div">
+				<div id="contents" contentEditable="true"></div>
+			</div>
+			<div id="fileListDiv_div">
+				<div id="fileListDiv"></div>
+			</div>
+			<div id="file_btn_div">
+				<label id="file_upload_btn" for="files">파일 업로드</label>
+				<input id="files" type="file" onchange="changeFile();" multiple="multiple" hidden="true">
+				<button id="insert_img_btn" type="button" onclick="insertImg();" hidden="true">이미지 넣기</button>
+			</div>
+			<hr>
+			<div id="addFreeboard_btn_div">
+				<button id="goback_btn" type="button" th:onclick="'location.href=\''+@{/freeboard(bname=${bname})}+'\''">뒤로가기</button>
+				<button id="add_freeboard_btn" type="button" onclick="addFreeboard();">게시</button>
+			</div>
 		</div>
-		<div id="contents" contentEditable="true"></div>
-		<div id="fileListDiv"></div>
-		<div id="file_btn_div">
-			<label id="file_upload_btn" for="files">파일 업로드</label>
-			<input id="files" type="file" onchange="changeFile();" multiple="multiple" hidden="true">
-			<button id="insert_img_btn" type="button" onclick="insertImg();" hidden="true">이미지 넣기</button>
-		</div>
-		<hr>
-		<button id="goback_btn" type="button" th:onclick="'location.href=\''+@{/freeboard(bname=${bname})}+'\''">뒤로가기</button>
-		<button id="add_freeboard_btn" type="button" onclick="addFreeboard();">게시</button>
 	</main>
 </body>
 </html>
