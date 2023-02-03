@@ -13,13 +13,19 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.interfaces.FreeboardRepository;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.FreeboardAttach;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Service
 public class FreeboardService {
 	@Autowired
 	private FreeboardRepository repo;
+	@Autowired
+	private FreeboardAttachService attachService;
+	@Autowired
+	private FreeboardReplyService replyService;
 	
 	public Freeboard getByFbnum(Integer fbnum) {
 		Optional<Freeboard> findFreeboard = repo.findById(fbnum);
@@ -87,8 +93,10 @@ public class FreeboardService {
 		}
 	}
 
-	public boolean deleteByFbnum(Integer fbnum) {
+	public boolean deleteByFbnum(HttpServletRequest request, Integer fbnum) {
 		repo.deleteById(fbnum);
+		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
+		replyService.deleteByPnum(fbnum);
 		return true;
 	}
 
