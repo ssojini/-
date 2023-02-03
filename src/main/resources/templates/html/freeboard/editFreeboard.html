@@ -34,24 +34,31 @@
 			</div>
 			<div id="fbnum" th:text="${freeboard.fbnum}" hidden="true"></div>
 			<div id="author" th:text="${freeboard.author}"></div>
-			<div id="contents" th:text="${freeboard.contents}" contentEditable="true"></div>
-			<div id="listAttach">
-				<div th:id="'attach'+${attach.anum}" th:each="attach : ${listAttach}">
-					<input type="checkbox" th:value="${attach.anum}">
-					<span th:text="${attach.anum}"></span>
-					<span th:text="${attach.aname}"></span>
-					<span th:text="${attach.asize}"></span>
+			<div id="contents_div">
+				<div id="contents" th:text="${freeboard.contents}" contentEditable="true"></div>
+			</div>
+			<div id="listAttach_div">
+				<div id="listAttach">
+					<div th:id="'attach'+${attach.anum}" th:each="attach : ${listAttach}">
+						<input type="checkbox" th:value="${attach.anum}">
+						<span th:text="${attach.anum}"></span>
+						<span th:text="${attach.aname}"></span>
+						<span th:text="${attach.asize}"></span>
+					</div>
 				</div>
 			</div>
-			<div id="btn_div">
+			<div id="file_btn_div">
 				<label id="file_upload_btn" for="files">파일 업로드</label>
 				<button id="delete_file_btn" type="button" onclick="deleteFile();" hidden="true">파일 삭제</button>
 				<button id="insert_img_btn" type="button" onclick="insertImg();"  hidden="true">이미지 넣기</button>
 				<input id="files" type="file" onchange="changeFile();" multiple="multiple" hidden="hidden">
 			</div>
 			<hr>
-			<button id="delete_freeboard_btn" type="button" th:onclick="deleteFreeboard([[${freeboard.fbnum}]]);">삭제</button>
-			<button id="add_freeboard_btn" type="button" onclick="editFreeboard();">적용</button>
+			<div id="editFreeboard_btn_div">
+				<button id="goback_editFreeboard_btn" type="button" th:onclick="'location.href=\'/freeboard/detail?fbnum='+${freeboard.fbnum}+'\''">취소</button>
+				<button id="delete_freeboard_btn" type="button" th:onclick="deleteFreeboard([[${freeboard.fbnum}]]);">삭제</button>
+				<button id="add_freeboard_btn" type="button" onclick="editFreeboard();">적용</button>
+			</div>
 		</div>
 	</main>
 </body>
