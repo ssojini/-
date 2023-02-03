@@ -19,11 +19,11 @@
 		<!-- 상단 로그인 부분 session 사용해서 로그인 정보 띄우기-->
 		<nav style="float: right;">
 			<ul style="list-style: none; padding-right: 40px; padding-top: 10px;">
-				<li><span th:if="${session.userid}!=null">[[${session.userid}]] ||
-						<a href="/team/logout">로그아웃</a>|| 
-						<a th:href="'/health/useredit/'+ ${session.userid}">마이페이지</a>
-				</span> <span th:unless="${session.userid}!=null"><a
-						style="color: inherit; text-decoration: none; font-size: medium"
+				<li><span th:if="${session.userid}!=null" style="color:black;">[[${session.userid}]] ||
+						<a th:href="'/team/logout'" style="color:black;">로그아웃</a>|| 
+						<a th:href="'/health/useredit/'+ ${session.userid}" style="color:black;">마이페이지</a>
+				</span> <span th:unless="${session.userid}!=null"><a 
+						style="color: inherit; text-decoration: none; font-size: medium; color:black;" 
 						href="/team/login">로그인</a></span></li>
 			</ul>
 		</nav>
