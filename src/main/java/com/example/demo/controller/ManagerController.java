@@ -161,9 +161,7 @@ public class ManagerController {
 	@ResponseBody
 	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
 		Map<String,Object> map = new HashMap<>();
-		boolean delete = freeboardService.deleteByFbnum(fbnum);
-		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
-		replyService.deleteByPnum(fbnum);
+		boolean delete = freeboardService.deleteByFbnum(request, fbnum);
 		map.put("result", delete);
 		return map;
 	}
