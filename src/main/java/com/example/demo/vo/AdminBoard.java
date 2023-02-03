@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="admin_board")
-public class AdminBoard 
+public class AdminBoard // admin_board
 {
 	public AdminBoard(int adnum) {
 		this.adnum= adnum;

@@ -58,7 +58,6 @@ function delAdminB()
 	<span th:if= "${noticeb.attList.size()>0}"></span>
 	<span th:each="att: ${noticeb.attList}"> [[${att.attname}]]</span>
 
-<a th:href= "|/admin/edit_notice/${noticeb.adnum}|">[수정하기]</a>
 <p>
 <button type="button" onclick="delAdminB();"> 삭제</button>
 
