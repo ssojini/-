@@ -38,10 +38,9 @@
 					<th class="freeboard_table_title"><b>제목</b></th>
 					<th class="freeboard_table_hit"><b>조회수</b></th>
 				</tr>
-				<tr class="boardTr" th:each="board : ${pageFreeboard}">
+				<tr class="boardTr" th:each="board : ${board}">
 					<td>[[${board.fbnum}]]</td>
 					<td><a th:href="@{/freeboard/detail(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
-					<td>[[${board.author}]]</td>
 					<td>[[${board.hit}]]</td>
 				</tr>
 			</table>

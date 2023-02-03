@@ -117,7 +117,7 @@ public class AdminBoardController
 	{
 		AdminBoard noticeb = absvc.detail_adminb(adnum);
 		m.addAttribute("noticeb", noticeb);
-		return "html/admin/detail_notice_admin";
+		return "html/admin/detail_notice";
 	}
 	
 	@GetMapping("/edit_notice/{adnum}")
