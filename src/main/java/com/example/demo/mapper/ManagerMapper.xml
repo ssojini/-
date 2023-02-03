@@ -28,52 +28,52 @@
 		DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
 	</delete>
 	
-	<select id="shop1" parameterType="string" resultType="com.example.demo.vo.Shop">
+	<select id="shop1" parameterType="string" resultType="com.example.demo.vo.Order">
 		<![CDATA[
 		SELECT *
 		FROM 
  		(
  			 SELECT *
- 			 FROM shop
+ 			 FROM tb_order
  			 WHERE status=#{status jdbcType=VARCHAR}
   			 ORDER BY ordernum DESC
  		)
 		WHERE ROWNUM <= 3
 		]]>
 	</select>
-	<select id="shop2" parameterType="string" resultType="com.example.demo.vo.Shop">
+	<select id="shop2" parameterType="string" resultType="com.example.demo.vo.Order">
 		<![CDATA[
 		SELECT *
 		FROM 
  		(
  			 SELECT *
- 			 FROM shop
+ 			 FROM tb_order
  			 WHERE status=#{status jdbcType=VARCHAR}
   			 ORDER BY ordernum DESC
  		)
 		WHERE ROWNUM <= 3
 		]]>
 	</select>
-	<select id="shop3" parameterType="string" resultType="com.example.demo.vo.Shop">
+	<select id="shop3" parameterType="string" resultType="com.example.demo.vo.Order">
 		<![CDATA[
 		SELECT *
 		FROM 
  		(
  			 SELECT *
- 			 FROM shop
+ 			 FROM tb_order
  			 WHERE status=#{status jdbcType=VARCHAR}
   			 ORDER BY ordernum DESC
  		)
 		WHERE ROWNUM <= 3
 		]]>
 	</select>
-	<select id="shop4" parameterType="string" resultType="com.example.demo.vo.Shop">
+	<select id="shop4" parameterType="string" resultType="com.example.demo.vo.Order">
 		<![CDATA[
 		SELECT *
 		FROM 
  		(
  			 SELECT *
- 			 FROM shop
+ 			 FROM tb_order
  			 WHERE status=#{status jdbcType=VARCHAR}
   			 ORDER BY ordernum DESC
  		)
@@ -82,17 +82,17 @@
 	</select>
 	<select id="getshop" parameterType="string" resultType="com.example.demo.vo.Shop">
 		SELECT ordernum, userid, itemname, quantity, totalprice, to_char(pdate, 'YYYY. MM. DD') AS pdate, status
-		FROM shop
+		FROM tb_order
  		WHERE status=#{status jdbcType=VARCHAR}
   		ORDER BY ordernum ASC
 	</select>
-	<select id="shopdetail" parameterType="int" resultType="com.example.demo.vo.Shop">
-		SELECT ordernum, userid, itemname, quantity, totalprice, to_char(pdate, 'YYYY. MM. DD') AS pdate, status, price, itempoint, address 
-		FROM shop
+	<select id="shopdetail" parameterType="int" resultType="com.example.demo.vo.Order">
+		SELECT *
+		FROM tb_Order
  		WHERE ordernum=#{ordernum jdbcType=NUMBER}
 	</select>
-	<update id="shopUpdate" parameterType="com.example.demo.vo.Shop">
-		UPDATE shop SET status=#{status, jdbcType=VARCHAR}
+	<update id="shopUpdate" parameterType="com.example.demo.vo.Order">
+		UPDATE tb_Order SET status=#{status, jdbcType=VARCHAR}
 		WHERE ordernum=#{ordernum}
 	</update>
 	<select id="shopitem" resultType="com.example.demo.vo.GoodsAndAtt">
