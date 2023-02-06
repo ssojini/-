@@ -27,6 +27,7 @@ import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -156,7 +157,7 @@ public class ManagerController {
 		boolean delete = freeboardService.deleteByFbnum(request, fbnum);
 		map.put("result", delete);
 		return map;
-	}*/
+	}
 	
 	@GetMapping("/shopitem")
 	public String shopitem(Model m)
