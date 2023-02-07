@@ -186,10 +186,12 @@ public class ManagerController {
 	@GetMapping("/editgoods/{goodsnum}")
 	public String editGoodspage(@PathVariable(value = "goodsnum") int goodsnum, Model m)
 	{
+
 		m.addAttribute("goods", ssvc.editGoodspage(goodsnum));
 		return "html/shop/goodsedit";
 		
 	}
+	
 	
 	@PostMapping("/deletegoods/{goodsnum}")
 	@ResponseBody
