@@ -16,6 +16,7 @@ import com.example.demo.mapper.ManagerMapper;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
+import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
@@ -83,34 +84,34 @@ public class ManagerService {
 		return result;
 	}
 
-	public List<Shop> shop1() {
+	public List<Order> shop1() {
 		String status = "상품준비중";
 		return map.shop1(status);
 	}
-	public List<Shop> shop2() {
+	public List<Order> shop2() {
 		String status = "배송준비중";
 		return map.shop2(status);
 	}
-	public List<Shop> shop3() {
+	public List<Order> shop3() {
 		String status = "배송중";
 		return map.shop3(status);
 	}
-	public List<Shop> shop4() {
+	public List<Order> shop4() {
 		String status = "배송완료";
 		return map.shop4(status);
 	}
 
-	public Page<Shop> getshop(String status, Pageable pageable) {
-		Page<Shop> page = srepo.findBystatus(pageable, status);
+	public Page<Order> getshop(String status, Pageable pageable) {
+		Page<Order> page = srepo.findBystatus(pageable, status);
 		return page;
 	}
 
-	public Shop shopdetail(int ordernum) {
+	public Order shopdetail(int ordernum) {
 		return map.shopdetail(ordernum);
 	}
 
 	public int update(Shop shop) {
-		Shop findshop = map.shopdetail(shop.getOrdernum());
+		Order findshop = map.shopdetail(shop.getOrdernum());
 		findshop.setStatus(shop.getStatus());	
 		int updateshop = map.shopUpdate(findshop);
 		return updateshop;

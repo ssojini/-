@@ -108,11 +108,11 @@ $(function(){
 });
 
 </script>
-<body style="margin:0 auto">
+<body style="margin:0 auto;background-color: rgb(223,223,223);">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
-<h2>상품등록</h2>
+<h2 style="padding-top:20px">상품등록</h2>
 <form id="addgoods" enctype="multipart/form-data" >
 
 <table style="margin-left:230px;">
@@ -268,7 +268,7 @@ function jsonFn(jsonArray){
 					if(res.added)
 					{
 						alert("등록성공");
-						location.href="/shop/ShopMainPage";
+						location.href="/manager/shopitem";
 					}
 					else alert("등록실패");
 				},

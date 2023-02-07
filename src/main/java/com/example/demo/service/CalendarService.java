@@ -124,6 +124,7 @@ public class CalendarService
 	public List<Map<String,Object>> listCalendar()
 	{
 		List<Map<String,Object>> mlist = cm.list();
+		log.info("list:"+mlist);
 		
 		List<Map<String,Object>> list = new ArrayList<>();
 	
@@ -153,8 +154,14 @@ public class CalendarService
 			sch.setPnum(big1.intValue());
 			sch.setContent((String)m.get("CONTENT"));
 			
-			
+			boolean found = false;
 			String sPname = (String) m.get("PNAME");
+			if(sPname == null) {
+				map.put("cal", cal);
+				map.put("sch", sch);
+				list.add(map);
+				if(!found) continue;
+			}
 			String[] file = sPname.split(",");
 			for (int j = 0; j < file.length; j++) {
 				
@@ -185,6 +192,7 @@ public class CalendarService
 	{
 		
 		List<Map<String,Object>> mlist = cm.detail(num);
+		log.info("mlist"+mlist);
 		List<Map<String,Object>> list = new ArrayList<>();
 		
 		Map<String, Object> map = new HashMap<>();
@@ -193,7 +201,7 @@ public class CalendarService
 		
 		HCalendar cal = new HCalendar();
 		
-		BigDecimal big = (java.math.BigDecimal)m.get("NUM"); 
+		BigDecimal big = (java.math.BigDecimal)m.get("C_NUM"); 
 		cal.setNum(big.intValue());
 		
 		Timestamp time = (Timestamp) m.get("DATETIME");
@@ -202,9 +210,11 @@ public class CalendarService
 		
 		Schedule sch = new Schedule();
 		
-		BigDecimal sbig = (java.math.BigDecimal)m.get("NUM");
+		BigDecimal sbig = (java.math.BigDecimal)m.get("S_NUM");
 		sch.setNum(sbig.intValue());
-		BigDecimal big1 = (java.math.BigDecimal)m.get("PNUM");
+		log.info("num"+sbig);
+		BigDecimal big1 = (java.math.BigDecimal)m.get("S_PNUM");
+		log.info("pnum"+big1);
 		sch.setPnum(big1.intValue());
 		sch.setWhen((String) m.get("WHEN"));
 		sch.setContent((String)m.get("CONTENT"));
@@ -215,8 +225,9 @@ public class CalendarService
 			
 			AttachCalendar att = new AttachCalendar();
 				
-			BigDecimal abig = (BigDecimal) amap.get("NUM");
-			BigDecimal acbig = (BigDecimal) m.get("PNUM");
+			BigDecimal abig = (BigDecimal) amap.get("A_NUM");
+			log.info("abig"+abig);
+			BigDecimal acbig = (BigDecimal) m.get("A_PNUM");
 			att.setPnum(acbig.intValue());
 			att.setFname((String)amap.get("FNAME"));
 			att.setPname((String)amap.get("PNAME"));
@@ -239,11 +250,15 @@ public class CalendarService
 	}
 	
 	@Transactional
-	public boolean deleteAll(int num)
+	public boolean deleteAll(int num, int anum)
 	{
-		int arow = cm.caldelete(num);
+		
+		int crow = cm.attcaldelete(anum);
 		int brow = cm.schdelete(num);
-		int crow = cm.attcaldelete(num);
+		int arow = cm.caldelete(num);
+		
+		log.info("num:"+num);
+		log.info("anum"+anum);
 		
 		System.err.println("arow"+arow);
 		System.err.println("brow"+brow);

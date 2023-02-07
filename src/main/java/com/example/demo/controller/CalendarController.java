@@ -46,15 +46,12 @@ public class CalendarController
 		model.addAttribute("lastDay", map.get("lastDay")); // 마지막 일
 		model.addAttribute("today", map.get("today"));
 		model.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
-//		model.addAttribute("listMap", cs.listCalendar(datetime));
-		model.addAttribute("listMap", map.get("listMap"));
+		model.addAttribute("list",cs.listCalendar());
 		
-		log.info("todayday"+map.get("todayday"));
-		log.info("day"+ map.get("today"));
-		log.info("dayday"+map.get("dayday"));
-		
-	 	return "html/calendar/calendar";
+	 	return "html/calendar/Calendar";
 	}
+	
+	
 	@GetMapping("/showCalen")
 	public String showCalendarAdd(String day,Model model) 
 	{
@@ -110,10 +107,10 @@ public class CalendarController
 	
 	@PostMapping("/delete")
 	@ResponseBody
-	public Map<String,Object> deleteById(int num)
+	public Map<String,Object> deleteById(int num,int anum)
 	{
 		Map<String,Object> map = new HashMap<>();
-		map.put("deleted", cs.deleteAll(num));
+		map.put("deleted", cs.deleteAll(num,anum));
 		return map;
 	}
 

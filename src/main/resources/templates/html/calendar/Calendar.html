@@ -108,8 +108,8 @@ function clickDay(t) {
         <a th:href="@{/calen/getCalendar(day=${day.plusMonths(1)})}">다음</a>
     </div>
 <div class="main"> 
-	<input type="radio" id="tab-1" name="show" />
-	<input type="radio" id="tab-2" name="show" checked="checked"/>
+	<input type="radio" id="tab-1" name="show" checked="checked"/>
+	<input type="radio" id="tab-2" name="show" />
 	<div class="tab">
 		<label for="tab-1">월간</label>
 		<label for="tab-2">목록</label>
@@ -124,7 +124,7 @@ function clickDay(t) {
 		    <div class="gd-left gd-title">금</div>
 		    <div class="gd-left gd-title">토</div>
 	    <!-- 5월달 lastDay==31 -->
-			<div th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+(i-(firstDayOfWeek-1))))} ? 'background: skyblue'"
+			<div th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+((i-(firstDayOfWeek-1)) lt 10?'0'+(i-(firstDayOfWeek-1)):(i-(firstDayOfWeek-1)))))} ? 'background: skyblue':''"
 		     	 th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}" 
 		         th:class="${index.index%7} ==0 ? 'gd-clear gd-left':  'gd-left'"
 		         th:onclick="clickDay(this);"
@@ -132,9 +132,7 @@ function clickDay(t) {
 		         [[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]	
 			  		  <div th:each="list : ${list}"
 				    	   th:if="${list.tdate == (i-(firstDayOfWeek-1)) && list.tmonth == month}">
-				    	   
 					    	<div>
-					    	
 						    	<span th:each="sch : ${list.sch}">
 						    	<a th:href="@{'/calen/detail/'+${sch.pnum}}">
 						    		[[${sch.when}]]</span>
@@ -187,6 +185,7 @@ function clickDay(t) {
 						    		 <div th:each="sch : ${list.sch}">
 							    		<div th:each="att : ${sch.attlist}">
 							    			<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
+							    			
 							    		</div>
 							    	</div>
 					    		</div>

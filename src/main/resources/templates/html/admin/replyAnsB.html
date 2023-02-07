@@ -6,15 +6,21 @@
 <style>
 .title{
 	text-align: center;
+	margin-top: 10px;
 }
-.container{
-	 width: 400px;
-	 height:400px;
+.containera{
+	 width: 600px;
+	 height:600px;
 	 margin: 0 auto;
 	 outline: solid 1px black;
 	 display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 5px;
+}
+.btn{
+	width: 100%
+	margin: 0 auto;	
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -60,8 +66,14 @@ $(function(){
 </script>
 </head>
 <body>
-<h3 class="title">1:1문의 답변하기</h3>
-<div class="container">
+<div>
+    <div th:replace="fragments/managernav :: header"></div>
+</div>
+<h3 style="color:grey; text-align:center;"> 고객 관리</h3> 
+<h5 style="text-align:center;">1:1 문의 답변하기</h5>
+<div class="containera">
+
+
 <form id ="replyForm" >
 <input type="hidden" name= "qnum" th:value="${qnum}">
 	<div>
@@ -86,8 +98,10 @@ $(function(){
 		<input type="file" name="attach" multiple="multiple">
 	</div>
 	<p>
+	<div class="btn"> 
 	<button type="button" id="btnUpload">저장</button>
 	<button type="reset">취소</button>
+	</div>
 </form>
 </div>
 </body>

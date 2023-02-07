@@ -160,7 +160,7 @@ public class JoinController
 							@PathVariable("sid") String sid)
 	{		
 		log.info("sid:"+sid);
-		log.info(rdStrCheck);
+		log.info("rdStrcon:"+rdStrCheck);
 		
 		System.out.println("HttpSessionHandler.map:"+HttpSessionHandler.map);
 		HttpSession orgSession = HttpSessionHandler.map.get(sid);

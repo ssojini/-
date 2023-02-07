@@ -71,6 +71,7 @@ public class ShopService
 	}
 	public ArrayList<AddGoods_Att> getAddGoodsAtt(int goodsnum) {
 		
+		
 		ArrayList<AddGoods_Att> list = attGoods_repo.findByGoodsnum(goodsnum);		
 		
 		// 이미지 경로: /src/main/resources/static/images/addgoods 

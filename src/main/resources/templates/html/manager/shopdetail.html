@@ -34,16 +34,16 @@
 					<span th:text="${shop.userid}"></span>
 				</td>
 				<td>
-					<span th:text="${shop.itemid}"></span>
+					<span th:text="${shop.goodsnum}"></span>
 				</td>
 				<td>
-					<span th:text="${shop.itemname}"></span>
+					<span th:text="${shop.goodsname}"></span>
 				</td>
 				<td>
 					<span th:text="${shop.price}"></span>
 				</td>
 				<td>
-					<span th:text="${shop.quantity}"></span>
+					<span th:text="${shop.prod_cnt}"></span>
 				</td>
 			</tr>
 		</tbody>		
@@ -61,7 +61,7 @@
 			<tr id="shop" th:each="shop : ${shop}">
 	
 				<td>
-					<span th:text="${shop.totalprice}"></span>
+					<span th:text="${shop.sum}"></span>
 				</td>
 				<td>
 					<span th:text="${shop.pdate}"></span>

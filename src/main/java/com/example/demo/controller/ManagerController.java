@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +23,9 @@ import com.example.demo.service.ManagerService;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
-import com.example.demo.vo.FreeboardAttach;
-import com.example.demo.vo.GoodsAndAtt;
+import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
-
-import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -107,9 +103,9 @@ public class ManagerController {
 	}
 	
 	@GetMapping("/shoplist")
-	public String shoplist(@RequestParam String status,@PageableDefault(size=10,sort="ordernum", page=0) Pageable pageable, Model m)
+	public String shoplist(@RequestParam String status, @PageableDefault(size=10,sort="ordernum", page=0) Pageable pageable, Model m)
 	{
-		Page<Shop> list = svc.getshop(status, pageable);
+		Page<Order> list = svc.getshop(status, pageable);
 		m.addAttribute("status", status);
 		m.addAttribute("url", "manager/shop/detail");
 		m.addAttribute("shop", list);
@@ -158,9 +154,7 @@ public class ManagerController {
 	@ResponseBody
 	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
 		Map<String,Object> map = new HashMap<>();
-		boolean delete = freeboardService.deleteByFbnum(fbnum);
-		List<FreeboardAttach> listAttach = attachService.deleteByFbnum(request, fbnum);
-		replyService.deleteByPnum(fbnum);
+		boolean delete = freeboardService.deleteByFbnum(request, fbnum);
 		map.put("result", delete);
 		return map;
 	}
@@ -197,4 +191,5 @@ public class ManagerController {
 		map.put("deleted",svc.deletegoods(goodsnum));
 		return map;
 	}
+
 }	

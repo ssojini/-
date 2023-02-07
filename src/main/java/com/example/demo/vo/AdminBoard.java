@@ -3,9 +3,9 @@ package com.example.demo.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AdminBoard 
+@Table(name="admin_board")
+public class AdminBoard // admin_board
 {
 	public AdminBoard(int adnum) {
 		this.adnum= adnum;
