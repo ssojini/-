@@ -52,7 +52,7 @@
 	</select>
 	
 	<select id="detail" parameterType="Integer" resultType="map">
-		SELECT a.num, a.datetime, b.num, b.pnum, b.when, b.content, c.pnum, c.pname, c.fname
+		SELECT a.num as c_num, a.datetime, b.num as s_num, b.pnum s_pnum, b.when, b.content, c.num as a_num, c.pnum as a_pnum, c.pname, c.fname
 		FROM hcalendar a 
 		LEFT OUTER JOIN calen_schedule b
 		ON a.num = b.pnum
@@ -72,21 +72,12 @@
 		DELETE FROM hcalendar WHERE num = #{num}
 	</delete>
 	
-<!--	<delete id = "schdelete" parameterType="com.example.demo.vo.Schedule">
+	<delete id = "schdelete" parameterType="com.example.demo.vo.Schedule">
 		DELETE FROM calen_schedule WHERE pnum = #{pnum}
 	</delete>
 	
 	<delete id = "attcaldelete" parameterType="Integer">
 		DELETE FROM attachcalendar WHERE pnum = #{pnum}
-	</delete> -->
-	
-	<delete id = "schattdelete" parameterType="Integer">
-		DELETE FROM calen_schedule a
-		WHERE EXISTS(
-		SELECT 1
-		FROM attachcalendar b
-		WHERE a.num = b.num
-		AND a.pnum = #{pnum} )	
-	</delete>
+	</delete> 
 	
 </mapper>
