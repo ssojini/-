@@ -27,6 +27,7 @@ import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -149,14 +150,15 @@ public class ManagerController {
 		return "html/manager/boardDetail";
 	}
 	
-//	@PostMapping("/board/delete")
-//	@ResponseBody
-//	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
-//		Map<String,Object> map = new HashMap<>();
-//		boolean delete = freeboardService.deleteByFbnum(request, fbnum);
-//		map.put("result", delete);
-//		return map;
-//	}
+
+	@PostMapping("/board/delete")
+	@ResponseBody
+	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {
+		Map<String,Object> map = new HashMap<>();
+		boolean delete = freeboardService.deleteByFbnum(request, fbnum);
+		map.put("result", delete);
+		return map;
+	}
 	
 	@GetMapping("/shopitem")
 	public String shopitem(Model m)
@@ -177,10 +179,12 @@ public class ManagerController {
 	@GetMapping("/editgoods/{goodsnum}")
 	public String editGoodspage(@PathVariable(value = "goodsnum") int goodsnum, Model m)
 	{
+
 		m.addAttribute("goods", ssvc.editGoodspage(goodsnum));
 		return "html/shop/goodsedit";
 		
 	}
+	
 	
 	@PostMapping("/deletegoods/{goodsnum}")
 	@ResponseBody

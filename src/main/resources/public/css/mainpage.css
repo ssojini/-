@@ -16,3 +16,38 @@ p {
 p:last-child {
   margin-bottom: 0;
 }
+
+div.gd-left {
+    float: left;
+    width: 12%;
+   	height: 100px;
+    border: 1px solid #000000;
+    margin-right: 1%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color:black;
+    
+}
+div.gd-left:hover{
+ 	border: 1px solid red;
+}
+div.gd-clear {
+    clear:both;
+    margin-left: 10px;
+    border-radius: 5px;
+    color: #FF0000;
+}
+div.gd-title {
+    height: 40px;
+    background-color: #c7c7c7;
+}
+
+.cal_table {
+   width: 92%;
+   border: 1px solid #444444;
+   border-collapse: collapse;
+ }
+.cal_table > th, td {
+   border: 1px solid #444444;
+   padding: 8px;
+ }   
