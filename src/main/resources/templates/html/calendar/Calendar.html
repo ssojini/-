@@ -123,26 +123,26 @@ function clickDay(t) {
 		    <div class="gd-left gd-title">목</div>
 		    <div class="gd-left gd-title">금</div>
 		    <div class="gd-left gd-title">토</div>
-	    <!-- 5월달 lastDay==31 -->
+	    	<!-- 5월달 lastDay==31 -->
 			<div th:style="${#strings.equals(today,(year+'-'+(month lt 10?'0'+month:month)+'-'+((i-(firstDayOfWeek-1)) lt 10?'0'+(i-(firstDayOfWeek-1)):(i-(firstDayOfWeek-1)))))} ? 'background: skyblue':''"
 		     	 th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}" 
 		         th:class="${index.index%7} ==0 ? 'gd-clear gd-left':  'gd-left'"
 		         th:onclick="clickDay(this);"
 		         >
 		         [[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]	
-			  		  <div th:each="list : ${list}"
+		  		 <div th:each="list : ${list}"
 				    	   th:if="${list.tdate == (i-(firstDayOfWeek-1)) && list.tmonth == month}">
-					    	<div>
-						    	<span th:each="sch : ${list.sch}">
-						    	<a th:href="@{'/calen/detail/'+${sch.pnum}}">
-						    		[[${sch.when}]]</span>
-						    		<span th:each="sch : ${list.sch}">[[${sch.content}]]</span>
-						    	</a>
-						    </div>
-				  	 </div>
-			  </div>
+			    	<div>
+				    	<span th:each="sch : ${list.sch}">
+				    	<a th:href="@{'/calen/detail/'+${sch.pnum}}">
+				    		[[${sch.when}]]</span>
+				    		<span th:each="sch : ${list.sch}">[[${sch.content}]]</span>
+				    	</a>
+				    </div>
+			  	</div>
+		  	</div>
 		</div>
-<div class="content-dis" id="list1">
+		<div class="content-dis" id="list1">
 			<table>
 				<thead>
 					<tr>
@@ -202,8 +202,6 @@ function clickDay(t) {
 			    		</td>
 					</tr>
 				</tbody>
-			
-
 			</table>
 		</div>
 	</div>
