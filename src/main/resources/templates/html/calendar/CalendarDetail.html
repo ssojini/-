@@ -72,7 +72,7 @@ function deleteCal(pnum,num)
 </table>
 <div th:each="list : ${mlist}">
 	<div th:each="sch : ${list.sch}">
-		<button type="button" th:onclick="|location.href='@{'/calen/edit/'+${sch.num}}'|">수정</button>
+		<button type="button" th:onclick="|location.href='@{'/calen/edit/'+${sch.pnum}}'|">수정</button>
 		<button type="button" th:onclick="|javascript:deleteCal('${sch.pnum}','${sch.num}')|">삭제</button>
 	</div>
 </div>

@@ -101,7 +101,8 @@ public class CalendarController
 	public Map<String, Object> updateContent(Schedule sch)
 	{
 		Map<String, Object> map = new HashMap<>();
-		
+		map.put("update", cs.updateCon(sch));
+		log.info("con"+cs.updateCon(sch));
 		return map;
 	}
 	

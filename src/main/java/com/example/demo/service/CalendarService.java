@@ -123,9 +123,7 @@ public class CalendarService
 	}
 	public List<Map<String,Object>> listCalendar()
 	{
-		List<Map<String,Object>> mlist = cm.list();
-		log.info("list:"+mlist);
-		
+		List<Map<String,Object>> mlist = cm.list();	
 		List<Map<String,Object>> list = new ArrayList<>();
 	
 		for (int i = 0; i < mlist.size(); i++) 
@@ -176,23 +174,18 @@ public class CalendarService
 				
 				sch.getAttlist().add(att);
 			}
-			
 			map.put("cal", cal);
 			map.put("sch", sch);
 			
 			list.add(map);
 		}
-			
-		System.err.println(list);
 		
 		return list;
 	}
 
 	public List<Map<String,Object>> detailCalendar(int num)
 	{
-		
 		List<Map<String,Object>> mlist = cm.detail(num);
-		log.info("mlist"+mlist);
 		List<Map<String,Object>> list = new ArrayList<>();
 		
 		Map<String, Object> map = new HashMap<>();
@@ -212,10 +205,10 @@ public class CalendarService
 		
 		BigDecimal sbig = (java.math.BigDecimal)m.get("S_NUM");
 		sch.setNum(sbig.intValue());
-		log.info("num"+sbig);
+		
 		BigDecimal big1 = (java.math.BigDecimal)m.get("S_PNUM");
-		log.info("pnum"+big1);
 		sch.setPnum(big1.intValue());
+		
 		sch.setWhen((String) m.get("WHEN"));
 		sch.setContent((String)m.get("CONTENT"));
 		
@@ -226,7 +219,6 @@ public class CalendarService
 			AttachCalendar att = new AttachCalendar();
 				
 			BigDecimal abig = (BigDecimal) amap.get("A_NUM");
-			log.info("abig"+abig);
 			BigDecimal acbig = (BigDecimal) m.get("A_PNUM");
 			att.setPnum(acbig.intValue());
 			att.setFname((String)amap.get("FNAME"));
@@ -238,32 +230,25 @@ public class CalendarService
 			map.put("sch", sch);
 			
 			list.add(map);
-		System.err.println(list);
 		return list;
 	}
 	
-	public Schedule updateCon(Schedule sch)
+	public boolean updateCon(Schedule sch)
 	{
-		Schedule upsch = cm.updateContenet();
+		int rows = cm.updateContenet();
+		sch.setPnum(sch.getPnum());
 		sch.setContent(sch.getContent());
-		return null;
+		System.err.println("up:"+sch.getContent());		
+		return rows>0 ? true : false;
 	}
 	
 	@Transactional
 	public boolean deleteAll(int num, int anum)
 	{
-		
 		int crow = cm.attcaldelete(anum);
 		int brow = cm.schdelete(num);
 		int arow = cm.caldelete(num);
 		
-		log.info("num:"+num);
-		log.info("anum"+anum);
-		
-		System.err.println("arow"+arow);
-		System.err.println("brow"+brow);
-		System.err.println("crow"+crow);
-		// 수정필요
 		if(arow>0 && brow>0 && crow>0) return true;
 		
 		return false;

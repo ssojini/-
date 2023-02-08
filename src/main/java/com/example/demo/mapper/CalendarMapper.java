@@ -19,15 +19,11 @@ public interface CalendarMapper
 	
 	int saveSchedule(Schedule schedule);
 
-	//List<Map<String,Object>> scheduleShow(String datetime);
-
-	List<Map<String,String>> todo(Integer year, Integer month);
-
 	List<Map<String, Object>> detail(int num);
 
 	List<Map<String, Object>> list();
 
-	Schedule updateContenet();
+	int updateContenet();
 
 	int caldelete(int num);
 

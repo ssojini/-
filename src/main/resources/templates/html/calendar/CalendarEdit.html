@@ -6,14 +6,17 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
-function editCalendar()
+function editCalendar(num)
 {
 	if(!confirm('정말로 현재 정보를 수정하시겠어요?')) return;
+	var obj = {"num": $("#num").text(),
+	           "content":$("#content").html()};
+	console.log(obj)
 	$.ajax({
 		url:'/calen/updateCon',
 		method:'post',
 		data:{
-			"num":$("#num").text(),
+			"num": $("#num").text(),
 			"content":$("#content").html()
 		},
 		cache : false,
@@ -49,8 +52,8 @@ function editCalendar()
 	</div>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}">
-		<div id="num" th:text="${sch.num}" hidden="true"></div>
-			<textarea id ="content" name="content" rows="10" cols="50" th:value="${sch.content}" th:text="${sch.content}"></textarea>
+		<div id="num" th:text="${sch.pnum}" hidden="true"></div>
+			<textarea id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
 		</div>
 	</div>
 	<div th:each="list : ${mlist}">
@@ -61,8 +64,9 @@ function editCalendar()
 			</div>
 		</div>
 	</div>
-
-	<button type="button" onclick="editCalendar();">적용</button>
+	<div>
+		<button type="button" onclick="editCalendar();">적용</button>
+	</div>
 </main>
 </body>
 </html>
