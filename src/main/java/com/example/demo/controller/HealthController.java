@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
+import com.example.demo.service.CalendarService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
 import com.example.demo.service.FreeboardService;
@@ -50,8 +53,12 @@ public class HealthController {
 
 	@Autowired
 	private FileStorageService fss;
+	
 	@Autowired
 	private FreeboardService freeboardService;
+	
+	@Autowired
+	private CalendarService cs;
 	
 	/* 다루한 */
 	/* 다루한 */
@@ -185,7 +192,7 @@ public class HealthController {
 
 	/* 종빈 */
 	@GetMapping("/main")
-	public String main1(Model m) {
+	public String main1(Model m, @RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		// 메인페이지 오늘의 베스트 출력
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
@@ -195,6 +202,16 @@ public class HealthController {
 		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
 		m.addAttribute("list", list);
 		
+		Map<String, Object> map = cs.getCalendar(day);
+		
+		m.addAttribute("year",map.get("year")); //년
+		m.addAttribute("month",map.get("month")); // 월
+		m.addAttribute("day", map.get("day")); //일
+		m.addAttribute("lastDay", map.get("lastDay")); // 마지막 일
+		m.addAttribute("today", map.get("today"));
+		m.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
+		m.addAttribute("list",cs.listCalendar());
+	 	
 		return "html/mainPage";
 	}
 	/* 종빈 */
