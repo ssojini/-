@@ -150,6 +150,7 @@ public class ManagerController {
 		return "html/manager/boardDetail";
 	}
 	
+
 	@PostMapping("/board/delete")
 	@ResponseBody
 	public Map<String,Object> delete(HttpServletRequest request, Model m, Integer fbnum) {

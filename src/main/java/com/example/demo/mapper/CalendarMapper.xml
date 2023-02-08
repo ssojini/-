@@ -8,6 +8,7 @@
 		INSERT INTO hcalendar(num,datetime)
 		VALUES(CALENDAR_SEQ.NEXTVAL,#{datetime})
 	</insert>
+	
 	<insert id="saveSchedule" parameterType="com.example.demo.vo.Schedule">
 		INSERT INTO calen_schedule(num, pnum, when, content)
 		VALUES(CALEN_SCHEDULE_SEQ.NEXTVAL, (SELECT MAX(num) FROM hcalendar), #{when}, #{content})
@@ -32,17 +33,6 @@
 		WHERE a.datetime = #{datetime}
 	</select>
 	
-	<select id="todo" parameterType="Integer" resultType="map">
-		SELECT a.num, a.year, a.month, a.day, b.num, b.pnum, b.when, b.content, c.pnum, c.pname, c.fname
-		FROM (SELECT num, extract(year FROM DATETIME) year, extract(month FROM DATETIME) month, extract(day FROM DATETIME)day FROM hcalendar) a
-		LEFT OUTER JOIN calen_schedule b
-		ON a.num = b.pnum
-		LEFT OUTER JOIN attachcalendar c
-		ON b.num = c.pnum
-		WHERE a.year = #{year} AND a.month = #{month}
-		ORDER BY b.pnum ASC
-	</select>
-	
 	<select id="list" resultType="map">
 		SELECT num, datetime, pnum, when, content,LISTAGG(PNAME,',')
 		WITHIN GROUP (ORDER BY PNAME)AS PNAME
@@ -63,8 +53,8 @@
 	
 	<update id="updateContenet" parameterType="com.example.demo.vo.Schedule">
 		UPDATE calen_schedule 
-		SET content = '#{content}'
-		WHERE num = #{num};
+		SET content = #{content}
+		WHERE pnum = #{pnum}
 	</update>
 	
 	
