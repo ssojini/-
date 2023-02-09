@@ -1,6 +1,7 @@
 package com.example.demo.vo;
 
 import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Immutable
+@Subselect("SELECT a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_num, c.a_pnum, c.pname\r\n"
+		+ "FROM hcalendar a \r\n"
+		+ "LEFT OUTER JOIN calen_schedule b\r\n"
+		+ "ON a.c_num = b.s_pnum\r\n"
+		+ "LEFT OUTER JOIN attachcalendar c\r\n"
+		+ "ON b.s_num = c.a_pnum\r\n"
+		+ "ORDER BY a.c_num DESC")
 @Table(name = "EATED_LIST")
 public class EatedList {
 	@Id
