@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
 import com.example.demo.service.CalendarService;
+import com.example.demo.service.EatedListService;
 import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,8 @@ public class CalendarController
 	private CalendarService cs;
 	@Autowired
 	private CalendarMapper cm;
+	@Autowired
+	private EatedListService els;
 	
 	@GetMapping("/getCalendar")
 	public String getCalendar(@RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day, Model model,String datetime)
