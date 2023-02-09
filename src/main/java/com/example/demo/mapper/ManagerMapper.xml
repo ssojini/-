@@ -114,13 +114,14 @@
         WHERE goodsnum=#{goodsnum}
        	ORDER BY goodsnum
 	</select>
+
 	<select id="getboardlist" parameterType="string" resultType="com.example.demo.vo.Freeboard" >
 		select *
 		From FreeBoard
 		WHERE bname=#{bname jdbcType=VARCHAR}
 		ORDER BY fbnum
 	</select>
-	
+
 	<delete id="deletegoods" parameterType="int">
 		delete goods where goodsnum=#{goodsnum}
 	</delete>

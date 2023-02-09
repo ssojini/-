@@ -124,6 +124,7 @@ public class ManagerService {
 	public GoodsAndAtt itemedit(int goodsnum) {
 		return map.getitem(goodsnum);
 	}
+
 	public boolean deletegoods(int goodsnum)
 	{
 		boolean deleted= false;
@@ -144,4 +145,6 @@ public class ManagerService {
 		Page<Freeboard> page = brepo.findBybname(pageable, bname);
 		return page;
 	}
+
+
 }
