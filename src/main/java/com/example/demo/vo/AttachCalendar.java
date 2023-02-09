@@ -14,9 +14,9 @@ import lombok.ToString;
 public class AttachCalendar 
 {
 	//시퀀스
-	private int num;
+	private int a_num;
 	//파일시퀀스
-	private int pnum;
+	private int a_pnum;
 	//원본사진이름
 	private String pname;
 	//서버저장이름

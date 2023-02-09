@@ -125,6 +125,7 @@ public class CalendarService
 	public List<Map<String,Object>> listCalendar()
 	{
 		List<Map<String,Object>> mlist = cm.list();	
+		log.info("mlist:"+mlist);
 		List<Map<String,Object>> list = new ArrayList<>();
 	
 		for (int i = 0; i < mlist.size(); i++) 
@@ -134,8 +135,8 @@ public class CalendarService
 			
 			HCalendar cal = new HCalendar();
 			
-			BigDecimal big = (java.math.BigDecimal)m.get("NUM"); 
-			cal.setNum(big.intValue());
+			BigDecimal big = (java.math.BigDecimal)m.get("C_NUM"); 
+			cal.setC_num(big.intValue());
 			
 			Timestamp time = (Timestamp) m.get("DATETIME");
 			Date tdate = new Date(time.getTime());
@@ -147,10 +148,10 @@ public class CalendarService
 			Schedule sch = new Schedule();
 			
 			sch.setWhen((String) m.get("WHEN"));
-			BigDecimal sbig = (java.math.BigDecimal)m.get("NUM");
-			sch.setNum(sbig.intValue());
-			BigDecimal big1 = (java.math.BigDecimal)m.get("PNUM");
-			sch.setPnum(big1.intValue());
+			BigDecimal sbig = (java.math.BigDecimal)m.get("S_NUM");
+			sch.setS_num(sbig.intValue());
+			BigDecimal big1 = (java.math.BigDecimal)m.get("S_PNUM");
+			sch.setS_pnum(big1.intValue());
 			sch.setContent((String)m.get("CONTENT"));
 			
 			boolean found = false;
@@ -166,12 +167,9 @@ public class CalendarService
 				
 				AttachCalendar att = new AttachCalendar();
 				
-				BigDecimal abig = (BigDecimal) m.get("NUM");
-				BigDecimal acbig = (BigDecimal) m.get("PNUM");
-				att.setPnum(acbig.intValue());
+				
 				att.setFname((String) m.get("FNAME"));
 				att.setPname(file[j]);
-				att.setNum(abig.intValue());
 				
 				sch.getAttlist().add(att);
 			}
@@ -196,7 +194,7 @@ public class CalendarService
 		HCalendar cal = new HCalendar();
 		
 		BigDecimal big = (java.math.BigDecimal)m.get("C_NUM"); 
-		cal.setNum(big.intValue());
+		cal.setC_num(big.intValue());
 		
 		Timestamp time = (Timestamp) m.get("DATETIME");
 		Date tdate = new Date(time.getTime());
@@ -205,10 +203,10 @@ public class CalendarService
 		Schedule sch = new Schedule();
 		
 		BigDecimal sbig = (java.math.BigDecimal)m.get("S_NUM");
-		sch.setNum(sbig.intValue());
+		sch.setS_num(sbig.intValue());
 		
 		BigDecimal big1 = (java.math.BigDecimal)m.get("S_PNUM");
-		sch.setPnum(big1.intValue());
+		sch.setS_pnum(big1.intValue());
 		
 		sch.setWhen((String) m.get("WHEN"));
 		sch.setContent((String)m.get("CONTENT"));
@@ -221,10 +219,10 @@ public class CalendarService
 				
 			BigDecimal abig = (BigDecimal) amap.get("A_NUM");
 			BigDecimal acbig = (BigDecimal) m.get("A_PNUM");
-			att.setPnum(acbig.intValue());
+			att.setA_pnum(acbig.intValue());
 			att.setFname((String)amap.get("FNAME"));
 			att.setPname((String)amap.get("PNAME"));
-			att.setNum(abig.intValue());
+			att.setA_num(abig.intValue());
 			sch.getAttlist().add(att);
 		}
 			map.put("cal", cal);
@@ -234,13 +232,14 @@ public class CalendarService
 		return list;
 	}
 	
-	public boolean updateCon(Schedule sch)
+	public Schedule updateCon(Schedule sch)
 	{
-		int rows = cm.updateContenet();
-		sch.setPnum(sch.getPnum());
+		System.err.println();
+		sch.setS_pnum(sch.getS_pnum());
 		sch.setContent(sch.getContent());
-		System.err.println("up:"+sch.getContent());		
-		return rows>0 ? true : false;
+		Schedule updateCon = cm.updateContenet();
+		System.err.println("svc"+updateCon);
+		return updateCon;
 	}
 	
 	@Transactional

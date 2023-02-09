@@ -23,7 +23,7 @@ public interface CalendarMapper
 
 	List<Map<String, Object>> list();
 
-	int updateContenet();
+	Schedule updateContenet();
 
 	int caldelete(int num);
 
