@@ -14,7 +14,7 @@ import lombok.ToString;
 public class HCalendar 
 {
 	//시퀀스
-	private int num;
+	private int c_num;
 	private String userid;
 	private java.sql.Date datetime;
 }

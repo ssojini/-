@@ -47,12 +47,13 @@ function editCalendar(num)
 	</div>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}"
-			 th:text="${sch.when}">	 
+			 th:text="${sch.when}">
 		</div>
 	</div>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}">
-		<div id="num" th:text="${sch.pnum}" hidden="true"></div>
+		[[${sch.s_pnum}]]
+		<div id="num" th:text="${sch.s_pnum}" hidden="true"></div>
 			<textarea id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
 		</div>
 	</div>

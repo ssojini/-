@@ -16,8 +16,8 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Schedule {
 
-	private int num;
-	private int pnum;
+	private int s_num;
+	private int s_pnum;
 	private String when;
 	private String content;
 	

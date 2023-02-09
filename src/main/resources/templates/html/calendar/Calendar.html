@@ -134,7 +134,7 @@ function clickDay(t) {
 				    	   th:if="${list.tdate == (i-(firstDayOfWeek-1)) && list.tmonth == month}">
 			    	<div>
 				    	<span th:each="sch : ${list.sch}">
-				    	<a th:href="@{'/calen/detail/'+${sch.pnum}}">
+				    	<a th:href="@{'/calen/detail/'+${sch.s_pnum}}">
 				    		[[${sch.when}]]</span>
 				    		<span th:each="sch : ${list.sch}">[[${sch.content}]]</span>
 				    	</a>
@@ -172,7 +172,7 @@ function clickDay(t) {
         					<div th:each="list : ${list}">
 					    		<div th:if="${list.tdate == (i-(firstDayOfWeek-1)) && list.tmonth == month}">
 						    		 <div th:each="sch : ${list.sch}">
-        								<a th:href="@{'/calen/detail/'+${sch.pnum}}">
+        								<a th:href="@{'/calen/detail/'+${sch.s_pnum}}">
 							    			<span>[[${sch.when}]]</span>
 								   		</a>
 							    	</div>

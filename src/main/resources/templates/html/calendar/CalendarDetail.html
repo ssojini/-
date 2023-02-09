@@ -6,7 +6,7 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="/js/Calendar/CalendarDetail.js"></script>
 <script type="text/javascript">
-function deleteCal(pnum,num)
+function deleteCal(s_pnum,s_num)
 {
 	if(!confirm('정말로 현재 게시글을 삭제하시겠어요?')) return;
 
@@ -14,8 +14,8 @@ function deleteCal(pnum,num)
 		url : '/calen/delete',
 		method : 'post',
 		data : {
-			"num" : pnum,
-			"anum" : num
+			"num" : s_pnum,
+			"anum" : s_num
 		},
 		cache : false,
 		dateType : 'json',
@@ -63,7 +63,7 @@ function deleteCal(pnum,num)
 				<div th:each="sch : ${list.sch}">
 					<div th:each="att : ${sch.attlist}">
 						<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">		
-						<input type="hidden"  th:value="${att.pnum}">
+						<input type="hidden"  th:value="${att.a_pnum}">
 					</div>
 				</div>
 			</td>
@@ -72,8 +72,8 @@ function deleteCal(pnum,num)
 </table>
 <div th:each="list : ${mlist}">
 	<div th:each="sch : ${list.sch}">
-		<button type="button" th:onclick="|location.href='@{'/calen/edit/'+${sch.pnum}}'|">수정</button>
-		<button type="button" th:onclick="|javascript:deleteCal('${sch.pnum}','${sch.num}')|">삭제</button>
+		<button type="button" th:onclick="|location.href='@{'/calen/edit/'+${sch.s_pnum}}'|">수정</button>
+		<button type="button" th:onclick="|javascript:deleteCal('${sch.s_pnum}','${sch.s_num}')|">삭제</button>
 	</div>
 </div>
 </body>

@@ -5,69 +5,69 @@
 <mapper namespace="com.example.demo.mapper.CalendarMapper">
 
 	<insert id = "saveCalendar" parameterType="com.example.demo.vo.HCalendar">
-		INSERT INTO hcalendar(num,datetime)
+		INSERT INTO hcalendar(c_num,datetime)
 		VALUES(CALENDAR_SEQ.NEXTVAL,#{datetime})
 	</insert>
 	
 	<insert id="saveSchedule" parameterType="com.example.demo.vo.Schedule">
-		INSERT INTO calen_schedule(num, pnum, when, content)
-		VALUES(CALEN_SCHEDULE_SEQ.NEXTVAL, (SELECT MAX(num) FROM hcalendar), #{when}, #{content})
+		INSERT INTO calen_schedule(s_num, s_pnum, when, content)
+		VALUES(CALEN_SCHEDULE_SEQ.NEXTVAL, (SELECT MAX(c_num) FROM hcalendar), #{when}, #{content})
 	</insert>
 	
 	<update id = "saveAttach" parameterType="list">
-		INSERT INTO attachcalendar(num,fname,pname,pnum)
-		SELECT CALEN_ATTACH_SEQ.NEXTVAL AS num,t.* FROM 
+		INSERT INTO attachcalendar(a_num,fname,pname,a_pnum)
+		SELECT CALEN_ATTACH_SEQ.NEXTVAL AS a_num,t.* FROM 
 		(
 			<foreach collection="list" item="item" index="index" separator="union all">
-				SELECT #{item.fname},#{item.pname} , (SELECT MAX(num) FROM calen_schedule)AS pnum FROM DUAL
+				SELECT #{item.fname},#{item.pname} , (SELECT MAX(s_num) FROM calen_schedule)AS a_pnum FROM DUAL
 			</foreach>
 		)t
 	</update>
 	
 	<select id="scheduleShow" parameterType="String" resultType="map">
-		SELECT  a.num, a.datetime, b.num, b.pnum, b.when, b.content, c.pnum, c.pname, c.fname
+		SELECT  a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_pnum, c.a_pname, c.fname
 		FROM hcalendar a LEFT OUTER JOIN calen_schedule b
-		ON a.num = b.pnum
+		ON a.c_num = b.s_pnum
 		LEFT OUTER JOIN attachcalendar c
-		ON b.num = c.pnum
+		ON b.s_num = c.a_pnum
 		WHERE a.datetime = #{datetime}
 	</select>
 	
 	<select id="list" resultType="map">
-		SELECT num, datetime, pnum, when, content,LISTAGG(PNAME,',')
+		SELECT c_num, datetime, s_num, s_pnum, when, content,LISTAGG(PNAME,',')
 		WITHIN GROUP (ORDER BY PNAME)AS PNAME
 		FROM EATED_LIST
-		GROUP BY num, datetime, pnum, when, content
-		ORDER BY NUM DESC
+		GROUP BY c_num, datetime, s_num, s_pnum, when, content
+		ORDER BY c_NUM DESC
 	</select>
 	
 	<select id="detail" parameterType="Integer" resultType="map">
-		SELECT a.num as c_num, a.datetime, b.num as s_num, b.pnum s_pnum, b.when, b.content, c.num as a_num, c.pnum as a_pnum, c.pname, c.fname
+		SELECT a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_num, c.a_pnum, c.pname, c.fname
 		FROM hcalendar a 
 		LEFT OUTER JOIN calen_schedule b
-		ON a.num = b.pnum
+		ON a.c_num = b.s_pnum
 		LEFT OUTER JOIN attachcalendar c
-		ON b.num = c.pnum
-		WHERE a.num = #{num}
+		ON b.s_num = c.a_pnum
+		WHERE a.c_num = #{c_num}
 	</select>
 	
 	<update id="updateContenet" parameterType="com.example.demo.vo.Schedule">
 		UPDATE calen_schedule 
 		SET content = #{content}
-		WHERE pnum = #{pnum}
+		WHERE s_pnum = #{s_pnum}
 	</update>
 	
 	
 	<delete id = "caldelete" parameterType="com.example.demo.vo.HCalendar">
-		DELETE FROM hcalendar WHERE num = #{num}
+		DELETE FROM hcalendar WHERE c_num = #{c_num}
 	</delete>
 	
 	<delete id = "schdelete" parameterType="com.example.demo.vo.Schedule">
-		DELETE FROM calen_schedule WHERE pnum = #{pnum}
+		DELETE FROM calen_schedule WHERE s_pnum = #{s_pnum}
 	</delete>
 	
 	<delete id = "attcaldelete" parameterType="Integer">
-		DELETE FROM attachcalendar WHERE pnum = #{pnum}
+		DELETE FROM attachcalendar WHERE a_pnum = #{a_pnum}
 	</delete> 
 	
 </mapper>
