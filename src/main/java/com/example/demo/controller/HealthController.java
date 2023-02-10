@@ -37,6 +37,7 @@ import com.example.demo.service.mypageService;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.Main_Title;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.User;
 import com.github.pagehelper.PageInfo;
@@ -201,6 +202,10 @@ public class HealthController {
 		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
 		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
 		m.addAttribute("list", list);
+		
+		// 메인 타이틀 문구
+		Main_Title main = mp_svc.mainTitle();
+		m.addAttribute("main",main);
 		
 		Map<String, Object> map = cs.getCalendar(day);
 		
