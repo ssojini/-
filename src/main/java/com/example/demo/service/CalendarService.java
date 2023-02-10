@@ -253,6 +253,7 @@ public class CalendarService
 		
 		if(fname!=null) {
 			int crow = cm.attcaldelete(anum);
+			System.err.println(crow);
 		}
 		
 		if(arow>0 && brow>0) return true;
