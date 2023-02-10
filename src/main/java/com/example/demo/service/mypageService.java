@@ -150,7 +150,7 @@ public class mypageService {
 	{
 		nickname = "smash";
 		List<Freeboard>myboard= map.getmyboard(nickname);
-		System.out.println("myboard:  "+ myboard);
+
 		/*for(int i=0; i<myboard.size();i++)
 		{
 			String a =myboard.get(i).getDatetime().toString();

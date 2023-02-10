@@ -14,12 +14,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class AdminBoard // admin_board
 {
 	public AdminBoard(int adnum) {
 		this.adnum= adnum;
 	}
-
+	@Id
 	private int adnum;
 	private String name;
 	private String title;
