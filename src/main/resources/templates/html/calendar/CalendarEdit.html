@@ -32,21 +32,16 @@ function editCalendar()
 }
 function deleteImg(a_num)
 {			
-	var pnum = parseInt($("#pnum").val());
-	var num = parseInt($("#a_num").val());
-	console.log(num);
-	var obj = {"num": num};
+	var num = $("#a_num").val();
 	$.ajax({
 		url : '/calen/delimg',	
 		method : 'post',
-		data : {
-			"num":num
-		},  											
+		data : { "num":num },  											
 		cache : false,		
 		dataType:'json',                      
 		success : function(res){		
 			if(res.deleted){							
-				location.href = '/calen/edit/'+pnum;
+				location.reload();
 			}	
 		},
 		error : function(xhr,status,err){
@@ -126,18 +121,15 @@ function preview(arr){
 		<div th:each="cal : ${list.cal}"
 			 th:text="${cal.datetime}">	 
 		</div>
-		
 	</div>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}"
 			 th:text="${sch.when}">
-			 <input type="hidden" id="pnum" name="pnum" th:value="${sch.pnum}"/>
 		</div>
 	</div>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}">
 		<div id="s_pnum" th:text="${sch.s_pnum}" hidden="true"></div>
-		
 			<textarea id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
 		</div>
 	</div>
@@ -147,12 +139,12 @@ function preview(arr){
 				<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
 				<form>
 					<input type="hidden" name="a_num" id="a_num" th:value="${att.a_num}">
-					<button type='button' class='delbttn' th:onclick='|deleteImg(${att.a_num});|'>Ｘ</button>
+					<button type='button' class='delbttn' th:onclick='|javascript:deleteImg(${att.a_num})|'>Ｘ</button>
 				</form>
 			</div>
 			<div>
-				<div id="preview"></div>
-				<input type="file" id="pname" name="files" multiple="multiple"> 
+			<div id="preview"></div>
+			<input type="file" id="pname" name="files" multiple="multiple"> 
 			</div>
 		</div>
 	</div>

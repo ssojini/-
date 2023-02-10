@@ -110,7 +110,6 @@ public class CalendarController
 	@ResponseBody
 	public Map<String,Object> delImg(int num) 
 	{
-		System.out.println("num:"+num);
 		Map<String, Object> map = new HashMap<>();
 		map.put("deleted", cs.delImg(num));
 		return map;
