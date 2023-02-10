@@ -33,6 +33,6 @@ public interface CalendarMapper
 
 	int schattdelete(int num);
 
-	int delImg(AttachCalendar att);
+	int delImg(int num);
 
 }
