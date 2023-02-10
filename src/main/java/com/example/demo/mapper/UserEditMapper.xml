@@ -25,4 +25,7 @@
 <select id="getmyboard" parameterType="string" resultType="com.example.demo.vo.Freeboard">
 	SELECT * FROM freeboard where author=#{nickname}
 </select>
+<select id="maintitle" parameterType="int" resultType="com.example.demo.vo.Main_Title">
+	SELECT * FROM main_title where num=#{i}
+</select>
 </mapper>
