@@ -253,9 +253,9 @@ public class CalendarService
 		
 		return false;
 	}
-	public int delImg(AttachCalendar att) 
+	public int delImg(int num) 
 	{
-		int delimg = cm.delImg(att);
+		int delimg = cm.delImg(num);
 		log.info("delimg"+delimg);
 		if(delimg >0 ? true : false);
 		

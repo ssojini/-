@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
 import com.example.demo.service.CalendarService;
-import com.example.demo.vo.AttachCalendar;
 import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -109,10 +108,11 @@ public class CalendarController
 	
 	@PostMapping("/delimg")
 	@ResponseBody
-	public Map<String,Object> delImg(AttachCalendar att) 
+	public Map<String,Object> delImg(int num) 
 	{
+		System.out.println("num:"+num);
 		Map<String, Object> map = new HashMap<>();
-		map.put("deleted", cs.delImg(att));
+		map.put("deleted", cs.delImg(num));
 		return map;
 	}
 	
