@@ -245,11 +245,17 @@ public class CalendarService
 	@Transactional
 	public boolean deleteAll(int num, int anum)
 	{
-		int crow = cm.attcaldelete(anum);
 		int brow = cm.schdelete(num);
 		int arow = cm.caldelete(num);
 		
-		if(arow>0 && brow>0 && crow>0) return true;
+		AttachCalendar ac = new AttachCalendar();
+		String fname = ac.getFname();
+		
+		if(fname!=null) {
+			int crow = cm.attcaldelete(anum);
+		}
+		
+		if(arow>0 && brow>0) return true;
 		
 		return false;
 	}
