@@ -57,7 +57,7 @@
 		WHERE s_pnum = #{s_pnum}
 	</update>
 	
-	<delete id="delImg" parameterType="com.example.demo.vo.AttachCalendar">
+	<delete id="delImg" parameterType="Integer">
 		DELETE FROM attachcalendar WHERE a_num = #{a_num}
 	</delete>
 	
