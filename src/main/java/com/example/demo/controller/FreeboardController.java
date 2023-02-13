@@ -163,4 +163,14 @@ public class FreeboardController {
 		map.put("listFreeboard", listFreeboard);
 		return map;
 	}
+	
+	@PostMapping("/likeCount")
+	@ResponseBody
+	public Map<String,Object> likeCount(String fbnum) {
+		Map<String,Object> map = new HashMap<>();
+		String nickname = (String)session.getAttribute("nickname");
+		freeboardService.changeLikecount(fbnum, nickname);
+		//map.put("result", "true");
+		return map;
+	}
 }

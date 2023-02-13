@@ -26,6 +26,8 @@ public class FreeboardService {
 	private FreeboardAttachService attachService;
 	@Autowired
 	private FreeboardReplyService replyService;
+	@Autowired
+	private FreeboardLikecountService likecountService;
 	
 	public Freeboard getByFbnum(Integer fbnum) {
 		Optional<Freeboard> findFreeboard = repo.findById(fbnum);
@@ -119,5 +121,9 @@ public class FreeboardService {
 	public List<Freeboard> getListByOrderByHitDesc() {
 		List<Freeboard> listFreeboard = repo.findAllByOrderByHitDesc();
 		return listFreeboard;
+	}
+	
+	public void changeLikecount(Integer fbnum, String nickname) {
+		likecountService.changeLikecount(fbnum, nickname);
 	}
 }

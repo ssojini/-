@@ -72,3 +72,23 @@ function appendReply(listReply) {
 		listReplyDiv.append($tr);
 	}
 }
+
+function clickLikeCount() {
+	$.ajax({
+		url:"/freeboard/likeCount",
+		method:"post",
+		data:"",
+		cache:false,
+		dataType:"json",
+		success:function(res) {
+			if(res.result == 'likeCount2') {
+				$("#likeCountImg").attr('src','/images/likeCount2.png');
+			} else if (res.result == 'likeCount') {
+				$("#likeCountImg").attr('src','/images/likeCount.png');
+			}
+		},
+		error:function(xhs,status,err) {
+			alert(err);
+		}
+	});
+}
