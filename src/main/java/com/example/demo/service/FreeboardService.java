@@ -123,7 +123,7 @@ public class FreeboardService {
 		return listFreeboard;
 	}
 	
-	public void changeLikecount(Integer fbnum, String nickname) {
-		likecountService.changeLikecount(fbnum, nickname);
+	public boolean changeLikecount(Integer fbnum, String nickname) {
+		return likecountService.changeLikecount(fbnum, nickname);
 	}
 }

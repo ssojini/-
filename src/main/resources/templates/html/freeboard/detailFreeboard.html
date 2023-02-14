@@ -29,7 +29,7 @@ window.onload = function() {
 			<div id="contents_div">
 				<div id="contents">[[${freeBoard.contents}]]</div>
 				<div id="likeCount_div">
-					<a id="likeCount" href="javascript:clickLikeCount()" style="color:black;"><img id="likeCountImg" alt="likeCount.png" src="/images/likeCount.png" style="width:20px;height:20px;">[[${' '+freeBoard.likeCount}]]</a>
+					<a id="likeCount" href="javascript:clickLikeCount()" style="color:black;"><img id="likeCountImg" alt="likeCount.png" th:src="${likecountUser}?'/images/likeCount2.png':'/images/likeCount.png'" style="width:20px;height:20px;"><span id="likecount" style="margin-left:5px;">[[${#lists.size(likecount)}]]</span></a>
 				</div>
 			</div>
 		</div>

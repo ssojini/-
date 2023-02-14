@@ -77,14 +77,18 @@ function clickLikeCount() {
 	$.ajax({
 		url:"/freeboard/likeCount",
 		method:"post",
-		data:"",
+		data:{
+			"fbnum":$("#fbnum").text()
+		},
 		cache:false,
 		dataType:"json",
 		success:function(res) {
-			if(res.result == 'likeCount2') {
+			if(res.result) {
 				$("#likeCountImg").attr('src','/images/likeCount2.png');
-			} else if (res.result == 'likeCount') {
+				$("#likecount").text(parseInt($("#likecount").text())+1);
+			} else {
 				$("#likeCountImg").attr('src','/images/likeCount.png');
+				$("#likecount").text(parseInt($("#likecount").text())-1);
 			}
 		},
 		error:function(xhs,status,err) {

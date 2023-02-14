@@ -43,7 +43,4 @@ public class Freeboard {
 	private Timestamp datetime;
 	@ColumnDefault("0")
 	private Integer hit;
-	// 좋아요 기능 추가
-	@ColumnDefault("0")
-	private Integer likeCount;
 }
