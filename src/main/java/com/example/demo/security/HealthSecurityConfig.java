@@ -4,16 +4,12 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,19 +46,19 @@ public class HealthSecurityConfig {
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/resources/**", "/ignore2");
+		return (web) -> web.ignoring().requestMatchers("/resources/**", "/ignore2");
 	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		log.info("접근제한 설정");
 		return http.authorizeHttpRequests()/* 권한에 따른 인가(Authorization) */
-				.antMatchers("/", "/sec/", "/sec/loginForm", "/sec/denied", "/logout").permitAll()
-				.antMatchers("/sec/hello").hasAnyRole("USER", "ADMIN")
-				.antMatchers("/sec/getemps").hasAnyRole("USER", "ADMIN")
-				.antMatchers("/sec/addemp").hasAnyRole("ADMIN")
-				.antMatchers("/sec/menu").hasAnyRole("USER","GUEST","ADMIN")
-				.antMatchers("/sec/sample").hasAnyRole("GUEST", "ADMIN")
+				.requestMatchers("/", "/sec/", "/sec/loginForm", "/sec/denied", "/logout").permitAll()
+				.requestMatchers("/sec/hello").hasAnyRole("USER", "ADMIN")
+				.requestMatchers("/sec/getemps").hasAnyRole("USER", "ADMIN")
+				.requestMatchers("/sec/addemp").hasAnyRole("ADMIN")
+				.requestMatchers("/sec/menu").hasAnyRole("USER","GUEST","ADMIN")
+				.requestMatchers("/sec/sample").hasAnyRole("GUEST", "ADMIN")
 				//.anyRequest().authenticated()  // 위의 설정 이외의 모든 요청은 인증을 거쳐야 한다
 				.anyRequest().permitAll()        // 위의 설정 이외의 모든 요청은 인증 요구하지 않음
 
@@ -70,9 +66,9 @@ public class HealthSecurityConfig {
 				//.csrf().disable()    //csrf 기능을 사용하지 않을 때
 				//.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) //csrf 활성화
 				.csrf()
-				.ignoringAntMatchers("/sec/")
-				.ignoringAntMatchers("/sec/hello")
-				.ignoringAntMatchers("/sec/loginForm")
+				.ignoringRequestMatchers("/sec/")
+				.ignoringRequestMatchers("/sec/hello")
+				.ignoringRequestMatchers("/sec/loginForm")
 				//.ignoringAntMatchers("/csrf/score")
 				//.ignoringAntMatchers("/doLogin")
 				
