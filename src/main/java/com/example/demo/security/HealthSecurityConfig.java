@@ -53,22 +53,21 @@ public class HealthSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		log.info("접근제한 설정");
 		return http.authorizeHttpRequests()/* 권한에 따른 인가(Authorization) */
-				.requestMatchers("/", "/sec/", "/sec/loginForm", "/sec/denied", "/logout").permitAll()
+				.requestMatchers("/css/*", "/js/*", "fragments/*", "/health/main", "/team/login", "/team/logout").permitAll()
 				.requestMatchers("/sec/hello").hasAnyRole("USER", "ADMIN")
 				.requestMatchers("/sec/getemps").hasAnyRole("USER", "ADMIN")
 				.requestMatchers("/sec/addemp").hasAnyRole("ADMIN")
 				.requestMatchers("/sec/menu").hasAnyRole("USER","GUEST","ADMIN")
 				.requestMatchers("/sec/sample").hasAnyRole("GUEST", "ADMIN")
-				//.anyRequest().authenticated()  // 위의 설정 이외의 모든 요청은 인증을 거쳐야 한다
-				.anyRequest().permitAll()        // 위의 설정 이외의 모든 요청은 인증 요구하지 않음
+				.anyRequest().authenticated()  // 위의 설정 이외의 모든 요청은 인증을 거쳐야 한다
+				//.anyRequest().permitAll()        // 위의 설정 이외의 모든 요청은 인증 요구하지 않음
 
-				.and()
+				//.and()
 				//.csrf().disable()    //csrf 기능을 사용하지 않을 때
 				//.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) //csrf 활성화
-				.csrf()
-				.ignoringRequestMatchers("/sec/")
-				.ignoringRequestMatchers("/sec/hello")
-				.ignoringRequestMatchers("/sec/loginForm")
+				//.csrf()
+				//.ignoringRequestMatchers("/health/main")
+				//.ignoringRequestMatchers("/team/login")
 				//.ignoringAntMatchers("/csrf/score")
 				//.ignoringAntMatchers("/doLogin")
 				
@@ -77,7 +76,7 @@ public class HealthSecurityConfig {
 				//.ignoringAntMatchers("/doLogin")
 
 				.and()
-				.formLogin().loginPage("/sec/loginForm")   // 지정된 위치에 로그인 폼이 준비되어야 함
+				.formLogin().loginPage("/team/login")   // 지정된 위치에 로그인 폼이 준비되어야 함
 				.loginProcessingUrl("/doLogin")            // 컨트롤러 메소드 불필요, 폼 action과 일치해야 함
 				.failureUrl("/sec/login-error")      // 로그인 실패시 다시 로그인 폼으로
 				//.failureForwardUrl("/login?error=Y")  //실패시 다른 곳으로 forward
