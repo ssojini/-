@@ -14,6 +14,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.extern.slf4j.Slf4j;
 
+// 참고 사이트 : https://chlee21.tistory.com/190
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
@@ -76,7 +78,7 @@ public class HealthSecurityConfig {
 				//.ignoringAntMatchers("/doLogin")
 
 				.and()
-				.formLogin().loginPage("/team/login")   // 지정된 위치에 로그인 폼이 준비되어야 함
+				.formLogin().loginPage("/team/login")   // 접근이 차단된 페이지 클릭시 이동할 url, 지정된 위치에 로그인 폼이 준비되어야 함
 				.loginProcessingUrl("/doLogin")            // 컨트롤러 메소드 불필요, 폼 action과 일치해야 함
 				.failureUrl("/sec/login-error")      // 로그인 실패시 다시 로그인 폼으로
 				//.failureForwardUrl("/login?error=Y")  //실패시 다른 곳으로 forward
