@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,6 +145,17 @@ public class ManagerService {
 	public Page<Freeboard> getboardlist(String bname, Pageable pageable) {
 		Page<Freeboard> page = brepo.findBybname(pageable, bname);
 		return page;
+	}
+
+	public Object chartcal() {
+		int year;
+//		if(a==null)
+//		{
+//			year = LocalDate.now().getYear();
+//		}
+//		else year = Integer.valueOf(a);
+//		log.info("year"+year);
+		return null;
 	}
 
 
