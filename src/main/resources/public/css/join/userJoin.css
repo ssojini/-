@@ -1,19 +1,61 @@
 @charset "UTF-8";
 
-*{margin: 0; 
-padding: 0; 
-box-sizing: border-box;}
+* { box-sizing:border-box; }
 
-main{
-	margin:0 auto;
-	width:100vw;
+/* basic stylings ------------------------------------------ */
+body 				 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
+.container1 		{ 
+  font-family:'Roboto';
+  width:500px; 
+  margin:30px auto 0; 
+  display:block; 
+  background:#FFF;
+  padding:10px 50px 50px;
+}
+h2 		 { 
+  text-align:center; 
+  margin-bottom:50px; 
+}
+h2 small { 
+  font-weight:normal; 
+  color:#888; 
+  display:block; 
+}
+.footer 	{ text-align:center; }
+.footer a  { color:#53B2C8; }
+
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+input 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:400px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
 }
 
-form {
-	width: 60%;
-	padding: 20px 20px;
-	margin: 0 auto;
-	box-sizing: border-box;
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
 }
-
-
