@@ -39,6 +39,8 @@ public class UserService
 	
 			// 닉네임도 같이 세션에 저장
 			session.setAttribute("nickname", user.getNickname());
+			
+			// authothentication 설정
 		}else {
 			map.put("login",false);			
 			map.put("msg","로그인 실패");

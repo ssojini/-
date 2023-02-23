@@ -10,9 +10,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.example.demo.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class HealthSecurityConfig {
 	@Autowired
 	DataSource dataSource;    // JDBC Authentication에 필요함
+	
+	private final UserDetailsService userDetailsService = null;
 
 	@Bean
 	public BCryptPasswordEncoder  passwordEncoder() {
@@ -69,13 +74,13 @@ public class HealthSecurityConfig {
 	            		"/team/findLoginInfo",
 	            		"/team/rules",
 	            		"/team/joinForm",
+	            		"/team/auth/**",
 	            		
 	            		// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
 	            		"/team/sendemail",
 	            		"/team/authEmail",
 	            		"/team/join"
 	            		).permitAll()
-	            
 	            .anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 	            
 	            // csrf
@@ -85,13 +90,14 @@ public class HealthSecurityConfig {
 	            		// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
 	            		"/team/sendemail",
 	            		"/team/authEmail",
-	            		"/team/join"
+	            		"/team/join",
+	            		"/team/login"
 	            		)
 	            
 	            // 로그인
 	            .and()
 				.formLogin().loginPage("/team/login") // 접속 차단시 로그인 페이지로 가게 하기
-				.loginProcessingUrl("/team/login") // post 로그인
+				.loginProcessingUrl("/doLogin") // post 로그인
 				.defaultSuccessUrl("/health/main", true) // 로그인 성공시 URL
 				.usernameParameter("userid")  // 로그인 폼에서 이용자 ID 필드 이름, 디폴트는 username
 				.passwordParameter("pwd")  // 로그인 폼에서 이용자 암호 필트 이름, 디폴트는 password
@@ -101,7 +107,7 @@ public class HealthSecurityConfig {
 				.and()   // 디폴트 로그아웃 URL = /logout
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/team/logout")) //로그아웃 요청시 URL
 				.logoutSuccessUrl("/team/login") // 로그아웃 성공시 URL
-				.invalidateHttpSession(true) 
+				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID") // 세션 삭제
 				.permitAll()
 				
@@ -112,7 +118,18 @@ public class HealthSecurityConfig {
 				.and()
 				.build();
 	}
-
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
+        authenticationMgr.inMemoryAuthentication().withUser("employee").password("$2a$10$MZ2ANCUXIj5mrAVbytojruvzrPv9B3v9CXh8qI9qP13kU8E.mq7yO")
+            .authorities("ROLE_USER").and().withUser("imadmin").password("$2a$10$FA8kEOhdRwE7OOxnsJXx0uYQGKaS8nsHzOXuqYCFggtwOSGRCwbcK")
+            .authorities("ROLE_USER", "ROLE_ADMIN").and().withUser("guest").password("$2a$10$ABxeHaOiDbdnLaWLPZuAVuPzU3rpZ30fl3IKfNXybkOG2uZM4fCPq")
+            .authorities("ROLE_GUEST");
+    }
+	
 	/*
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

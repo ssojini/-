@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class EmailService
 {
+	@Autowired
 	private JavaMailSender sender;
 	@Autowired
 	private HttpSession session;	
