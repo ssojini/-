@@ -30,6 +30,7 @@ import com.example.demo.service.CalendarService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
 import com.example.demo.service.FreeboardService;
+import com.example.demo.service.HealthCenterService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
@@ -64,6 +65,9 @@ public class HealthController {
 	/* 현주 */
 	@Autowired
 	private mypageService mp_svc;
+	
+	@Autowired
+	private HealthCenterService mp_center;
 
 
 	/*
@@ -178,6 +182,14 @@ public class HealthController {
 	public String mappage() {
 		return "html/map/mappage";
 	}
+	
+	@GetMapping("/center_search")
+	public String center_search(Model m) {
+		m.addAttribute("center", mp_center.centerinfo());
+		m.addAttribute("center_size", mp_center.centerinfo().size());
+		return "html/map/center_search";
+	}
+	
 
 
 	/* 현주 */

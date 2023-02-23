@@ -43,9 +43,7 @@ public class mypageService {
 	
 	public User userinfo(String userid)
 	{
-		System.out.println("useridfo:   "+ map.userinfo(userid));
-		return map.userinfo(userid);
-		
+		return map.userinfo(userid);	
 	}
 	
 	@Autowired
