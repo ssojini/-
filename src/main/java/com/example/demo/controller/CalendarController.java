@@ -106,6 +106,15 @@ public class CalendarController
 		return map;
 	}
 	
+	@PostMapping("/delimg")
+	@ResponseBody
+	public Map<String,Object> delImg(int num) 
+	{
+		Map<String, Object> map = new HashMap<>();
+		map.put("deleted", cs.delImg(num));
+		return map;
+	}
+	
 	@PostMapping("/delete")
 	@ResponseBody
 	public Map<String,Object> deleteById(int num,int anum)

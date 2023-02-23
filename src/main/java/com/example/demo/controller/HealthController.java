@@ -1,23 +1,20 @@
 package com.example.demo.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +34,7 @@ import com.example.demo.service.mypageService;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.Main_Title;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.User;
 import com.github.pagehelper.PageInfo;
@@ -197,10 +195,14 @@ public class HealthController {
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
 		
-		int pg=1; int cnt = 10;
-		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
-		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-		m.addAttribute("list", list);
+//		int pg=1; int cnt = 10;
+//		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
+//		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
+//		m.addAttribute("list", list);
+		
+		// 메인 타이틀 문구
+		Main_Title main = mp_svc.mainTitle();
+		m.addAttribute("main",main);
 		
 		Map<String, Object> map = cs.getCalendar(day);
 		

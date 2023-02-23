@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.Main_Title;
 import com.example.demo.vo.User;
 
 @Mapper
@@ -22,5 +23,7 @@ public interface UserEditMapper {
 	public int changepwd(User userjoin);
 	
 	public List<Freeboard> getmyboard(String nickname);
+
+	public Main_Title maintitle(int i);
 	
 }

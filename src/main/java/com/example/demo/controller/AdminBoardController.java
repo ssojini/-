@@ -112,6 +112,22 @@ public class AdminBoardController
 		return "html/admin/notice_admin";
 	}
 	
+	//
+	@GetMapping("/noticeMain/{pg}/{cnt}")
+	public String noticeMain(Model m, @PathVariable int pg, @PathVariable int cnt)
+	{
+		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
+		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
+		m.addAttribute("list", list);
+		
+		return "html/mainPage";
+	}
+	
+
+
+	
+	
+	//
 	@GetMapping("/detail_notice/{adnum}")
 	public String detail_notice(@PathVariable("adnum") int adnum, Model m)
 	{

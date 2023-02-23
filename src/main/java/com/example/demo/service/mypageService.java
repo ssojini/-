@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.UserEditMapper;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.Main_Title;
 import com.example.demo.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -150,7 +152,7 @@ public class mypageService {
 	{
 		nickname = "smash";
 		List<Freeboard>myboard= map.getmyboard(nickname);
-		System.out.println("myboard:  "+ myboard);
+
 		/*for(int i=0; i<myboard.size();i++)
 		{
 			String a =myboard.get(i).getDatetime().toString();
@@ -161,6 +163,11 @@ public class mypageService {
 		}*/
 
 		return myboard;
+	}
+
+	public Main_Title mainTitle() {
+		Random rd = new Random();
+		return map.maintitle(rd.nextInt(20)+1);
 	}
 	
 }

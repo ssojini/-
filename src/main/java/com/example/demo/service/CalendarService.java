@@ -63,6 +63,7 @@ public class CalendarService
 				
 				for(int i=0;i<mfiles.length;i++) 
 				{
+					if(mfiles[0].getSize()==0) continue;
 					mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));
 					
 					AttachCalendar attcal = new AttachCalendar();
@@ -125,7 +126,6 @@ public class CalendarService
 	public List<Map<String,Object>> listCalendar()
 	{
 		List<Map<String,Object>> mlist = cm.list();	
-		log.info("mlist:"+mlist);
 		List<Map<String,Object>> list = new ArrayList<>();
 	
 		for (int i = 0; i < mlist.size(); i++) 
@@ -167,7 +167,6 @@ public class CalendarService
 				
 				AttachCalendar att = new AttachCalendar();
 				
-				
 				att.setFname((String) m.get("FNAME"));
 				att.setPname(file[j]);
 				
@@ -176,7 +175,7 @@ public class CalendarService
 			map.put("cal", cal);
 			map.put("sch", sch);
 			
-			list.add(map);
+			if(!found) list.add(map);
 		}
 		
 		return list;
@@ -215,8 +214,11 @@ public class CalendarService
 		{
 			Map<String, Object> amap = mlist.get(i);
 			
-			AttachCalendar att = new AttachCalendar();
-				
+			AttachCalendar att = new AttachCalendar();	
+			
+			String sPname = (String) amap.get("PNAME");
+			if(sPname==null) continue;
+
 			BigDecimal abig = (BigDecimal) amap.get("A_NUM");
 			BigDecimal acbig = (BigDecimal) m.get("A_PNUM");
 			att.setA_pnum(acbig.intValue());
@@ -232,26 +234,39 @@ public class CalendarService
 		return list;
 	}
 	
-	public Schedule updateCon(Schedule sch)
+	public int updateCon(Schedule sch)
 	{
-		System.err.println();
-		sch.setS_pnum(sch.getS_pnum());
-		sch.setContent(sch.getContent());
-		Schedule updateCon = cm.updateContenet();
-		System.err.println("svc"+updateCon);
+		int updateCon = cm.updateContenet(sch);
+		if(updateCon > 0 ? true : false);
+		
 		return updateCon;
 	}
 	
 	@Transactional
 	public boolean deleteAll(int num, int anum)
 	{
-		int crow = cm.attcaldelete(anum);
 		int brow = cm.schdelete(num);
 		int arow = cm.caldelete(num);
 		
-		if(arow>0 && brow>0 && crow>0) return true;
+		AttachCalendar ac = new AttachCalendar();
+		String fname = ac.getFname();
+		
+		if(fname!=null) {
+			int crow = cm.attcaldelete(anum);
+			System.err.println(crow);
+		}
+		
+		if(arow>0 && brow>0) return true;
 		
 		return false;
+	}
+	public int delImg(int num) 
+	{
+		int delimg = cm.delImg(num);
+		log.info("delimg"+delimg);
+		if(delimg >0 ? true : false);
+		
+		return delimg;
 	}
 
 }
