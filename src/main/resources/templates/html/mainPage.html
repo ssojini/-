@@ -30,7 +30,7 @@
 	        <div style="float:left; width:20%; height: 2000px;"></div>
 	        <div style="height:80px; padding-top: 25px; color:black;"> 
 	        	<img src="/img/icon-smile.png" style="height:50%;object-fit:contain;float:left">
-	        	<div style="float:left; margin-left:7px" th:text="${main.content}"></div>
+	        	<div style="float:left; margin-left:7px" th:if="${main != null}" th:text="${main.content}"></div>
 	        </div>
 				<!-- 전체 크기 -->
 				<div style=" width:80%; float:right; height: 1200px;">
