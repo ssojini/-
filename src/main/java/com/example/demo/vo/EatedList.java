@@ -16,7 +16,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Immutable
-/*
+
+/* 에러를 찾아 이곳에 왔다면, 잘 찾아 왔습니다.
+ * 테이블 생성시 @Subselect 주석 처리하고 그 후 주석 해제를 하면 될겁니다.
+ * 주석처리하면 테이블을 만들거든요.*/
+
 @Subselect("SELECT a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_num, c.a_pnum, c.pname\r\n"
 		+ "FROM hcalendar a \r\n"
 		+ "LEFT OUTER JOIN calen_schedule b\r\n"

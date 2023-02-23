@@ -31,12 +31,15 @@ import com.example.demo.vo.Goods;
 import com.example.demo.vo.GoodsAndAtt;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/shop")
 @Slf4j
 public class ShopController {
+	@Autowired
+	private HttpSession session;
 	@Autowired
 	private ShopService svc;
 	@Autowired
@@ -108,9 +111,9 @@ public class ShopController {
 	@GetMapping("/cart")
 	public String cart(Model m) {
 		// 로그인 연동 후 주석해제
-//		String userid = (String) session.getAttribute("userid");
+		String userid = (String) session.getAttribute("userid");
 		// 연동 전 userid 하드코딩
-		String userid = "asdf";
+		//String userid = "asdf";
 		ArrayList<Cart> cartlist = svc.getCart(userid);
 		// System.err.println("CART: "+cartlist);
 		// System.err.println(cartlist.get(0).getMainpic());
@@ -173,6 +176,7 @@ public class ShopController {
 			, Model m) 
 	{
 		//System.err.println("here");
+		//System.err.println("userid: "+userid);
 		//System.err.println("address: "+address);
 		
 		boolean completeBuy = svc.payment(items,userid,address);

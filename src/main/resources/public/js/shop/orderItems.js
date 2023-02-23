@@ -34,7 +34,8 @@ window.onload = (function(){
 		//주소와 세션에서 userid 넣어 보내야함
 		
 		$('#items').val(JSON.stringify(itemArr));
-		$('#userid').val("asdf");
+		//session연동으로 userid 뷰에 들어감
+		//$('#userid').val("asdf");
 		var address = "("+$('#sample4_postcode').val()+")"+$('#sample4_roadAddress').val() +" "+ $('#sample4_detailAddress').val();
 		$('#address').val(address);
 		$('#payment').submit();

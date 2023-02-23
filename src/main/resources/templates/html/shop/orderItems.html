@@ -33,7 +33,7 @@
 
 		<form id="payment" action="/shop/payment" method="get">
 			<input id="items" name="items" type="hidden"> <input
-				id="userid" name="userid" type="hidden"> <input id="address"
+				id="userid" name="userid" type="hidden" th:value="${session.userid}"> <input id="address"
 				name="address" type="hidden">
 		</form>
 
