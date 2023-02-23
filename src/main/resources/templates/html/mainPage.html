@@ -184,7 +184,7 @@
 	        			<div style="padding-top: 20px; padding-left: 20px; color:white;">
 	        				
 							 <!-- <ul  th:each="notice: ${list}" style="display: inline;">
-	                         	<li>
+	                         	<li th:if="${notice != null}">
 	                         		<a  th:href= "|/admin/detail_notice/${notice.adnum}|" style=" color:white;">[[${notice.title}]]</a>
 	                         	</li>
 	                         </ul> -->
