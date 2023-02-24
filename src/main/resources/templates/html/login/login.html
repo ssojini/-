@@ -14,19 +14,21 @@
 	function login(){
 		var userid = $('#userid').val();
 		var pwd = $('#pwd').val();
-		//alert(userid+pwd);
 		$.ajax({
-			url:'/team/login',
+			url:'/doLogin',
 			method:'post',
 			cache:false,
-			data:{'userid':userid,'pwd':pwd},
+			data:{
+				'userid':userid,
+				'pwd':pwd
+				},
 			dataType:'json',
 			success: function(res){
 				if(res.login){
 					alert(res.msg);
 					location.href='/health/main';
 				}else{
-				alert(res.msg);				
+					alert(res.msg);	
 				}
 			},error:function(xhr,status,err){
 				alert("에러: "+err);
@@ -68,12 +70,10 @@
 				</div>
 				<div class='login_fields__submit'>
 					<input  type='submit' value='Log In' onclick="login();">
-					
 					<input  type='submit' value='Sign Up' onclick="location.href='/team/rules'">
 					<div class='forgot'>
 						<a href='/team/findLoginInfo'>Forgot password / ID ?</a>
 					</div>
-					
 				</div>
 			</div>
 			

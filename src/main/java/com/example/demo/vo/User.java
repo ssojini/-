@@ -2,6 +2,8 @@ package com.example.demo.vo;
 
 import java.sql.Date;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -37,6 +39,9 @@ public class User
 	private String profile;
 	//주소
 	private String address;
+	//활성화
+	@ColumnDefault("1")
+	private Integer enabled;
 	
 
 	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
