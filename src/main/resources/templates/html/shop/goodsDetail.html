@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 
 <body>
+
 		<div>
 			<div th:replace="fragments/shopnav :: shopnav"></div>
 		</div>
@@ -21,7 +22,7 @@
 			Items</div>
 
 		<form id="cartForm" action="/shop/buynow" method="post">
-			<input type="hidden" name="userid" value="asdf"> <input
+			<input type="hidden" name="userid" th:value="${session.userid}"> <input
 				type="hidden" id="price" name="price" th:value="${goods.getPrice}">
 			<input type="hidden" id="goodsnum" name="goodsnum"
 				th:value="${goods.getGoodsnum}">
