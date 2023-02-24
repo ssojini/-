@@ -4,7 +4,6 @@ $(function(){
 	var userid = document.querySelector('#userid');
 
 	var pwd1 = document.querySelector('#pwd1');
-	//var pwdMsg = document.querySelector('#pwdMsg');
 	var pwd = document.querySelector('#pwd');
 
 	var error = document.querySelectorAll('.error_next_box');
@@ -35,7 +34,7 @@ $(function(){
 
 	phone.addEventListener("focusout", checkPhoneNum);
 	email1.addEventListener("focusout", isEmailCorrect);
-	email2.addEventListener("change", isEmailCorrect);
+
 });
 	
 	//아이디 체크
@@ -130,15 +129,33 @@ $(function(){
 		}
 	}
 
+	//핸드폰번호
+	function checkPhoneNum() {
+		var error = document.querySelectorAll('.error_next_box');
+	    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
+
+	    if(phone.value === "") {
+	    	error[4].innerHTML = "필수 정보입니다.";
+	    	error[4].style.display = "block";
+	    	error[4].style.color="red";
+	    } else if(!isPhoneNum.test(phone.value)) {
+	    	error[4].innerHTML = "형식에 맞지 않는 번호입니다.";
+	    	error[4].style.display = "block";
+	    	error[4].style.color="red";
+	    } else {
+	        error[4].style.display = "none";
+	    }
+	}
+	
 	//생년월일
 	function isBirthCompleted() {
 		var error = document.querySelectorAll('.error_next_box');
 	    var yearPattern = /[0-9]{4}/;
 
 	    if(!yearPattern.test(yy.value)) {
-	        error[4].innerHTML = "태어난 년도 4자리를 정확하게 입력하세요.";
-	        error[4].style.display = "block";
-	        error[4].style.color="red";
+	        error[5].innerHTML = "태어난 년도 4자리를 정확하게 입력하세요.";
+	        error[5].style.display = "block";
+	        error[5].style.color="red";
 	    } else {
 	        isMonthSelected();
 	    }
@@ -147,8 +164,8 @@ $(function(){
 	    function isMonthSelected() {
 		var error = document.querySelectorAll('.error_next_box');
 	        if(mm.value === "월") {
-	            error[4].innerHTML = "태어난 월을 선택하세요.";
-	            error[4].style.color="red";
+	            error[5].innerHTML = "태어난 월을 선택하세요.";
+	            error[5].style.color="red";
 	        } else {
 	            isDateCompleted();
 	        }
@@ -157,8 +174,8 @@ $(function(){
 	    function isDateCompleted() {
 		var error = document.querySelectorAll('.error_next_box');
 	        if(dd.value === "") {
-	            error[4].innerHTML = "태어난 일(날짜) 2자리를 정확하게 입력하세요.";
-	            error[4].style.color="red";
+	            error[5].innerHTML = "태어난 일(날짜) 2자리를 정확하게 입력하세요.";
+	            error[5].style.color="red";
 	        } else {
 	            isBirthRight();
 	        }
@@ -169,8 +186,8 @@ $(function(){
 		var error = document.querySelectorAll('.error_next_box');
 	    var datePattern = /\d{1,2}/;
 	    if(!datePattern.test(dd.value) || Number(dd.value)<1 || Number(dd.value)>31) {
-	        error[4].innerHTML = "생년월일을 다시 확인해주세요.";
-	        error[4].style.color="red";
+	        error[5].innerHTML = "생년월일을 다시 확인해주세요.";
+	        error[5].style.color="red";
 	    } else {
 	        checkAge();
 	    }
@@ -179,28 +196,11 @@ $(function(){
 	function checkAge() {
 		var error = document.querySelectorAll('.error_next_box');
 	    if(Number(yy.value) < 1920) {
-	        error[4].innerHTML = "정말이세요?";
-	        error[4].style.color="red";
+	        error[5].innerHTML = "정말이세요?";
+	        error[5].style.color="red";
 	    } else if(Number(yy.value) > 2019) {
-	        error[4].innerHTML = "미래에서 오셨군요. ^^";
-	        error[4].style.color="red";
-	    } else {
-	        error[4].style.display = "none";
-	    }
-	}
-	//핸드폰번호
-	function checkPhoneNum() {
-		var error = document.querySelectorAll('.error_next_box');
-	    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
-
-	    if(phone.value === "") {
-	    	error[5].innerHTML = "필수 정보입니다.";
-	    	error[5].style.display = "block";
-	    	error[5].style.color="red";
-	    } else if(!isPhoneNum.test(phone.value)) {
-	    	error[5].innerHTML = "형식에 맞지 않는 번호입니다.";
-	    	error[5].style.display = "block";
-	    	error[5].style.color="red";
+	        error[5].innerHTML = "미래에서 오셨군요. ^^";
+	        error[5].style.color="red";
 	    } else {
 	        error[5].style.display = "none";
 	    }
