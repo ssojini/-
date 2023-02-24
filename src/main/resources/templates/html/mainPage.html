@@ -178,11 +178,15 @@
 	    	<!-- 공지사항 -->
         	<div style="padding-top:20px">
 	        	<div style=" width:90%; height: 200px; background:#FFB59F;">
-					<div style="float:left; widht:80px;">
+					<div style="float:left; width: 85%;">
 		        	<a href="/health/notice/1/10">
-		        		<div style="padding-left: 20px; padding-top: 20px; color:white;">공지사항</div>
-	        			<div style="padding-top: 20px; padding-left: 20px; color:white;">
-	        				
+		        		<div style="color:white; padding-left:20px; padding-top:20px; text-align:left; height:20%;">공지사항</div>
+						<div style="color:white; padding:20px; height: 80%; text-align:left; ">
+						<ul  th:each="notice: ${noitce_list}" style="display: inline;">
+	                         	<li>
+	                         		<a  th:href= "|/health/detail_notice/${notice.adnum}|" style=" color:white;">[[${notice.title}]]</a>
+	                         	</li>
+	                         </ul> 
 	        			</div>
 	        		</a>
 	        		
