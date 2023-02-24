@@ -3,44 +3,49 @@
 * { box-sizing:border-box; }
 
 /* basic stylings ------------------------------------------ */
-body 				 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
+
 .container1 		{ 
   font-family:'Roboto';
-  width:500px; 
-  margin:30px auto 0; 
+  width:40%; 
+  margin:60px auto 0; 
   display:block; 
   background:#FFF;
   padding:10px 50px 50px;
 }
+
+.error_next_box {
+	font-size:12px;
+	margin-top: 8px;
+}
 h2 		 { 
-  text-align:center; 
+  
   margin-bottom:50px; 
 }
-h2 small { 
-  font-weight:normal; 
-  color:#888; 
-  display:block; 
-}
-.footer 	{ text-align:center; }
-.footer a  { color:#53B2C8; }
+
 
 /* form starting stylings ------------------------------- */
 .group 			  { 
   position:relative; 
   margin-bottom:45px; 
 }
-input 				{
-  font-size:18px;
-  padding:10px 10px 10px 5px;
-  display:block;
-  width:400px;
-  border:none;
-  border-bottom:1px solid #757575;
+
+input {
+	font-size:18px;
+	padding:10px 10px 10px 5px;
+	display:block;
+	width:200px;
+	border:none;
+	border-bottom:1px solid #757575;
 }
+
+#userid,#pwd1,#pwd,#nickname,#phone {
+  	width:83%;
+}
+
 input:focus 		{ outline:none; }
 
 /* LABEL ======================================= */
-label 				 {
+label {
   color:#999; 
   font-size:18px;
   font-weight:normal;
@@ -54,8 +59,88 @@ label 				 {
 }
 
 /* active state */
-input:focus ~ label, input:valid ~ label 		{
+input:focus ~ label, input:valid ~ label {
   top:-20px;
   font-size:14px;
   color:#5264AE;
+}
+
+.select_option > #select{
+	position: relative;
+	display: block;
+	width: 130x;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background: #fff;
+}
+
+.select_option > #select:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	display: block;
+	width: 0;
+	height: 0;
+	margin: -2px 0 0 0;
+	border: 5px solid transparent;
+	border-top: 7px solid #666;
+}
+
+
+select {
+	cursor: pointer;
+	position: relative;
+	-webkit-appearance: none;
+	appearance: none;
+	display: block;
+	width: 130px;
+	padding: 0.5em 1em;
+	color: #666;
+	border: none;
+	border-radius: 5px;
+	background: transparent;
+}
+
+input[type=button] {
+  background-color: #e7e7e7;;
+  border: none;
+  color: white;
+  padding: 6px;
+  width: 42%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  color: #888;
+  
+}
+
+.footBtwrap{
+	margin-top: 15px;
+}
+
+.footBtwrap>div{
+	float: left;
+	width: 50%;
+	height: 60px;
+}
+
+.footBtwrap>div>button{
+	display: block; 
+	width: 70%;
+	height: 100%; 
+	font-size: 20px;
+	text-align: center;
+	line-height: 60px;
+}
+
+.reset{
+	background-color: #fff;
+	color:#888;
+}
+
+#submit{
+	background-color: lightsalmon;
+	color: #fff;
 }
