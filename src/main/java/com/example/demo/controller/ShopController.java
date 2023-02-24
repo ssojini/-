@@ -47,36 +47,12 @@ public class ShopController {
 	@Autowired // 장바구니
 	private CartRepository cart_repo;
 
-	// 초기 테스트용
-	@GetMapping("/")
-	public String index() {
-		return "html/shop/index";
-	}
-
-	// 초기 테스트 데이터 생성 메소드
-	@GetMapping("/add")
-	@ResponseBody
-	public String testAdd() {
-		// 상욱
-		// 이미지 경로 확인해야함
-		Goods goods = new Goods(0, "건강보조식품", 5000, "건강에 좋음", "상품에 관한 상세설명", "카테고리1");
-		Goods added = repo.save(goods);
-		goods = new Goods(0, "영양제", 1000, "건강에 좋음", "상품에 관한 상세설명", "카테고리2");
-		added = repo.save(goods);
-		Cart cart = new Cart(0, 0, "테스트_영양제", "goods.png", 100, 1, 100, "테스트", "asdf");
-		Cart c_added = cart_repo.save(cart);
-		// 하드코딩 addgoods_att
-
-		// 이후 부분에 추가하여 수정 요망
-
-		return "ShopController 초기 데이터 생성";
-	}
+	
 
 	/*--------------------- 상욱 시작 ----------------------*/
 
 	@GetMapping("/detail/{goodsnum}")
 	public String detail(@PathVariable("goodsnum") int goodsnum, Model m) {
-		// System.err.println(goodsnum);
 		// 상품정보
 		Goods goods = svc.getGoods(goodsnum);
 		m.addAttribute("goods", goods);
@@ -110,13 +86,10 @@ public class ShopController {
 	// 장바구니 보기
 	@GetMapping("/cart")
 	public String cart(Model m) {
-		// 로그인 연동 후 주석해제
-		String userid = (String) session.getAttribute("userid");
 		// 연동 전 userid 하드코딩
 		//String userid = "asdf";
+		String userid = (String) session.getAttribute("userid");
 		ArrayList<Cart> cartlist = svc.getCart(userid);
-		// System.err.println("CART: "+cartlist);
-		// System.err.println(cartlist.get(0).getMainpic());
 		m.addAttribute("cartlist", cartlist);
 		return "html/shop/cart";
 	}
@@ -141,11 +114,7 @@ public class ShopController {
 	@PostMapping("/delSel")
 	@ResponseBody
 	public String delSel(HttpServletRequest request) {
-		// System.err.println("controller start");
-		// String[] ajaxMsg = request.getParameterValues("valueArr");
-		// System.err.println("ajaxMsg1: "+ajaxMsg);
 		boolean delSel = svc.delSel(request);
-		// System.out.println("delSel: "+delSel);
 		return "redirect: cart";
 	}
 
@@ -153,7 +122,6 @@ public class ShopController {
 	// 즉시 구매
 	@PostMapping("/buynow")
 	public String buyNow(Cart cart, Model m) {
-		// 구매목록을 orderList에 담아 보낸다.
 		m.addAttribute("orderlist", svc.buyNow(cart));		
 		return "html/shop/orderItems";
 	}
@@ -175,24 +143,11 @@ public class ShopController {
 			, @RequestParam("address") String address
 			, Model m) 
 	{
-		//System.err.println("here");
-		//System.err.println("userid: "+userid);
-		//System.err.println("address: "+address);
 		
 		boolean completeBuy = svc.payment(items,userid,address);
-		//System.err.println("completeBuy: "+completeBuy);
 		m.addAttribute("completeBuy", completeBuy);
 		return "html/shop/completeBuy";
 	}
-	//결제 테스트 (결제 실패)
-	@GetMapping("/completeBuy")
-	public String completeBuy(Model m)
-	{
-		m.addAttribute("completeBuy", false);
-		return "html/shop/completeBuy";
-	}
-	
-	
 	
 
 	/*--------------------- 상욱 끝 ----------------------*/
