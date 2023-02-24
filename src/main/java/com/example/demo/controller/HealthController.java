@@ -36,6 +36,7 @@ import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Main_Title;
+import com.example.demo.vo.MapInfo;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.User;
 import com.github.pagehelper.PageInfo;
@@ -178,16 +179,20 @@ public class HealthController {
 		return "html/mypage/FindPwd";
 	}
 	
-	@GetMapping("/mappage")
-	public String mappage() {
-		return "html/map/mappage";
-	}
-	
 	@GetMapping("/center_search")
 	public String center_search(Model m) {
 		m.addAttribute("center", mp_center.centerinfo());
 		m.addAttribute("center_size", mp_center.centerinfo().size());
 		return "html/map/center_search";
+	}
+	
+	@PostMapping("/getloc")
+	@ResponseBody
+	public List<MapInfo> center_search_detail(@RequestParam(name="area" )String area, Model m) {
+		//m.addAttribute("center", mp_center.center_search_detail(area));
+		m.addAttribute("center_size", mp_center.center_search_detail(area).size());
+		System.out.println(mp_center.center_search_detail(area).toString());
+		return mp_center.center_search_detail(area);
 	}
 	
 

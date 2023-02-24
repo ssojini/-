@@ -18,4 +18,9 @@ public class HealthCenterService {
 	{
 		return map.center();
 	}
+	
+	public List<MapInfo> center_search_detail(String area)
+	{
+		return map.center_search_detail(area);
+	}
 }
