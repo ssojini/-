@@ -24,16 +24,18 @@
 				},
 			dataType:'json',
 			success: function(res){
-				if(res.login){
+				alert(res);
+				if (res.login){
 					alert(res.msg);
 					location.href='/health/main';
-				}else{
+				} else {
 					alert(res.msg);	
 				}
 			},error:function(xhr,status,err){
 				alert("에러: "+err);
 			}
 		});
+		// $("<form action='/doLogin' method='post'><input type='text' name='userid' value='"+userid+"'><input type='text' name='pwd' value='"+pwd+"'></form>").submit();
 	}
 </script>
 <body>

@@ -37,7 +37,7 @@ public class SecurityConfiguration {
 	      .usersByUsernameQuery("select userid, pwd, enabled "
 	        + "from userjoin "
 	        + "where userid = ?")
-	      .authoritiesByUsernameQuery("select userid,authority "
+	      .authoritiesByUsernameQuery("select userid, authority "
 	        + "from authorities "
 	        + "where userid = ?");
 	}

@@ -151,12 +151,14 @@ public class JoinController
 	{
 		return us.find(user.getPhone(),user.getEmail());
 	}
+	/*
 	@GetMapping("/logout")
 	public String logout()
 	{
 		session.setAttribute("userid", null);
 		return "html/login/login";
-	}	
+	}
+	*/
 	
 	//---------------이메일 인증------------------
 	
@@ -217,5 +219,10 @@ public class JoinController
 		session.setAttribute("nickname", user.getPassword());
 		
 		return map;
+	}
+	
+	@GetMapping("/login-error")
+	public String loginError() {
+		return null;
 	}
 }
