@@ -12,4 +12,5 @@ public interface MapMapper {
 	
 	public List<MapInfo> center();
 
+	public List<MapInfo>center_search_detail(String area);
 }
