@@ -87,8 +87,6 @@ public class EmailService
 			//서버사용시 서버 IP주소 변경 할것
 			//mimeMessage.setContent("<a href='http://192.168.0.92/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
 			
-			// 2023-02-03 발표 때문에 수정함
-			//mimeMessage.setContent("<a href='http://192.168.0.106/team/auth/"+sid+"/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
 			
 			sender.send(mimeMessage);
 			return true;
@@ -101,105 +99,4 @@ public class EmailService
 	/* ----------------- 상욱 끝 ----------------- */
       
 	
-	/* ----------------- 학습자료 시작 ----------------- */
-      public boolean checkmail1(HttpSession session)
-  	{
-  		String email = (String) session.getAttribute("email");
-  		System.err.println("email: "+email);
-  		String rdStr =createRandomStr();
-  		session.setAttribute("rdStr", rdStr);
-
-  		MimeMessage mimeMessage = sender.createMimeMessage();
-
-  		try {
-  			InternetAddress[] addressTo = new InternetAddress[1];
-  			addressTo[0] = new InternetAddress(email);
-
-  			mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
-
-  			mimeMessage.setSubject("팀프로젝트 메일 확인");
-
-  			//로컬호스트로 테스트시 
-  			//mimeMessage.setContent("<a href='http://localhost/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
-  			//서버사용시 서버 IP주소 변경 할것
-  			mimeMessage.setContent("<a href='http://192.168.0.111/team/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
-
-  			sender.send(mimeMessage);
-  			return true;
-  		} catch (MessagingException e) {
-  			log.error("에러={}", e);
-  		}
-
-  		return false;
-  		
-  	}
-
-	public boolean sendMimeMessage()
-	{
-		MimeMessage mimeMessage = sender.createMimeMessage();
-
-		try {
-			InternetAddress[] addressTo = new InternetAddress[1];
-			addressTo[0] = new InternetAddress("siesta_w@naver.com");
-
-			mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
-
-			mimeMessage.setSubject("마임 메시지(Text) 테스트");
-
-			mimeMessage.setContent("This is mimemessage", "text/plain;charset=utf-8");
-
-			sender.send(mimeMessage);
-			return true;
-		} catch (MessagingException e) {
-			log.error("에러={}", e);
-		}
-
-		return false;
-	}	
-
-	public boolean sendAttachMail()
-	{
-		MimeMessage mimeMessage = sender.createMimeMessage();
-
-		Multipart multipart = new MimeMultipart();
-
-		try {
-			InternetAddress[] addressTo = new InternetAddress[1];
-			addressTo[0] = new InternetAddress("siesta_w@naver.com");
-
-			mimeMessage.setRecipients(Message.RecipientType.TO, addressTo);
-
-			mimeMessage.setSubject("마임 메시지(첨부파일) 테스트");
-
-			// Fill the message
-			BodyPart messageBodyPart = new MimeBodyPart();
-			String rdStr = createRandomStr();
-			session.setAttribute("rdStr",rdStr);
-			messageBodyPart.setContent("<a href='http://localhost/mail/auth/"+rdStr+"'>메일주소 인증</a>", "text/html;charset=utf-8");
-			multipart.addBodyPart(messageBodyPart);
-
-			// Part two is attachment
-			messageBodyPart = new MimeBodyPart();
-			File file = new File("C:/test/첨부.txt");
-			FileDataSource fds = new FileDataSource(file);
-			messageBodyPart.setDataHandler(new DataHandler(fds));
-
-			String fileName = fds.getName();
-			messageBodyPart.setFileName(fileName);
-
-			multipart.addBodyPart(messageBodyPart);
-
-			// Put parts in message
-			mimeMessage.setContent(multipart);
-
-			sender.send(mimeMessage);
-
-			return true;
-		}catch(Exception ex) {
-			log.error("에러={}", ex);
-		}
-		return false;
-	}
-	
-	/* ----------------- 학습자료 끝 ----------------- */
 }

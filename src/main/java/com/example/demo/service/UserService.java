@@ -56,7 +56,6 @@ public class UserService
 		User user = repo.findByUseridAndEmail(userid,email);
 		if(user!=null) {
 			map.put("userid", user.getUserid());
-			//System.err.println(user.getUserid());
 			session.setAttribute("email", email);		
 									
 			// 이메일 발송			
