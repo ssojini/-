@@ -207,7 +207,7 @@ public class HealthController {
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
 		
-		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(1, 10);
+		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(1, 3);
 		List<AdminBoard> noitce_list = absvc.adminBList(pageInfo.getList());
 		m.addAttribute("noitce_list", noitce_list);
 		
