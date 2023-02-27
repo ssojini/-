@@ -131,7 +131,8 @@ public class JoinController
 	@GetMapping("/logout")
 	public String logout()
 	{
-		session.setAttribute("userid", null);
+		//session.setAttribute("userid", null);
+		session.invalidate();
 		return "html/login/login";
 	}	
 	
@@ -146,9 +147,7 @@ public class JoinController
 		log.info("sid:"+sid);
 		log.info("rdStrcon:"+rdStrCheck);
 		
-		System.out.println("HttpSessionHandler.map:"+HttpSessionHandler.map);
 		HttpSession orgSession = HttpSessionHandler.map.get(sid);
-		System.err.println("original: "+orgSession);
 		
 		if(rdStrCheck.equals(orgSession.getAttribute("rdStr")))
 

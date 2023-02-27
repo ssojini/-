@@ -30,7 +30,7 @@ public class EmailService
 	@Autowired
 	private JavaMailSender sender;
 	@Autowired
-	private HttpSession session;	
+	private HttpSession session;	 
 	
 	//유일한 문자를 만드는 메소드
 	private String createRandomStr()
