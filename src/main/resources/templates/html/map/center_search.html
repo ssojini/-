@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>보건소찾기</title>
+
+<link rel="stylesheet" href="/css/helth_center.css">
 </head>
 <body>
 <div id="container">
@@ -13,91 +15,52 @@
 
 
 			<p class="path">인바디 측정 가능 보건소 찾기</p>
-			<h2>인바디 측정 가능 보건소 찾기</h2>
+			<h2 >인바디 측정 가능 보건소 찾기</h2>
 
 			<p class="bul-exclamation-red">지역별 인바디 측정 가능 보건소를 찾아보세요.</p>
 			<div class="tab3-wrap">
 				<ul class="tab3">
-					<li ><a id="seoul" data-value="seoul" href="" onclick="getloc(this);">서울특별시</a></li>
-					<li ><a id="busan" data-value="busan" href="" onclick="getloc(this);">부산광역시</a></li>
-					<li ><a id="incheon" data-value="incheon" href="" onclick="getloc(this);">인천광역시</a></li>
-					<li ><a id="daejeon" data-value="daejeon" href="" onclick="getloc(this);">대전광역시</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=daegu">대구광역시</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=gwangju">광주광역시</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=ulsan">울산광역시</a></li>
-					<li ><a id="find_loc" href="/health/center_search?gyeonggi">경기도</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=jeolla">전라도</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=gyeongsang">경상도</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=gangwon">강원도</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=chungcheong ">충청도</a></li>
-					<li ><a id="find_loc" href="/health/center_search?area=jeju">제주도</a></li>
+					<li ><a id="seoul" data-value="seoul" href="javascript:return false;" onclick="getloc(this);">서울특별시</a></li>
+					<li ><a id="loc" data-value="busan" href="javascript:return false;" onclick="getloc(this);">부산광역시</a></li>
+					<li ><a id="loc" data-value="incheon" href="javascript:return false;" onclick="getloc(this);">인천광역시</a></li>
+					<li ><a id="daejeon" data-value="daejeon" href="javascript:return false;" onclick="getloc(this);">대전광역시</a></li>
+					<li ><a id="daegu" data-value="daegu" href="javascript:return false;" onclick="getloc(this);">대구광역시</a></li>
+					<li ><a id="gwangju" data-value="gwangju" href="javascript:return false;" onclick="getloc(this);">광주광역시</a></li>
+					<li ><a id="ulsan" data-value="ulsan" href="javascript:return false;" onclick="getloc(this);">울산광역시</a></li>
+					<li ><a id="gyeonggi" data-value="gyeonggi" href="javascript:return false;" onclick="getloc(this);">경기도</a></li>
+					<li ><a id="jeolla" data-value="jeolla" href="javascript:return false;" onclick="getloc(this);">전라도</a></li>
+					<li ><a id="gyeongsang" data-value="gyeongsang" href="javascript:return false;" onclick="getloc(this);">경상도</a></li>
+					<li ><a id="gangwon" data-value="gangwon" href="javascript:return false;" onclick="getloc(this);">강원도</a></li>
+					<li ><a id="chungcheong" data-value="chungcheong" href="javascript:return false; " onclick="getloc(this);">충청도</a></li>
+					<li ><a id="jeju" data-value="jeju" href="javascript:return false;" onclick="getloc(this);">제주도</a></li>
 				</ul>
 			</div>
 
-			<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>
+	<!--  	<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>-->	
 			
 			  <table id ="center_list">
-			  
-				<colgroup>
-					<col style="width:140px"/>
-					<col style="width:auto"/>
-					<col style="width:125px"/>
-					<col style="width:80px"/>
-				</colgroup>
+
 			  
 			  </table>
-	<!--  	
-			<table class="tbl-list ty02" summary="">
-				<caption></caption>
-				<colgroup>
-					<col style="width:140px"/>
-					<col style="width:auto"/>
-					<col style="width:125px"/>
-					<col style="width:80px"/>
-				</colgroup>
-				<thead>
-					<tr class="wh">
-						<th>측정장소</th>
-						<th>주소</th>
-						<th>전화번호</th>
-						<th class="last">위치</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-			
-					<tr th:each="center: ${center}">
-						<td class="al" id="name"></td>
-						<td class="al" id="address" ></td>
-						<td id="call" ></td>
-						<td><a style="cursor:pointer" th:href="@{'https://map.kakao.com/link/map/'+${center.center_name}+','+${center.lat}+','+${center.longi}}" target="_blank"><img src="/img/btn/btn_spot.gif" alt="위치" /></a></td>
-					</tr>
-					<!--
-					<tr th:each="center: ${center}">
-						<td class="al" id="name" th:text="${center.center_name}"></td>
-						<td class="al" id="address" th:text="${center.center_add}"></td>
-						<td id="call" th:text="${center.center_call}"></td>
-						<td><a style="cursor:pointer" th:href="@{'https://map.kakao.com/link/map/'+${center.center_name}+','+${center.lat}+','+${center.longi}}" target="_blank"><img src="/img/btn/btn_spot.gif" alt="위치" /></a></td>
-					</tr> 
-		
-							
-				</tbody>
-			</table>
--->	
+
+</div>
+</div>
+
 			<div class="page-wrap clfix">
 <div class="paging">
-<strong>1</strong>
-<a href="/community/find_healthcenter.asp?gotopage=2">2</a>
-<a href="/community/find_healthcenter.asp?gotopage=2" class="arr next"><img src="/img/btn/btn_next_page.gif" alt="다음게시물" /></a>
 
-		</div><!-- // contents -->
+
+</div><!-- // contents -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">	
 
+
 function getloc(e){
-	var area = $(e).attr('id')
+	$("#center_list *").remove()
+	
+	var area = $(e).attr('data-value')
 	data = {"area":area}
-	alert(area)
+	
 	$.ajax({
 		url:'/health/getloc',
 		method:'post',
@@ -107,20 +70,27 @@ function getloc(e){
 		 success : function(result){
              var tblresult = result;
              var str = "";
+             str += "<thead>"
+             str += "</thead>"
+             str += "<tbody>"
+        	 str += "<TR>"
+             str += "<TH>"+"측정장소"+"</TH><TH>"+"주소"+"</TH><TH>"+"전화번호"+"</TH><TH class='last'>"+"위치"+"</TH>"
+             str += '</TR>'
              $.each(tblresult, function(i){
                  str += "<TR>"
-                 str += '<TD>' + tblresult[i].center_name + '</TD><TD>' + tblresult[i].center_add + '</TD><TD>' + tblresult[i].center_call + '</TD>'
+                 str += '<TD>' + tblresult[i].center_name + '</TD><TD>' + tblresult[i].center_add + '</TD><TD>' + tblresult[i].center_call + 
+                 '</TD><TD>'+"<a style='cursor:pointer' href='https://map.kakao.com/link/map/"+ tblresult[i].lat +","+ tblresult[i].longi+"'target='_blank'>"+
+                 "<img src='/img/btn/btn_spot.gif' alt='위치' /></a></td>"
                  str += '</TR>'
              });
+             str += "</tbody>"
              $("#center_list").append(str);
          },
          error : function(xhr, status, error){
-             alert("통신 에러");
+             alert(error);
          }
      });
  };
-
- 
 
 </script>
 </body>
