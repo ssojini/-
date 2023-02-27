@@ -182,7 +182,7 @@ public class HealthController {
 	@GetMapping("/center_search")
 	public String center_search(Model m) {
 		m.addAttribute("center", mp_center.centerinfo());
-		m.addAttribute("center_size", mp_center.centerinfo().size());
+		//m.addAttribute("center_size", mp_center.centerinfo().size());
 		return "html/map/center_search";
 	}
 	
@@ -195,6 +195,7 @@ public class HealthController {
 		return mp_center.center_search_detail(area);
 	}
 	
+
 
 
 	/* 현주 */
