@@ -323,7 +323,8 @@ public class AdminBoardSerivce
 		try {
 			String jts = String.valueOf(map.get("DATE_ADMIN"));
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date parseDate;
+			//Date parseDate;
+			//System.out.println(map.get("DATE_ADMIN"));
 			log.info("날짜:" + dateFormat.format(map.get("DATE_ADMIN"))); 
 			String date = dateFormat.format(map.get("DATE_ADMIN"));
 			adminb.setDate_admin(date);
@@ -356,6 +357,7 @@ public class AdminBoardSerivce
 				att.setAttsize(bigd.intValue());
 				java.math.BigDecimal bigid = (java.math.BigDecimal)boardMap.get("ATTID");
 				att.setAttid(bigid.intValue());
+
 				
 				adminb.getAttList().add(att);
 			}
