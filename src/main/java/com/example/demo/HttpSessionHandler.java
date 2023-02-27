@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSessionListener;
 import lombok.extern.slf4j.Slf4j;
 
 @WebListener
-@SpringBootApplication
+//@SpringBootApplication
 @Slf4j
 public class HttpSessionHandler implements HttpSessionListener
 {
@@ -23,7 +23,6 @@ public class HttpSessionHandler implements HttpSessionListener
 	{
 		HttpSession s = se.getSession();
 		map.put(s.getId(),s);
-		System.err.println("session 생성");
 		log.info("handler"+s.getId());
 		
 	}
