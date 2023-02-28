@@ -2,21 +2,12 @@ package com.example.demo.security;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -24,7 +15,6 @@ import com.example.demo.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Configuration
 public class SecurityConfiguration {
 	@Autowired
@@ -79,33 +69,63 @@ public class SecurityConfiguration {
 						"/js/**",
 						"/images/**",
 						"/img/**",
+						// health
 						"/health/main",
+						// team
 						"/team/login",
 						"/team/findLoginInfo",
 						"/team/rules",
 						"/team/joinForm",
 						"/team/auth/**",
 						"/team/add",
+						// shop
+						"/shop/**",
 
 						// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
 						"/team/sendemail",
 						"/team/authEmail",
-						"/team/join",
-						"/doLogin"
-						
-						).permitAll()
+						"/team/join"
+				).permitAll()
+				// 엘라
+				.requestMatchers("/freeboard/admin/**").hasAnyRole("ADMIN")
+				// 종빈
+				.requestMatchers("/manager/**").hasAnyRole("ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
 				// csrf
 				.and()
 				.csrf()
 				.ignoringRequestMatchers(
+						"/doLogin",
 						// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
+						// team
 						"/team/sendemail",
 						"/team/authEmail",
 						"/team/join",
-						"/doLogin"
-						)
+						
+						// freeboard
+						"/freeboard/add",
+						"/freeboard/updateContents",
+						"/file/upload",
+						"/freeboard/addReply",
+						"/freeboard/deleteReply",
+						"/freeboard/likeCount",
+						"/freeboard/edit",
+						"/freeboard/delete",
+						
+						// file
+						"/file/upload",
+						"/file/delete",
+						
+						// 현주
+						"/cal",
+						"/userEdit",
+						"/deleteuser",
+						"/findpwd/*",
+						"/getloc",
+						"/addgoods",
+						"/editgoods"
+				)
 
 				// 로그인
 				.and()
@@ -119,7 +139,7 @@ public class SecurityConfiguration {
 
 				// 로그아웃
 				.and()   // 디폴트 로그아웃 URL = /logout
-				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/team/logout")) //로그아웃 요청시 URL
+				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/doLogout")) //로그아웃 요청시 URL
 				.logoutSuccessUrl("/team/login") // 로그아웃 성공시 URL
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID") // 세션 삭제

@@ -26,11 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.HttpSessionHandler;
-import com.example.demo.interfaces.AuthoritiesRepository;
 import com.example.demo.interfaces.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
-import com.example.demo.vo.Authorities;
 import com.example.demo.vo.User;
 
 import jakarta.servlet.http.HttpSession;
@@ -49,8 +47,6 @@ public class JoinController
 	public UserService us;
 	@Autowired
 	public EmailService es;
-	@Autowired
-	private AuthoritiesRepository authRepo;
 	
 	//초기 데이터 생성 메소드
 	@GetMapping("/add")
@@ -61,8 +57,6 @@ public class JoinController
 		Date date = Date.valueOf("2022-12-31");
 		User member = new User("asdf",new BCryptPasswordEncoder().encode("1234"),"clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png");
 		User added = repo.save(member);
-		Authorities auth = new Authorities(added.getUserid(),"ROLE_USER");
-		authRepo.save(auth);
 		
 		// 현주 
 
@@ -106,7 +100,7 @@ public class JoinController
 	public Map<String,Object> join(User user)
 	{
 		Map<String,Object> map = new HashMap<>();
-		map.put("join", repo.save(user));
+		map.put("join", us.join(user));
 		return map;
 	}
 	//이메일인증
@@ -125,12 +119,14 @@ public class JoinController
 	{
 		return "html/login/login";
 	}
+	/* Spring Security 에서는 필요 없음
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<String,Object> loginProc(User user)
 	{
 		return us.login(user.getUserid(),user.getPwd());
 	}
+	*/
 	@GetMapping("/findLoginInfo")
 	public String findLoginInfo()
 	{
@@ -161,7 +157,7 @@ public class JoinController
 	{
 		return us.find(user.getPhone(),user.getEmail());
 	}
-	/*
+	/* Spring Security에서는 필요 없음
 	@GetMapping("/logout")
 	public String logout()
 	{
@@ -225,8 +221,9 @@ public class JoinController
 		map.put("login",true);			
 		map.put("msg","로그인 성공");
 		
-		session.setAttribute("userid", user.getUsername());
-		session.setAttribute("nickname", user.getPassword());
+		User findUser = us.findByUserid(user.getUsername());
+		session.setAttribute("userid", findUser.getUserid());
+		session.setAttribute("nickname", findUser.getNickname());
 		
 		return map;
 	}

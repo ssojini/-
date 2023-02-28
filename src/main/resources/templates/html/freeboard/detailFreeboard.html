@@ -14,7 +14,7 @@ window.onload = function() {
 </head>
 <body>
 <div>
-    <div th:replace="fragments/common :: header"></div>
+    <div th:replace="~{fragments/common :: header}"></div>
 </div>
 	<main th:if="${freeBoard!=null}">
 		<div id="detail_freeboard_div">

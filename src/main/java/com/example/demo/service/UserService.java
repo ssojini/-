@@ -139,8 +139,22 @@ public class UserService implements UserDetailsService
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		User activeUserInfo = repo.findByUserid(username);
-		GrantedAuthority authority = new SimpleGrantedAuthority(activeUserInfo.getRole());
-		UserDetails userDetails = (UserDetails)new org.springframework.security.core.userdetails.User(activeUserInfo.getUserid(),activeUserInfo.getPwd(),Arrays.asList(authority));
-		return userDetails;
+		if (activeUserInfo != null) {
+			GrantedAuthority authority = new SimpleGrantedAuthority(activeUserInfo.getRole());
+			UserDetails userDetails = (UserDetails)new org.springframework.security.core.userdetails.User(activeUserInfo.getUserid(),activeUserInfo.getPwd(),Arrays.asList(authority));
+			return userDetails;
+		} else {
+			return null;
+		}
+	}
+	
+	public User join(User user) {
+		user.setRole("ROLE");
+		user.setEnabled(1);
+		return repo.save(user);
+	}
+	
+	public User findByUserid(String userid) {
+		return repo.findByUserid(userid);
 	}
 }
