@@ -13,18 +13,14 @@ a.tabb{
 	color: black;
 		text-decoration: none;
 		background-color: #b7be8b;
-		padding: 15px; /* 패딩: 안쪽여백, 마진: 밖여백 */
-		
-		/* 글자가 깨졌으니 밑의 display 추가하자 */
-		display: inline-block; /* 인라인모드/블럭모드 이해 필요  */
-		
+		padding: 15px; 
+		display: inline-block; 
 		width: 200px;
 		text-align: center;
-		
 		margin: 5px;
 	} 
 	
-	a.tabb:hover{/* a태그에 마우스가 올라갈 때 라는 의미*/
+	a.tabb:hover{
 		color: white;
 		text-decoration: underline;
 }

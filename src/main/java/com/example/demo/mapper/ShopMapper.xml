@@ -58,7 +58,7 @@
            select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
                  GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
         )
-		WHERE category = '건강보조식품'
+		WHERE category = '비타민'
 	</select>
 	
 	<select id="category2" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
@@ -67,7 +67,7 @@
            select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
                  GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
         )
-		WHERE category = '건강기능식품'
+		WHERE category = '칼슘'
 	</select>
 	
 	<select id="category3" parameterType="String" resultType="com.example.demo.vo.GoodsAndAtt">
@@ -76,7 +76,7 @@
            select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
                  GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
         )
-		WHERE  category = '식품'
+		WHERE  category = '단백질'
 	</select>
 	
 	<select id="newproduct" parameterType="String" resultType="map">

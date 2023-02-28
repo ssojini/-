@@ -3,11 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>freeboard</title>
-<style>
-	main{
-		text-align: left;
-	}
-</style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
@@ -24,12 +19,17 @@
 </head>
 <body>
 	<div th:replace="fragments/common :: header"></div>
-	
 <div>
     <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
+
 <div style="width:100vw;">
-	<main style="margin:0 auto; padding-top:40px; text-align: center">
+	<div id="freeboard_interface_div">
+		<div id="freeboard_btn_div">
+			<button id="add_freeboard_btn" onclick="addFreeboard();">글 쓰기</button>
+		</div>
+	</div>
+	<main class="myboard">
 		<input type="hidden" id="bname" th:value="${bname}">
 		<div id="freeboard_table_div">
 			<table id="freeboard_table" style="text-align: center; margin:0 auto;">
@@ -45,73 +45,7 @@
 				</tr>
 			</table>
 		</div>
-		
-			<div id="freeboard_interface_div">
-			
-				<div id="freeboard_btn_div">
-					<button id="add_freeboard_btn" onclick="addFreeboard();">글 쓰기</button>
-				</div>
-			</div>
-		</div>
 	</main>
 </div>
-	
-	
-
 </body>
 </html>
-<!-- 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-
-<title>myboard</title>
-
-<style>
-	body { background: #fff; }
-.blueone {
-  border-collapse: collapse;
-  border-spacing: 100px;
-}  
-.blueone th {
-  padding: 10px;
-  
-  border-bottom: 3px solid #626262;
-  text-align: left;
-}
-.blueone td {
-  
-  padding: 10px;
-  
-  border-bottom: 1px solid #ddd;
-}
-.blueone tr:hover td {
-  color: #004;
-}
-
-</style>
-</head>
-<div>
-    <div th:replace="fragments/common :: header"></div>
-</div>
-<body>
-<div>
-    <div th:replace="fragments/mypagenav :: mypagenav"></div>
-</div>
-
-<table class="blueone">
-	<tr><th></th><th>제목</th><th>작성일</th><th>조회</th></tr>
-	<a th:href="">
-		<tr th:each="board: ${board}">
-			<td th:text="${board.fbnum}"></td>
-			<td th:text="${board.title}"></td>
-			<td th:text="${board.datetime}"></td>
-			<td th:text="${board.hit}"></td>
-		</tr>
-	</a>
-</table>
-<button type="button" onclick="location.href='/freeboard/add'">글쓰기</button>
-
-</body>
-</html> -->
