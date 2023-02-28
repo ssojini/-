@@ -7,32 +7,29 @@
 <link rel="stylesheet" href="/css/helth_center.css">
 </head>
 <body>
+ <div>
+    <div th:replace="fragments/common :: header"></div>
+</div> 
 <div id="container">
 		<!-- contents // -->
 		<div class="contents">
-			
-			
-
-
-			<p class="path">인바디 측정 가능 보건소 찾기</p>
-			<h2 >인바디 측정 가능 보건소 찾기</h2>
-
+			<h2 class="path">인바디 측정 가능 보건소 찾기</h2>
 			<p class="bul-exclamation-red">지역별 인바디 측정 가능 보건소를 찾아보세요.</p>
 			<div class="tab3-wrap">
 				<ul class="tab3">
-					<li ><a id="seoul" data-value="seoul" href="javascript:return false;" onclick="getloc(this);">서울특별시</a></li>
-					<li ><a id="loc" data-value="busan" href="javascript:return false;" onclick="getloc(this);">부산광역시</a></li>
-					<li ><a id="loc" data-value="incheon" href="javascript:return false;" onclick="getloc(this);">인천광역시</a></li>
-					<li ><a id="daejeon" data-value="daejeon" href="javascript:return false;" onclick="getloc(this);">대전광역시</a></li>
-					<li ><a id="daegu" data-value="daegu" href="javascript:return false;" onclick="getloc(this);">대구광역시</a></li>
-					<li ><a id="gwangju" data-value="gwangju" href="javascript:return false;" onclick="getloc(this);">광주광역시</a></li>
-					<li ><a id="ulsan" data-value="ulsan" href="javascript:return false;" onclick="getloc(this);">울산광역시</a></li>
-					<li ><a id="gyeonggi" data-value="gyeonggi" href="javascript:return false;" onclick="getloc(this);">경기도</a></li>
-					<li ><a id="jeolla" data-value="jeolla" href="javascript:return false;" onclick="getloc(this);">전라도</a></li>
-					<li ><a id="gyeongsang" data-value="gyeongsang" href="javascript:return false;" onclick="getloc(this);">경상도</a></li>
-					<li ><a id="gangwon" data-value="gangwon" href="javascript:return false;" onclick="getloc(this);">강원도</a></li>
-					<li ><a id="chungcheong" data-value="chungcheong" href="javascript:return false; " onclick="getloc(this);">충청도</a></li>
-					<li ><a id="jeju" data-value="jeju" href="javascript:return false;" onclick="getloc(this);">제주도</a></li>
+					<li class="tab" ><a class="tabb" id="seoul" data-value="seoul" href="javascript:return false;" onclick="getloc(this);">서울특별시</a></li>
+					<li class="tab"><a class="tabb" id="loc" data-value="busan" href="javascript:return false;" onclick="getloc(this);">부산광역시</a></li>
+					<li class="tab"><a class="tabb" id="loc" data-value="incheon" href="javascript:return false;" onclick="getloc(this);">인천광역시</a></li>
+					<li class="tab"><a class="tabb" id="daejeon" data-value="daejeon" href="javascript:return false;" onclick="getloc(this);">대전광역시</a></li>
+					<li class="tab"><a class="tabb" id="daegu" data-value="daegu" href="javascript:return false;" onclick="getloc(this);">대구광역시</a></li>
+					<li class="tab"><a class="tabb" id="gwangju" data-value="gwangju" href="javascript:return false;" onclick="getloc(this);">광주광역시</a></li>
+					<li class="tab"><a class="tabb" id="ulsan" data-value="ulsan" href="javascript:return false;" onclick="getloc(this);">울산광역시</a></li>
+					<li class="tab"><a class="tabb" id="gyeonggi" data-value="gyeonggi" href="javascript:return false;" onclick="getloc(this);">경기도</a></li>
+					<li class="tab"><a class="tabb" id="jeolla" data-value="jeolla" href="javascript:return false;" onclick="getloc(this);">전라도</a></li>
+					<li class="tab"><a class="tabb" id="gyeongsang" data-value="gyeongsang" href="javascript:return false;" onclick="getloc(this);">경상도</a></li>
+					<li class="tab"><a class="tabb" id="gangwon" data-value="gangwon" href="javascript:return false;" onclick="getloc(this);">강원도</a></li>
+					<li class="tab"><a class="tabb" id="chungcheong" data-value="chungcheong" href="javascript:return false; " onclick="getloc(this);">충청도</a></li>
+					<li class="tab"><a class="tabb" id="jeju" data-value="jeju" href="javascript:return false;" onclick="getloc(this);">제주도</a></li>
 				</ul>
 			</div>
 
