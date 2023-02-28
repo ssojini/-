@@ -42,8 +42,8 @@ public class User
 	//활성화
 	@ColumnDefault("1")
 	private Integer enabled;
+	private String role;
 	
-
 	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
 		super();
 		this.userid = userid;
@@ -53,8 +53,7 @@ public class User
 		this.phone = phone;
 		this.email = email;
 		this.profile = profile;
+		this.enabled = 1;
+		this.role = "ROLE_USER";
 	}
-	
-	
-	
 }
