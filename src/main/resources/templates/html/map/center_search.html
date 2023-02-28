@@ -32,26 +32,20 @@
 					<li class="tab"><a class="tabb" id="jeju" data-value="jeju" href="javascript:return false;" onclick="getloc(this);">제주도</a></li>
 				</ul>
 			</div>
-
-	<!--  	<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>-->	
-			
-			  <table id ="center_list">
-
-			  
-			  </table>
-
-</div>
+	<!--  	<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>-->
+	 	<table id ="center_list"> </table>
+	</div>
 </div>
 
-			<div class="page-wrap clfix">
-<div class="paging">
+<div class="page-wrap clfix">
+	<div class="paging">
+	
+	
+	</div><!-- // contents -->
+</div>
 
-
-</div><!-- // contents -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">	
-
-
 function getloc(e){
 	$("#center_list *").remove()
 	
@@ -76,7 +70,7 @@ function getloc(e){
              $.each(tblresult, function(i){
                  str += "<TR>"
                  str += '<TD>' + tblresult[i].center_name + '</TD><TD>' + tblresult[i].center_add + '</TD><TD>' + tblresult[i].center_call + 
-                 '</TD><TD>'+"<a style='cursor:pointer' href='https://map.kakao.com/link/map/"+ tblresult[i].lat +","+ tblresult[i].longi+"'target='_blank'>"+
+                 '</TD><TD>'+"<a style='cursor:pointer' href='https://map.kakao.com/link/map/"+ tblresult[i].center_name +","+ tblresult[i].lat +","+ tblresult[i].longi+"'target='_blank'>"+
                  "<img src='/img/btn/btn_spot.gif' alt='위치' /></a></td>"
                  str += '</TR>'
              });
@@ -88,7 +82,6 @@ function getloc(e){
          }
      });
  };
-
 </script>
 </body>
 </html>

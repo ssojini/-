@@ -70,18 +70,6 @@ public class HealthController {
 	@Autowired
 	private HealthCenterService mp_center;
 
-
-	/*
-	@GetMapping("/myboard/{userid}")
-	public String getmyboard(@PathVariable(value = "userid", required = false)String userid, Model m)
-	{
-		String nickname = "smash";
-		List<Freeboard> list = mp_svc.getmyboard(nickname);
-		m.addAttribute("board",list);
-		m.addAttribute("user", mp_svc.userinfo(userid));
-
-		return "html/mypage/myboard";
-	}*/
 	
 	@GetMapping("/myboard/{userid}")
 	public String freeboard(@PathVariable(value = "userid", required = false)String userid, Model m, String nickname, String bname,
@@ -128,7 +116,6 @@ public class HealthController {
 
 	@PostMapping("/userEdit")
 	@ResponseBody
-
 	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
 			HttpServletRequest request, User userjoin) 
 	{
@@ -189,9 +176,7 @@ public class HealthController {
 	@PostMapping("/getloc")
 	@ResponseBody
 	public List<MapInfo> center_search_detail(@RequestParam(name="area" )String area, Model m) {
-		//m.addAttribute("center", mp_center.center_search_detail(area));
 		m.addAttribute("center_size", mp_center.center_search_detail(area).size());
-		System.out.println(mp_center.center_search_detail(area).toString());
 		return mp_center.center_search_detail(area);
 	}
 	
