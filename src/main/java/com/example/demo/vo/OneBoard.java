@@ -26,7 +26,7 @@ private int qnum;
  private String title;
  private String author;
  private String qdate;
- private java.sql.Timestamp adate;
+// private java.sql.Timestamp adate;
  private int hit;
  private String content;
  private List<AttachBoard> attList = new ArrayList<>();

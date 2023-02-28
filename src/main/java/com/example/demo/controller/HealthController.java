@@ -198,10 +198,9 @@ public class HealthController {
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
 		
-//		int pg=1; int cnt = 10;
-//		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
-//		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-//		m.addAttribute("list", list);
+		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(1, 3);
+		List<AdminBoard> noitce_list = absvc.adminBList(pageInfo.getList());
+		m.addAttribute("noitce_list", noitce_list);
 		
 		// 메인 타이틀 문구
 		Main_Title main = mp_svc.mainTitle();
