@@ -8,6 +8,115 @@
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
+<div style="padding-left:230px; width:500px; height:600px;">
+	<canvas id="line-chart"></canvas>
+	<div style="padding-top:100px"></div>
+	<canvas id="line-chart1"></canvas>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		console.log('ready');
+		getCalGraph();
+		getUserGenderGraph();
+	});
+		
+	function getCalGraph(){
+		let timeList = [];
+		let posList = [];
+	
+		$.ajax({
+			url:'/manager/calchart',
+			type:'post',
+			dataType:'json',
+			success:function(res){
+				for(var i=0; i<res.length; i++){
+					timeList.push(res[i].DATETIME);
+					posList.push(res[i].CNT);
+				}
+				console.log(timeList);
+				new Chart(document.getElementById("line-chart"),{
+					type:'line',
+					data:{
+					labels: timeList,
+					datasets:[{
+						data:posList,
+						label:"캘린더 등록 횟수",
+						borderColor:"green",
+						fill:false
+						}]
+					},
+					options: {
+						title: {
+							display:true,
+							text:"월간 캘린더"
+						}
+					}
+				});
+			},
+			error:function(){
+				alert("실패");
+			}
+		});
+	}
+	
+	function getUserGenderGraph(){
+		let ageList = [];
+		let posList = [];
+	
+		$.ajax({
+			url:'/manager/genderchart',
+			type:'post',
+			dataType:'json',
+			success:function(res){
+				console.log(res);
+				for(var i=0; i<res.length; i++){
+					ageList.push(res[i].AGE+"대");
+					posList.push(res[i].CNT);
+				}
+				
+				new Chart(document.getElementById("line-chart1"),{
+					type:'pie',
+					data:{
+					labels: ageList,
+					datasets:[{
+						data:posList,
+						label:"회원 연령대",
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						],
+						borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1,
+						fill:false
+						}]
+					},
+					options: {
+						title: {
+							display:true,
+							text:"회원 연령대"
+						}
+					}
+				});
+			},
+			error:function(){
+				alert("실패");
+			}
+		});
+	}
+</script>
 </body>
 </html>
