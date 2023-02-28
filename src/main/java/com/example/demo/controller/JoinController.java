@@ -58,10 +58,9 @@ public class JoinController
 		User member = new User("asdf",new BCryptPasswordEncoder().encode("1234"),"clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png");
 		User added = repo.save(member);
 		
-		// 현주 
-
 		return added.toString();
 	}
+
 	//이용약관
 	@GetMapping("/rules")
 	public String showjoinForm1()
@@ -141,14 +140,12 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> check(User user)
 	{
-		//System.err.println("useremail: "+user.getEmail());
 		return us.check(user.getUserid(),user.getEmail());
 	}
 	@PostMapping("/reset")
 	@ResponseBody
 	public Map<String,Object> reset(User user)
 	{
-		//System.err.println(user);
 		return us.reset(user.getUserid(),user.getPwd());
 	}
 	@PostMapping("/find")
@@ -161,7 +158,8 @@ public class JoinController
 	@GetMapping("/logout")
 	public String logout()
 	{
-		session.setAttribute("userid", null);
+		//session.setAttribute("userid", null);
+		session.invalidate();
 		return "html/login/login";
 	}
 	*/
@@ -177,9 +175,7 @@ public class JoinController
 		log.info("sid:"+sid);
 		log.info("rdStrcon:"+rdStrCheck);
 		
-		System.out.println("HttpSessionHandler.map:"+HttpSessionHandler.map);
 		HttpSession orgSession = HttpSessionHandler.map.get(sid);
-		System.err.println("original: "+orgSession);
 		
 		if(rdStrCheck.equals(orgSession.getAttribute("rdStr")))
 
@@ -197,13 +193,10 @@ public class JoinController
 	@ResponseBody
 	public boolean authorizedEmail()	
 	{
-		//System.err.println("here");		
 		if(session.getAttribute("authCheck")==""||session.getAttribute("authCheck")==null) {
 			session.setAttribute("authCheck", "0");
 		}
-		//System.err.println(session.getAttribute("authCheck"));
 		String authCheck = (String) session.getAttribute("authCheck");
-		//System.err.println("string: "+authCheck);
 		
 		if(authCheck.equals("1")) return true;
 		
@@ -211,6 +204,22 @@ public class JoinController
 	}
 	
 	/*----------------- [상욱 끝] ----------------- */
+
+	//초기 데이터 생성 메소드
+//	@GetMapping("/add")
+//	@ResponseBody
+//	public String add(HttpSession session)
+//	{
+//		//상욱
+//		Date date = Date.valueOf("2022-12-31");
+//		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png");
+//		User added = repo.save(member);
+//		
+//		// 현주 
+//
+//		return added.toString();
+//	}
+	
 	
 	@GetMapping("/loginsuccess")
 	@ResponseBody

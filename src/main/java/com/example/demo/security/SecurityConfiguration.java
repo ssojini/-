@@ -27,31 +27,6 @@ public class SecurityConfiguration {
 	      BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	      auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
 	}
-	
-	/*
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) 
-			throws Exception {
-		auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.usersByUsernameQuery("select userid as username, pwd as password, enabled "
-				+ "from userjoin "
-				+ "where userid = ?")
-		.authoritiesByUsernameQuery("select userid, authority "
-				+ "from authorities "
-				+ "where userid = ?");
-	}
-	*/
-
-	/*
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-		log.info("smith->"+encode.encode("1234qwer"));
-		log.info("asdf->"+encode.encode("1234"));
-		return encode;
-	}
-	*/
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
@@ -63,7 +38,8 @@ public class SecurityConfiguration {
 		return httpSecurity
 				// 권한에 따른 인가
 				.authorizeHttpRequests()
-				.requestMatchers( 
+				.requestMatchers(
+						"/team/denied",
 						// get 방식 허용
 						"/css/**",
 						"/js/**",
@@ -87,9 +63,9 @@ public class SecurityConfiguration {
 						"/team/join"
 				).permitAll()
 				// 엘라
-				.requestMatchers("/freeboard/admin/**").hasAnyRole("ADMIN")
+				.requestMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
 				// 종빈
-				.requestMatchers("/manager/**").hasAnyRole("ADMIN")
+				.requestMatchers("/manager/**").hasAnyRole("ROLE_ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
 				// csrf
@@ -147,7 +123,7 @@ public class SecurityConfiguration {
 
 				// 에러 페이지 구현하기
 				.and()
-				.exceptionHandling().accessDeniedPage("/team/denied")
+				.exceptionHandling().accessDeniedPage("/sec/denied")
 
 				.and()
 				.build();

@@ -1,19 +1,146 @@
 @charset "UTF-8";
 
-*{margin: 0; 
-padding: 0; 
-box-sizing: border-box;}
+* { box-sizing:border-box; }
 
-main{
-	margin:0 auto;
-	width:100vw;
+/* basic stylings ------------------------------------------ */
+
+.container1 		{ 
+  font-family:'Roboto';
+  width:40%; 
+  margin:60px auto 0; 
+  display:block; 
+  background:#FFF;
+  padding:10px 50px 50px;
 }
 
-form {
-	width: 60%;
-	padding: 20px 20px;
-	margin: 0 auto;
-	box-sizing: border-box;
+.error_next_box {
+	font-size:12px;
+	margin-top: 8px;
+}
+h2 		 { 
+  
+  margin-bottom:50px; 
 }
 
 
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+
+input {
+	font-size:18px;
+	padding:10px 10px 10px 5px;
+	display:block;
+	width:200px;
+	border:none;
+	border-bottom:1px solid #757575;
+}
+
+#userid,#pwd1,#pwd,#nickname,#phone {
+  	width:83%;
+}
+
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label {
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+.select_option > #select{
+	position: relative;
+	display: block;
+	width: 130x;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background: #fff;
+}
+
+.select_option > #select:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	display: block;
+	width: 0;
+	height: 0;
+	margin: -2px 0 0 0;
+	border: 5px solid transparent;
+	border-top: 7px solid #666;
+}
+
+
+select {
+	cursor: pointer;
+	position: relative;
+	-webkit-appearance: none;
+	appearance: none;
+	display: block;
+	width: 130px;
+	padding: 0.5em 1em;
+	color: #666;
+	border: none;
+	border-radius: 5px;
+	background: transparent;
+}
+
+input[type=button] {
+  background-color: #e7e7e7;;
+  border: none;
+  color: white;
+  padding: 6px;
+  width: 42%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  color: #888;
+  
+}
+
+.footBtwrap{
+	margin-top: 15px;
+}
+
+.footBtwrap>div{
+	float: left;
+	width: 50%;
+	height: 60px;
+}
+
+.footBtwrap>div>button{
+	display: block; 
+	width: 70%;
+	height: 100%; 
+	font-size: 20px;
+	text-align: center;
+	line-height: 60px;
+}
+
+.reset{
+	background-color: #fff;
+	color:#888;
+}
+
+#submit{
+	background-color: lightsalmon;
+	color: #fff;
+}

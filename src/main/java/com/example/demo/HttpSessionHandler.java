@@ -23,7 +23,6 @@ public class HttpSessionHandler implements HttpSessionListener
 	{
 		HttpSession s = se.getSession();
 		map.put(s.getId(),s);
-		System.err.println("session 생성");
 		log.info("handler"+s.getId());
 		
 	}

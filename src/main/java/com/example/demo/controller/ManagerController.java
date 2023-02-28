@@ -52,9 +52,16 @@ public class ManagerController {
 
 	
 	@GetMapping("/")
-	public String managermain()
+	public String managerlogin()
 	{
 		return "html/manager/managerLogin";
+	}
+	
+	@GetMapping("/main")
+	public String managermain(Model m)
+	{
+		m.addAttribute("chart cal",svc.chartcal());
+		return "html/manager/ManagerMain";
 	}
 	
 

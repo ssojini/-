@@ -66,7 +66,6 @@ public class ShopService
 	public Goods getGoods(int goodsnum) 
 	{
 		Optional<Goods> goods = goods_repo.findById(goodsnum);
-		//System.out.println(goods.get());
 		return goods.isPresent()?goods.get():null;
 	}
 	public ArrayList<AddGoods_Att> getAddGoodsAtt(int goodsnum) {
@@ -74,10 +73,6 @@ public class ShopService
 		
 		ArrayList<AddGoods_Att> list = attGoods_repo.findByGoodsnum(goodsnum);		
 		
-		// 이미지 경로: /src/main/resources/static/images/addgoods 
-		// static 다음부터 경로 ex)images/addgoods/
-		
-		//System.err.println("list: "+list);
 		return list;
 	}
 
@@ -89,8 +84,8 @@ public class ShopService
 	{
 		Map<String, Object> map = new HashMap<>();
 		ArrayList<Cart> cartList = cart_repo.findByUserid(cart.getUserid());
-		//System.err.println(cartList);
-		boolean check_add= false; // 이미 장바구니에 담겼으면 true
+		boolean check_add= false; 
+		// 이미 장바구니에 담겼으면 true
 		for(int i =0; i<cartList.size();i++)
 		{
 			if(cart.getGoodsnum()==cartList.get(i).getGoodsnum()) {
@@ -133,7 +128,6 @@ public class ShopService
 		int sum = cart.get().getPrice()*prod_cnt;
 		cart.get().setProd_cnt(prod_cnt);
 		cart.get().setSum(sum);
-		//System.err.println(cart);
 		
 		if(cart_repo.save(cart.get())!=null) {
 			map.put("msg","수량 변경 성공!");
@@ -157,11 +151,9 @@ public class ShopService
 	public boolean delSel(HttpServletRequest request) 
 	{
 		String[] ajaxMsg = request.getParameterValues("valueArr");
-		//System.err.println("del_cnt: "+ajaxMsg.length);
 		try {
 			for(int i=0; i<ajaxMsg.length;i++)
 			{
-				//System.err.println(ajaxMsg[i]);
 				cart_repo.deleteById(Integer.valueOf(ajaxMsg[i]));			
 			}	
 			return true;
@@ -191,10 +183,8 @@ public class ShopService
 			for( int i=0; i<jsArr.size();i++) 
 			{ 
 				JSONObject jsObj= (JSONObject) jsArr.get(i);
-				//System.err.println("jsObj: "+jsObj);
 				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));
 				String userid = (String) jsObj.get("userid");
-				//System.err.println("cartnum: "+cartnum);
 				Cart cart = cart_repo.findByCartnumAndUserid(cartnum,userid);
 				orderlist.add(cart);
 				
@@ -202,7 +192,6 @@ public class ShopService
 		} catch (ParseException e) { 
 			e.printStackTrace(); 
 			}
-		//System.err.println("orderlist: "+orderlist);		
 		return orderlist;
 	}
 	
@@ -237,9 +226,7 @@ public class ShopService
 				order.setMainpic_server(mainpic_server);
 				order.setAddress(address);
 				order.setStatus("상품준비중");
-				//System.err.println("order: "+order);							
 				Order save_or = order_repo.save(order);
-				//System.err.println("order저장: "+save_or);	
 				
 				// 구매한 상품 장바구니 삭제
 				int cartnum = Integer.valueOf((String) jsObj.get("cartnum"));

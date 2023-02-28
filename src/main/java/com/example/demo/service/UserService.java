@@ -66,7 +66,6 @@ public class UserService implements UserDetailsService
 		User user = repo.findByUseridAndEmail(userid,email);
 		if(user!=null) {
 			map.put("userid", user.getUserid());
-			//System.err.println(user.getUserid());
 			session.setAttribute("email", email);		
 
 			// 이메일 발송			
@@ -149,7 +148,7 @@ public class UserService implements UserDetailsService
 	}
 	
 	public User join(User user) {
-		user.setRole("ROLE");
+		user.setRole("ROLE_USER");
 		user.setEnabled(1);
 		return repo.save(user);
 	}

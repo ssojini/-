@@ -54,6 +54,6 @@ public class User
 		this.email = email;
 		this.profile = profile;
 		this.enabled = 1;
-		this.role = "USER";
+		this.role = "ROLE_USER";
 	}
 }
