@@ -59,7 +59,8 @@ function delAdminB()
 	<span th:if= "${faqb.attList.size()>0}"></span>
 	<span th:each="att: ${faqb.attList}"> [[${att.attname}]]</span>
 <p>
-<button type="button" onclick="delAdminB();"> 삭제</button>
-
+<div th:if ="${noticeb.attList.size()>0}"> 
+	<button type="button" onclick="delAdminB();"> 삭제</button>
+</div>
 </body>
 </html>

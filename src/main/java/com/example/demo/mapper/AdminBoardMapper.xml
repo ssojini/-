@@ -124,4 +124,22 @@
 	>
 	DELETE FROM admin_attach WHERE adnum=#{adnum} 
 	</delete>
+	
+	<!-- 서치 기능 -->
+	<select
+      id="search_notice"
+      parameterType="String"
+      resultType="com.example.demo.vo.AdminBoard"
+   >
+     SELECT * FROM admin_board WHERE REGEXP_LIKE(title,#{input}) AND name='notice' 
+   </select>
+
+	<select
+      id="search_faq"
+      parameterType="String"
+      resultType="com.example.demo.vo.AdminBoard"
+   >
+     SELECT * FROM admin_board WHERE REGEXP_LIKE(title,#{input}) AND name='faq'
+   </select>
+      
 </mapper>

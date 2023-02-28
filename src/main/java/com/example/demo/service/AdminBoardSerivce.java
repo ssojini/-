@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 
 import java.util.*;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -325,7 +327,7 @@ public class AdminBoardSerivce
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			//Date parseDate;
 			//System.out.println(map.get("DATE_ADMIN"));
-			log.info("날짜:" + dateFormat.format(map.get("DATE_ADMIN"))); 
+			//log.info("날짜:" + dateFormat.format(map.get("DATE_ADMIN"))); 
 			String date = dateFormat.format(map.get("DATE_ADMIN"));
 			adminb.setDate_admin(date);
 			//adminb.setDate_admin(new java.sql.Timestamp(parseDate.getTime()));
@@ -351,7 +353,7 @@ public class AdminBoardSerivce
 				AdminAttachBoard att = new AdminAttachBoard();
 				
 				String attname = (String)boardMap.get("ATTNAME");
-				log.info("attname:"+attname);
+				//log.info("attname:"+attname);
 				att.setAttname(attname);
 				java.math.BigDecimal bigd=(java.math.BigDecimal)boardMap.get("ATTSIZE");
 				att.setAttsize(bigd.intValue());
@@ -433,14 +435,14 @@ public class AdminBoardSerivce
 						attb.setAttname(mfiles[i].getOriginalFilename());
 						attb.setAttsize(mfiles[i].getSize());
 						attb.setAdnum(adminb.getAdnum());
-						log.info("adnum값"+adminb.getAdnum());
+						//log.info("adnum값"+adminb.getAdnum());
 						alist.add(attb);
 					//	log.info("svc, attb 목록"+ alist );
 	//					return uploaded;
 				}
 				
 				int arow =mapper.moreAttach_admin(alist);
-				log.info("svc, arow 값"+arow);
+				//log.info("svc, arow 값"+arow);
 				uploaded = brow>0 && arow>0;
 				return uploaded;
 				
@@ -536,6 +538,40 @@ public class AdminBoardSerivce
 		return pageInfo;
 	}
 	
+	public JSONArray search_notice(String input) {
+	      JSONArray jsArr = new JSONArray();
+	      List<AdminBoard> list = mapper.search_notice(input);
+	      
+	      for (AdminBoard adminb: list) {
+	         jsArr.add(convertAdminbToJson(adminb));
+	      }
+	      return jsArr;
+	   }
+	
+	public JSONArray search_faq(String input) {
+	      JSONArray jsArr = new JSONArray();
+	      List<AdminBoard> list = mapper.search_faq(input);
+	      
+	      for (AdminBoard adminb: list) {
+	         jsArr.add(convertAdminbToJson(adminb));
+	      }
+	      return jsArr;
+	   }
+	
+	 public JSONObject convertAdminbToJson(AdminBoard adminb) {
+
+
+	        JSONObject json = new JSONObject();
+	         json.put("title", adminb.getTitle());
+	         json.put("author", adminb.getAuthor());
+	         json.put("content", adminb.getContent());
+	         json.put("date_admin", adminb.getDate_admin());
+	         json.put("hit", adminb.getHit());
+	         json.put("adnum", adminb.getAdnum());
+	        
+	         log.info("찍힌 값"+ json);
+	         return json;
+	    }
 	/*end of AdminBoard관련 메소드 */
 
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -265,7 +266,17 @@ public class AdminBoardController
 		return map;
 	}
 	
+    @PostMapping("/search_notice")
+    @ResponseBody
+    public String search_notice(@RequestParam String input)
+    {
+       return absvc.search_notice(input).toJSONString();
+    }
 	
-	
-	
+    @PostMapping("/search_faq")
+    @ResponseBody
+    public String search(@RequestParam String input)
+    {
+       return absvc.search_faq(input).toJSONString();
+    }
 }
