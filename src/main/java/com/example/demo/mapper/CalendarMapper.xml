@@ -36,7 +36,12 @@
 	<select id="list" resultType="map">
 		SELECT c_num, datetime, s_num, s_pnum, when, content,LISTAGG(PNAME,',')
 		WITHIN GROUP (ORDER BY PNAME)AS PNAME
-		FROM EATED_LIST
+		FROM (SELECT a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_num, c.a_pnum, c.pname
+		FROM hcalendar a 
+		LEFT OUTER JOIN calen_schedule b
+		ON a.c_num = b.s_pnum
+		LEFT OUTER JOIN attachcalendar c
+		ON b.s_num = c.a_pnum)
 		GROUP BY c_num, datetime, s_num, s_pnum, when, content
 		ORDER BY c_NUM DESC
 	</select>

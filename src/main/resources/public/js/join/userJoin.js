@@ -294,6 +294,7 @@ function joinUser()
 	var obj = {};
 	obj.email = email1 + '@' + email2;
 	
+	var gender = $('.gender').val();
 	var yy = $('#yy').val();
 	var mm = $('#mm').val();
 	var dd = $('#dd').val();
@@ -302,8 +303,11 @@ function joinUser()
 	obj.userid = $("#userid").val();
 	obj.pwd = $("#pwd").val();
 	obj.phone = $("#phone").val();
+	obj.gender = $(".gender").val();
 	obj.nickname = $("#nickname").val();
 	obj.profile = $('#profile').val();
+	
+	console.log(obj);
 	
 	$.ajax({
 		url:'/team/join',
@@ -312,7 +316,7 @@ function joinUser()
 		cache : false,
 		dataType:'json',
 		success : function(res){
-			alert(res.join ? '저장성공' :'저장실패');
+			alert(res.join ? '회원가입 성공' :'회원가입 실패');
 			location.href='/team/login';
 		},
         error : function(xhr, status, err)

@@ -23,9 +23,6 @@ public class HttpSessionHandler implements HttpSessionListener
 	{
 		HttpSession s = se.getSession();
 		map.put(s.getId(),s);
-		System.err.println("session 생성");
-		log.info("handler"+s.getId());
-		
 	}
 	
 	//세션이 사라지기 전에 할 것들을 아래 메소드에 정의한다

@@ -78,8 +78,6 @@ public class CalendarService
 					list.add(attcal);	
 				}
 			}
-			log.info("list:"+list);
-			
 			int rows = cm.saveCalendar(cal);
 			int ro = cm.saveSchedule(sc);
 			int r =0;
@@ -88,7 +86,6 @@ public class CalendarService
 			}
 			return rows>0 && ro>0;
 			
-			//return mfiles.length+"개파일,"+board.toString()+", 저장="+rows +","+r;
 		} catch (Exception e) {
 		e.printStackTrace();
 		
@@ -253,7 +250,6 @@ public class CalendarService
 		
 		if(fname!=null) {
 			int crow = cm.attcaldelete(anum);
-			System.err.println(crow);
 		}
 		
 		if(arow>0 && brow>0) return true;
@@ -263,7 +259,6 @@ public class CalendarService
 	public int delImg(int num) 
 	{
 		int delimg = cm.delImg(num);
-		log.info("delimg"+delimg);
 		if(delimg >0 ? true : false);
 		
 		return delimg;

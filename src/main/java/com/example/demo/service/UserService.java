@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.interfaces.UserRepository;
@@ -18,8 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserService 
 {
-//	@Autowired
-//	private JavaMailSender sender;
 	@Autowired
 	public HttpSession session;
 	@Autowired
@@ -48,15 +45,12 @@ public class UserService
 	}
 	public Map<String, Object> check(String userid, String email) 
 	{
-		//
-		
 		Map<String,Object> map = new HashMap<>();
 		session.setAttribute("rdStr", "");
 		session.setAttribute("authCheck", "0");
 		User user = repo.findByUseridAndEmail(userid,email);
 		if(user!=null) {
 			map.put("userid", user.getUserid());
-			//System.err.println(user.getUserid());
 			session.setAttribute("email", email);		
 									
 			// 이메일 발송			
@@ -117,8 +111,6 @@ public class UserService
 			String rdStr = (String) session.getAttribute("rdStr");
 			session.setAttribute("rdStr", rdStr);
 
-			log.info("svc.rdStr:"+rdStr);
-			
 			map.put("rdStr",rdStr);
 			map.put("checked", "send email");
 		}

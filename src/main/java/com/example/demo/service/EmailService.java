@@ -65,12 +65,9 @@ public class EmailService
 		//세션아이디 얻기
 		String sid = session.getId();
 		session.setAttribute("sid", sid);
-		System.err.println("sid: "+sid);	
 		String email = (String) session.getAttribute("email");
-		System.err.println("email: "+email);
 		String rdStr =createRandomStr();
 		session.setAttribute("rdStr", rdStr);
-		System.err.println("rdStr:" +rdStr);
 
 		MimeMessage mimeMessage = sender.createMimeMessage();
 

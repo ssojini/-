@@ -97,7 +97,6 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> sendEamil(String email)
 	{
-		log.info(email);
 		return us.sendEmail(email);
 	}
 	
@@ -128,14 +127,12 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> check(User user)
 	{
-		//System.err.println("useremail: "+user.getEmail());
 		return us.check(user.getUserid(),user.getEmail());
 	}
 	@PostMapping("/reset")
 	@ResponseBody
 	public Map<String,Object> reset(User user)
 	{
-		//System.err.println(user);
 		return us.reset(user.getUserid(),user.getPwd());
 	}
 	@PostMapping("/find")
@@ -182,13 +179,10 @@ public class JoinController
 	@ResponseBody
 	public boolean authorizedEmail()	
 	{
-		//System.err.println("here");		
 		if(session.getAttribute("authCheck")==""||session.getAttribute("authCheck")==null) {
 			session.setAttribute("authCheck", "0");
 		}
-		//System.err.println(session.getAttribute("authCheck"));
 		String authCheck = (String) session.getAttribute("authCheck");
-		//System.err.println("string: "+authCheck);
 		
 		if(authCheck.equals("1")) return true;
 		
