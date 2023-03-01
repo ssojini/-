@@ -83,7 +83,6 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> sendEamil(String email)
 	{
-		log.info(email);
 		return us.sendEmail(email);
 	}
 	

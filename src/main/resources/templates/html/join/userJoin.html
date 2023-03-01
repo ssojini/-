@@ -20,37 +20,37 @@
 <h6>건강한 한끼의 다양한 서비스를 이용해 보세요.</h6>
 <br>
 <form id="joinUser" action="/team/join" method="post">
-<!-- 아이디 -->
+	<!-- 아이디 -->
 	<div class="group">
 		<input type="text" name="userid" id="userid" maxlength="20" required>
 		<span class="highlight"></span>
    		<span class="bar"></span>
-		<label for="userid">아이디</label>
+		<label class="action" for="userid">아이디</label>
 		<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
 	</div>
 	
-<!-- 비밀번호 -->
+	<!-- 비밀번호 -->
 	<div class="group">
 		<input type="password" name="pwd1" id="pwd1" required>
 		<span class="highlight"></span>
    		<span class="bar"></span>
-		<label for="pwd">비밀번호</label>
+		<label class="action" for="pwd">비밀번호</label>
 		<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
 	</div>
 	<div class="group">
 		<input type="password" name="pwd" id="pwd" required>
 		<span class="highlight"></span>
    		<span class="bar"></span>
-		<label for="pwd">비밀번호 재확인</label>
+		<label class="action" for="pwd">비밀번호 재확인</label>
 			<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
 	</div>
 	
-<!-- 닉네임 -->
+	<!-- 닉네임 -->
 	<div class="group">
 		<input type="text" name="nickname" id="nickname" maxlength="10" required>
 		<span class="highlight"></span>
    		<span class="bar"></span>
-		<label for="nickname">닉네임</label>
+		<label class="action" for="nickname">닉네임</label>
 		<span class="error_next_box" id="nicknameMsg" style="display:none" aria-live="assertive"></span>
 	</div>
 		
@@ -59,18 +59,32 @@
 		<input type="text" name="phone" id="phone"  maxlength="16" required>
 		<span class="highlight"></span>
    		<span class="bar"></span>
-		<label for="phone">전화번호(-제외)</label>
+		<label class="action" for="phone">전화번호(-제외)</label>
 		<span class="error_next_box"></span>  
 	</div>
 	
-<!-- 생년월일 -->
+	<!-- 성별 -->
+<div class="mb-3">
+	<div class="form_toggle row-vh d-flex flex-row justify-content-between" >
+		<div class="form_radio_btn radio_male">
+			<input id="radio-1" type="radio" name="gender" class="gender" value="male" checked>
+			<label for="radio-1">남자</label>
+		</div>
+									 
+		<div class="form_radio_btn">
+			<input id="radio-2" type="radio" name="gender" class="gender" value="female">
+			<label for="radio-2">여자</label>
+		</div>
+	</div>
+</div>
+	<!-- 생년월일 -->
 	<div>
 		<div class="group" style="float:left; margin-right:10px;">
 			<input type="hidden" name="birth">
 			<input type="text" name="birth1" id="yy" aria-label="년(4자)" maxlength="4" required>
 			<span class="highlight"></span>
   				<span class="bar"></span>
-  				<label>생년(4자)</label>
+  				<label class="action">생년(4자)</label>
 			<span class="error_next_box"></span>  
 		</div>
 		
@@ -98,10 +112,9 @@
 			<input type="text" name="birth3" id="dd" aria-label="일" maxlength="2" required>
 			<span class="highlight"></span>
   				<span class="bar"></span>
-  				<label>일</label>
+  				<label class="action">일</label>
 		</div>
 	</div>
-	
 	<!-- 이메일 -->
 	<div style="float:left;">
 		<div class="group" style="float:left;">
@@ -109,22 +122,23 @@
 			<span class="error_next_box"></span>
 			<span class="highlight"></span>
    			<span class="bar"></span>
-			<label for="email">이메일 아이디</label>
+			<label for="email" class="action">이메일 아이디</label>
 		</div>  
 		<div style="float:left;">@</div>
-		<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21" style="float:left; margin-right: 8px;" >
+		<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21" style="float:left;" >
 			<div class="select_option" style="float:left;">
-				<span id="select">
-				<select name="select_email" onChange="selectEmail(this)">
-			        <option value="" selected>선택하세요</option>
-			        <option value="naver.com">naver.com</option>
-			        <option value="gmail.com">gmail.com</option>
-			        <option value="hanmail.com">hanmail.com</option>
-			        <option value="nate.com">hanmail.com</option>
-			        <option value="1">직접입력</option>
-				</select>
+				<span id="select" >
+					<select name="select_email" onChange="selectEmail(this)">
+				        <option value="" selected>선택하세요</option>
+				        <option value="naver.com">naver.com</option>
+				        <option value="gmail.com">gmail.com</option>
+				        <option value="hanmail.com">hanmail.com</option>
+				        <option value="nate.com">hanmail.com</option>
+				        <option value="1">직접입력</option>
+					</select>
 				</span>
 			</div>
+			
 	</div>
 	
 	<div class="email_send_buttton">
