@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSessionListener;
 import lombok.extern.slf4j.Slf4j;
 
 @WebListener
-@SpringBootApplication
+//@SpringBootApplication
 @Slf4j
 public class HttpSessionHandler implements HttpSessionListener
 {
@@ -23,6 +23,7 @@ public class HttpSessionHandler implements HttpSessionListener
 	{
 		HttpSession s = se.getSession();
 		map.put(s.getId(),s);
+
 	}
 	
 	//세션이 사라지기 전에 할 것들을 아래 메소드에 정의한다

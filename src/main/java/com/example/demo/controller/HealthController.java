@@ -30,11 +30,13 @@ import com.example.demo.service.CalendarService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
 import com.example.demo.service.FreeboardService;
+import com.example.demo.service.HealthCenterService;
 import com.example.demo.service.mypageService;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.AttachBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.Main_Title;
+import com.example.demo.vo.MapInfo;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.User;
 import com.github.pagehelper.PageInfo;
@@ -64,19 +66,10 @@ public class HealthController {
 	/* 현주 */
 	@Autowired
 	private mypageService mp_svc;
+	
+	@Autowired
+	private HealthCenterService mp_center;
 
-
-	/*
-	@GetMapping("/myboard/{userid}")
-	public String getmyboard(@PathVariable(value = "userid", required = false)String userid, Model m)
-	{
-		String nickname = "smash";
-		List<Freeboard> list = mp_svc.getmyboard(nickname);
-		m.addAttribute("board",list);
-		m.addAttribute("user", mp_svc.userinfo(userid));
-
-		return "html/mypage/myboard";
-	}*/
 	
 	@GetMapping("/myboard/{userid}")
 	public String freeboard(@PathVariable(value = "userid", required = false)String userid, Model m, String nickname, String bname,
@@ -123,7 +116,6 @@ public class HealthController {
 
 	@PostMapping("/userEdit")
 	@ResponseBody
-
 	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
 			HttpServletRequest request, User userjoin) 
 	{
@@ -174,10 +166,21 @@ public class HealthController {
 		return "html/mypage/FindPwd";
 	}
 	
-	@GetMapping("/mappage")
-	public String mappage() {
-		return "html/map/mappage";
+	@GetMapping("/center_search")
+	public String center_search(Model m) {
+		m.addAttribute("center", mp_center.centerinfo());
+		//m.addAttribute("center_size", mp_center.centerinfo().size());
+		return "html/map/center_search";
 	}
+	
+	@PostMapping("/getloc")
+	@ResponseBody
+	public List<MapInfo> center_search_detail(@RequestParam(name="area" )String area, Model m) {
+		m.addAttribute("center_size", mp_center.center_search_detail(area).size());
+		return mp_center.center_search_detail(area);
+	}
+	
+
 
 
 	/* 현주 */
@@ -195,10 +198,9 @@ public class HealthController {
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
 		
-//		int pg=1; int cnt = 10;
-//		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
-//		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-//		m.addAttribute("list", list);
+		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(1, 3);
+		List<AdminBoard> noitce_list = absvc.adminBList(pageInfo.getList());
+		m.addAttribute("noitce_list", noitce_list);
 		
 		// 메인 타이틀 문구
 		Main_Title main = mp_svc.mainTitle();
