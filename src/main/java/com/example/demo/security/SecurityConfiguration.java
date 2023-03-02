@@ -13,8 +13,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.demo.service.UserService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Configuration
 public class SecurityConfiguration {
 	@Autowired
