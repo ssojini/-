@@ -60,7 +60,7 @@ public class SecurityConfiguration {
 						"/team/authEmail",
 						"/team/join"
 				).permitAll()
-				.requestMatchers("/admin/**","/manager/**").hasAnyRole("ROLE_ADMIN")
+				.requestMatchers("/admin/**","/manager/**").hasAnyRole("ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
 				// csrf

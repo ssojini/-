@@ -44,7 +44,7 @@ public class User
 	private Integer enabled;
 	private String role;
 	
-	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
+	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile, String role) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
@@ -54,6 +54,6 @@ public class User
 		this.email = email;
 		this.profile = profile;
 		this.enabled = 1;
-		this.role = "ROLE_USER";
+		this.role = role;
 	}
 }

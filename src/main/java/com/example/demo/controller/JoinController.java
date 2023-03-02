@@ -55,8 +55,12 @@ public class JoinController
 	{
 		//상욱
 		Date date = Date.valueOf("2022-12-31");
-		User member = new User("asdf",new BCryptPasswordEncoder().encode("1234"),"clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png");
+		
+		User member = new User("user",new BCryptPasswordEncoder().encode("1111"),"clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png","ROLE_USER");
 		User added = repo.save(member);
+		
+		User admin = new User("admin",new BCryptPasswordEncoder().encode("0000"),"admin",date,"010-0000-0000","admin@naver.com","/profile/default.png","ROLE_ADMIN");
+		User addedAdmin = repo.save(admin);
 		
 		return added.toString();
 	}
@@ -227,8 +231,11 @@ public class JoinController
 	{
 		Map<String,Object> map = new HashMap<>();
 		
-		map.put("login",true);			
+		map.put("login",true);
 		map.put("msg","로그인 성공");
+		System.out.println("authorities:"+user.getAuthorities().toString());
+		if (user.getAuthorities().toString().equals("[ROLE_ADMIN]"))
+			map.put("msg", "관리자 로그인 성공");
 		
 		User findUser = us.findByUserid(user.getUsername());
 		session.setAttribute("userid", findUser.getUserid());
