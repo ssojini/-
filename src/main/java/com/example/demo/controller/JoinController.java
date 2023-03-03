@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.HttpSessionHandler;
-import com.example.demo.interfaces.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;

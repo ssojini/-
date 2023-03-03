@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.interfaces.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.vo.User;
 
 import jakarta.servlet.http.HttpSession;

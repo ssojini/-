@@ -10,10 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.interfaces.AdminLoginRepository;
-import com.example.demo.interfaces.ShopListRepository;
-import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
+import com.example.demo.repository.AdminLoginRepository;
+import com.example.demo.repository.ShopListRepository;
+import com.example.demo.repository.UserListRepository;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
