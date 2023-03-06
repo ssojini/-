@@ -79,18 +79,11 @@ $(function(){
 	        error[1].style.display = "block";
 	        error[1].style.color = "red";
 		}else if(!pwPattern.test(pwd1.value)){
-	        error[1].innerHTML = "8~16자의 영문 대 소문자, 숫자,특수문자를 사용하세요.";
-	        
-	        //pwdMsg.innerHTML = "사용불가"
-	        //pwdMsg.style.display = "block";
-	        
+	        error[1].innerHTML = "8~16자의 영문 대 소문자, 숫자,특수문자를 사용하세요."; 
 	        error[1].style.display = "block";
 	        error[1].style.color = "red";
 		}else{
 			error[1].innerHTML = "안전";
-	        //pwdMsg.innerHTML = "안전"
-	       /* 	pwdMsg.style.display = "block";
-	    	pwdMsg.style.color = "#08A600"; */
 	        error[1].style.display = "none";
 	    	
 		}
@@ -127,6 +120,19 @@ $(function(){
 		}else{
 			error[3].style.display="none";
 		}
+		$.ajax({
+            url: "/team/nickcheck",
+            type:'post',
+            dataType:'json',
+            data:{"nickname" : nickname.value},
+           	success:function(res){
+           		if(res.nickcheck){
+           			error[3].innerHTML="사용중인 닉네입니다"
+           			error[3].style.display = "block";
+        	        error[3].style.color = "red"; 
+           		}
+           	}
+        });
 	}
 
 	//핸드폰번호
@@ -273,8 +279,7 @@ function btnDisabled()
 		success : function(res) {
 			if(res){
 				alert("인증 되었습니다");
-				const target = document.getElementById('target_btn');
- 				target.disabled = true;
+ 				joinUser();
 
 			}else{
 				alert("이메일 인증하세요");
@@ -294,6 +299,7 @@ function joinUser()
 	var obj = {};
 	obj.email = email1 + '@' + email2;
 	
+	var gender = $('.gender').val();
 	var yy = $('#yy').val();
 	var mm = $('#mm').val();
 	var dd = $('#dd').val();
@@ -302,6 +308,7 @@ function joinUser()
 	obj.userid = $("#userid").val();
 	obj.pwd = $("#pwd").val();
 	obj.phone = $("#phone").val();
+	obj.gender = $(".gender").val();
 	obj.nickname = $("#nickname").val();
 	obj.profile = $('#profile').val();
 	
@@ -312,7 +319,7 @@ function joinUser()
 		cache : false,
 		dataType:'json',
 		success : function(res){
-			alert(res.join ? '저장성공' :'저장실패');
+			alert(res.join ? '회원가입 성공' :'회원가입 실패');
 			location.href='/team/login';
 		},
         error : function(xhr, status, err)

@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -36,7 +35,6 @@ public class JoinController
 	@Autowired
 	public EmailService es;
 	
-
 	//이용약관
 	@GetMapping("/rules")
 	public String showjoinForm1()
@@ -83,7 +81,6 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> sendEamil(String email)
 	{
-		log.info(email);
 		return us.sendEmail(email);
 	}
 	

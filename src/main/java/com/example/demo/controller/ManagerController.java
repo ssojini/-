@@ -75,9 +75,9 @@ public class ManagerController {
 		return cal;
 	}
 	
-	@RequestMapping("/genderchart")
+	@RequestMapping("/userchart")
 	@ResponseBody
-	public List<Map<String, Object>> genderchart(Model m)
+	public List<Map<String, Object>> userchart(Model m)
 	{
 		List<Map<String, Object>> user = svc.chartuser();
 		m.addAttribute("user",user);
@@ -85,6 +85,7 @@ public class ManagerController {
 		
 		return user;
 	}
+	
 
 	@PostMapping("/login")
 	@ResponseBody

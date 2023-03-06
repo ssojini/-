@@ -52,7 +52,6 @@ public class CalendarService
 	}
 	public boolean add(MultipartFile[] mfiles,HttpServletRequest request,HCalendar cal,Schedule sc)
 	{
-		log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context = request.getServletContext();
 		String savePath = fileStorageLocation.toUri().getPath();
 		
@@ -78,8 +77,6 @@ public class CalendarService
 					list.add(attcal);	
 				}
 			}
-			log.info("list:"+list);
-			
 			int rows = cm.saveCalendar(cal);
 			int ro = cm.saveSchedule(sc);
 			int r =0;
@@ -88,7 +85,6 @@ public class CalendarService
 			}
 			return rows>0 && ro>0;
 			
-			//return mfiles.length+"개파일,"+board.toString()+", 저장="+rows +","+r;
 		} catch (Exception e) {
 		e.printStackTrace();
 		
@@ -238,8 +234,15 @@ public class CalendarService
 	{
 		int updateCon = cm.updateContenet(sch);
 		if(updateCon > 0 ? true : false);
-		
 		return updateCon;
+	}
+	
+	public int delImg(int num) 
+	{
+		int delimg = cm.delImg(num);
+		if(delimg >0 ? true : false);
+		
+		return delimg;
 	}
 	
 	@Transactional
@@ -253,20 +256,11 @@ public class CalendarService
 		
 		if(fname!=null) {
 			int crow = cm.attcaldelete(anum);
-			System.err.println(crow);
 		}
 		
 		if(arow>0 && brow>0) return true;
 		
 		return false;
-	}
-	public int delImg(int num) 
-	{
-		int delimg = cm.delImg(num);
-		log.info("delimg"+delimg);
-		if(delimg >0 ? true : false);
-		
-		return delimg;
 	}
 
 }

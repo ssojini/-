@@ -13,12 +13,12 @@
 	</select>
 	
 	<select id="chartuser" resultType="map">
-		SELECT age, count(*) AS cnt 
-		FROM 
-		(SELECT TRUNC( (sysdate - bm.birth)/365, -1) AS age 
-		FROM userjoin bm)
-		GROUP BY age
-		order by age
+		SELECT TRUNC((sysdate - bm.birth)/365, -1) AS age,
+		SUM(CASE WHEN gender = 'male' THEN 1 ELSE 0 END) AS male,
+		SUM(CASE WHEN gender = 'female' THEN 1 ELSE 0 END) AS female
+		FROM userjoin bm
+		GROUP BY TRUNC((sysdate - bm.birth)/365, -1)
+		ORDER BY age
 	</select>
 	
 	<select id="findUser" resultType="com.example.demo.vo.User">

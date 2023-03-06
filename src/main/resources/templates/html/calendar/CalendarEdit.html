@@ -3,126 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>건강한 한끼 : 건끼</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<script src="lib/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-
-function editCalendar()
-{
-	if(!confirm('정말로 현재 정보를 수정하시겠어요?')) return;
-	var obj = {"s_pnum": $("#s_pnum").text(),
-	           "content":$("#content").val()};
-	console.log(obj)
-	$.ajax({
-		url:'/calen/updateCon',
-		method:'post',
-		data:obj,
-		cache : false,
-		dataType:'json',
-		success : function(res){
-			alert(res.update? '수정성공' :'수정실패');
-			if(res.update){
-				location.href = '/calen/getCalendar';
-			}
-		},
-        error : function(xhr, status, err){
-           alert(err);
-        }
-	});	
-	return false;
-}
-function deleteImg(a_num)
-{			
-	var num = $("#a_num").val();
-	$.ajax({
-		url : '/calen/delimg',	
-		method : 'post',
-		data : { "num":num },  											
-		cache : false,		
-		dataType:'json',                      
-		success : function(res){		
-			if(res.deleted){							
-				location.reload();
-			}	
-		},
-		error : function(xhr,status,err){
-			alert(err);	
-		}
-	});
-}	
-
-$(document).ready(function (e){
-	$("input[type='file']").change(function(e){
-	
-	$('#preview').empty();
-	
-	var files = e.target.files;
-	var arr =Array.prototype.slice.call(files);
-	      
-	for(var i=0;i<files.length;i++){
-		if(!checkExtension(files[i].name,files[i].size)){
-	    	return false;
-		}
-	}     
-		preview(arr);         
-	});
-	    
-function checkExtension(fileName,fileSize){
-	
-	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-	var maxSize = 20971520;
-	      
-	if(fileSize >= maxSize){
-		alert('파일 사이즈 초과');
-	    $("input[type='file']").val("");
-	    return false;
-	}
-	      
-	if(regex.test(fileName)){
-	    alert('업로드 불가능한 파일이 있습니다.');
-	    $("input[type='file']").val("");
-	    return false;
-	}
-	    return true;
-}
-	    
-function preview(arr){
-	arr.forEach(function(f){      
-		var fileName = f.name;
-		if(fileName.length > 10){
-			fileName = fileName.substring(0,7)+"...";
-		}        
-		var str = '<div style="display: inline-flex; padding: 10px;"><li style="list-style:none;">';
-		str += '<span>'+fileName+'</span><br>';
-		        
-		if(f.type.match('image.*')){
-			var reader = new FileReader(); 
-		    reader.onload = function (e) {           
-		    	str += '<img src="'+e.target.result+'" title="'+f.name+'" width=150 height=150 />';
-		        str += '</li></div>';
-		        $(str).appendTo('#preview');
-		    } 
-			reader.readAsDataURL(f);
-		}else{
-			str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=150 height=150 />';
-		    $(str).appendTo('#preview');
-		 }
-		});
-	}
-});
-</script>
+<link rel="stylesheet" type="text/css" href="/css/Calendar/CalendarEdit.css">
+<script src="/js/Calendar/CalendarEdit.js"></script>
 </head>
 <body>
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
 <main>
-
-	<div th:each="list : ${mlist}">
+<div class="container1">
+	<div th:each="list : ${mlist}" style="padding-top:40px;">
 		<div th:each="cal : ${list.cal}"
-			 th:text="${cal.datetime}">	 
+			 th:text="${cal.datetime}" class="form" style="width:20%;">	 
 		</div>
 	</div>
-	<div th:each="list : ${mlist}">
+	<div th:each="list : ${mlist}" class="form" style="width:20%;">
 		<div th:each="sch : ${list.sch}"
 			 th:text="${sch.when}">
 		</div>
@@ -130,27 +28,29 @@ function preview(arr){
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}">
 		<div id="s_pnum" th:text="${sch.s_pnum}" hidden="true"></div>
-			<textarea id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
+			<textarea class="form textarea" id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
 		</div>
 	</div>
 	<div th:each="list : ${mlist}">
-		<div th:each="sch : ${list.sch}">
-			<div th:each="att : ${sch.attlist}">
+		<div th:each="sch : ${list.sch}" class="form imgview">
+			<div th:each="att : ${sch.attlist}" class="img">
 				<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
 				<form>
 					<input type="hidden" name="a_num" id="a_num" th:value="${att.a_num}">
 					<button type='button' class='delbttn' th:onclick='|javascript:deleteImg(${att.a_num})|'>Ｘ</button>
 				</form>
 			</div>
-			<div>
+		</div>
+		<div>
+			<input type="file" id="pname" name="files" class="form input-file" multiple="multiple"> 
 			<div id="preview"></div>
-			<input type="file" id="pname" name="files" multiple="multiple"> 
-			</div>
 		</div>
 	</div>
-	<div>
-		<button type="button" onclick="editCalendar();">적용</button>
+	<div class="footBtwrap">
+		<div style="padding-right:10px;"><button type="button" class="form-btn reset footBtwrap_l" onClick="history.go(-1)">이전</button></div>
+		<div><button type="button" class="form-btn footBtwrap_r" onclick="editCalendar();">적용</button></div>
 	</div>
+</div>
 </main>
 </body>
 </html>

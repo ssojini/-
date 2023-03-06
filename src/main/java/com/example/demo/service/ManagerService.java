@@ -157,5 +157,4 @@ public class ManagerService {
 		return list;
 	}
 
-
 }

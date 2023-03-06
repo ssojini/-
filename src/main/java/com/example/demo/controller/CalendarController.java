@@ -51,7 +51,6 @@ public class CalendarController
 	 	return "html/calendar/Calendar";
 	}
 	
-	
 	@GetMapping("/showCalen")
 	public String showCalendarAdd(String day,Model model) 
 	{
@@ -68,7 +67,6 @@ public class CalendarController
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		//System.err.println(afterDate);
 		
 		model.addAttribute("day",afterDate);
 		
@@ -81,28 +79,31 @@ public class CalendarController
 	{	
 		Map<String,Object> map = new HashMap<>();
 		map.put("add", cs.add(mfiles, request, cal, sc));
-		log.info(""+map);
+		
 		return map;
 	}
+	
 	@GetMapping("/detail/{num}")
 	public String calenDetail(@PathVariable("num") int num, Model model)
 	{
 		model.addAttribute("mlist",cs.detailCalendar(num));
 		return "html/calendar/CalendarDetail";
 	}
+	
 	@GetMapping("/edit/{num}")
 	public String edit(@PathVariable("num")int num, Model model)
 	{
 		model.addAttribute("mlist",cs.detailCalendar(num));
 		return "html/calendar/calendarEdit";
 	}
+	
 	@PostMapping("/updateCon")
 	@ResponseBody
 	public Map<String, Object> updateContent(Schedule sch)
 	{
 		Map<String, Object> map = new HashMap<>();
 		map.put("update", cs.updateCon(sch));
-		log.info("con"+cs.updateCon(sch));
+		
 		return map;
 	}
 	
