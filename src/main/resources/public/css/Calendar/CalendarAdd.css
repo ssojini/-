@@ -81,9 +81,25 @@
 	max-width: 100%;
 }
 
+.footBtwrap {
+	text-align: center;
+	width:100%;
+	margin: 0 auto;
+}
+.footBtwrap>div {
+	float:left;
+	width:50%;
+	display: inline-block; 
+}
+.footBtwrap_l{
+	float:right;
+}
+.footBtwrap_r{
+	float:left;	
+}
+
  .form-btn{
 	width:180px;
-	display: block;
 	height: auto;
 	padding:15px;
 	color:#fff;
@@ -98,6 +114,10 @@
 	box-shadow: 0px 1px 4px rgba(0,0,0, 0.10);
 	-moz-box-shadow: 0px 1px 4px rgba(0,0,0, 0.10);
 	-webkit-box-shadow: 0px 1px 4px rgba(0,0,0, 0.10);
+}
+.reset {
+	background-color: #fff;
+	color:#888;
 }
 
 .form-btn:hover{

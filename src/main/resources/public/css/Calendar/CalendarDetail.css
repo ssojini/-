@@ -8,6 +8,30 @@
   background:#FFF;
   padding:5px 50px 50px;
   text-align: center;
+  
+}
+
+.selector{
+    overflow: hidden;
+    width: 40%;
+    display: flex;
+    margin:0 auto; 
+    float: left;
+}
+.selector input{ display: none; }
+.selector label{
+    font-family: sans-serif;
+    padding: 8px 24px;
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+   
+}
+.selector label:last-of-type{ border-right: 0; }
+.selector label:hover{
+    background: #eee;
+}
+.selector input:checked + label{
+    background: #becbff;
 }
 
 .input-file::file-selector-button{
@@ -49,22 +73,12 @@
 	outline: none;
 	border:1px solid lightsalmon;
  }
- 
- .imgview {
- 	height:130px;
- }
- 
-.img {
-	float:left;
-	padding-right:10px;
- }
 
 .textarea{
 	height: 200px;
 	max-height: 200px;
 	max-width: 100%;
 }
-
 .footBtwrap {
 	text-align: center;
 	width:100%;
@@ -103,7 +117,6 @@
 	background-color: #fff;
 	color:#888;
 }
-
 .form-btn:hover{
 	background:#111;
 	color: white;
