@@ -25,6 +25,14 @@
     <div th:replace="fragments/common :: header"></div>
 </div>
     <div>
+    	<div sec:authorize="isAnonymous()">
+    		<div>
+	    		<div>guest</h3>
+    		</div>
+    	</div>
+    	<div sec:authorize="hasRole('ROLE_USER')">
+    		<div  id="diet_recommendations">user</div>
+    	</div>
     	<!-- 왼쪽 -->
 	    <div style="width:70%; box-sizing:border-box; height: 2000px; float:left;">
 	        <div style="float:left; width:20%; height: 2000px;"></div>
