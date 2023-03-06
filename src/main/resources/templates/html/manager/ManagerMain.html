@@ -3,15 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
+<style>
+#usertable, #gendertable{ padding-top:20px}
+table{margin:0 auto;}
+table,th,td {border: 1px solid black; border-collapse:collapse;padding:5px; text-align: center}
+
+</style>
 </head>
 <body style="margin:0; padding: 0;background-color: rgb(223,223,223);">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
-<div style="padding-left:230px; width:500px; height:600px;">
+<div style="padding-left:230px; width:500px;">
 	<canvas id="line-chart"></canvas>
-	<div style="padding-top:100px"></div>
-	<canvas id="line-chart1"></canvas>
+</div>
+<div style="padding-left:230px; width:500px;">
+	<div>
+		<canvas id="line-chart1"></canvas>
+		<div id="usertable"></div>
+	</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -20,7 +30,8 @@
 	$(document).ready(function(){
 		console.log('ready');
 		getCalGraph();
-		getUserGenderGraph();
+		getUserGraph();
+		getGenderGraph();
 	});
 		
 	function getCalGraph(){
@@ -62,47 +73,101 @@
 		});
 	}
 	
-	function getUserGenderGraph(){
+	function getUserGraph(){
 		let ageList = [];
-		let posList = [];
+		let maleList = [];
+		let femaleList = [];
 	
 		$.ajax({
-			url:'/manager/genderchart',
+			url:'/manager/userchart',
 			type:'post',
 			dataType:'json',
 			success:function(res){
 				console.log(res);
 				for(var i=0; i<res.length; i++){
 					ageList.push(res[i].AGE+"대");
-					posList.push(res[i].CNT);
+					maleList.push(res[i].MALE);
+					femaleList.push(res[i].FEMALE);
 				}
+				console.log('male'+maleList)
+				console.log('female'+femaleList)
 				
 				new Chart(document.getElementById("line-chart1"),{
-					type:'pie',
+					type:'bar',
 					data:{
 					labels: ageList,
-					datasets:[{
-						data:posList,
-						label:"회원 연령대",
-						backgroundColor: [
-							'rgba(255, 99, 132, 0.2)',
-							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)',
-							'rgba(153, 102, 255, 0.2)',
-							'rgba(255, 159, 64, 0.2)'
-						],
-						borderColor: [
-							'rgba(255, 99, 132, 1)',
-							'rgba(54, 162, 235, 1)',
-							'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)',
-							'rgba(153, 102, 255, 1)',
-							'rgba(255, 159, 64, 1)'
-						],
-						borderWidth: 1,
-						fill:false
-						}]
+					datasets:[
+						{
+							data: maleList,
+							label:"남성",
+							backgroundColor: [
+								'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+							],
+							borderColor: [
+								'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+							],
+							borderWidth: 1,
+							fill:false
+						},
+						{
+							data: femaleList,
+							label:"여성",
+							backgroundColor: [
+								'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+							],
+							borderColor: [
+								'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+							],
+							borderWidth: 1,
+							fill:false
+						}
+					]
 					},
 					options: {
 						title: {
@@ -111,12 +176,66 @@
 						}
 					}
 				});
+				
+				let table = document.createElement('table');
+				let thead = document.createElement('thead');
+				let tbody = document.createElement('tbody');
+
+				table.appendChild(thead);
+				table.appendChild(tbody);
+
+				// Adding the entire table to the body tag
+				document.getElementById('usertable').appendChild(table);
+				
+				// Creating and adding data to first row of the table
+				let row_1 = document.createElement('tr');
+				let heading_1 = document.createElement('th');
+				heading_1.innerHTML = "";
+				row_1.appendChild(heading_1);
+				for(var i=0; i<ageList.length; i++)
+				{
+				let heading_2 = document.createElement('th');
+				heading_2.innerHTML = ageList[i];
+
+				row_1.appendChild(heading_2);
+				thead.appendChild(row_1);
+				}
+				
+				// Creating and adding data to second row of the table
+				let row_2 = document.createElement('tr');
+				let row_2_data_1 = document.createElement('th');
+				row_2_data_1.innerHTML = '남성';
+				row_2.appendChild(row_2_data_1);
+				for(var i=0; i<maleList.length; i++)
+				{
+					let row_2_data_2 = document.createElement('td');
+					row_2_data_2.innerHTML = maleList[i]+'명';
+	
+					row_2.appendChild(row_2_data_2);
+					tbody.appendChild(row_2);
+				}
+				
+				// Creating and adding data to second row of the table
+				let row_3 = document.createElement('tr');
+				let row_3_data_1 = document.createElement('th');
+				row_3_data_1.innerHTML = '여성';
+				row_3.appendChild(row_3_data_1);
+				for(var i=0; i<femaleList.length; i++)
+				{
+					let row_3_data_1 = document.createElement('td');
+					row_3_data_1.innerHTML = femaleList[i]+'명';
+	
+					row_3.appendChild(row_3_data_1);
+					tbody.appendChild(row_3);
+				}
 			},
 			error:function(){
 				alert("실패");
 			}
 		});
 	}
+	
+	
 </script>
 </body>
 </html>
