@@ -52,7 +52,6 @@ public class CalendarService
 	}
 	public boolean add(MultipartFile[] mfiles,HttpServletRequest request,HCalendar cal,Schedule sc)
 	{
-		log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context = request.getServletContext();
 		String savePath = fileStorageLocation.toUri().getPath();
 		
@@ -235,8 +234,15 @@ public class CalendarService
 	{
 		int updateCon = cm.updateContenet(sch);
 		if(updateCon > 0 ? true : false);
-		
 		return updateCon;
+	}
+	
+	public int delImg(int num) 
+	{
+		int delimg = cm.delImg(num);
+		if(delimg >0 ? true : false);
+		
+		return delimg;
 	}
 	
 	@Transactional
@@ -255,13 +261,6 @@ public class CalendarService
 		if(arow>0 && brow>0) return true;
 		
 		return false;
-	}
-	public int delImg(int num) 
-	{
-		int delimg = cm.delImg(num);
-		if(delimg >0 ? true : false);
-		
-		return delimg;
 	}
 
 }

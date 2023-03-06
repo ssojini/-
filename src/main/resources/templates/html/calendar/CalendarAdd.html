@@ -20,19 +20,19 @@
 		</div>
 		<div class="form selector" style="width:42.5%;">
 			<div>
-				<input type="radio" name="when" id="x1" checked>
+				<input type="radio" name="when" id="x1" value="아침" checked>
 				<label for="x1">아침</label>
 			</div>
 			<div>
-				<input type="radio" name="when" id="x2">
+				<input type="radio" name="when" id="x2" value="점심">
 				<label for="x2">점심</label>
 			</div>
 			<div>
-				<input type="radio" name="when" id="x3">
+				<input type="radio" name="when" id="x3" value="저녁">
 				<label for="x3">저녁</label>
 			</div>
 			<div>
-				<input type="radio" name="when" id="x4">
+				<input type="radio" name="when" id="x4" value="간식">
 				<label for="x4">간식</label>
 			</div>
 		</div>	
@@ -41,8 +41,9 @@
 			<input type="file" id="pname" name="files" class="form input-file" multiple="multiple"> 
 			<div id="preview"></div>
 		</div>
-		<div>
-			<button type="button" id="btnUpload" class="form-btn semibold">저장</button>
+		<div class="footBtwrap">
+			<div style="padding-right:10px;"><button type="button" class="form-btn reset footBtwrap_l" onClick="history.go(-1)">이전</button></div>
+			<div style="padding-left:10px;"><button type="button" id="btnUpload" class="form-btn footBtwrap_r">저장</button></div>
 		</div>
 	</form>
 </div>
