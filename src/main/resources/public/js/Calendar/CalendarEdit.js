@@ -13,7 +13,7 @@ function editCalendar()
 		success : function(res){
 			alert(res.update? '수정성공' :'수정실패');
 			if(res.update){
-				location.href = '/calen/getCalendar';
+				location.href = '';
 			}
 		},
         error : function(xhr, status, err){
