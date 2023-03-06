@@ -146,9 +146,9 @@ public class mypageService {
 		return changed;
 	}
 	
-	public List<Freeboard> getmyboard(String nickname)
+	public List<Freeboard> getmyboard(String userid)
 	{
-		List<Freeboard>myboard= map.getmyboard(nickname);
+		List<Freeboard>myboard= map.getmyboard(userid);
 		return myboard;
 	}
 

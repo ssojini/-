@@ -76,6 +76,7 @@ public class HealthController {
 			String title) 
 	{
 		List<Freeboard> alist = mp_svc.getmyboard(userid);
+		System.out.println("alist:  "+alist);
 		m.addAttribute("board",alist);
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		m.addAttribute("bname",bname);
