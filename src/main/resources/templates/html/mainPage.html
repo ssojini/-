@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/thymeleaf-extras-springsecurity5">
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,6 +26,9 @@
     <div th:replace="~{fragments/common :: header}"></div>
 </div>
     <div>
+    	<div sec:authorize="isAnonymous()">guest</div>
+    	<div sec:authorize="hasRole('USER')">user</div>
+		<div sec:authorize="hasRole('ADMIN')">admin</div>
     	<!-- 왼쪽 -->
 	    <div style="width:70%; box-sizing:border-box; height: 2000px; float:left;">
 	        <div style="float:left; width:20%; height: 2000px;"></div>
