@@ -148,18 +148,7 @@ public class mypageService {
 	
 	public List<Freeboard> getmyboard(String nickname)
 	{
-		nickname = "smash";
 		List<Freeboard>myboard= map.getmyboard(nickname);
-
-		/*for(int i=0; i<myboard.size();i++)
-		{
-			String a =myboard.get(i).getDatetime().toString();
-			String[]time = a.split(" ");
-			Timestamp newtime =Timestamp.valueOf(time[0]);
-
-			myboard.get(i).setDatetime(newtime);
-		}*/
-
 		return myboard;
 	}
 

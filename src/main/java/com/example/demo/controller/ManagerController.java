@@ -24,7 +24,6 @@ import com.example.demo.service.ManagerService;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
-import com.example.demo.vo.Manager;
 import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;

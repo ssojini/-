@@ -73,20 +73,13 @@ public class HealthController {
 	
 	@GetMapping("/myboard/{userid}")
 	public String freeboard(@PathVariable(value = "userid", required = false)String userid, Model m, String nickname, String bname,
-			String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) 
+			String title) 
 	{
-		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
-		
-		nickname = "smash";
-		List<Freeboard> list = mp_svc.getmyboard(nickname);
-		m.addAttribute("board",list);
+		List<Freeboard> alist = mp_svc.getmyboard(userid);
+		m.addAttribute("board",alist);
 		m.addAttribute("user", mp_svc.userinfo(userid));
-
-		
-		
 		m.addAttribute("bname",bname);
 		m.addAttribute("title",title);
-		m.addAttribute("pageFreeboard", pageFreeboard);
 		return "html/mypage/myboard";
 	}
 
@@ -117,11 +110,11 @@ public class HealthController {
 	@PostMapping("/userEdit")
 	@ResponseBody
 	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
-			HttpServletRequest request, User userjoin) 
+			HttpServletRequest request, User User) 
 	{
 		Map<String,Object> map= new HashMap<>();
-		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, userjoin));
-		map.put("edited", mp_svc.storeFile(mfiles,userjoin));
+		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, User));
+		map.put("edited", mp_svc.storeFile(mfiles,User));
 
 		return map;
 	}

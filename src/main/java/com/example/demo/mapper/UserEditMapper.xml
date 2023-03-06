@@ -12,7 +12,7 @@
 </select>
 <update id="useredit" parameterType="string">
 	UPDATE userjoin SET nickname=#{nickname, jdbcType=VARCHAR}, email=#{email,jdbcType=VARCHAR}, 
-	phone=#{phone,jdbcType=VARCHAR}, profile=#{profile,jdbcType=VARCHAR}, address=#{address} WHERE userid=#{userid,jdbcType=VARCHAR}
+	phone=#{phone,jdbcType=VARCHAR}, profile=#{profile,jdbcType=VARCHAR} WHERE userid=#{userid,jdbcType=VARCHAR}
 </update>
 <delete id="deleteuser" parameterType="com.example.demo.vo.User">
 	DELETE userjoin WHERE userid=#{userid jdbcType=VARCHAR}
