@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
-import com.example.demo.vo.Manager;
 import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
