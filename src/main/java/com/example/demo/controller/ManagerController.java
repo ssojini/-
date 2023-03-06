@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.example.demo.service.ManagerService;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
+import com.example.demo.vo.Manager;
 import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
@@ -52,9 +54,37 @@ public class ManagerController {
 
 	
 	@GetMapping("/")
-	public String managermain()
+	public String managerlogin()
 	{
 		return "html/manager/managerLogin";
+	}
+	
+	@GetMapping("/main")
+	public String managermain(Model m)
+	{
+		return "html/manager/ManagerMain";
+	}
+	
+	@RequestMapping("/calchart")
+	@ResponseBody
+	public List<Map<String, Object>> calchart(Model m)
+	{
+		List<Map<String, Object>> cal = svc.chartcal();
+		m.addAttribute("cal",cal);
+		System.out.println(cal.toString());
+		
+		return cal;
+	}
+	
+	@RequestMapping("/userchart")
+	@ResponseBody
+	public List<Map<String, Object>> userchart(Model m)
+	{
+		List<Map<String, Object>> user = svc.chartuser();
+		m.addAttribute("user",user);
+		System.out.println(user.toString());
+		
+		return user;
 	}
 	
 
@@ -182,9 +212,7 @@ public class ManagerController {
 
 		m.addAttribute("goods", ssvc.editGoodspage(goodsnum));
 		return "html/shop/goodsedit";
-		
 	}
-	
 	
 	@PostMapping("/deletegoods/{goodsnum}")
 	@ResponseBody

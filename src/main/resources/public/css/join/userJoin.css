@@ -1,19 +1,191 @@
 @charset "UTF-8";
 
-*{margin: 0; 
-padding: 0; 
-box-sizing: border-box;}
+* { box-sizing:border-box; }
 
-main{
-	margin:0 auto;
-	width:100vw;
+.container1 		{ 
+  font-family:'Roboto';
+  width:40%; 
+  margin:60px auto 0; 
+  display:block; 
+  background:#FFF;
+  padding:10px 50px 50px;
 }
 
-form {
-	width: 60%;
-	padding: 20px 20px;
-	margin: 0 auto;
-	box-sizing: border-box;
+h2 		 { 
+  
+  margin-bottom:50px; 
+}
+
+.group 			  { 
+  margin-bottom:35px; 
+}
+
+.box {
+    display: block;
+    width: 100%;
+    height: 51px;
+    box-sizing: border-box;
+    background: #fff;
+    position: relative;
+}
+
+.error_next_box {
+	font-size:12px;
+	margin-top: 8px;
+	margin-bottom:35px; 
+}
+
+#bir_wrap,#email_wrap {
+    display: table;
+    width: 100%;
+    
+}
+
+#bir_yy {
+    display: table-cell;
+    width: 35%;
+}
+
+#bir_mm {
+    display: table-cell;
+    width: 30%;
+    vertical-align: middle;
+}
+
+#bir_dd {
+    display: table-cell;
+    width: 40%;
+}
+
+#bir_mm, #bir_dd {
+    padding-left: 10px;
+}
+
+#email_1 {
+	display: table-cell;
+    width: 35%;
+}
+#email_2 {
+    display: table-cell;
+    width: 35%;
+    vertical-align: middle;
+}
+
+#email_3 {
+    display: table-cell;
+    width: 30%;
+}
+
+select {
+    width: 100%;
+    height: 100%;
+    font-size: 15px;
+    background: #fff url(https://static.nid.naver.com/images/join/pc/sel_arr_2x.gif) 100% 50% no-repeat;
+    background-size: 20px 8px;
+    -webkit-appearance: none;
+   	padding: 0.5em 0.5em;
+    text-align: start;
+    border: none;
+    cursor: default;
+    border: 1px solid #ccc;
+	border-radius: 3px;
+	color: #757575;
+}
+
+input {
+	font-size:18px;
+	padding:10px 10px 10px 5px;
+	display:block;
+	border:none;
+	border-bottom:1px solid #757575;
+	width:100%;
+}
+
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+.action {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label {
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* gender */
+.form_radio_btn {
+	width: 50%;
+	height : 45px;
+  	border: 1px solid #EAE7E7;
+  
+}
+.form_radio_btn input[type=radio] {
+	display: none;
+}
+.form_radio_btn label {
+	display: block;
+ 	margin: 0 auto;
+  	text-align: center;
+  	height: -webkit-fill-available;
+  	line-height: 45px;
+}
+ 
+/* Checked */
+.form_radio_btn input[type=radio]:checked + label {
+	background: lightsalmon;
+	color: #fff;
+}
+ 
+/* Hover */
+.form_radio_btn label:hover {
+	color: lightsalmon;
+}
+ 
+/* Disabled */
+.form_radio_btn input[type=radio] + label {
+	background: #F9FAFC;
+	color: #666;
 }
 
 
+/* button */
+.footBtwrap{
+	margin-top: 15px;
+}
+
+.footBtwrap>div{
+	float: left;
+	width: 50%;
+	height: 60px;
+}
+
+.footBtwrap>div>button{
+	display: block; 
+	width: 100%;
+	height: 100%; 
+	font-size: 20px;
+	text-align: center;
+	line-height: 60px;
+}
+
+.reset{
+	background-color: #fff;
+	color:#888;
+}
+
+#submit{
+	background-color: lightsalmon;
+	color: #fff;
+}

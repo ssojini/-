@@ -1,6 +1,9 @@
 package com.example.demo.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -37,8 +40,14 @@ public class User
 	private String profile;
 	//주소
 	private String address;
+	//성별
+	private String gender;
 	
-
+	//가입날짜
+	@CreationTimestamp
+	private Timestamp signup;
+	
+	
 	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
 		super();
 		this.userid = userid;

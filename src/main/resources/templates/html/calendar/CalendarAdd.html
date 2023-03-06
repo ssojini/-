@@ -2,113 +2,50 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
-</head>
+<title>일정추가: 건강한 한끼</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<script src="lib/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-$(function(){
-	$('#btnUpload').on('click', function(event) {
-		event.preventDefault();
-		    
-		var form = $('#addForm')[0]
-	    var data = new FormData(form);
-		    
-		$('#btnUpload').prop('disabled', true);
-		
-		console.log(data);
-		for (var key of data.keys()) {
-			  console.log("키"+key);
-			}
-			for (var value of data.values()) {
-			  console.log("내용"+value);
-
-			}
-			
-		$.ajax ({
-			type : 'post',
-		    enctype: 'multipart/form-data',
-			url : '/calen/add',
-		    data : data,
-			dateType : 'json',
-			processData: false,  
-		    contentType: false,
-			cache : false,
-			success: function (data) {
-		           $('#btnUpload').prop('disabled', false);
-		           alert('저장되었습니다')
-		           location.href='/calen/getCalendar'
-		        },
-		        error: function (e) {
-		            $('#btnUpload').prop('disabled', false);
-		            alert('저장실패');
-			}
-		});
-	})	
-})
-var fileCount = 0;// 파일 현재 필드 숫자 totalCount랑 비교값
-var totalCount = 10;// 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
-var fileNum = 0;// 파일 고유넘버
-var content_files = [];
-
-function fileCheck(input) {
-	var files = event.target.files;
-	console.log(files);
-
-// 파일 배열 담기
-	var filesArr = Array.prototype.slice.call(files);
-	console.log(files,filesArr);
-	filesArr.forEach(function (f) {
-		console.log(f);
-		var reader = new FileReader();
-		reader.onload = function (e) {
-			content_files.push(f);
-			var $elem = '<div class="file_list" id="file' + fileNum + '"><span class="file_name">' + f.name + '</span>' +
-					     '<button class="close" onclick="fileDelete(\'file' + fileNum + '\')">' + 'X' + '</button></div>';
-			$('.bu.name').append($elem);
-			fileNum ++;
-		};
-		reader.readAsDataURL(f);
-	});
-	
-	console.log(content_files);
-	//초기화 한다.
-	$("#input_file").val("");
-		
-}
-function fileDelete(fileNum){
-    var no = fileNum.replace(/[^0-9]/g, "");
-    content_files[no].is_delete = true;
-	$('#' + fileNum).remove();
-	fileCount--;
-    console.log(content_files);
-    console.log(fileCount);
-    console.log(fileNum);
-}
-
-</script>
+<link rel="stylesheet" type="text/css" href="/css/Calendar/CalendarAdd.css">
+<script src="/js/Calendar/CalendarAdd.js"></script>
+</head>
 <body>
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
-<form id="addForm" action="/calen/add" method="post" enctype="multipart/form-data">
-	<div>
-		<input type="date" id="datetime" name="datetime" th:value="${day}">	
-	</div>
-	<div id="checkWhen">
-		<input type="radio" name="when" id="breakfast" value="아침" checked>아침
-		<input type="radio" name="when" id="lunch" value="점심">점심
-		<input type="radio" name="when" id="dinner" value="저녁">저녁
-		<input type="radio" name="when" id="snack" value="간식">간식
-	</div>	
-	<textarea id ="m_content" name="content" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
-<div class="sd_input file">
-	<input type="file" id="pname" name="files" multiple="multiple" onChange="fileCheck();"> 
-	<div class="bu name"></div>
-	
- <!-- 	<div id="showFiles"></div>
-	<div id="preview"></div>	 -->
-	</div>
-	<button type="button" id="btnUpload">저장</button>
-</form>
+<div class="container1">
+	<form id="addForm" action="/calen/add" method="post" enctype="multipart/form-data">
+		<div style="width:20%; padding-top:40px;">
+			<input type="date" id="datetime" name="datetime" class="form" th:value="${day}">	
+		</div>
+		<div class="form selector" style="width:42.5%;">
+			<div>
+				<input type="radio" name="when" id="x1" value="아침" checked>
+				<label for="x1">아침</label>
+			</div>
+			<div>
+				<input type="radio" name="when" id="x2" value="점심">
+				<label for="x2">점심</label>
+			</div>
+			<div>
+				<input type="radio" name="when" id="x3" value="저녁">
+				<label for="x3">저녁</label>
+			</div>
+			<div>
+				<input type="radio" name="when" id="x4" value="간식">
+				<label for="x4">간식</label>
+			</div>
+		</div>	
+		<textarea id ="m_content" name="content" class="form textarea" rows="10" cols="50" placeholder="내용을 입력하세요"></textarea>
+		<div>
+			<input type="file" id="pname" name="files" class="form input-file" multiple="multiple"> 
+			<div id="preview"></div>
+		</div>
+		<div class="footBtwrap">
+			<div style="padding-right:10px;"><button type="button" class="form-btn reset footBtwrap_l" onClick="history.go(-1)">이전</button></div>
+			<div style="padding-left:10px;"><button type="button" id="btnUpload" class="form-btn footBtwrap_r">저장</button></div>
+		</div>
+	</form>
+</div>
 </body>
 </html>

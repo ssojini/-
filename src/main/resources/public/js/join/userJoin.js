@@ -4,7 +4,6 @@ $(function(){
 	var userid = document.querySelector('#userid');
 
 	var pwd1 = document.querySelector('#pwd1');
-	//var pwdMsg = document.querySelector('#pwdMsg');
 	var pwd = document.querySelector('#pwd');
 
 	var error = document.querySelectorAll('.error_next_box');
@@ -35,7 +34,7 @@ $(function(){
 
 	phone.addEventListener("focusout", checkPhoneNum);
 	email1.addEventListener("focusout", isEmailCorrect);
-	email2.addEventListener("change", isEmailCorrect);
+
 });
 	
 	//아이디 체크
@@ -80,18 +79,11 @@ $(function(){
 	        error[1].style.display = "block";
 	        error[1].style.color = "red";
 		}else if(!pwPattern.test(pwd1.value)){
-	        error[1].innerHTML = "8~16자의 영문 대 소문자, 숫자,특수문자를 사용하세요.";
-	        
-	        //pwdMsg.innerHTML = "사용불가"
-	        //pwdMsg.style.display = "block";
-	        
+	        error[1].innerHTML = "8~16자의 영문 대 소문자, 숫자,특수문자를 사용하세요."; 
 	        error[1].style.display = "block";
 	        error[1].style.color = "red";
 		}else{
 			error[1].innerHTML = "안전";
-	        //pwdMsg.innerHTML = "안전"
-	       /* 	pwdMsg.style.display = "block";
-	    	pwdMsg.style.color = "#08A600"; */
 	        error[1].style.display = "none";
 	    	
 		}
@@ -128,17 +120,48 @@ $(function(){
 		}else{
 			error[3].style.display="none";
 		}
+		$.ajax({
+            url: "/team/nickcheck",
+            type:'post',
+            dataType:'json',
+            data:{"nickname" : nickname.value},
+           	success:function(res){
+           		if(res.nickcheck){
+           			error[3].innerHTML="사용중인 닉네입니다"
+           			error[3].style.display = "block";
+        	        error[3].style.color = "red"; 
+           		}
+           	}
+        });
 	}
 
+	//핸드폰번호
+	function checkPhoneNum() {
+		var error = document.querySelectorAll('.error_next_box');
+	    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
+
+	    if(phone.value === "") {
+	    	error[4].innerHTML = "필수 정보입니다.";
+	    	error[4].style.display = "block";
+	    	error[4].style.color="red";
+	    } else if(!isPhoneNum.test(phone.value)) {
+	    	error[4].innerHTML = "형식에 맞지 않는 번호입니다.";
+	    	error[4].style.display = "block";
+	    	error[4].style.color="red";
+	    } else {
+	        error[4].style.display = "none";
+	    }
+	}
+	
 	//생년월일
 	function isBirthCompleted() {
 		var error = document.querySelectorAll('.error_next_box');
 	    var yearPattern = /[0-9]{4}/;
 
 	    if(!yearPattern.test(yy.value)) {
-	        error[4].innerHTML = "태어난 년도 4자리를 정확하게 입력하세요.";
-	        error[4].style.display = "block";
-	        error[4].style.color="red";
+	        error[5].innerHTML = "태어난 년도 4자리를 정확하게 입력하세요.";
+	        error[5].style.display = "block";
+	        error[5].style.color="red";
 	    } else {
 	        isMonthSelected();
 	    }
@@ -147,8 +170,8 @@ $(function(){
 	    function isMonthSelected() {
 		var error = document.querySelectorAll('.error_next_box');
 	        if(mm.value === "월") {
-	            error[4].innerHTML = "태어난 월을 선택하세요.";
-	            error[4].style.color="red";
+	            error[5].innerHTML = "태어난 월을 선택하세요.";
+	            error[5].style.color="red";
 	        } else {
 	            isDateCompleted();
 	        }
@@ -157,8 +180,8 @@ $(function(){
 	    function isDateCompleted() {
 		var error = document.querySelectorAll('.error_next_box');
 	        if(dd.value === "") {
-	            error[4].innerHTML = "태어난 일(날짜) 2자리를 정확하게 입력하세요.";
-	            error[4].style.color="red";
+	            error[5].innerHTML = "태어난 일(날짜) 2자리를 정확하게 입력하세요.";
+	            error[5].style.color="red";
 	        } else {
 	            isBirthRight();
 	        }
@@ -169,8 +192,8 @@ $(function(){
 		var error = document.querySelectorAll('.error_next_box');
 	    var datePattern = /\d{1,2}/;
 	    if(!datePattern.test(dd.value) || Number(dd.value)<1 || Number(dd.value)>31) {
-	        error[4].innerHTML = "생년월일을 다시 확인해주세요.";
-	        error[4].style.color="red";
+	        error[5].innerHTML = "생년월일을 다시 확인해주세요.";
+	        error[5].style.color="red";
 	    } else {
 	        checkAge();
 	    }
@@ -179,28 +202,11 @@ $(function(){
 	function checkAge() {
 		var error = document.querySelectorAll('.error_next_box');
 	    if(Number(yy.value) < 1920) {
-	        error[4].innerHTML = "정말이세요?";
-	        error[4].style.color="red";
+	        error[5].innerHTML = "정말이세요?";
+	        error[5].style.color="red";
 	    } else if(Number(yy.value) > 2019) {
-	        error[4].innerHTML = "미래에서 오셨군요. ^^";
-	        error[4].style.color="red";
-	    } else {
-	        error[4].style.display = "none";
-	    }
-	}
-	//핸드폰번호
-	function checkPhoneNum() {
-		var error = document.querySelectorAll('.error_next_box');
-	    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
-
-	    if(phone.value === "") {
-	    	error[5].innerHTML = "필수 정보입니다.";
-	    	error[5].style.display = "block";
-	    	error[5].style.color="red";
-	    } else if(!isPhoneNum.test(phone.value)) {
-	    	error[5].innerHTML = "형식에 맞지 않는 번호입니다.";
-	    	error[5].style.display = "block";
-	    	error[5].style.color="red";
+	        error[5].innerHTML = "미래에서 오셨군요. ^^";
+	        error[5].style.color="red";
 	    } else {
 	        error[5].style.display = "none";
 	    }
@@ -273,8 +279,7 @@ function btnDisabled()
 		success : function(res) {
 			if(res){
 				alert("인증 되었습니다");
-				const target = document.getElementById('target_btn');
- 				target.disabled = true;
+ 				joinUser();
 
 			}else{
 				alert("이메일 인증하세요");
@@ -294,6 +299,7 @@ function joinUser()
 	var obj = {};
 	obj.email = email1 + '@' + email2;
 	
+	var gender = $('.gender').val();
 	var yy = $('#yy').val();
 	var mm = $('#mm').val();
 	var dd = $('#dd').val();
@@ -302,6 +308,7 @@ function joinUser()
 	obj.userid = $("#userid").val();
 	obj.pwd = $("#pwd").val();
 	obj.phone = $("#phone").val();
+	obj.gender = $(".gender").val();
 	obj.nickname = $("#nickname").val();
 	obj.profile = $('#profile').val();
 	
@@ -312,7 +319,7 @@ function joinUser()
 		cache : false,
 		dataType:'json',
 		success : function(res){
-			alert(res.join ? '저장성공' :'저장실패');
+			alert(res.join ? '회원가입 성공' :'회원가입 실패');
 			location.href='/team/login';
 		},
         error : function(xhr, status, err)

@@ -3,71 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <title>건강한 한끼 : 건끼</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<script src="lib/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-
-function editCalendar(num)
-{
-	if(!confirm('정말로 현재 정보를 수정하시겠어요?')) return;
-	var obj = {"num": $("#num").text(),
-	           "content":$("#content").html()};
-	console.log(obj)
-	$.ajax({
-		url:'/calen/updateCon',
-		method:'post',
-		data:{
-			"num": $("#num").text(),
-			"content":$("#content").html()
-		},
-		cache : false,
-		dataType:'json',
-		success : function(res){
-			alert(res.update? '수정성공' :'수정실패');
-			if(res.update){
-				location.href = '/calen/getCalender';
-			}
-		},
-        error : function(xhr, status, err){
-           alert(err);
-        }
-
-	});	
-	return false;
-}
-</script>
+<link rel="stylesheet" type="text/css" href="/css/Calendar/CalendarEdit.css">
+<script src="/js/Calendar/CalendarEdit.js"></script>
 </head>
 <body>
-
+<div>
+    <div th:replace="fragments/common :: header"></div>
+</div>
 <main>
-
-	<div th:each="list : ${mlist}">
+<div class="container1">
+	<div th:each="list : ${mlist}" style="padding-top:40px;">
 		<div th:each="cal : ${list.cal}"
-			 th:text="${cal.datetime}">	 
+			 th:text="${cal.datetime}" class="form" style="width:20%;">	 
 		</div>
 	</div>
-	<div th:each="list : ${mlist}">
+	<div th:each="list : ${mlist}" class="form" style="width:20%;">
 		<div th:each="sch : ${list.sch}"
 			 th:text="${sch.when}">
 		</div>
 	</div>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}">
-		[[${sch.s_pnum}]]
-		<div id="num" th:text="${sch.s_pnum}" hidden="true"></div>
-			<textarea id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
+		<div id="s_pnum" th:text="${sch.s_pnum}" hidden="true"></div>
+			<textarea class="form textarea" id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
 		</div>
 	</div>
 	<div th:each="list : ${mlist}">
-		<div th:each="sch : ${list.sch}">
-			<div th:each="att : ${sch.attlist}">
+		<div th:each="sch : ${list.sch}" class="form imgview">
+			<div th:each="att : ${sch.attlist}" class="img">
 				<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
-				<input type="file" id="pname" name="files" multiple="multiple" onChange="fileCheck();"> 
+				<form>
+					<input type="hidden" name="a_num" id="a_num" th:value="${att.a_num}">
+					<button type='button' class='delbttn' th:onclick='|javascript:deleteImg(${att.a_num})|'>Ｘ</button>
+				</form>
 			</div>
 		</div>
+		<div>
+			<input type="file" id="pname" name="files" class="form input-file" multiple="multiple"> 
+			<div id="preview"></div>
+		</div>
 	</div>
-	<div>
-		<button type="button" onclick="editCalendar();">적용</button>
+	<div class="footBtwrap">
+		<div style="padding-right:10px;"><button type="button" class="form-btn reset footBtwrap_l" onClick="history.go(-1)">이전</button></div>
+		<div><button type="button" class="form-btn footBtwrap_r" onclick="editCalendar();">적용</button></div>
 	</div>
+</div>
 </main>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.example.demo.mapper.ManagerMapper;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
+import com.example.demo.vo.Manager;
 import com.example.demo.vo.Order;
 import com.example.demo.vo.Shop;
 import com.example.demo.vo.User;
@@ -124,6 +126,7 @@ public class ManagerService {
 	public GoodsAndAtt itemedit(int goodsnum) {
 		return map.getitem(goodsnum);
 	}
+
 	public boolean deletegoods(int goodsnum)
 	{
 		boolean deleted= false;
@@ -144,4 +147,15 @@ public class ManagerService {
 		Page<Freeboard> page = brepo.findBybname(pageable, bname);
 		return page;
 	}
+
+	public List<Map<String, Object>> chartcal() {
+		List<Map<String, Object>> list = map.chartcal();
+		return list;
+	}
+
+	public List<Map<String, Object>> chartuser() {
+		List<Map<String, Object>> list = map.chartuser();
+		return list;
+	}
+
 }

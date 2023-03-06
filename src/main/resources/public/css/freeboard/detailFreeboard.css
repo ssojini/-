@@ -8,6 +8,7 @@ main {
 	margin: 0px;
 	padding: 0px;
 	width: 100vw;
+	height: 100vh;
 	color: black;
 }
 
@@ -22,7 +23,7 @@ main {
 #fbnum_div {
 	background: rgb(256,256,256);
 	padding: 5px 10px;
-	margin: 5px 2.5px 0px 2.5px;
+	margin: 5px 5px 5px 0px;
 	border-radius: 10px;
 	display: inline-block;
 	font-size: initial;
@@ -30,34 +31,54 @@ main {
 #bname {
 	background: rgb(256,256,256);
 	padding: 5px 10px;
-	margin: 5px 2.5px 0px 2.5px;
+	margin: 5px 5px 5px 0px;
+	border-radius: 10px;
+	display: inline-block;
+	font-size: initial;
+}
+#author {
+	background: rgb(256,256,256);
+	padding: 5px 10px;
+	margin: 5px 5px 5px 0px;
 	border-radius: 10px;
 	display: inline-block;
 	font-size: initial;
 }
 #title {
 	background: rgb(256,256,256);
-	margin: 5px 2.5px 0px 2.5px;
+	margin: 0px 0px 0px;
 	border-radius: 10px;
 	padding: 5px 10px;
 	display: block;
 	font-size: initial;
 }
-#author {
+#contents_div {
+	position: relative;
 	background: rgb(256,256,256);
-	padding: 5px 10px;
-	margin: 5px 2.5px 0px 2.5px;
+	margin: 5px 0px 0px;
 	border-radius: 10px;
-	display: inline-block;
+	padding: 5px 10px;
+	width: 100%;
+	display: block;
 	font-size: initial;
 }
 #contents {
-	background: rgb(256,256,256);
-	display: block;
-	margin: 5px 2.5px 0px 2.5px;
+	overflow: auto;
+	width: 100%;
+	min-height: 50vh;
+}
+#likeCount_div {
+	margin: 5px 0px 0px 0px;
+	padding: 5px 10px;
+	width: 100%;
+	text-align: center;
+}
+#likeCount {
+	position: relative;
+	background: rgb(239,239,239);
+	display: inline-block;
 	border-radius: 10px;
 	padding: 5px 10px;
-	min-height: 500px;
 	font-size: initial;
 }
 

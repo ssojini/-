@@ -1,7 +1,6 @@
 package com.example.demo.vo;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @DynamicInsert
-//@Table(name="freeboard")
+@Table(name="freeboard")
 public class Freeboard {
 	public Freeboard(String bname, String title) {
 		this.bname = bname;

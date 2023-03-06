@@ -23,7 +23,7 @@ public interface CalendarMapper
 
 	List<Map<String, Object>> list();
 
-	Schedule updateContenet();
+	int updateContenet(Schedule sch);
 
 	int caldelete(int num);
 
@@ -33,6 +33,9 @@ public interface CalendarMapper
 
 	int schattdelete(int num);
 
+	int delImg(int num);
+
+	int saveAttach(int num);
 
 
 }

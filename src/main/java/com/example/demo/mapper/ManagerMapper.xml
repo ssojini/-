@@ -4,6 +4,23 @@
 
 <mapper namespace="com.example.demo.mapper.ManagerMapper">
 
+	<select id="chartcal" resultType="map">
+		SELECT TO_CHAR(datetime,'YY/MM/DD') datetime, count(*) cnt
+		FROM hcalendar
+		where datetime between to_char(sysdate,'yy/mm/') || '01' and TO_CHAR(SYSDATE,'YY/MM/DD')
+		group by datetime
+		order by datetime
+	</select>
+	
+	<select id="chartuser" resultType="map">
+		SELECT TRUNC((sysdate - bm.birth)/365, -1) AS age,
+		SUM(CASE WHEN gender = 'male' THEN 1 ELSE 0 END) AS male,
+		SUM(CASE WHEN gender = 'female' THEN 1 ELSE 0 END) AS female
+		FROM userjoin bm
+		GROUP BY TRUNC((sysdate - bm.birth)/365, -1)
+		ORDER BY age
+	</select>
+	
 	<select id="findUser" resultType="com.example.demo.vo.User">
 		SELECT * FROM userjoin
 	</select>
@@ -114,13 +131,14 @@
         WHERE goodsnum=#{goodsnum}
        	ORDER BY goodsnum
 	</select>
+
 	<select id="getboardlist" parameterType="string" resultType="com.example.demo.vo.Freeboard" >
 		select *
 		From FreeBoard
 		WHERE bname=#{bname jdbcType=VARCHAR}
 		ORDER BY fbnum
 	</select>
-	
+
 	<delete id="deletegoods" parameterType="int">
 		delete goods where goodsnum=#{goodsnum}
 	</delete>

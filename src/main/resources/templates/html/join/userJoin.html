@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>건강한 한끼 : 건끼</title>
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 <script src="/js/join/userJoin.js"></script>
@@ -11,102 +12,177 @@
 </head>
 <body>
 <div>
-  <div th:replace="fragments/common :: header"></div>
+	<div th:replace="fragments/common :: header"></div> 
 </div>
 <main>
+<div class="container1">
+<h4>회원가입</h4>
+<h6>건강한 한끼의 다양한 서비스를 이용해 보세요.</h6>
+<br>
 <form id="joinUser" action="/team/join" method="post">
-<!-- 아이디, 비밀번호 -->
-	<div>
-		<label for="form-label mt-4">아이디</label>
-				<input type="text" class="form-control" name="userid" id="userid" maxlength="20">
-				<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
-	
-	</div>
-	<div>
-		<label for="pwd">비밀번호</label>
-			<input type="password" name="pwd1" id="pwd1" required>
-			<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
-	</div>
-	<div>
-		<label for="pwd">비밀번호 재확인</label>
-			<input type="password" name="pwd" id="pwd" required>
-			<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
+	<!-- 아이디 -->
+	<div class="group">
+		<span class="box">
+			<input type="text" name="userid" id="userid" maxlength="20" required>
+			<span class="highlight"></span>
+	   		<span class="bar"></span>
+			<label class="action" for="userid">아이디</label>
+		</span>
+		<span class="error_next_box" id="useridMsg" style="display:none" aria-live="assertive"></span>
 	</div>
 	
-<!-- 닉네임 -->
-		<label for="nickname">닉네임</label>
+	<!-- 비밀번호 -->
+	<div>
+		<div class="group">
+			<span class="box">
+				<input type="password" name="pwd1" id="pwd1" required>
+				<span class="highlight"></span>
+		   		<span class="bar"></span>
+				<label class="action" for="pwd">비밀번호</label>
+			</span>
+		<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
+		</div>
+		<div class="group">
+			<span class="box">
+				<input type="password" name="pwd" id="pwd" required>
+				<span class="highlight"></span>
+		   		<span class="bar"></span>
+				<label class="action" for="pwd">비밀번호 재확인</label>
+			</span>
+			<span class="error_next_box" id="pwdMsg" style="display:none" aria-live="assertive"></span>
+		</div>
+	</div>
+	<!-- 닉네임 -->
+	<div class="group">
+		<span class="box">
 			<input type="text" name="nickname" id="nickname" maxlength="10" required>
-			<span class="error_next_box" id="nicknameMsg" style="display:none" aria-live="assertive"></span>
-	
-<!-- 생년월일 -->
-	<div class="birth_div">
-		<label for="yy"><span>생년월일</span></label>
-			<!-- 생년 -->
-			<span class="box">
-				<input type="hidden" name="birth">
-			</span>
-			<span class="box">
-				<input type="text" name="birth1" id="yy" placeholder="년(4자)" aria-label="년(4자)" maxlength="4">
-			</span>
-			<!-- 월 -->
-			<span class="box">
-				<select name="birth2" id="mm" aria-label="월">
-					<option value="">월</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-				</select>
-			</span>
-			<!-- 일 -->
-			<span class="box">
-				<input type="text" name="birth3" id="dd" placeholder="일" aria-label="일" maxlength="2" >
-			</span>
+			<span class="highlight"></span>
+	   		<span class="bar"></span>
+			<label class="action" for="nickname">닉네임</label>
+		</span>
+		<span class="error_next_box" id="nicknameMsg" style="display:none" aria-live="assertive"></span>
 	</div>
-		<span class="error_next_box"></span>  
+	
 	<!-- 핸드폰번호 -->
-	<div>
-		<label for="phone">전화번호</label>
-		<input type="text" name="phone" id="phone" placeholder="'-' 제외한 전화번호 입력" maxlength="16" >
+	<div class="group">
+		<span class="box">
+			<input type="text" name="phone" id="phone"  maxlength="16" required>
+			<span class="highlight"></span>
+	   		<span class="bar"></span>
+			<label class="action" for="phone">전화번호(-제외)</label>
+		</span>
+		<span class="error_next_box"></span>  
+	</div>
+	
+	<!-- 성별 -->
+	<div class="group">
+		<div class="mb-3">
+			<div class="form_toggle row-vh d-flex flex-row justify-content-between" >
+				<div class="form_radio_btn radio_male">
+					<input id="radio-1" type="radio" name="gender" class="gender" value="male" checked>
+					<label for="radio-1">남자</label>
+				</div>
+											 
+				<div class="form_radio_btn">
+					<input id="radio-2" type="radio" name="gender" class="gender" value="female">
+					<label for="radio-2">여자</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 생년월일 -->
+	<div class="group">
+		<div id="bir_wrap">
+			<div id="bir_yy">
+				<span class="box">
+					<input type="hidden" name="birth">
+					<input type="text" name="birth1" id="yy" aria-label="년(4자)" maxlength="4" required>
+					<span class="highlight"></span>
+		  			<span class="bar"></span>
+		  			<label class="action">생년(4자)</label>
+				</span>
+			</div>
+			<div id="bir_mm">
+				<span id="box">
+				<select name="birth2" id="mm">
+					<option value="" selected>월</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+				</select>
+				</span>
+			</div>
+			<div id="bir_dd">
+				<span class="box">
+					<input type="text" name="birth3" id="dd" aria-label="일" maxlength="2" required>
+					<span class="highlight"></span>
+		  				<span class="bar"></span>
+		  				<label class="action">일</label>
+				</span>
+			</div>
+		</div>
 		<span class="error_next_box"></span>  
 	</div>
 	
 	<!-- 이메일 -->
-	<div>
-		<label for="email">이메일</label>
-		<input type="text" name="email1" id="email1" placeholder="이메일 아이디" maxlength="21" >
-		<span class="error_next_box"></span>  
-		@<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
-			<select name="select_email" onChange="selectEmail(this)">
-		        <option value="" selected>선택하세요</option>
-		        <option value="naver.com">naver.com</option>
-		        <option value="gmail.com">gmail.com</option>
-		        <option value="hanmail.com">hanmail.com</option>
-		        <option value="nate.com">hanmail.com</option>
-		        <option value="1">직접입력</option>
-			</select>
+	<div class="group">
+		<div id="email_wrap">
+			<div id="email_1">
+				<span class="box">
+					<input type="text" name="email1" id="email1" maxlength="21" required>
+					<span class="highlight"></span>
+		   			<span class="bar"></span>
+					<label for="email" class="action">이메일 아이디</label>
+				</span>  
+			</div>
+			<div >@</div>
+			<div id="email_2" >
+				<span class="box">
+				<input type="text" name="email2" id="email2" placeholder="이메일 주소" maxlength="21">
+				</span>
+			</div>
+			<div>
+				<div id="email_3">
+					<span id="box">
+						<select name="select_email" onChange="selectEmail(this)">
+					        <option value="" selected>선택하세요</option>
+					        <option value="naver.com">naver.com</option>
+					        <option value="gmail.com">gmail.com</option>
+					        <option value="hanmail.com">hanmail.com</option>
+					        <option value="nate.com">hanmail.com</option>
+					        <option value="1">직접입력</option>
+						</select>
+					</span>
+				</div>
+			</div>
+		</div>
+		<span class="error_next_box"></span>
 	</div>
+	
 	<div class="email_send_buttton">
-		<input id="target_btn" type='button' onclick="sendEmail();" value='이메일인증'>
-		<input type="button" onclick="btnDisabled()" value='인증확인'>
+		<div><input type='button' onclick="sendEmail();" value='이메일인증'></div>
 	</div>
+	
 	<!-- 프로필 -->
 	<input type="hidden" name="profile" id="profile" value="/profile/default.png">
 	<!--  주소 -->
 	<input type="hidden" name="address" id="address" value="">
-	<div>
-		<button type="reset">취소</button>
-		<button type="button" id="submit" onclick="joinUser();">회원가입</button>
+	<div class="footBtwrap">
+		<div><button type="button" class="reset" onClick="history.go(-1)">취소</button></div>
+		<div><button type="button" id="submit" onclick="btnDisabled();">회원가입</button></div>
 	</div>
 </form>
+</div>
 </main>
 </body>
 </html>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.FreeboardAttachService;
+import com.example.demo.service.FreeboardLikecountService;
 import com.example.demo.service.FreeboardReplyService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.vo.FreeboardAttach;
@@ -36,6 +37,8 @@ public class FreeboardController {
 	private FreeboardAttachService attachService;
 	@Autowired
 	private FreeboardReplyService replyService;
+	@Autowired
+	private FreeboardLikecountService likecountService;
 	@Autowired
 	private HttpSession session;
 	
@@ -91,6 +94,9 @@ public class FreeboardController {
 		}
 		m.addAttribute("freeBoard",freeBoard);
 		m.addAttribute("listReply",replyService.findAllByPnum(fbnum));
+		m.addAttribute("likecount",likecountService.getCount(fbnum));
+		String nickname = (String)session.getAttribute("nickname");
+		m.addAttribute("likecountUser",likecountService.isLikecountUser(fbnum,nickname));
 		return "html/freeboard/detailFreeboard";
 	}
 	
@@ -163,6 +169,17 @@ public class FreeboardController {
 		Map<String,Object> map = new HashMap<>();
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		map.put("listFreeboard", listFreeboard);
+		return map;
+	}
+	
+	@PostMapping("/likeCount")
+	@ResponseBody
+	public Map<String,Object> likeCount(Integer fbnum) {
+		System.out.println("likeCount fbnum:"+fbnum);
+		Map<String,Object> map = new HashMap<>();
+		String nickname = (String)session.getAttribute("nickname");
+		boolean result = freeboardService.changeLikecount(fbnum, nickname);
+		map.put("result", result);
 		return map;
 	}
 }
