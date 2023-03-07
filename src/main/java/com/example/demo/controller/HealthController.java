@@ -242,7 +242,7 @@ public class HealthController {
 			HttpSession session)
 	{
 		String userid = (String)session.getAttribute("userid");
-		log.info("ctrl, session에서 전달된 userid:"+ userid);
+		//log.info("ctrl, session에서 전달된 userid:"+ userid);
 		if(userid==null)
 		{
 			return "html/admin/qna";
@@ -292,11 +292,11 @@ public class HealthController {
 			OneBoard oneb,
 			@RequestParam("attach") MultipartFile[] mfiles)
 	{
-		log.info("ctrl, reply ajax로 돌아감");
+		//log.info("ctrl, reply ajax로 돌아감");
 		boolean uploaded =absvc.uploadQueB(request, oneb, mfiles);
 		Map<String, Boolean> map= new HashMap<>();
 		map.put("uploaded", uploaded);
-		log.info("ctrl, uploaded값:"+ uploaded);
+		//log.info("ctrl, uploaded값:"+ uploaded);
 		return map;
 	}
 	
@@ -329,7 +329,9 @@ public class HealthController {
 			@RequestParam("attach") MultipartFile[] mfiles,
 			HttpServletRequest request)
 	{
+		log.info("edit_q 돌아감");
 		boolean uploaded = absvc.updateQueB(request, oneb, mfiles);
+		log.info("svc boolean 값"+ uploaded);
 		Map<String, Boolean> map = new HashMap<>();
 		map.put("uploaded", uploaded);
 		return map;
@@ -419,6 +421,8 @@ public class HealthController {
 		{
 			AdminBoard faqb = absvc.detail_adminb(adnum);
 			m.addAttribute("faqb", faqb);
+			//log.info("첨부파일 check");
+			//log.info("첨부파일이름"+ faqb.getAttList());
 			return "html/admin/detail_faq";
 		}
 		

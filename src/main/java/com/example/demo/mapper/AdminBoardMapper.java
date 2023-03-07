@@ -44,5 +44,7 @@ public interface AdminBoardMapper
 
 	public List<AdminBoard> search_faq(String input);
 
+	public List<OneBoard> search_qna(String input, String userid);
+
 	/* */
 }

@@ -75,10 +75,10 @@
 </tr>
 </thead>
 <tbody> 
-<tr th:each="faq: ${list}">
-	<td>[[${faq.adnum}]]</td>
+<tr th:each="faq, iStat: ${list}">
+	<td th:text="${iStat.index +1}"> </td>
 	<td>
-		<a th:href= "|/admin/detail_faq/${faq.adnum}|">
+		<a th:href= "|/health/detail_faq/${faq.adnum}|">
 		[[${faq.title}]]
 		 </a>
 	</td>

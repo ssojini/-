@@ -56,38 +56,39 @@
 <div th:replace="fragments/common :: header"></div>
 </div>
 <div class= "container">
-<h5 style="text-align:left; margin-top:20px; font-size:1em; font-weight:bold; color:black;">공지 사항</h5>
-
-<form id="search_board" onsubmit='return search_board();'>
-	<div style= "float: right"> 
-		<input type="text" id='input' name='input' placeholder='제목을 입력하세요'> 
-		<button type="submit">검색</button>
-	</div>
-</form>
-<table class="table table-hover" id="found">
-<thead>
-<tr>
-	<th>번호</th>
-	<th>제목</th>
-	<th>작성자</th>
-	<th>조회수</th>
-	<th>등록일</th>
-</tr>
-</thead>
-<tbody> 
-<tr th:each="notice: ${list}">
-	<td>[[${notice.adnum}]]</td>
-	<td>
-		<a th:href= "|/admin/detail_notice/${notice.adnum}|">
-		[[${notice.title}]]
-		 </a>
-	</td>
-	<td>[[${notice.author}]]</td>
-	<td>[[${notice.hit}]]</td>
-	<td>[[${notice.date_admin}]]</td>	
-</tr>
-</tbody>
-</table>
+	<h5 style="text-align:left; margin-top:20px; font-size:1em; font-weight:bold; color:black;">공지 사항</h5>
+	
+	<form id="search_board" onsubmit='return search_board();'>
+		<div style= "float: right"> 
+			<input type="text" id='input' name='input' placeholder='제목을 입력하세요'> 
+			<button type="submit">검색</button>
+		</div>
+	</form>
+	
+	<table class="table table-hover" id="found">
+		<thead>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>조회수</th>
+			<th>등록일</th>
+		</tr>
+		</thead>
+		<tbody> 
+		<tr th:each="notice, iStat: ${list}">
+		    <td th:text="${iStat.index+1}"> </td>
+			<td>
+				<a th:href= "|/health/detail_notice/${notice.adnum}|">
+				[[${notice.title}]]
+				 </a>
+			</td>
+			<td>[[${notice.author}]]</td>
+			<td>[[${notice.hit}]]</td>
+			<td>[[${notice.date_admin}]]</td>	
+		</tr>
+		</tbody>
+	</table>
 </div>
 <div class="text-center"> 
 	<span th:each="page, i: ${list}">

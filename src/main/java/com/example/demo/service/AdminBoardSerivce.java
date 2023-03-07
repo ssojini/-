@@ -77,7 +77,7 @@ public class AdminBoardSerivce
 			String jts = String.valueOf(map.get("QDATE"));
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date parseDate;
-			log.info("날짜:" + dateFormat.format(map.get("QDATE"))); 
+		//	log.info("날짜:" + dateFormat.format(map.get("QDATE"))); 
 			String date =dateFormat.format(map.get("QDATE"));
 			oneb.setQdate(date);
 		} catch (Exception e) {
@@ -145,7 +145,7 @@ public class AdminBoardSerivce
 				AttachBoard att = new AttachBoard();
 		
 				String attname = (String)boardMap.get("ATTNAME");
-				log.info("attname:"+attname);
+			//	log.info("attname:"+attname);
 				att.setAttname(attname);
 				java.math.BigDecimal bigd=(java.math.BigDecimal)boardMap.get("ATTSIZE");
 				att.setAttsize(bigd.intValue());
@@ -162,7 +162,7 @@ public class AdminBoardSerivce
 	@Transactional
 	public boolean updateQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
 	{
-		//log.info("svc, mfiles.length={}", mfiles.length);
+		log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
 		List<AttachBoard> alist = new ArrayList<>();
@@ -174,7 +174,7 @@ public class AdminBoardSerivce
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
 				for(int i=0; i<mfiles.length; i++) {
-						//log.info("mfiles length"+ mfiles.length);
+						log.info("mfiles length"+ mfiles.length);
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
 						
 						AttachBoard attb = new AttachBoard();
@@ -249,7 +249,7 @@ public class AdminBoardSerivce
 	
 	public boolean delFromServer(List<AttachBoard> attachList)
 	{
-		log.info("컨트롤러 첨부파일 리스트"+attachList);
+	//	log.info("컨트롤러 첨부파일 리스트"+attachList);
 		
 		for(int i=0; i<attachList.size();i++)
 		{
@@ -259,7 +259,7 @@ public class AdminBoardSerivce
 				Files.deleteIfExists(file);
 				return true;
 			}catch (Exception e){
-				log.error("Delete file error: "+e.getMessage());
+				//log.error("Delete file error: "+e.getMessage());
 			}
 		}
 	
@@ -430,7 +430,6 @@ public class AdminBoardSerivce
 			{
 				for(int i=0; i<mfiles.length; i++) {
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
-						
 						AdminAttachBoard attb = new AdminAttachBoard();
 						attb.setAttname(mfiles[i].getOriginalFilename());
 						attb.setAttsize(mfiles[i].getSize());
@@ -569,7 +568,30 @@ public class AdminBoardSerivce
 	         json.put("hit", adminb.getHit());
 	         json.put("adnum", adminb.getAdnum());
 	        
-	         log.info("찍힌 값"+ json);
+	         return json;
+	    }
+
+	public JSONArray search_qna(String input, String userid) {
+	      JSONArray jsArr = new JSONArray();
+	      List<OneBoard> list = mapper.search_qna(input, userid);
+	      
+	      for (OneBoard oneb: list) {
+	         jsArr.add(convertOnebToJson(oneb));
+	      }
+	      return jsArr;
+	   } 
+	
+	 public JSONObject convertOnebToJson(OneBoard oneb) {
+
+
+	        JSONObject json = new JSONObject();
+	         json.put("title", oneb.getTitle());
+	         json.put("author", oneb.getAuthor());
+	         json.put("content", oneb.getContent());
+	         json.put("qdate", oneb.getQdate());
+	         json.put("hit", oneb.getHit());
+	         json.put("qnum", oneb.getQnum());
+	         
 	         return json;
 	    }
 	/*end of AdminBoard관련 메소드 */

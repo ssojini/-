@@ -141,5 +141,12 @@
    >
      SELECT * FROM admin_board WHERE REGEXP_LIKE(title,#{input}) AND name='faq'
    </select>
-      
+   
+   	<select
+      id="search_qna"
+      parameterType="String"
+      resultType="com.example.demo.vo.OneBoard"
+   >
+     SELECT * FROM queboard WHERE REGEXP_LIKE(title,#{input}) AND author=#{userid}
+   </select>   
 </mapper>
