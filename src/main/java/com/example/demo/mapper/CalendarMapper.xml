@@ -59,11 +59,11 @@
 	<update id="updateContenet" parameterType="com.example.demo.vo.Schedule">
 		UPDATE calen_schedule 
 		SET content = #{content}
-		WHERE s_pnum = #{s_pnum}
+		WHERE s_num = #{s_num}
 	</update>
 	
 	<delete id="delImg" parameterType="Integer">
-		DELETE FROM attachcalendar WHERE a_num = #{a_num}
+		DELETE FROM attachcalendar WHERE a_pnum = #{a_pnum}
 	</delete>
 	
 	<delete id = "caldelete" parameterType="com.example.demo.vo.HCalendar">
