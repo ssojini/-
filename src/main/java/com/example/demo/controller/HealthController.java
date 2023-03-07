@@ -73,12 +73,11 @@ public class HealthController {
 	
 	@GetMapping("/myboard/{userid}")
 	public String freeboard(@PathVariable(value = "userid", required = false)String userid, Model m, String nickname, String bname,
-			String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) 
+			String title) 
 	{
-		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
 		
-		nickname = "smash";
 		List<Freeboard> list = mp_svc.getmyboard(nickname);
+		log.info(list.toString());
 		m.addAttribute("board",list);
 		m.addAttribute("user", mp_svc.userinfo(userid));
 
@@ -86,7 +85,7 @@ public class HealthController {
 		
 		m.addAttribute("bname",bname);
 		m.addAttribute("title",title);
-		m.addAttribute("pageFreeboard", pageFreeboard);
+		
 		return "html/mypage/myboard";
 	}
 
