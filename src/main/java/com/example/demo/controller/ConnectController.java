@@ -22,12 +22,12 @@ public class ConnectController {
 	
 	@PostMapping("/chatGPT")
 	@ResponseBody
-	public String chatGPT() throws IOException, ParseException {
+	public String chatGPT(String gender, String current_weight, String goal_weight) throws IOException, ParseException {
 		Map<String,String> map = new HashMap<>();
 		
-		map.put("gender", "남");
-		map.put("current_weight", "75");
-		map.put("goal_weight", "68");
+		map.put("gender", gender);
+		map.put("current_weight", current_weight);
+		map.put("goal_weight", goal_weight);
 		
 		String response = connectService.post(URL+"/chatGPT",map);
 		System.out.println("response:"+response);
