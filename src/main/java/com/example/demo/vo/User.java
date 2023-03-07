@@ -51,6 +51,7 @@ public class User
 	@CreationTimestamp
 	private Timestamp signup;
 	
+
 	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
 		super();
 		this.userid = userid;

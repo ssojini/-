@@ -76,7 +76,6 @@ public class HealthController {
 			String title) 
 	{
 		List<Freeboard> alist = mp_svc.getmyboard(userid);
-		System.out.println("alist:  "+alist);
 		m.addAttribute("board",alist);
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		m.addAttribute("bname",bname);
@@ -87,7 +86,7 @@ public class HealthController {
 	@GetMapping("/calorie")
 	public String cal()
 	{
-		return "health/calorie";
+		return "html/mypage/calorie";
 	}
 
 	@PostMapping("/cal")
@@ -114,7 +113,6 @@ public class HealthController {
 			HttpServletRequest request, User User) 
 	{
 		Map<String,Object> map= new HashMap<>();
-		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, User));
 		map.put("edited", mp_svc.storeFile(mfiles,User));
 
 		return map;
@@ -154,16 +152,17 @@ public class HealthController {
 		return "html/mypage/FindPwd";
 	}
 
-	@PostMapping("/findpwd/{userid}")
-	public String changepwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
-		m.addAttribute("user", mp_svc.userinfo(userid));
-		return "html/mypage/FindPwd";
+	@PostMapping("/changepwd/{userid}")
+	@ResponseBody
+	public Map<String, Object> changepwd(@PathVariable(value = "userid", required = false) String userid,String pwd, Model m) {
+		Map<String, Object>map = new HashMap<>();
+		map.put("changed", mp_svc.changepwd(userid,pwd));
+		return map;
 	}
 	
 	@GetMapping("/center_search")
 	public String center_search(Model m) {
 		m.addAttribute("center", mp_center.centerinfo());
-		//m.addAttribute("center_size", mp_center.centerinfo().size());
 		return "html/map/center_search";
 	}
 	
