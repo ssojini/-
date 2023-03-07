@@ -37,5 +37,7 @@ public interface CalendarMapper
 
 	int saveAttach(int num);
 
+	int updateAttach(List<AttachCalendar> list);
+
 
 }

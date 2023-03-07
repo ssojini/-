@@ -252,8 +252,6 @@ function sendEmail()
 	var obj1 = {};
 	obj1.email = email1 + '@' + email2;
 	
-	alert(obj1.email);
-	
 	$.ajax({
 		url : "/team/sendemail",
 		method : 'post',

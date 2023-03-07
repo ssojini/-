@@ -3,6 +3,7 @@ package com.example.demo.vo;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Entity;
@@ -43,14 +44,12 @@ public class User
 	//성별
 	private String gender;
 	
+	@ColumnDefault("1")
+	private Integer enabled =1;
+	
 	//가입날짜
 	@CreationTimestamp
 	private Timestamp signup;
-	
-	// 현재 몸무게
-	private float current_weight;
-	// 목표 몸무게
-	private float goal_weight;
 	
 	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
 		super();
