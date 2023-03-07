@@ -1,5 +1,6 @@
 package com.example.demo.vo;
 
+import java.security.Principal;
 import java.sql.Date;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"pwd","nickname","birth","phone","email","profile","address"})
 @Entity
 @Table(name="userjoin")
-public class User 
+public class User implements Principal
 {
 	//아이디
 	@Id
@@ -55,5 +56,10 @@ public class User
 		this.profile = profile;
 		this.enabled = 1;
 		this.role = role;
+	}
+
+	@Override
+	public String getName() {
+		return this.getUserid();
 	}
 }
