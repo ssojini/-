@@ -237,6 +237,7 @@ public class CalendarService
 		String savePath = fileStorageLocation.toUri().getPath();
 		List<AttachCalendar>list = new ArrayList<>();
 		int brow = cm.updateContenet(sch);
+		
 		try {
 			boolean updated = false;
 			
@@ -257,7 +258,6 @@ public class CalendarService
 					String fname = UUID.randomUUID() + extension;
 					attcal.setPname(pname);
 					attcal.setFname(fname);
-					
 					list.add(attcal);	
 				}
 				int arow = cm.saveAttach(list);
