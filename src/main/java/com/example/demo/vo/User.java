@@ -47,6 +47,10 @@ public class User
 	@CreationTimestamp
 	private Timestamp signup;
 	
+	// 현재 몸무게
+	private float current_weight;
+	// 목표 몸무게
+	private float goal_weight;
 	
 	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
 		super();

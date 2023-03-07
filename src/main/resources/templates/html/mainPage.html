@@ -18,6 +18,23 @@
     <link rel="stylesheet" href="/css/tooplate-style.css" />
     <!-- maingage.css -->
     <link rel="stylesheet" href="/css/mainpage.css"/>
+    <script type="text/javascript">
+    	window.onload = function() {
+    		$.ajax({
+    			url:"/connect/chatGPT",
+    			method:"post",
+    			data:"",
+    			dataType:"text",
+    			cache:false,
+    			success:function(res){
+    				$("#chatgpt_output").text(res);
+    			},
+    			error:function(xhs,status,err){
+    				alert(err);
+    			}
+    		});
+    	}
+    </script>
   </head>
 
 <body style="background-color:#F2EEE5;">
@@ -25,13 +42,12 @@
     <div th:replace="fragments/common :: header"></div>
 </div>
     <div>
-    	<div sec:authorize="isAnonymous()">
-    		<div>
-	    		<div>guest</h3>
+    	<div id="chatgpt_div" style="padding:5px;color:black;">
+    		<div style="background-color:white;border-radius:10px;padding:5px;">
+	    		<span style="background-color:yellow;border:1px solid black;border-radius:10px;padding:2.5px 5px;">오늘의 추천식단</span>
+	    		<span id="chatgpt_output">
+	    		</span>
     		</div>
-    	</div>
-    	<div sec:authorize="hasRole('ROLE_USER')">
-    		<div  id="diet_recommendations">user</div>
     	</div>
     	<!-- 왼쪽 -->
 	    <div style="width:70%; box-sizing:border-box; height: 2000px; float:left;">
