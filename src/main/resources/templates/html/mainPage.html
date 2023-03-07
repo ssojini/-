@@ -19,20 +19,26 @@
     <!-- maingage.css -->
     <link rel="stylesheet" href="/css/mainpage.css"/>
     <script type="text/javascript">
-    	window.onload = function() {
-    		$.ajax({
-    			url:"/connect/chatGPT",
-    			method:"post",
-    			data:"",
-    			dataType:"text",
-    			cache:false,
-    			success:function(res){
-    				$("#chatgpt_output").text(res);
-    			},
-    			error:function(xhs,status,err){
-    				alert(err);
-    			}
-    		});
+    	function recommendDiet() {
+    		if ($("#gender").val() != null && $("#current_weight").val() != null && $("#goal_weight").val() != null) {
+    			$.ajax({
+        			url:"/connect/chatGPT",
+        			method:"post",
+        			data:{
+        				"gender":"남",
+        				"current_weight":$("#current_weight").val(),
+        				"goal_weight":$("#current_weight").val()
+        			},
+        			dataType:"text",
+        			cache:false,
+        			success:function(res){
+        				$("#chatgpt_output").text(res);
+        			},
+        			error:function(xhs,status,err){
+        				alert(err);
+        			}
+        		});
+    		}
     	}
     </script>
   </head>
@@ -42,13 +48,6 @@
     <div th:replace="fragments/common :: header"></div>
 </div>
     <div>
-    	<div id="chatgpt_div" style="padding:5px;color:black;">
-    		<div style="background-color:white;border-radius:10px;padding:5px;">
-	    		<span style="background-color:yellow;border:1px solid black;border-radius:10px;padding:2.5px 5px;">오늘의 추천식단</span>
-	    		<span id="chatgpt_output">
-	    		</span>
-    		</div>
-    	</div>
     	<!-- 왼쪽 -->
 	    <div style="width:70%; box-sizing:border-box; height: 2000px; float:left;">
 	        <div style="float:left; width:20%; height: 2000px;"></div>
@@ -228,6 +227,19 @@
 	       			</div>
 				</div>
 			</div>
+			<div id="chatgpt_div" style="padding:5px;color:black;">
+	    		<div style="background-color:white;border-radius:10px;padding:5px;">
+		    		<div style="background-color:yellow;border-radius:10px;padding:2.5px 5px;width:100%;text-align:center;">오늘의 추천식단</div>
+		    		<div>
+		    			<label>남</label><input type="radio"><label>여</label><input type="radio">
+		    			<input id="female" type="text" style="width:100%;">
+		    			<input id="female" type="text" style="width:100%;">
+			    		<button onclick="recommendDiet();">추천받기</button>
+		    		</div>
+		    		<span id="chatgpt_output">
+		    		</span>
+	    		</div>
+    		</div>
 	    </div>
 	</div>
 	
