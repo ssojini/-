@@ -237,7 +237,7 @@ public class CalendarService
 		String savePath = fileStorageLocation.toUri().getPath();
 		List<AttachCalendar>list = new ArrayList<>();
 		int brow = cm.updateContenet(sch);
-		
+		System.err.println("sch"+sch);
 		try {
 			boolean updated = false;
 			
@@ -259,8 +259,9 @@ public class CalendarService
 					attcal.setPname(pname);
 					attcal.setFname(fname);
 					list.add(attcal);	
+					System.err.println("list"+list);
 				}
-				int arow = cm.saveAttach(list);
+				int arow = cm.updateAttach(list);
 				updated = brow>0 && arow>0;
 				
 				return updated;
