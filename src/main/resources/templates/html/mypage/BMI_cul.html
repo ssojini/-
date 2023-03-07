@@ -66,6 +66,7 @@ function bmi_view(){
 	
 }
 </script>
+<div id="container1">
 <h3 class="box_title">비만도 측정(BMI지수)</h3>
 <p class="box_text">
 	BMI를 이용한 비만도 계산은 자신의 몸무게를 키의 제곱으로 나누는 것으로 공식은 kg/㎡. <br />
@@ -114,5 +115,53 @@ function bmi_view(){
 							<em class="em_blue">0 저체중 ／ 18.5 정상</em> | <em class="black">23 과체중 ／ 25 경도비만</em> | <em class="em_red">30 중등도비만 ／BMI</em>
 						</div>	
 							<p class="margin_t_20">※신체질량지수(BMI : Body Mass Index)는 질병관리본부에서 제공하는 계산법입니다.</p>
+</div>
+
+	
+<script type="text/javascript">
+function cal(){
+   var data=$('#calorieForm').serialize();
+   //alert(data);
+   $.ajax({
+      url:'/health/cal',
+      method:'post',
+      cache:false,
+      data: data,
+      dataType:'json',
+      success:function(res){
+         //alert(res.recommand+"Kacl");
+         $('#result').text("권장열량"+res.recommand+"Kcal");
+      }, error: function(xhr,status){
+         alert("에러 :"+err);
+      }
+      
+   });
+}
+</script>
+<div id="container2">
+	<main>
+		<div><h3>권장 칼로리 계산기</h3></div>
+			<div>
+				<form id=calorieForm>
+					<div>키:<input type="number" name="height"></div>
+					<div>성별:
+						<input type="radio" name="gender" value="1">남
+				        <input type="radio" name="gender" value="0">여
+				    </div>
+				  	<div>활동지수
+					   <select name="active">
+					      <option value="1">비 활동
+					      <option value="2">정적 활동
+					      <option value="3">일반 활동
+					      <option value="4">매우 활동
+					   </select>
+				     </div>
+					<input type="button" value="권장 칼로리 계산" onclick="cal();">
+				</form>
+			</div>
+		<div id="result"></div>      
+	</main>
+</div>
+	
 </body>
 </html>

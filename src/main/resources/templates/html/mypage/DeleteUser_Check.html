@@ -29,12 +29,12 @@ function deleteuser()
 				success:function(res){
 					if(res.deleted)
 						{
-							alert("삭제성공");
-							location.href="/health/";
+							alert("회원탈퇴 성공");
+							location.href="/health/main";
 						}
 					else
 						{
-							alert("삭제실패");
+							alert("회원탈퇴 실패");
 						}
 				},
 				error : function(xhr,status,err){
