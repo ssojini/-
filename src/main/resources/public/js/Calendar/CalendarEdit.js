@@ -25,7 +25,7 @@ $(function(){
 			success: function (data) {
 		           $('#btnUpload').prop('disabled', false);
 		           alert('수정되었습니다')
-		           //location.href=''
+		           location.reload();
 		        },
 		        error: function (e) {
 		            $('#btnUpload').prop('disabled', false);
@@ -37,7 +37,7 @@ $(function(){
 
 function deleteImg(a_num)
 {			
-	var num = $("#a_pnum").val();
+	var num = $("#a_num").val();
 	$.ajax({
 		url : '/calen/delimg',	
 		method : 'post',

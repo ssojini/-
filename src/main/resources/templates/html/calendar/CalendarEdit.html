@@ -37,7 +37,7 @@
 		<div th:each="sch : ${list.sch}" class="form imgview">
 			<div th:each="att : ${sch.attlist}" class="img">
 				<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
-					<input type="hidden" name="a_pnum" id="a_pnum" th:value="${att.a_pnum}">
+					<input type="hidden" name="a_num" id="a_num" th:value="${att.a_num}">
 					<button type='button' class='delbttn' th:onclick='|javascript:deleteImg(${att.a_num})|'>Ｘ</button>
 			</div>
 		</div>

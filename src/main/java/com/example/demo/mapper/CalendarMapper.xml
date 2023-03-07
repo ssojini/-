@@ -63,7 +63,7 @@
 	</update>
 	
 	<delete id="delImg" parameterType="Integer">
-		DELETE FROM attachcalendar WHERE a_pnum = #{a_pnum}
+		DELETE FROM attachcalendar WHERE a_num = #{a_num}
 	</delete>
 	
 	<delete id = "caldelete" parameterType="com.example.demo.vo.HCalendar">
