@@ -9,6 +9,12 @@ p.bul-exclamation-red{
 	    text-align: center;
 }
 
+#container{
+	display: inline-block;
+	width: 70%;
+	margin-left:3%;
+}
+
 a.tabb{
 	color: black;
 		text-decoration: none;
@@ -17,7 +23,7 @@ a.tabb{
 		display: inline-block; 
 		width: 150px;
 		text-align: center;
-		margin: 5px;
+		margin: 8px;
 		display:flex;
 	} 
 	
@@ -52,19 +58,22 @@ ul.tab5 {
 
 li.tab{
     float: left;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 
 table {
   padding: 50px;
-  margin-left:px;
+  margin-left:30px;
   margin-right:auto;
   table-layout: fixed;
-  width: 70%;
+  width: 100%;
   border-collapse: collapse;
   text-align: center;
   margin-bottom: 300px;
+    border-top: 1px solid #444444;
+    border-bottom: 1px solid #444444;
+    border-collapse: collapse;
 }
 
 thead th:nth-child(1) {
@@ -86,8 +95,22 @@ thead th:nth-child(4) {
 th, td {
   padding: 20px;
 }
+th{
+	border-bottom: 1px solid #444444;
+}
 
 
 #ex{
-	
+	display: inline-block;
+	width: 20%;
+	margin: 0 5px;  
+	float: right;
+
+}
+
+
+img.cal{
+	margin-bottom: 10px;
+	margin-left:40px;
+	width:120px;	
 }
