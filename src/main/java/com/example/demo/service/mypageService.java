@@ -136,10 +136,10 @@ public class mypageService {
 		return deleted;
 	}
 	
-	public boolean changepwd(User user)
+	public boolean changepwd(String userid, String pwd)
 	{
 		boolean changed= false;
-		if(map.changepwd(user)>0)
+		if(map.changepwd(userid,pwd)>0)
 		{
 			changed= true;
 		}

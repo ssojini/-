@@ -19,7 +19,7 @@ public interface UserEditMapper {
 	
 	public int deleteuser(String userid);
 	
-	public int changepwd(User User);
+	public int changepwd(String userid, String pwd);
 	
 	public List<Freeboard> getmyboard(String userid);
 
