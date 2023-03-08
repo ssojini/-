@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 
 import java.util.*;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +77,7 @@ public class AdminBoardSerivce
 			String jts = String.valueOf(map.get("QDATE"));
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date parseDate;
-			log.info("날짜:" + dateFormat.format(map.get("QDATE"))); 
+		//	log.info("날짜:" + dateFormat.format(map.get("QDATE"))); 
 			String date =dateFormat.format(map.get("QDATE"));
 			oneb.setQdate(date);
 		} catch (Exception e) {
@@ -143,7 +145,7 @@ public class AdminBoardSerivce
 				AttachBoard att = new AttachBoard();
 		
 				String attname = (String)boardMap.get("ATTNAME");
-				log.info("attname:"+attname);
+			//	log.info("attname:"+attname);
 				att.setAttname(attname);
 				java.math.BigDecimal bigd=(java.math.BigDecimal)boardMap.get("ATTSIZE");
 				att.setAttsize(bigd.intValue());
@@ -160,7 +162,7 @@ public class AdminBoardSerivce
 	@Transactional
 	public boolean updateQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
 	{
-		//log.info("svc, mfiles.length={}", mfiles.length);
+		log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
 		List<AttachBoard> alist = new ArrayList<>();
@@ -172,7 +174,7 @@ public class AdminBoardSerivce
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
 				for(int i=0; i<mfiles.length; i++) {
-						//log.info("mfiles length"+ mfiles.length);
+						log.info("mfiles length"+ mfiles.length);
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
 						
 						AttachBoard attb = new AttachBoard();
@@ -247,7 +249,7 @@ public class AdminBoardSerivce
 	
 	public boolean delFromServer(List<AttachBoard> attachList)
 	{
-		log.info("컨트롤러 첨부파일 리스트"+attachList);
+	//	log.info("컨트롤러 첨부파일 리스트"+attachList);
 		
 		for(int i=0; i<attachList.size();i++)
 		{
@@ -257,7 +259,7 @@ public class AdminBoardSerivce
 				Files.deleteIfExists(file);
 				return true;
 			}catch (Exception e){
-				log.error("Delete file error: "+e.getMessage());
+				//log.error("Delete file error: "+e.getMessage());
 			}
 		}
 	
@@ -325,7 +327,7 @@ public class AdminBoardSerivce
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			//Date parseDate;
 			//System.out.println(map.get("DATE_ADMIN"));
-			log.info("날짜:" + dateFormat.format(map.get("DATE_ADMIN"))); 
+			//log.info("날짜:" + dateFormat.format(map.get("DATE_ADMIN"))); 
 			String date = dateFormat.format(map.get("DATE_ADMIN"));
 			adminb.setDate_admin(date);
 			//adminb.setDate_admin(new java.sql.Timestamp(parseDate.getTime()));
@@ -351,7 +353,7 @@ public class AdminBoardSerivce
 				AdminAttachBoard att = new AdminAttachBoard();
 				
 				String attname = (String)boardMap.get("ATTNAME");
-				log.info("attname:"+attname);
+				//log.info("attname:"+attname);
 				att.setAttname(attname);
 				java.math.BigDecimal bigd=(java.math.BigDecimal)boardMap.get("ATTSIZE");
 				att.setAttsize(bigd.intValue());
@@ -377,8 +379,13 @@ public class AdminBoardSerivce
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
 		
-		 List<AdminAttachBoard> alist = new ArrayList<>();
+		List<AdminAttachBoard> alist = new ArrayList<>();
+		
+		int brow = mapper.addAdminBoard(adminb);
+		//log.info("brow 값:"+ brow);
 		try {
+			boolean uploaded = false;
+			
 			//log.info("mfiles length:"+ mfiles.length);
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
@@ -390,15 +397,16 @@ public class AdminBoardSerivce
 						attb.setAttsize(mfiles[i].getSize());
 						alist.add(attb);
 						
-						int arow =mapper.saveAdminAttach(alist);
-						int brow = mapper.addAdminBoard(adminb);
-						boolean added = brow>0 && arow>0;
-						return added;
 				}
+				
+				int arow =mapper.saveAdminAttach(alist);
+				//log.info("arow값:"+ arow);
+				uploaded = brow>0 && arow>0;
+				return uploaded;
+				
 			}else {//첨부파일 없으면
-				int brow= mapper.addAdminBoard(adminb);
-				boolean added = brow>0;
-				return added;
+				uploaded = brow>0;
+				return uploaded;
 				
 			}
 			
@@ -428,19 +436,18 @@ public class AdminBoardSerivce
 			{
 				for(int i=0; i<mfiles.length; i++) {
 						mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));//첨부파일저장
-						
 						AdminAttachBoard attb = new AdminAttachBoard();
 						attb.setAttname(mfiles[i].getOriginalFilename());
 						attb.setAttsize(mfiles[i].getSize());
 						attb.setAdnum(adminb.getAdnum());
-						log.info("adnum값"+adminb.getAdnum());
+						//log.info("adnum값"+adminb.getAdnum());
 						alist.add(attb);
 					//	log.info("svc, attb 목록"+ alist );
 	//					return uploaded;
 				}
 				
 				int arow =mapper.moreAttach_admin(alist);
-				log.info("svc, arow 값"+arow);
+				//log.info("svc, arow 값"+arow);
 				uploaded = brow>0 && arow>0;
 				return uploaded;
 				
@@ -536,6 +543,63 @@ public class AdminBoardSerivce
 		return pageInfo;
 	}
 	
+	public JSONArray search_notice(String input) {
+	      JSONArray jsArr = new JSONArray();
+	      List<AdminBoard> list = mapper.search_notice(input);
+	      
+	      for (AdminBoard adminb: list) {
+	         jsArr.add(convertAdminbToJson(adminb));
+	      }
+	      return jsArr;
+	   }
+	
+	public JSONArray search_faq(String input) {
+	      JSONArray jsArr = new JSONArray();
+	      List<AdminBoard> list = mapper.search_faq(input);
+	      
+	      for (AdminBoard adminb: list) {
+	         jsArr.add(convertAdminbToJson(adminb));
+	      }
+	      return jsArr;
+	   }
+	
+	 public JSONObject convertAdminbToJson(AdminBoard adminb) {
+
+
+	        JSONObject json = new JSONObject();
+	         json.put("title", adminb.getTitle());
+	         json.put("author", adminb.getAuthor());
+	         json.put("content", adminb.getContent());
+	         json.put("date_admin", adminb.getDate_admin());
+	         json.put("hit", adminb.getHit());
+	         json.put("adnum", adminb.getAdnum());
+	        
+	         return json;
+	    }
+
+	public JSONArray search_qna(String input, String userid) {
+	      JSONArray jsArr = new JSONArray();
+	      List<OneBoard> list = mapper.search_qna(input, userid);
+	      
+	      for (OneBoard oneb: list) {
+	         jsArr.add(convertOnebToJson(oneb));
+	      }
+	      return jsArr;
+	   } 
+	
+	 public JSONObject convertOnebToJson(OneBoard oneb) {
+
+
+	        JSONObject json = new JSONObject();
+	         json.put("title", oneb.getTitle());
+	         json.put("author", oneb.getAuthor());
+	         json.put("content", oneb.getContent());
+	         json.put("qdate", oneb.getQdate());
+	         json.put("hit", oneb.getHit());
+	         json.put("qnum", oneb.getQnum());
+	         
+	         return json;
+	    }
 	/*end of AdminBoard관련 메소드 */
 
 }

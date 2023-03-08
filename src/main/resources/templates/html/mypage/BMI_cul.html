@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <title>user_detail</title>
 </head>
-
+<link rel="stylesheet" href="/css/bmi.css">
 <body>
 <div>
     <div th:replace="fragments/common :: header"></div>
 </div>
-<link rel="stylesheet" href="/css/bmi.css">
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 function bmi_view(){
@@ -66,10 +66,11 @@ function bmi_view(){
 	
 }
 </script>
-<h3 class="box_title">비만도 측정(BMI지수)</h3>
+<div id="container1">
+<div class="title">비만도 측정(BMI지수)</div>
 <p class="box_text">
 	BMI를 이용한 비만도 계산은 자신의 몸무게를 키의 제곱으로 나누는 것으로 공식은 kg/㎡. <br />
-		<em class="em_blue">BMI가 18.5 이하면 저체중</em> ／ <em class="em_blue">18.5 ~ 22.9 사이면 정상</em> ／ <em class="em_black">23.0 ~ 24.9 사이면 과체중</em> ／ <em class="em_red">25.0 이상부터는 비만으로 판정.</em> <br />
+		<em class="em_blue1">BMI가 18.5 이하면 저체중</em> ／ <em class="em_blue2">18.5 ~ 22.9 사이면 정상</em> ／ <em class="em_black">23.0 ~ 24.9 사이면 과체중</em> ／ <em class="em_red3">25.0 이상부터는 비만으로 판정.</em> <br />
 		ex) 키 170㎝에 몸무게 73kg이면, 계산식 : 73 / (1.7×1.7) = 25.26 → 과체중
 </p>
 <div class="tbl-y-wrap r5">
@@ -101,18 +102,67 @@ function bmi_view(){
 				<button type="button" onclick="bmi_view();">확인</button>
 			</div>
 			<div id="result_box" class="inner_box" style="display:none">
-								<strong>MY BMI: <span id="guide_bmi1"></span></strong>
+								<strong id="resul">MY BMI: <span id="guide_bmi1"></span></strong>
 								<!--
 									결과 상태에 따른 클래스 부여해주세요.
 									정상 : em_b_blue
 									과체중 : bold
 									비만 : em_b_red
 								-->
-								<p>나의BMI(신체질량지수)는 <em class="bold" id="guide_bmi2"></em> 이고, <em class="em_b_blue" id="guide_sttus">정상</em>입니다.</p>
+								<p id="sub">나의BMI(신체질량지수)는 <em class="bold" id="guide_bmi2"></em> 이고, <em class="em_b_blue" id="guide_sttus">정상</em>입니다.</p>
 							</div>
 						<div id="com" class="com" style="text-align: center">
 							<em class="em_blue">0 저체중 ／ 18.5 정상</em> | <em class="black">23 과체중 ／ 25 경도비만</em> | <em class="em_red">30 중등도비만 ／BMI</em>
 						</div>	
 							<p class="margin_t_20">※신체질량지수(BMI : Body Mass Index)는 질병관리본부에서 제공하는 계산법입니다.</p>
+</div>
+
+	
+<script type="text/javascript">
+function cal(){
+   var data=$('#calorieForm').serialize();
+   //alert(data);
+   $.ajax({
+      url:'/health/cal',
+      method:'post',
+      cache:false,
+      data: data,
+      dataType:'json',
+      success:function(res){
+         //alert(res.recommand+"Kacl");
+         $('#result').text("권장열량"+res.recommand+"Kcal");
+      }, error: function(xhr,status){
+         alert("에러 :"+err);
+      }
+      
+   });
+}
+</script>
+<div class="vl"></div>
+<div id="container2">
+	<main>
+		<div class="title">권장 칼로리 계산기</div>
+			<div>
+				<form id=calorieForm>
+					<div id="cal_hei">키:<input type="number" name="height"></div>
+					<div class='cal_gen'>성별:
+						<input type="radio" name="gender" value="1">남
+				        <input type="radio" name="gender" value="0">여
+				    </div>
+				  	<div class='cal_act'>활동지수
+					   <select name="active">
+					      <option value="1">비 활동
+					      <option value="2">정적 활동
+					      <option value="3">일반 활동
+					      <option value="4">매우 활동
+					   </select>
+				     </div>
+					<input class='cal_btn' type="button" value="권장 칼로리 계산" onclick="cal();">
+				</form>
+			</div>
+		<div id="result"></div>      
+	</main>
+</div>
+	
 </body>
 </html>

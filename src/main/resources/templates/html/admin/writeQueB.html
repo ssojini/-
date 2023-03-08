@@ -26,7 +26,9 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" 
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous">
+</script>
+<script type="text/javascript" src="/js/load.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('#btnUpload').on('click',function(event){
@@ -52,7 +54,7 @@ $(function(){
 				$('#btnUpload').prop('disabled', false);
 				if(res.uploaded){
 					alert('문의사항이 저장 되었습니다.');
-					location.href= "/health/qna/1/10"
+					location.href= "/health/qna"
 				}
 			},
 			error: function(e){
@@ -65,6 +67,7 @@ $(function(){
 })
 
 </script>
+
 </head>
 <body>
 <div>
@@ -93,6 +96,8 @@ $(function(){
 	<div>
 		<label for="attach">첨부파일</label>
 		<input type="file" name="attach" multiple="multiple">
+		<div id="preview">
+		</div>
 	</div>
 	<p>
 	<div class="btn"> 

@@ -22,7 +22,7 @@
 				<ul style="list-style: none; ">
 					<li>
 						<span th:if="${session.userid}!=null" style="color:black;">[[${session.userid}]] ||
-							<a th:href="'/team/logout'" style="color:black;">로그아웃</a>|| 
+							<a th:href="'/doLogout'" style="color:black;">로그아웃</a>|| 
 							<a th:href="'/health/useredit/'+ ${session.userid}" style="color:black;">마이페이지</a>
 						</span> 
 						<span th:unless="${session.userid}!=null">
@@ -41,7 +41,7 @@
 					<div class="tm-page-header" style="background-color: white;">
 						<i class="fas fa-4x  mr-4"></i>
 						<h1 class="d-inline-block text-uppercase">
-							<a href="/health/main" style="color: black;">HEALTH</a>
+							<a href="/health/main" style="color: black;">Gun Kki</a>
 						</h1>
 					</div>
 				</div>
@@ -86,16 +86,16 @@
 										</ul>
 									</li>
 									<li class="nav-item com">
-										<a class="nav-link" href="/admin/faq/1/10">Support</a>
+										<a class="nav-link" href="/health/faq/1/10">Support</a>
 										<ul class="navbar_item_menu ul">
 											<li class="com"><a class="line" href="/health/faq/1/10">FAQ</a></li>
 											<li class="com"><a class="line" href="/health/notice/1/10">공지사항</a>
-											<li class="com"><a class="line" href="/health/qna/1/10">1:1 문의</a>
+											<li class="com"><a class="line" href="/health/qna">1:1 문의</a>
 										</ul>
 
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="/health/center_search">보건소</a>
+										<a class="nav-link" href="/health/center_search">BMI</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="/shop/ShopMainPage">Shop</a>

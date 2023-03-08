@@ -1,11 +1,19 @@
 package com.example.demo.controller;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.HttpSessionHandler;
-import com.example.demo.interfaces.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.User;
@@ -24,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/team")
-public class JoinController 
+public class JoinController
 {	
 	@Autowired
 	private UserRepository repo;
@@ -35,6 +43,23 @@ public class JoinController
 	@Autowired
 	public EmailService es;
 	
+	//초기 데이터 생성 메소드
+	@GetMapping("/add")
+	@ResponseBody
+	public String add(HttpSession session)
+	{
+		//상욱
+		Date date = Date.valueOf("2022-12-31");
+		
+		User member = new User("user",new BCryptPasswordEncoder().encode("1111"),"clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png","ROLE_USER");
+		User added = repo.save(member);
+		
+		User admin = new User("admin",new BCryptPasswordEncoder().encode("0000"),"admin",date,"010-0000-0000","admin@naver.com","/profile/default.png","ROLE_ADMIN");
+		User addedAdmin = repo.save(admin);
+		
+		return added.toString();
+	}
+
 	//이용약관
 	@GetMapping("/rules")
 	public String showjoinForm1()
@@ -73,7 +98,7 @@ public class JoinController
 	public Map<String,Object> join(User user)
 	{
 		Map<String,Object> map = new HashMap<>();
-		map.put("join", repo.save(user));
+		map.put("join", us.join(user));
 		return map;
 	}
 	//이메일인증
@@ -91,12 +116,14 @@ public class JoinController
 	{
 		return "html/login/login";
 	}
+	/* Spring Security 에서는 필요 없음
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<String,Object> loginProc(User user)
 	{
 		return us.login(user.getUserid(),user.getPwd());
 	}
+	*/
 	@GetMapping("/findLoginInfo")
 	public String findLoginInfo()
 	{
@@ -125,13 +152,15 @@ public class JoinController
 	{
 		return us.find(user.getPhone(),user.getEmail());
 	}
+	/* Spring Security에서는 필요 없음
 	@GetMapping("/logout")
 	public String logout()
 	{
 		//session.setAttribute("userid", null);
 		session.invalidate();
 		return "html/login/login";
-	}	
+	}
+	*/
 	
 	//---------------이메일 인증------------------
 	
@@ -174,20 +203,31 @@ public class JoinController
 	
 	/*----------------- [상욱 끝] ----------------- */
 
-	//초기 데이터 생성 메소드
-//	@GetMapping("/add")
-//	@ResponseBody
-//	public String add(HttpSession session)
-//	{
-//		//상욱
-//		Date date = Date.valueOf("2022-12-31");
-//		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png");
-//		User added = repo.save(member);
-//		
-//		// 현주 
-//
-//		return added.toString();
-//	}
+	@GetMapping("/loginsuccess")
+	@ResponseBody
+	public Map<String,Object> loginsuccess(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user,HttpSession session,Model m)
+	{
+		Map<String,Object> map = new HashMap<>();
+		
+		map.put("login",true);
+		map.put("msg","로그인 성공");
+		System.out.println("authorities:"+user.getAuthorities().toString());
+		if (user.getAuthorities().toString().equals("[ROLE_ADMIN]"))
+			map.put("msg", "관리자 로그인 성공");
+		
+		User findUser = us.findByUserid(user.getUsername());
+		session.setAttribute("userid", findUser.getUserid());
+		session.setAttribute("nickname", findUser.getNickname());
+		
+		return map;
+	}
 	
-	
+	@GetMapping("/login-error")
+	@ResponseBody
+	public Map<String,Object> loginError() {
+		Map<String,Object> map = new HashMap<>();
+		map.put("login", false);
+		map.put("msg", "로그인 실패");
+		return map;
+	}
 }

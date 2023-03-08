@@ -15,6 +15,50 @@
 	display: block;
 }
 
+.when {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+}
+.when:hover {
+	box-shadow: 0px 0px 150px #000000;
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.5);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1.5);   
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1.5);
+    transition: all 200ms ease-in;
+    transform: scale(1.5);
+}
+.mo {
+	background-color: #B5F1CC;
+ }
+ .lu {
+	background-color: #8879B0;
+ }
+ .di {
+	background-color: #FAAB78;
+ }
+ .sn {
+ 	background-color: #6096B4;
+ }
+ .qwe{
+	float:left;
+	padding-right:10px;
+ }
+ .whenview {
+ 	float:left;
+	padding-right: 10px;
+ }
+ .wvi{
+ 	float:right;
+ 	padding-right:130px;
+ 	padding-top:30px;
+ 	padding-bottom:30px;
+ }
+
 .tab {
   overflow: hidden;
 }

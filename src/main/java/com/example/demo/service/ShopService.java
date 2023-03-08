@@ -26,11 +26,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.interfaces.AddGoods_AttReopsitory;
-import com.example.demo.interfaces.CartRepository;
-import com.example.demo.interfaces.GoodsRepository;
-import com.example.demo.interfaces.OrderRepository;
 import com.example.demo.mapper.ShopMapper;
+import com.example.demo.repository.AddGoods_AttReopsitory;
+import com.example.demo.repository.CartRepository;
+import com.example.demo.repository.GoodsRepository;
+import com.example.demo.repository.OrderRepository;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Cart;

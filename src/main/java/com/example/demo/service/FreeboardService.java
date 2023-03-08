@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.interfaces.FreeboardRepository;
+import com.example.demo.repository.FreeboardRepository;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.FreeboardAttach;
 

@@ -67,6 +67,8 @@ public class FreeboardController {
 		String nickname = (String)session.getAttribute("nickname");
 		System.out.println("nickname:"+nickname);
 		freeBoard.setAuthor(nickname);
+		String userid = (String)session.getAttribute("userid");
+		freeBoard.setUserid(userid);
 		Freeboard addFreeboard = freeboardService.save(session, freeBoard);
 		map.put("result", true);
 		map.put("freeboard", freeboardService.freeboardToMap(addFreeboard));

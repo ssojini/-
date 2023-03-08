@@ -15,9 +15,10 @@
 </div>
 <main>
 <div class="container1">
+	<form id="editForm" action="/calen/editCal" method="post" enctype="multipart/form-data">
 	<div th:each="list : ${mlist}" style="padding-top:40px;">
 		<div th:each="cal : ${list.cal}"
-			 th:text="${cal.datetime}" class="form" style="width:20%;">	 
+			 th:text="${cal.datetime}" class="form" style="width:20%;">	
 		</div>
 	</div>
 	<div th:each="list : ${mlist}" class="form" style="width:20%;">
@@ -27,7 +28,8 @@
 	</div>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}">
-		<div id="s_pnum" th:text="${sch.s_pnum}" hidden="true"></div>
+			<input type="hidden" name="s_num" id="s_num" th:value="${sch.s_num}">
+			<input type="hidden" name="s_pnum" id="s_pnum" th:value="${sch.s_pnum}">
 			<textarea class="form textarea" id ="content" name="content" rows="10" cols="50" th:text="${sch.content}"></textarea>
 		</div>
 	</div>
@@ -35,10 +37,9 @@
 		<div th:each="sch : ${list.sch}" class="form imgview">
 			<div th:each="att : ${sch.attlist}" class="img">
 				<img th:src="@{/images/calendar/}+${att.pname}" width="84" height="84">
-				<form>
+					<input type="hidden" name="a_pnum" id="a_pnum" th:value="${att.a_pnum}">
 					<input type="hidden" name="a_num" id="a_num" th:value="${att.a_num}">
 					<button type='button' class='delbttn' th:onclick='|javascript:deleteImg(${att.a_num})|'>Ｘ</button>
-				</form>
 			</div>
 		</div>
 		<div>
@@ -48,8 +49,9 @@
 	</div>
 	<div class="footBtwrap">
 		<div style="padding-right:10px;"><button type="button" class="form-btn reset footBtwrap_l" onClick="history.go(-1)">이전</button></div>
-		<div><button type="button" class="form-btn footBtwrap_r" onclick="editCalendar();">적용</button></div>
+		<div><button type="button" class="form-btn footBtwrap_r" id="btnUpload">적용</button></div>
 	</div>
+	</form>
 </div>
 </main>
 </body>
