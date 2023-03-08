@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link href="/css/adminboard.css" rel="stylesheet">
 <title>관리자 - 1:1 문의 상세보기 </title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -29,37 +30,43 @@ function deleteQueB()
    })
 }
 
-
+function edit_btn(){
+	location.href = "/health/edit_q/[[${oneb.qnum}]]"
+}
 
 </script>
 </head>
 <body>
 <div th:replace="fragments/common :: header"></div>
-<div style="margin:0 auto; width: 500px; height:500px; padding-top:30px;">
 
-	   <div>제목
-	      <span>[[${oneb.title}]]</span>
-	   </div>
-	   <div>작성자
-	      <span>[[${userid}]]</span>
-	   </div>
-	   <div>조회수
-	      <span>[[${oneb.hit}]]</span>
-	   </div>
-	   <div>등록일
-	      <span>[[${oneb.qdate}]]</span>
-	   </div>
-	   <div>내용
-	      <span>[[${oneb.content}]]</span>
-	   </div>
-	   
-	   <div>첨부파일</div>
-	   <span th:if= "${oneb.attList.size()>0}"></span>
-	   <span th:each="att: ${oneb.attList}"> [[${att.attname}]]</span>
-	
-	<a th:href= "|/health/edit_q/${oneb.qnum}|">[수정하기]</a>
-	<p>
-	<button type="button" onclick="deleteQueB();"> 삭제</button>
+	<div class= "top_wrap">
+		<div style="width:90%;float:right;">
+			<h1 style="padding-top:25px; text-align: left;">1:1 문의</h1> 
+		</div>
+	</div>
+<div id= "container">	
+   <div class="tit">[[${oneb.title}]]</div>
+   <div class="aut">작성자 [[${userid}]]</div>
+   <div class="hit">조회수
+      <span>[[${oneb.hit}]]</span>
+   </div>
+   <div class="date1">등록일
+      <span>[[${oneb.qdate}]]</span>
+   </div>
+   <div class="cont">[[${oneb.content}]]</div>
+   
+   <div>첨부파일</div>
+   <div th:if= "${oneb.attList.size()>0}"></div>
+		<div th:each="att: ${oneb.attList}">
+			<img class=img_s th:src="'/images/'+${att.attname}">
+			<div>[[${att.attname}]]</div>
+		</div>
+
+	<div style="text-align:center;"> 
+		<button type="button" onclick="deleteQueB();"> 삭제</button>
+		<button type="button" onclick="edit_btn();"> 수정 </button>
+	</div>
+
 </div>
 </body>
 </html>

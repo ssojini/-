@@ -29,6 +29,7 @@ import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.CalendarService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
+import com.example.demo.service.PagingService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.HealthCenterService;
 import com.example.demo.service.mypageService;
@@ -220,22 +221,30 @@ public class HealthController {
 	@Autowired
 	private HealthService hsvc;
 	
-	@GetMapping("/qna/{pg}/{cnt}")
-	public String qa(Model m, @PathVariable int pg, 
-			@PathVariable int cnt, 
-			HttpSession session)
+	@Autowired
+	private PagingService pagesvc;
+	
+	@GetMapping("/qna")
+	public String qa(Model m, 
+			HttpSession session,
+			String title, 
+			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
+			)
 	{
+		
 		String userid = (String)session.getAttribute("userid");
-		log.info("ctrl, session에서 전달된 userid:"+ userid);
+		//log.info("ctrl, session에서 전달된 userid:"+ userid);
+		System.out.println("userid:"+userid);
 		if(userid==null)
 		{
 			return "html/admin/qna";
 		}
 		m.addAttribute("userid", userid);
-		PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
-		List<OneBoard> list = hsvc.qna(pageInfo.getList());
-		m.addAttribute("list", list);
-		
+
+		Page<OneBoard> pageOneboard = pagesvc.getList(pageable);
+		System.out.println("pageOneboard:"+pageOneboard.toList());
+		m.addAttribute("pageOneboard", pageOneboard);
+		System.out.println("getNumber:"+pageOneboard.getNumber());
 		return "html/admin/qna";
 	}
 	
@@ -276,11 +285,11 @@ public class HealthController {
 			OneBoard oneb,
 			@RequestParam("attach") MultipartFile[] mfiles)
 	{
-		log.info("ctrl, reply ajax로 돌아감");
+		//log.info("ctrl, reply ajax로 돌아감");
 		boolean uploaded =absvc.uploadQueB(request, oneb, mfiles);
 		Map<String, Boolean> map= new HashMap<>();
 		map.put("uploaded", uploaded);
-		log.info("ctrl, uploaded값:"+ uploaded);
+		//log.info("ctrl, uploaded값:"+ uploaded);
 		return map;
 	}
 	
@@ -313,7 +322,9 @@ public class HealthController {
 			@RequestParam("attach") MultipartFile[] mfiles,
 			HttpServletRequest request)
 	{
+		log.info("edit_q 돌아감");
 		boolean uploaded = absvc.updateQueB(request, oneb, mfiles);
+		log.info("svc boolean 값"+ uploaded);
 		Map<String, Boolean> map = new HashMap<>();
 		map.put("uploaded", uploaded);
 		return map;
@@ -403,6 +414,8 @@ public class HealthController {
 		{
 			AdminBoard faqb = absvc.detail_adminb(adnum);
 			m.addAttribute("faqb", faqb);
+			//log.info("첨부파일 check");
+			//log.info("첨부파일이름"+ faqb.getAttList());
 			return "html/admin/detail_faq";
 		}
 		
