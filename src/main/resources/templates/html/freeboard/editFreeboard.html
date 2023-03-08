@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div>
-    	<div th:replace="fragments/common :: header"></div>
+    	<div th:replace="~{fragments/common :: header}"></div>
 	</div>
 	<main>
 		<div id="freeboard" th:if="${freeboard != null}">

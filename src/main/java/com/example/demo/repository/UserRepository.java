@@ -1,6 +1,7 @@
-package com.example.demo.interfaces;
+package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.vo.User;
 
@@ -19,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, String>
 	
 	User findByNickname(String nickname);
 
+	User findByUserid(String username);
 }

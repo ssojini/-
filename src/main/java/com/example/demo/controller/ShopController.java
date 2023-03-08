@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.interfaces.CartRepository;
-import com.example.demo.interfaces.GoodsRepository;
+import com.example.demo.repository.CartRepository;
+import com.example.demo.repository.GoodsRepository;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Cart;

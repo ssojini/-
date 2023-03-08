@@ -1,4 +1,4 @@
-package com.example.demo.interfaces;
+package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.vo.Order;
