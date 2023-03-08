@@ -3,11 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
+<style>
+#usertable, #gendertable{ padding-top:20px}
+table{margin:0 auto;}
+table,th,td {border: 1px solid black; border-collapse:collapse;padding:5px; text-align: center}
+
+</style>
 </head>
 <body style="margin:0; padding: 0;background-color: rgb(223,223,223);">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
+<div style="padding-left:230px; width:500px;">
+	<canvas id="line-chart"></canvas>
+</div>
+<div style="padding-left:230px; width:500px;">
+	<div>
+		<canvas id="line-chart1"></canvas>
+		<div id="usertable"></div>
+	</div>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		console.log('ready');
+		getCalGraph();
+		getUserGraph();
+		getGenderGraph();
+	});
+		
+	function getCalGraph(){
+		let timeList = [];
+		let posList = [];
+	
+		$.ajax({
+			url:'/manager/calchart',
+			type:'post',
+			dataType:'json',
+			success:function(res){
+				for(var i=0; i<res.length; i++){
+					timeList.push(res[i].DATETIME);
+					posList.push(res[i].CNT);
+				}
+				console.log(timeList);
+				new Chart(document.getElementById("line-chart"),{
+					type:'line',
+					data:{
+					labels: timeList,
+					datasets:[{
+						data:posList,
+						label:"캘린더 등록 횟수",
+						borderColor:"green",
+						fill:false
+						}]
+					},
+					options: {
+						title: {
+							display:true,
+							text:"월간 캘린더"
+						}
+					}
+				});
+			},
+			error:function(){
+				alert("실패");
+			}
+		});
+	}
+	
+	function getUserGraph(){
+		let ageList = [];
+		let maleList = [];
+		let femaleList = [];
+	
+		$.ajax({
+			url:'/manager/userchart',
+			type:'post',
+			dataType:'json',
+			success:function(res){
+				console.log(res);
+				for(var i=0; i<res.length; i++){
+					ageList.push(res[i].AGE+"대");
+					maleList.push(res[i].MALE);
+					femaleList.push(res[i].FEMALE);
+				}
+				console.log('male'+maleList)
+				console.log('female'+femaleList)
+				
+				new Chart(document.getElementById("line-chart1"),{
+					type:'bar',
+					data:{
+					labels: ageList,
+					datasets:[
+						{
+							data: maleList,
+							label:"남성",
+							backgroundColor: [
+								'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+								,'rgba(54, 162, 235, 0.2)'
+							],
+							borderColor: [
+								'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+								,'rgba(54, 162, 235, 1)'
+							],
+							borderWidth: 1,
+							fill:false
+						},
+						{
+							data: femaleList,
+							label:"여성",
+							backgroundColor: [
+								'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+								,'rgba(255, 99, 132, 0.2)'
+							],
+							borderColor: [
+								'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+								,'rgba(255, 99, 132, 1)'
+							],
+							borderWidth: 1,
+							fill:false
+						}
+					]
+					},
+					options: {
+						title: {
+							display:true,
+							text:"회원 연령대"
+						}
+					}
+				});
+				
+				let table = document.createElement('table');
+				let thead = document.createElement('thead');
+				let tbody = document.createElement('tbody');
+
+				table.appendChild(thead);
+				table.appendChild(tbody);
+
+				// Adding the entire table to the body tag
+				document.getElementById('usertable').appendChild(table);
+				
+				// Creating and adding data to first row of the table
+				let row_1 = document.createElement('tr');
+				let heading_1 = document.createElement('th');
+				heading_1.innerHTML = "";
+				row_1.appendChild(heading_1);
+				for(var i=0; i<ageList.length; i++)
+				{
+				let heading_2 = document.createElement('th');
+				heading_2.innerHTML = ageList[i];
+
+				row_1.appendChild(heading_2);
+				thead.appendChild(row_1);
+				}
+				
+				// Creating and adding data to second row of the table
+				let row_2 = document.createElement('tr');
+				let row_2_data_1 = document.createElement('th');
+				row_2_data_1.innerHTML = '남성';
+				row_2.appendChild(row_2_data_1);
+				for(var i=0; i<maleList.length; i++)
+				{
+					let row_2_data_2 = document.createElement('td');
+					row_2_data_2.innerHTML = maleList[i]+'명';
+	
+					row_2.appendChild(row_2_data_2);
+					tbody.appendChild(row_2);
+				}
+				
+				// Creating and adding data to second row of the table
+				let row_3 = document.createElement('tr');
+				let row_3_data_1 = document.createElement('th');
+				row_3_data_1.innerHTML = '여성';
+				row_3.appendChild(row_3_data_1);
+				for(var i=0; i<femaleList.length; i++)
+				{
+					let row_3_data_1 = document.createElement('td');
+					row_3_data_1.innerHTML = femaleList[i]+'명';
+	
+					row_3.appendChild(row_3_data_1);
+					tbody.appendChild(row_3);
+				}
+			},
+			error:function(){
+				alert("실패");
+			}
+		});
+	}
+	
+	
+</script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.example.demo.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,13 +15,13 @@ public interface UserEditMapper {
 	
 	public User userinfo(String userid);
 	
-	public int useredit(User userjoin);
+	public int useredit(User User);
 	
 	public int deleteuser(String userid);
 	
-	public int changepwd(User userjoin);
+	public int changepwd(String userid, String pwd);
 	
-	public List<Freeboard> getmyboard(String nickname);
+	public List<Freeboard> getmyboard(String userid);
 
 	public Main_Title maintitle(int i);
 	

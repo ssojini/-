@@ -10,10 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.interfaces.AdminLoginRepository;
-import com.example.demo.interfaces.ShopListRepository;
-import com.example.demo.interfaces.UserListRepository;
 import com.example.demo.mapper.ManagerMapper;
+import com.example.demo.repository.AdminLoginRepository;
+import com.example.demo.repository.ShopListRepository;
+import com.example.demo.repository.UserListRepository;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.GoodsAndAtt;
@@ -147,16 +147,14 @@ public class ManagerService {
 		return page;
 	}
 
-	public Object chartcal() {
-		int year;
-//		if(a==null)
-//		{
-//			year = LocalDate.now().getYear();
-//		}
-//		else year = Integer.valueOf(a);
-//		log.info("year"+year);
-		return null;
+	public List<Map<String, Object>> chartcal() {
+		List<Map<String, Object>> list = map.chartcal();
+		return list;
 	}
 
+	public List<Map<String, Object>> chartuser() {
+		List<Map<String, Object>> list = map.chartuser();
+		return list;
+	}
 
 }

@@ -136,30 +136,19 @@ public class mypageService {
 		return deleted;
 	}
 	
-	public boolean changepwd(User user)
+	public boolean changepwd(String userid, String pwd)
 	{
 		boolean changed= false;
-		if(map.changepwd(user)>0)
+		if(map.changepwd(userid,pwd)>0)
 		{
 			changed= true;
 		}
 		return changed;
 	}
 	
-	public List<Freeboard> getmyboard(String nickname)
+	public List<Freeboard> getmyboard(String userid)
 	{
-		nickname = "smash";
-		List<Freeboard>myboard= map.getmyboard(nickname);
-
-		/*for(int i=0; i<myboard.size();i++)
-		{
-			String a =myboard.get(i).getDatetime().toString();
-			String[]time = a.split(" ");
-			Timestamp newtime =Timestamp.valueOf(time[0]);
-
-			myboard.get(i).setDatetime(newtime);
-		}*/
-
+		List<Freeboard>myboard= map.getmyboard(userid);
 		return myboard;
 	}
 

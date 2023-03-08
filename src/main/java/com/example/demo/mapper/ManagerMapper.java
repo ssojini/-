@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -28,8 +29,8 @@ public interface ManagerMapper {
 	public List<GoodsAndAtt> shopitem();
 	public GoodsAndAtt getitem(int goodsnum);
 	public List<Freeboard> getboardlist(String bname);
-
-	
+	public List<Map<String, Object>> chartcal();
 	public int deletegoods(int goodsnum);
 	public int deletegoodsatt(int goodsnum);
+	public List<Map<String, Object>> chartuser();
 }

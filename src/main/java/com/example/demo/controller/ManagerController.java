@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,29 @@ public class ManagerController {
 	@GetMapping("/main")
 	public String managermain(Model m)
 	{
-		m.addAttribute("chart cal",svc.chartcal());
 		return "html/manager/ManagerMain";
+	}
+	
+	@RequestMapping("/calchart")
+	@ResponseBody
+	public List<Map<String, Object>> calchart(Model m)
+	{
+		List<Map<String, Object>> cal = svc.chartcal();
+		m.addAttribute("cal",cal);
+		System.out.println(cal.toString());
+		
+		return cal;
+	}
+	
+	@RequestMapping("/userchart")
+	@ResponseBody
+	public List<Map<String, Object>> userchart(Model m)
+	{
+		List<Map<String, Object>> user = svc.chartuser();
+		m.addAttribute("user",user);
+		System.out.println(user.toString());
+		
+		return user;
 	}
 	
 

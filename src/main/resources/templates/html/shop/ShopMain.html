@@ -37,7 +37,7 @@ function s_function() {
 			
 			<div id="links">
 				<ul>
-				<h2>추천상품</h2>
+					<h2>추천상품</h2>
 					<li th:each="goods: ${random}">
 					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
@@ -50,7 +50,7 @@ function s_function() {
 			</div>
 			<div id="links1">
 				<ul>
-				<h2>신상품</h2>
+					<h2>신상품</h2>
 					<li th:each="goods: ${newproduct}">
 					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
@@ -63,7 +63,7 @@ function s_function() {
 			</div>
 			<div id="links2">
 				<ul>
-				<h2>할인상품</h2>
+					<h2>할인상품</h2>
 					<li th:each="goods: ${newproduct}">
 					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 						<span id="quick-icon1"></span>
