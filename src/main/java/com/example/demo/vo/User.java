@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"pwd","nickname","birth","phone","email","profile","address"})
 @Entity
 @Table(name="userjoin")
-public class User implements Principal
+public class User
 {
 	//아이디
 	@Id
@@ -66,10 +66,5 @@ public class User implements Principal
 		this.profile = profile;
 		this.enabled = 1;
 		this.role = role;
-	}
-
-	@Override
-	public String getName() {
-		return this.getUserid();
 	}
 }

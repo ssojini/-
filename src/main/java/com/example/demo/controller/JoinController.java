@@ -98,6 +98,7 @@ public class JoinController
 	public Map<String,Object> join(User user)
 	{
 		Map<String,Object> map = new HashMap<>();
+		System.out.println("user:"+user);
 		map.put("join", us.join(user));
 		return map;
 	}

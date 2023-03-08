@@ -17,25 +17,27 @@ window.onload = function() {
     <div th:replace="~{fragments/common :: header}"></div>
 </div>
 	<main th:if="${freeBoard!=null}">
-		<div id="detail_freeboard_div">
-			<div id="fbnum_div">번호:<span id="fbnum">[[${freeBoard.fbnum}]]</span></div>
-			<div id="bname">
-				[[${#strings.equals(freeBoard.bname,'free')?'게시판:자유':null}]]
-				[[${#strings.equals(freeBoard.bname,'meal')?'게시판:식단':null}]]
-				[[${#strings.equals(freeBoard.bname,'beforafter')?'게시판:비포에프터':null}]]
-			</div>
-			<div id="author">작성자:[[${freeBoard.author!=null?freeBoard.author:'none'}]]</div>
-			<div id="title">제목:<span id="title_text">[[${freeBoard.title}]]</span></div>
-			<div id="contents_div">
-				<div id="contents">[[${freeBoard.contents}]]</div>
-				<div id="likeCount_div">
-					<a id="likeCount" href="javascript:clickLikeCount()" style="color:black;"><img id="likeCountImg" alt="likeCount.png" th:src="${likecountUser}?'/images/likeCount2.png':'/images/likeCount.png'" style="width:20px;height:20px;"><span id="likecount" style="margin-left:5px;">[[${#lists.size(likecount)}]]</span></a>
+		<div id="freeboard_div">
+			<div id="detail_freeboard_div">
+				<div id="fbnum_div">번호:<span id="fbnum">[[${freeBoard.fbnum}]]</span></div>
+				<div id="bname">
+					[[${#strings.equals(freeBoard.bname,'free')?'게시판:자유':null}]]
+					[[${#strings.equals(freeBoard.bname,'meal')?'게시판:식단':null}]]
+					[[${#strings.equals(freeBoard.bname,'beforafter')?'게시판:비포에프터':null}]]
+				</div>
+				<div id="author">작성자:[[${freeBoard.author!=null?freeBoard.author:'none'}]]</div>
+				<div id="title">제목:<span id="title_text">[[${freeBoard.title}]]</span></div>
+				<div id="contents_div">
+					<div id="contents">[[${freeBoard.contents}]]</div>
+					<div id="likeCount_div">
+						<a id="likeCount" href="javascript:clickLikeCount()" style="color:black;"><img id="likeCountImg" alt="likeCount.png" th:src="${likecountUser}?'/images/likeCount2.png':'/images/likeCount.png'" style="width:20px;height:20px;"><span id="likecount" style="margin-left:5px;">[[${#lists.size(likecount)}]]</span></a>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div id="detail_freeboard_button_div">
-			<button id="freeboard_goback_button" th:onclick="|location.href='@{/freeboard(bname=${freeBoard.bname})}'|">뒤로가기</button>
-			<button id="freeboard_edit_button" type="button" th:if="${#strings.equals(session.nickname,freeBoard.author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
+			<div id="detail_freeboard_button_div">
+				<button id="freeboard_goback_button" th:onclick="|location.href='@{/freeboard(bname=${freeBoard.bname})}'|">뒤로가기</button>
+				<button id="freeboard_edit_button" type="button" th:if="${#strings.equals(session.nickname,freeBoard.author)}" th:onclick="editFreeBoard([[${freeBoard.fbnum}]])">수정</button>
+			</div>
 		</div>
 		<div id="add_reply_div">
 			<textarea id="reply_contents"></textarea>
