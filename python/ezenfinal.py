@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from flask import jsonify
+import json
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -135,13 +136,15 @@ def prod_recommend():
 
 @app.route("/chatGPT",methods=['POST'])
 def chatGPT():
-    json = request.get_json()
-    gender = json['gender']
-    current_weight = float(json['current_weight'])
-    goal_weight = float(json['goal_weight'])
-    answer = chatGPT1(f"몸무게 : {current_weight}, 목표 체중 : {goal_weight}kg, 성별 : {gender}인 사람에게 하루 식단을 추천해주고 각 식단의 칼로리도 알려줘.")
-    print("answer:"+answer)
-    return answer
+    js = request.get_json()
+    gender = js['gender']
+    current_weight = float(js['current_weight'])
+    goal_weight = float(js['goal_weight'])
+    response = chatGPT1(f"몸무게 : {current_weight}, 목표 체중 : {goal_weight}kg, 성별 : {gender}인 사람에게 하루 식단을 추천해주고 각 식단의 칼로리도 알려줘.")
+    answer = response.split("\n")
+    print(type(answer))
+    print(answer)
+    return json.dumps(answer)
 
 @app.route("/prod_recommend", methods=['POST'])
 def prodRecommend():
