@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude= {"anum", "title", "author", "qdate", "adate", "hit", "content", "attList","key"
+@EqualsAndHashCode(exclude= {"anum", "title", "author", "qdate", "adate", "hit", "content", "attList"
 })
 @Entity
 @Table(name="queboard")
@@ -39,6 +39,4 @@ public class OneBoard
 	
 	@Transient
 	private List<AttachBoard> attList = new ArrayList<>();
-	
-	private String key;
 }
