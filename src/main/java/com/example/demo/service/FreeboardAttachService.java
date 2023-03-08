@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.interfaces.FreeboardAttachRepository;
+import com.example.demo.repository.FreeboardAttachRepository;
 import com.example.demo.vo.FreeboardAttach;
 
 import jakarta.servlet.http.HttpServletRequest;

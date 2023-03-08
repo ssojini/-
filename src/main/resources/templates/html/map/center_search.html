@@ -3,78 +3,95 @@
 <head>
 <meta charset="utf-8">
 <title>보건소찾기</title>
+
+<link rel="stylesheet" href="/css/helth_center.css">
 </head>
 <body>
+ <div>
+    <div th:replace="fragments/common :: header"></div>
+</div> 
+<h2 class="path">인바디 측정 가능 보건소 찾기</h2>
+<p class="bul-exclamation-red">지역별 인바디 측정 가능 보건소를 찾아보세요.</p>
 <div id="container">
 		<!-- contents // -->
 		<div class="contents">
-			
-			
-
-			<script>
-				
-			</script>
-
-			<p class="path">인바디 측정 가능 보건소 찾기</p>
-			<h2>인바디 측정 가능 보건소 찾기</h2>
-
-			<p class="bul-exclamation-red">지역별 인바디 측정 가능 보건소를 찾아보세요.</p>
 			<div class="tab3-wrap">
-				<ul class="tab3 clfix">
-					<li ><a href="/community/find_healthcenter.asp?area=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C">서울특별시</a></li><!-- 활성화시 li에 클래스 active 추가 -->
-					<li ><a href="/community/find_healthcenter.asp?area=%EB%B6%80%EC%82%B0%EA%B4%91%EC%97%AD%EC%8B%9C">부산광역시</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C">인천광역시</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C">대전광역시</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EB%8C%80%EA%B5%AC%EA%B4%91%EC%97%AD%EC%8B%9C">대구광역시</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C">광주광역시</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EC%9A%B8%EC%82%B0%EA%B4%91%EC%97%AD%EC%8B%9C">울산광역시</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EA%B2%BD%EA%B8%B0%EB%8F%84">경기도</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EC%A0%84%EB%9D%BC%EB%8F%84">전라도</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EA%B2%BD%EC%83%81%EB%8F%84">경상도</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EA%B0%95%EC%9B%90%EB%8F%84">강원도</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EC%B6%A9%EC%B2%AD%EB%8F%84">충청도</a></li>
-					<li ><a href="/community/find_healthcenter.asp?area=%EC%A0%9C%EC%A3%BC%EB%8F%84">제주도</a></li>
+				<ul class="tab3">
+					<li class="tab" ><a class="tabb" id="seoul" data-value="seoul" href="javascript:return false;" onclick="getloc(this);">서울특별시</a></li>
+					<li class="tab"><a class="tabb" id="loc" data-value="busan" href="javascript:return false;" onclick="getloc(this);">부산광역시</a></li>
+					<li class="tab"><a class="tabb" id="loc" data-value="incheon" href="javascript:return false;" onclick="getloc(this);">인천광역시</a></li>
+					<li class="tab"><a class="tabb" id="daejeon" data-value="daejeon" href="javascript:return false;" onclick="getloc(this);">대전광역시</a></li>
+					<li class="tab"><a class="tabb" id="daegu" data-value="daegu" href="javascript:return false;" onclick="getloc(this);">대구광역시</a></li>
+				</ul>
+				<ul class="tab4">	
+					<li class="tab"><a class="tabb" id="gwangju" data-value="gwangju" href="javascript:return false;" onclick="getloc(this);">광주광역시</a></li>
+					<li class="tab"><a class="tabb" id="ulsan" data-value="ulsan" href="javascript:return false;" onclick="getloc(this);">울산광역시</a></li>
+					<li class="tab"><a class="tabb" id="gyeonggi" data-value="gyeonggi" href="javascript:return false;" onclick="getloc(this);">경기도</a></li>
+					<li class="tab"><a class="tabb" id="jeolla" data-value="jeolla" href="javascript:return false;" onclick="getloc(this);">전라도</a></li>
+					<li class="tab"><a class="tabb" id="gyeongsang" data-value="gyeongsang" href="javascript:return false;" onclick="getloc(this);">경상도</a></li>
+				</ul>
+				<ul class="tab5">	
+					<li class="tab"><a class="tabb" id="gangwon" data-value="gangwon" href="javascript:return false;" onclick="getloc(this);">강원도</a></li>
+					<li class="tab"><a class="tabb" id="chungcheong" data-value="chungcheong" href="javascript:return false; " onclick="getloc(this);">충청도</a></li>
+					<li class="tab"><a class="tabb" id="jeju" data-value="jeju" href="javascript:return false;" onclick="getloc(this);">제주도</a></li>
 				</ul>
 			</div>
+	<!--  	<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>-->
+	 	<table id ="center_list"> </table>
+	</div>
+</div>
 
-			<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>
-			<table class="tbl-list ty02" summary="">
-				<caption></caption>
-				<colgroup>
-					<col style="width:140px"/>
-					<col style="width:auto"/>
-					<col style="width:125px"/>
-					<col style="width:80px"/>
-				</colgroup>
-				<thead>
-					<tr class="wh">
-						<th>측정장소</th>
-						<th>주소</th>
-						<th>전화번호</th>
-						<th class="last">위치</th>
-					</tr>
-				</thead>
-				<tbody>
-				
-							<tr th:each="center: ${center}">
-								<td class="al" th:text="${center.center_name}"></td>
-								<td class="al" th:text="${center.center_add}"></td>
-								<td th:text="${center.center_call}"></td>
-								<td><a style="cursor:pointer" th:href="@{'https://map.kakao.com/link/map/'+${center.center_name}+','+${center.lat}+','+${center.longi}}" target="_blank"><img src="/img/btn/btn_spot.gif" alt="위치" /></a></td>
-								<!--onclick="setHealthMap('가평군 보건소', 'th:text=${center.lat}', 'th:text=${center.longi}');"-->
-							</tr>
-				
-							
-				</tbody>
-			</table>
+<div id='ex'>
+	<div>
+		<a class="bmi" id="bmi" href="/health/bmi"><img class="cal" src="/images/centerpage/calories.png"><span><br>권장칼로리 & BMI 계산하기</span></a>
+	</div>
+</div>
 
-			<div class="page-wrap clfix">
-<div class="paging">
-<strong>1</strong>
-<a href="/community/find_healthcenter.asp?gotopage=2">2</a>
-<a href="/community/find_healthcenter.asp?gotopage=2" class="arr next"><img src="/img/btn/btn_next_page.gif" alt="다음게시물" /></a>
+<div class="page-wrap clfix">
+	<div class="paging">
+	
+	
+	</div><!-- // contents -->
+</div>
 
-		</div><!-- // contents -->
-
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">	
+function getloc(e){
+	$("#center_list *").remove()
+	
+	var area = $(e).attr('data-value')
+	data = {"area":area}
+	
+	$.ajax({
+		url:'/health/getloc',
+		method:'post',
+		data:data,
+		cache:false,
+		dataType:"json",
+		 success : function(result){
+             var tblresult = result;
+             var str = "";
+             str += "<thead>"
+             str += "</thead>"
+             str += "<tbody>"
+        	 str += "<TR>"
+             str += "<TH>"+"측정장소"+"</TH><TH>"+"주소"+"</TH><TH>"+"전화번호"+"</TH><TH class='last'>"+"위치"+"</TH>"
+             str += '</TR>'
+             $.each(tblresult, function(i){
+                 str += "<TR>"
+                 str += '<TD>' + tblresult[i].center_name + '</TD><TD>' + tblresult[i].center_add + '</TD><TD>' + tblresult[i].center_call + 
+                 '</TD><TD>'+"<a style='cursor:pointer' href='https://map.kakao.com/link/map/"+ tblresult[i].center_name +","+ tblresult[i].lat +","+ tblresult[i].longi+"'target='_blank'>"+
+                 "<img src='/img/btn/btn_spot.gif' alt='위치' /></a></td>"
+                 str += '</TR>'
+             });
+             str += "</tbody>"
+             $("#center_list").append(str);
+         },
+         error : function(xhr, status, error){
+             alert(error);
+         }
+     });
+ };
+</script>
 </body>
 </html>

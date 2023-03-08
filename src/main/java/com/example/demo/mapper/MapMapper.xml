@@ -6,4 +6,8 @@
 <select id="center" resultType="com.example.demo.vo.MapInfo">
 	SELECT * FROM health_center
 </select>
+
+<select id="center_search_detail" parameterType="string" resultType="com.example.demo.vo.MapInfo">
+	SELECT * FROM health_center where area=#{area, jdbcType=VARCHAR}
+</select>
 </mapper>

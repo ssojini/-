@@ -74,7 +74,7 @@ function checkPw2(){
 		if(now_pwd==check_pwd)
 		{
 			$.ajax({
-				url:'/health/changepwd',
+				url:'/health/changepwd/'+uid,
 				method:'post',
 				data:obj,
 				cache:false,
@@ -82,17 +82,16 @@ function checkPw2(){
 				success:function(res){
 					if(res.changed)
 					{
-						alert("변경됨")
-						location.href="/health/"
-					}else alert("변경실패")
+						alert("비밀번호 변경에 성공하였습니다")
+						location.href="/health/useredit/"+uid
+					}else alert("비밀번호 변경에 실패하였습니다")
 				},
 				error : function(xhr,status,err){
 					alert('에러:' + err);
 				}
 			});
 		}else{
-			alert("정확한 비밀번호를 입력해 주세요.")
-			location.href= "/health/findpwd/"+uid;
+			alert("정확한 현재 비밀번호를 입력해 주세요.")
 		}		
 	}
 

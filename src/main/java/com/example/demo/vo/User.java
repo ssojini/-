@@ -1,6 +1,13 @@
 package com.example.demo.vo;
 
+import java.security.Principal;
 import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,7 +23,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"pwd","nickname","birth","phone","email","profile","address"})
 @Entity
 @Table(name="userjoin")
-public class User 
+public class User implements Principal
 {
 	//아이디
 	@Id
@@ -37,9 +44,18 @@ public class User
 	private String profile;
 	//주소
 	private String address;
+	//활성화
+	@ColumnDefault("1")
+	private Integer enabled;
+	//권한
+	private String role;
+	//성별
+	private String gender;
+	//가입날짜
+	@CreationTimestamp
+	private Timestamp signup;
 	
-
-	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile) {
+	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile, String role) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
@@ -48,8 +64,12 @@ public class User
 		this.phone = phone;
 		this.email = email;
 		this.profile = profile;
+		this.enabled = 1;
+		this.role = role;
 	}
-	
-	
-	
+
+	@Override
+	public String getName() {
+		return this.getUserid();
+	}
 }

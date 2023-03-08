@@ -12,7 +12,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.interfaces.FreeboardReplyRepository;
+import com.example.demo.repository.FreeboardReplyRepository;
 import com.example.demo.vo.FreeboardReply;
 
 @Service
