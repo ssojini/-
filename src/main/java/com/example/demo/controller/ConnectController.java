@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,10 @@ public class ConnectController {
 		
 		String response = connectService.post(URL+"/chatGPT",map);
 		System.out.println("response:"+response);
-		return response;
+		
+		JSONParser jsPar = new JSONParser();
+		JSONArray jsArr = (JSONArray)jsPar.parse(response);
+		
+		return jsArr.toJSONString();
 	}
 }
