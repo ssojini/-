@@ -43,7 +43,8 @@ public class FreeboardController {
 	private HttpSession session;
 	
 	@GetMapping({"","/"})
-	public String freeboard(Model m, String bname, String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
+	public String freeboard(Model m, String bname, String title, 
+			@PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
 		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
 		System.out.println("pageFreeboard:"+pageFreeboard.toList());
 		m.addAttribute("bname",bname);

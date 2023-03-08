@@ -34,13 +34,13 @@ function s_function() {
 			</div>
 		</div>
 		
-			
-			<div id="links">
+		
+		<div id="links" th:if="${session.userid==null}">
 				<ul>
-					<h2>추천상품</h2>
+					<h2>랜덤상품</h2>
 					<li th:each="goods: ${random}">
-					<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
-						<span id="quick-icon1"></span>
+						<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
+							<span id="quick-icon1"></span>
 							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
 							<p th:text="${goods.goodsname}"/>
 							<p th:text="${goods.price}"/>
@@ -48,6 +48,22 @@ function s_function() {
 					</li>
 				</ul>
 			</div>
+			
+			<div id="links" th:if="${session.userid!=null}">
+							<!-- "${not #strings.isEmpty(session.userid)}"  -->
+				<ul>
+					<h2>[[${session.userid}]]님을 위한 추천상품</h2>
+					<li th:each="goods: ${recommend}">
+						<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
+							<span id="quick-icon1"></span>
+							<img th:src="'/images/goodsimg/'+ ${goods.mainpic_server}" alt="" >
+							<p th:text="${goods.goodsname}"/>
+							<p th:text="${goods.price}"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+			
 			<div id="links1">
 				<ul>
 					<h2>신상품</h2>
