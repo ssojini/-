@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -17,11 +18,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ConnectService {
+	private static final String URL = "http://localhost:7878";
     private final String USER_AGENT = "Mozilla/5.0";
     private final String DATA = "test data";
     
     public String get(String url) throws IOException {
-        URL url2 = new URL(url);
+        URL url2 = new URL(URL+url);
         HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
 
         connection.setRequestMethod("GET");    // GET 방식 요청
@@ -46,7 +48,7 @@ public class ConnectService {
     }
     
     public String post(String url, Map<String,String> map) throws IOException, ParseException {
-        URL url2 = new URL(url);
+        URL url2 = new URL(URL+url);
         HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
 
         connection.setRequestMethod("POST");     // POST 방식 요청
@@ -74,5 +76,13 @@ public class ConnectService {
         System.out.println("response:"+response);
         
         return response;
+    }
+    
+    public String meal_calc() throws IOException, ParseException {
+    	Map<String,String> map = new HashMap<>();
+    	map.put("식품명", "꿩불고기");
+    	map.put("식품명", "불고기");
+    	String response = post(URL+"/meal_calc",map);
+    	return response;
     }
 }

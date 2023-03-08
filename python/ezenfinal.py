@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from flask import jsonify
 import json
+import pandas as pd
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -134,6 +135,7 @@ def prod_recommend():
         return json.dumps(recommand)
 #####################################
 
+#다루한
 @app.route("/chatGPT",methods=['POST'])
 def chatGPT():
     js = request.get_json()
@@ -146,9 +148,16 @@ def chatGPT():
     print(answer)
     return json.dumps(answer)
 
+#다루한
+@app.route("/meal_calc", method=['POST'])
+def meal_calc():
+    js = request.get_json()
+    df = pd.read_excel('통합 식품영양성분DB_음식_20230302.xlsx',usecols=[5,11,12,15,19,26,32,48])
+    df = df[df['식품명'].isin(js['식품명'])]
+    return df.to_json()
+
 @app.route("/prod_recommend", methods=['POST'])
 def prodRecommend():
     return prod_recommend()
-    
     
 app.run(host='0.0.0.0',debug=True,port=7878)
