@@ -58,7 +58,10 @@ public class SecurityConfiguration {
 						// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
 						"/team/sendemail",
 						"/team/authEmail",
-						"/team/join"
+						"/team/join",
+						
+						//
+						"/**"
 				).permitAll()
 				.requestMatchers("/admin/**","/manager/**").hasAnyRole("ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
@@ -66,6 +69,8 @@ public class SecurityConfiguration {
 				// csrf
 				.and()
 				.csrf()
+				.disable()
+				/*
 				.ignoringRequestMatchers(
 						"/doLogin",
 						// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
@@ -95,11 +100,15 @@ public class SecurityConfiguration {
 						"/findpwd/*",
 						"/getloc",
 						"/addgoods",
-						"/editgoods"
+						"/editgoods",
+						
+						// 전부 허용
+						"/*"
 				)
+				.and()
+				*/
 
 				// 로그인
-				.and()
 				.formLogin().loginPage("/team/login") // 접속 차단시 로그인 페이지로 가게 하기
 				.loginProcessingUrl("/doLogin") // post 로그인
 				.defaultSuccessUrl("/team/loginsuccess") // 로그인 성공시 URL

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
 import com.example.demo.service.CalendarService;
+import com.example.demo.vo.HCalendar;
 import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,7 +52,6 @@ public class CalendarController
 	 	return "html/calendar/Calendar";
 	}
 	
-	
 	@GetMapping("/showCalen")
 	public String showCalendarAdd(String day,Model model) 
 	{
@@ -68,7 +68,6 @@ public class CalendarController
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		//System.err.println(afterDate);
 		
 		model.addAttribute("day",afterDate);
 		
@@ -76,33 +75,36 @@ public class CalendarController
 	}
 	@PostMapping("/add")
 	@ResponseBody
-	public Map<String,Object> morningAdd(@RequestParam("files")MultipartFile[] mfiles,
-            com.example.demo.vo.HCalendar cal, Schedule sc, HttpServletRequest request, Model m) 
+	public Map<String,Object> Add(@RequestParam("files")MultipartFile[] mfiles, HCalendar cal, Schedule sc, HttpServletRequest request, Model m) 
 	{	
 		Map<String,Object> map = new HashMap<>();
 		map.put("add", cs.add(mfiles, request, cal, sc));
-		log.info(""+map);
+		
 		return map;
 	}
+	
 	@GetMapping("/detail/{num}")
 	public String calenDetail(@PathVariable("num") int num, Model model)
 	{
 		model.addAttribute("mlist",cs.detailCalendar(num));
 		return "html/calendar/CalendarDetail";
 	}
+	
 	@GetMapping("/edit/{num}")
 	public String edit(@PathVariable("num")int num, Model model)
 	{
 		model.addAttribute("mlist",cs.detailCalendar(num));
 		return "html/calendar/calendarEdit";
 	}
-	@PostMapping("/updateCon")
+	
+	@PostMapping("/editCal/{spnum}")
 	@ResponseBody
-	public Map<String, Object> updateContent(Schedule sch)
+	public Map<String,Object> editCal(@PathVariable("spnum")int num,
+			@RequestParam("files")MultipartFile[] mfiles,Model model,HttpServletRequest request
+			,Schedule sch)
 	{
-		Map<String, Object> map = new HashMap<>();
-		map.put("update", cs.updateCon(sch));
-		log.info("con"+cs.updateCon(sch));
+		Map<String,Object> map = new HashMap<>();
+		map.put("update", cs.updateFiles(mfiles, request, sch));
 		return map;
 	}
 	

@@ -176,6 +176,14 @@ public class ShopController {
 		return "html/shop/AddGoods";
 
 	}
+	
+	@GetMapping("/summer/{adminid}")
+	public String summer(@PathVariable(value = "adminid", required = false) String adminid, Model m) {
+		m.addAttribute("admin", svc.admininfo(adminid));
+		return "html/shop/summernote";
+
+	}
+	
 
 	@RequestMapping(value = "/summer_image.do", produces = "application/json; charset=utf8")
 	@ResponseBody
@@ -200,7 +208,6 @@ public class ShopController {
 
 		return map;
 	}
-	
 	
 	@PostMapping("/editgoods")
 	@ResponseBody

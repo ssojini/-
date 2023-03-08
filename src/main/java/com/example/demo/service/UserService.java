@@ -29,8 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserService implements UserDetailsService
 {
-	//	@Autowired
-	//	private JavaMailSender sender;
 	@Autowired
 	public HttpSession session;
 	@Autowired
@@ -58,8 +56,6 @@ public class UserService implements UserDetailsService
 	}
 	public Map<String, Object> check(String userid, String email) 
 	{
-		//
-
 		Map<String,Object> map = new HashMap<>();
 		session.setAttribute("rdStr", "");
 		session.setAttribute("authCheck", "0");
@@ -125,8 +121,6 @@ public class UserService implements UserDetailsService
 			map.put("msg", esvc.checkmail(session)?"메일발송":"메일발송실패");
 			String rdStr = (String) session.getAttribute("rdStr");
 			session.setAttribute("rdStr", rdStr);
-
-			log.info("svc.rdStr:"+rdStr);
 
 			map.put("rdStr",rdStr);
 			map.put("checked", "send email");

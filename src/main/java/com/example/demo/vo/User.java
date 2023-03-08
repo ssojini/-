@@ -2,6 +2,10 @@ package com.example.demo.vo;
 
 import java.security.Principal;
 import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -43,7 +47,13 @@ public class User implements Principal
 	//활성화
 	@ColumnDefault("1")
 	private Integer enabled;
+	//권한
 	private String role;
+	//성별
+	private String gender;
+	//가입날짜
+	@CreationTimestamp
+	private Timestamp signup;
 	
 	public User(String userid, String pwd, String nickname, Date birth, String phone, String email, String profile, String role) {
 		super();

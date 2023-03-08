@@ -70,42 +70,23 @@ public class HealthController {
 	@Autowired
 	private HealthCenterService mp_center;
 
-
-	/*
-	@GetMapping("/myboard/{userid}")
-	public String getmyboard(@PathVariable(value = "userid", required = false)String userid, Model m)
-	{
-		String nickname = "smash";
-		List<Freeboard> list = mp_svc.getmyboard(nickname);
-		m.addAttribute("board",list);
-		m.addAttribute("user", mp_svc.userinfo(userid));
-
-		return "html/mypage/myboard";
-	}*/
 	
 	@GetMapping("/myboard/{userid}")
 	public String freeboard(@PathVariable(value = "userid", required = false)String userid, Model m, String nickname, String bname,
-			String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) 
+			String title) 
 	{
-		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
-		
-		nickname = "smash";
-		List<Freeboard> list = mp_svc.getmyboard(nickname);
-		m.addAttribute("board",list);
+		List<Freeboard> alist = mp_svc.getmyboard(userid);
+		m.addAttribute("board",alist);
 		m.addAttribute("user", mp_svc.userinfo(userid));
-
-		
-		
 		m.addAttribute("bname",bname);
 		m.addAttribute("title",title);
-		m.addAttribute("pageFreeboard", pageFreeboard);
 		return "html/mypage/myboard";
 	}
 
 	@GetMapping("/calorie")
 	public String cal()
 	{
-		return "health/calorie";
+		return "html/mypage/calorie";
 	}
 
 	@PostMapping("/cal")
@@ -128,13 +109,11 @@ public class HealthController {
 
 	@PostMapping("/userEdit")
 	@ResponseBody
-
 	public Map<String,Object> useredit(@RequestParam("file")MultipartFile mfiles, 
-			HttpServletRequest request, User userjoin) 
+			HttpServletRequest request, User User) 
 	{
 		Map<String,Object> map= new HashMap<>();
-		System.out.println("SYSTEM:  "+mp_svc.storeFile(mfiles, userjoin));
-		map.put("edited", mp_svc.storeFile(mfiles,userjoin));
+		map.put("edited", mp_svc.storeFile(mfiles,User));
 
 		return map;
 	}
@@ -173,25 +152,24 @@ public class HealthController {
 		return "html/mypage/FindPwd";
 	}
 
-	@PostMapping("/findpwd/{userid}")
-	public String changepwd(@PathVariable(value = "userid", required = false) String userid, Model m) {
-		m.addAttribute("user", mp_svc.userinfo(userid));
-		return "html/mypage/FindPwd";
+	@PostMapping("/changepwd/{userid}")
+	@ResponseBody
+	public Map<String, Object> changepwd(@PathVariable(value = "userid", required = false) String userid,String pwd, Model m) {
+		Map<String, Object>map = new HashMap<>();
+		map.put("changed", mp_svc.changepwd(userid,pwd));
+		return map;
 	}
 	
 	@GetMapping("/center_search")
 	public String center_search(Model m) {
 		m.addAttribute("center", mp_center.centerinfo());
-		//m.addAttribute("center_size", mp_center.centerinfo().size());
 		return "html/map/center_search";
 	}
 	
 	@PostMapping("/getloc")
 	@ResponseBody
 	public List<MapInfo> center_search_detail(@RequestParam(name="area" )String area, Model m) {
-		//m.addAttribute("center", mp_center.center_search_detail(area));
 		m.addAttribute("center_size", mp_center.center_search_detail(area).size());
-		System.out.println(mp_center.center_search_detail(area).toString());
 		return mp_center.center_search_detail(area);
 	}
 	

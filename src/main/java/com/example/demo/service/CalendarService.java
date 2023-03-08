@@ -52,7 +52,6 @@ public class CalendarService
 	}
 	public boolean add(MultipartFile[] mfiles,HttpServletRequest request,HCalendar cal,Schedule sc)
 	{
-		log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context = request.getServletContext();
 		String savePath = fileStorageLocation.toUri().getPath();
 		
@@ -78,8 +77,6 @@ public class CalendarService
 					list.add(attcal);	
 				}
 			}
-			log.info("list:"+list);
-			
 			int rows = cm.saveCalendar(cal);
 			int ro = cm.saveSchedule(sc);
 			int r =0;
@@ -88,7 +85,6 @@ public class CalendarService
 			}
 			return rows>0 && ro>0;
 			
-			//return mfiles.length+"개파일,"+board.toString()+", 저장="+rows +","+r;
 		} catch (Exception e) {
 		e.printStackTrace();
 		
@@ -234,12 +230,59 @@ public class CalendarService
 		return list;
 	}
 	
-	public int updateCon(Schedule sch)
+	@Transactional
+	public boolean updateFiles(MultipartFile[] mfiles,HttpServletRequest request,Schedule sch)
 	{
-		int updateCon = cm.updateContenet(sch);
-		if(updateCon > 0 ? true : false);
+		ServletContext context = request.getServletContext();
+		String savePath = fileStorageLocation.toUri().getPath();
+		List<AttachCalendar>list = new ArrayList<>();
+		int brow = cm.updateContenet(sch);
+		System.err.println("sch"+sch);
+		try {
+			boolean updated = false;
+			
+			if(!mfiles[0].isEmpty())//첨부파일 있으면
+			{
+				for(int i=0;i<mfiles.length;i++) 
+				{
+					if(mfiles[0].getSize()==0) continue;
+					mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));
+					
+					AttachCalendar attcal = new AttachCalendar();
+					
+					String pname = mfiles[i].getOriginalFilename();
+					String extension = pname.substring(pname.lastIndexOf(".")); //파일 확장자
+					
+					attcal.setA_pnum(sch.getS_num());
+					
+					String fname = UUID.randomUUID() + extension;
+					attcal.setPname(pname);
+					attcal.setFname(fname);
+					list.add(attcal);	
+					System.err.println("list"+list);
+				}
+				int arow = cm.updateAttach(list);
+				updated = brow>0 && arow>0;
+				
+				return updated;
+			}else {
+				updated = brow > 0;
+				return updated;
+			}
+			
+		} catch (Exception e) {
+		e.printStackTrace();
 		
-		return updateCon;
+		}
+		return false;
+	}
+	
+	public int delImg(int num) 
+	{
+		int delimg = cm.delImg(num);
+		if(delimg >0 ? true : false);
+		
+		return delimg;
 	}
 	
 	@Transactional
@@ -253,20 +296,11 @@ public class CalendarService
 		
 		if(fname!=null) {
 			int crow = cm.attcaldelete(anum);
-			System.err.println(crow);
 		}
 		
 		if(arow>0 && brow>0) return true;
 		
 		return false;
-	}
-	public int delImg(int num) 
-	{
-		int delimg = cm.delImg(num);
-		log.info("delimg"+delimg);
-		if(delimg >0 ? true : false);
-		
-		return delimg;
 	}
 
 }

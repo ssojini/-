@@ -36,9 +36,14 @@
 	<select id="list" resultType="map">
 		SELECT c_num, datetime, s_num, s_pnum, when, content,LISTAGG(PNAME,',')
 		WITHIN GROUP (ORDER BY PNAME)AS PNAME
-		FROM EATED_LIST
+		FROM (SELECT a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_num, c.a_pnum, c.pname
+		FROM hcalendar a 
+		LEFT OUTER JOIN calen_schedule b
+		ON a.c_num = b.s_pnum
+		LEFT OUTER JOIN attachcalendar c
+		ON b.s_num = c.a_pnum)
 		GROUP BY c_num, datetime, s_num, s_pnum, when, content
-		ORDER BY c_NUM DESC
+		ORDER BY DECODE(when, '아침',1,'점심',2,'저녁',3,'간식',4)
 	</select>
 	
 	<select id="detail" parameterType="Integer" resultType="map">
@@ -51,10 +56,20 @@
 		WHERE a.c_num = #{c_num}
 	</select>
 	
+	<update id = "updateAttach" parameterType="list">
+		INSERT INTO attachcalendar(a_num,fname,pname,a_pnum)
+		SELECT CALEN_ATTACH_SEQ.NEXTVAL AS a_num,t.* FROM 
+		(
+			<foreach collection="list" item="item" index="index" separator="union all">
+				SELECT #{item.fname},#{item.pname}, #{item.a_pnum} FROM DUAL
+			</foreach>
+		)t
+	</update>
+	
 	<update id="updateContenet" parameterType="com.example.demo.vo.Schedule">
 		UPDATE calen_schedule 
 		SET content = #{content}
-		WHERE s_pnum = #{s_pnum}
+		WHERE s_num = #{s_num}
 	</update>
 	
 	<delete id="delImg" parameterType="Integer">

@@ -1,4 +1,18 @@
 @charset "utf-8";
+
+div.title{
+	text-align : center;
+	margin-top: 45px;
+	margin-bottom: 30px;
+	font-size:30px;
+}
+
+#container1{
+	display: inline-block;
+	width: 50%;
+	margin-left:3%;
+}
+
 h3{
 	text-align : center;
 	margin: 30px auto 30px auto;
@@ -14,4 +28,69 @@ table{
 		text-align: center;
 	margin: auto;
 	margin-bottom: 30px;
+}
+
+div#com.com{
+	margin-top: 30px;
+}
+
+.inner_box{
+	text-align : center;
+}
+
+p#sub{
+	font-weight: 550;
+}
+
+#guide_bmi1{
+	text-align : center;
+}
+
+.vl {
+  border-left: 3px solid gray;
+  height: 500px;
+  display: inline-block;
+  width: 3%;
+	margin-left:3%;
+}
+
+#container2{
+	display: inline-block;
+	width: 35%;
+	margin: 0 5px;  
+	float: right;
+}
+
+em.em_blue{
+	color:blue;
+}
+
+em.black{
+	color:orange;
+}
+
+em.em_red{
+	color:red;
+}
+
+#calorieForm{
+	text-align : center;
+}
+
+div.cal_gen{
+	margin-top: 20px;
+}
+
+div.cal_act{
+	margin-top: 20px;
+}
+
+input.cal_btn{
+	margin-top: 30px;
+}
+
+#result{
+	padding-top: 30px;
+	color: red;
+	text-align : center;
 }

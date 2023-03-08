@@ -147,16 +147,14 @@ public class ManagerService {
 		return page;
 	}
 
-	public Object chartcal() {
-		int year;
-//		if(a==null)
-//		{
-//			year = LocalDate.now().getYear();
-//		}
-//		else year = Integer.valueOf(a);
-//		log.info("year"+year);
-		return null;
+	public List<Map<String, Object>> chartcal() {
+		List<Map<String, Object>> list = map.chartcal();
+		return list;
 	}
 
+	public List<Map<String, Object>> chartuser() {
+		List<Map<String, Object>> list = map.chartuser();
+		return list;
+	}
 
 }

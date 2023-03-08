@@ -7,54 +7,55 @@
 <link rel="stylesheet" href="/css/helth_center.css">
 </head>
 <body>
+ <div>
+    <div th:replace="fragments/common :: header"></div>
+</div> 
+<h2 class="path">인바디 측정 가능 보건소 찾기</h2>
+<p class="bul-exclamation-red">지역별 인바디 측정 가능 보건소를 찾아보세요.</p>
 <div id="container">
 		<!-- contents // -->
 		<div class="contents">
-			
-			
-
-
-			<p class="path">인바디 측정 가능 보건소 찾기</p>
-			<h2 >인바디 측정 가능 보건소 찾기</h2>
-
-			<p class="bul-exclamation-red">지역별 인바디 측정 가능 보건소를 찾아보세요.</p>
 			<div class="tab3-wrap">
 				<ul class="tab3">
-					<li ><a id="seoul" data-value="seoul" href="javascript:return false;" onclick="getloc(this);">서울특별시</a></li>
-					<li ><a id="loc" data-value="busan" href="javascript:return false;" onclick="getloc(this);">부산광역시</a></li>
-					<li ><a id="loc" data-value="incheon" href="javascript:return false;" onclick="getloc(this);">인천광역시</a></li>
-					<li ><a id="daejeon" data-value="daejeon" href="javascript:return false;" onclick="getloc(this);">대전광역시</a></li>
-					<li ><a id="daegu" data-value="daegu" href="javascript:return false;" onclick="getloc(this);">대구광역시</a></li>
-					<li ><a id="gwangju" data-value="gwangju" href="javascript:return false;" onclick="getloc(this);">광주광역시</a></li>
-					<li ><a id="ulsan" data-value="ulsan" href="javascript:return false;" onclick="getloc(this);">울산광역시</a></li>
-					<li ><a id="gyeonggi" data-value="gyeonggi" href="javascript:return false;" onclick="getloc(this);">경기도</a></li>
-					<li ><a id="jeolla" data-value="jeolla" href="javascript:return false;" onclick="getloc(this);">전라도</a></li>
-					<li ><a id="gyeongsang" data-value="gyeongsang" href="javascript:return false;" onclick="getloc(this);">경상도</a></li>
-					<li ><a id="gangwon" data-value="gangwon" href="javascript:return false;" onclick="getloc(this);">강원도</a></li>
-					<li ><a id="chungcheong" data-value="chungcheong" href="javascript:return false; " onclick="getloc(this);">충청도</a></li>
-					<li ><a id="jeju" data-value="jeju" href="javascript:return false;" onclick="getloc(this);">제주도</a></li>
+					<li class="tab" ><a class="tabb" id="seoul" data-value="seoul" href="javascript:return false;" onclick="getloc(this);">서울특별시</a></li>
+					<li class="tab"><a class="tabb" id="loc" data-value="busan" href="javascript:return false;" onclick="getloc(this);">부산광역시</a></li>
+					<li class="tab"><a class="tabb" id="loc" data-value="incheon" href="javascript:return false;" onclick="getloc(this);">인천광역시</a></li>
+					<li class="tab"><a class="tabb" id="daejeon" data-value="daejeon" href="javascript:return false;" onclick="getloc(this);">대전광역시</a></li>
+					<li class="tab"><a class="tabb" id="daegu" data-value="daegu" href="javascript:return false;" onclick="getloc(this);">대구광역시</a></li>
+				</ul>
+				<ul class="tab4">	
+					<li class="tab"><a class="tabb" id="gwangju" data-value="gwangju" href="javascript:return false;" onclick="getloc(this);">광주광역시</a></li>
+					<li class="tab"><a class="tabb" id="ulsan" data-value="ulsan" href="javascript:return false;" onclick="getloc(this);">울산광역시</a></li>
+					<li class="tab"><a class="tabb" id="gyeonggi" data-value="gyeonggi" href="javascript:return false;" onclick="getloc(this);">경기도</a></li>
+					<li class="tab"><a class="tabb" id="jeolla" data-value="jeolla" href="javascript:return false;" onclick="getloc(this);">전라도</a></li>
+					<li class="tab"><a class="tabb" id="gyeongsang" data-value="gyeongsang" href="javascript:return false;" onclick="getloc(this);">경상도</a></li>
+				</ul>
+				<ul class="tab5">	
+					<li class="tab"><a class="tabb" id="gangwon" data-value="gangwon" href="javascript:return false;" onclick="getloc(this);">강원도</a></li>
+					<li class="tab"><a class="tabb" id="chungcheong" data-value="chungcheong" href="javascript:return false; " onclick="getloc(this);">충청도</a></li>
+					<li class="tab"><a class="tabb" id="jeju" data-value="jeju" href="javascript:return false;" onclick="getloc(this);">제주도</a></li>
 				</ul>
 			</div>
-
-	<!--  	<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>-->	
-			
-			  <table id ="center_list">
-
-			  
-			  </table>
-
-</div>
+	<!--  	<h4><span class="p-red">전체 인바디 측정 가능 보건소</span> [[${center_size}]]곳이 있습니다.</h4>-->
+	 	<table id ="center_list"> </table>
+	</div>
 </div>
 
-			<div class="page-wrap clfix">
-<div class="paging">
+<div id='ex'>
+	<div>
+		<a class="bmi" id="bmi" href="/health/bmi"><img class="cal" src="/images/centerpage/calories.png"><span><br>권장칼로리 & BMI 계산하기</span></a>
+	</div>
+</div>
 
+<div class="page-wrap clfix">
+	<div class="paging">
+	
+	
+	</div><!-- // contents -->
+</div>
 
-</div><!-- // contents -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">	
-
-
 function getloc(e){
 	$("#center_list *").remove()
 	
@@ -79,7 +80,7 @@ function getloc(e){
              $.each(tblresult, function(i){
                  str += "<TR>"
                  str += '<TD>' + tblresult[i].center_name + '</TD><TD>' + tblresult[i].center_add + '</TD><TD>' + tblresult[i].center_call + 
-                 '</TD><TD>'+"<a style='cursor:pointer' href='https://map.kakao.com/link/map/"+ tblresult[i].lat +","+ tblresult[i].longi+"'target='_blank'>"+
+                 '</TD><TD>'+"<a style='cursor:pointer' href='https://map.kakao.com/link/map/"+ tblresult[i].center_name +","+ tblresult[i].lat +","+ tblresult[i].longi+"'target='_blank'>"+
                  "<img src='/img/btn/btn_spot.gif' alt='위치' /></a></td>"
                  str += '</TR>'
              });
@@ -91,7 +92,6 @@ function getloc(e){
          }
      });
  };
-
 </script>
 </body>
 </html>

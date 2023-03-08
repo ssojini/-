@@ -106,7 +106,6 @@ public class JoinController
 	@ResponseBody
 	public Map<String,Object> sendEamil(String email)
 	{
-		log.info(email);
 		return us.sendEmail(email);
 	}
 	
@@ -204,22 +203,6 @@ public class JoinController
 	
 	/*----------------- [상욱 끝] ----------------- */
 
-	//초기 데이터 생성 메소드
-//	@GetMapping("/add")
-//	@ResponseBody
-//	public String add(HttpSession session)
-//	{
-//		//상욱
-//		Date date = Date.valueOf("2022-12-31");
-//		User member = new User("asdf","1234","clinamen",date,"010-1234-5678","siesta_w@naver.com","/profile/default.png");
-//		User added = repo.save(member);
-//		
-//		// 현주 
-//
-//		return added.toString();
-//	}
-	
-	
 	@GetMapping("/loginsuccess")
 	@ResponseBody
 	public Map<String,Object> loginsuccess(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user,HttpSession session,Model m)

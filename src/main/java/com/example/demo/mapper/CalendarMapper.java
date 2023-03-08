@@ -35,4 +35,9 @@ public interface CalendarMapper
 
 	int delImg(int num);
 
+	int saveAttach(int num);
+
+	int updateAttach(List<AttachCalendar> list);
+
+
 }
