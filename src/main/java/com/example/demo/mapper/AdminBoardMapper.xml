@@ -62,11 +62,11 @@
 	SELECT
 	ADMIN_ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
 	(
-		<foreach collection="list" item="item" index="index" separator=" union all ">
+		<foreach collection="list" item="item" index="index" separator="union all">
 		SELECT
 		#{item.attsize} AS attsize, 
 		#{item.attname} AS attname, 
-		(SELECT MAX(adnum) FROM admin_board) AS adnum
+        (SELECT MAX(adnum) FROM admin_board) AS adnum
 		FROM DUAL
 		</foreach>
 	)t

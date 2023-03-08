@@ -29,6 +29,7 @@ import com.example.demo.service.AdminBoardSerivce;
 import com.example.demo.service.CalendarService;
 import com.example.demo.service.FileStorageService;
 import com.example.demo.service.HealthService;
+import com.example.demo.service.PagingService;
 import com.example.demo.service.FreeboardService;
 import com.example.demo.service.HealthCenterService;
 import com.example.demo.service.mypageService;
@@ -236,22 +237,33 @@ public class HealthController {
 	@Autowired
 	private HealthService hsvc;
 	
-	@GetMapping("/qna/{pg}/{cnt}")
-	public String qa(Model m, @PathVariable int pg, 
-			@PathVariable int cnt, 
-			HttpSession session)
+	@Autowired
+	private PagingService pagesvc;
+	
+	@GetMapping("/qna")
+	public String qa(Model m, 
+			HttpSession session,
+			String title, 
+			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
+			)
 	{
+		
 		String userid = (String)session.getAttribute("userid");
 		//log.info("ctrl, session에서 전달된 userid:"+ userid);
+		System.out.println("userid:"+userid);
 		if(userid==null)
 		{
 			return "html/admin/qna";
 		}
 		m.addAttribute("userid", userid);
-		PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
-		List<OneBoard> list = hsvc.qna(pageInfo.getList());
-		m.addAttribute("list", list);
-		
+		//PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
+		//List<OneBoard> list = hsvc.qna(pageInfo.getList());
+		//m.addAttribute("list", list);
+		Page<OneBoard> pageOneboard = pagesvc.getList(pageable);
+		System.out.println("pageOneboard:"+pageOneboard.toList());
+		//m.addAttribute("title",title);
+		m.addAttribute("pageOneboard", pageOneboard);
+		System.out.println("getNumber:"+pageOneboard.getNumber());
 		return "html/admin/qna";
 	}
 	

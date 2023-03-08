@@ -374,14 +374,19 @@ public class AdminBoardSerivce
 	@Transactional
 	public boolean addAdmin(HttpServletRequest request, AdminBoard adminb, MultipartFile[] mfiles)
 	{
-		//log.info("admin svc, mfiles.length={}", mfiles.length);
+		log.info("admin svc, mfiles.length={}", mfiles.length);
 
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
 		
-		 List<AdminAttachBoard> alist = new ArrayList<>();
+		List<AdminAttachBoard> alist = new ArrayList<>();
+		
+		int brow = mapper.addAdminBoard(adminb);
+		log.info("brow 값:"+ brow);
 		try {
-			//log.info("mfiles length:"+ mfiles.length);
+			boolean uploaded = false;
+			
+			log.info("mfiles length:"+ mfiles.length);
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
 				for(int i=0; i<mfiles.length; i++) {
@@ -392,15 +397,16 @@ public class AdminBoardSerivce
 						attb.setAttsize(mfiles[i].getSize());
 						alist.add(attb);
 						
-						int arow =mapper.saveAdminAttach(alist);
-						int brow = mapper.addAdminBoard(adminb);
-						boolean added = brow>0 && arow>0;
-						return added;
 				}
+				
+				int arow =mapper.saveAdminAttach(alist);
+				log.info("arow값:"+ arow);
+				uploaded = brow>0 && arow>0;
+				return uploaded;
+				
 			}else {//첨부파일 없으면
-				int brow= mapper.addAdminBoard(adminb);
-				boolean added = brow>0;
-				return added;
+				uploaded = brow>0;
+				return uploaded;
 				
 			}
 			
