@@ -55,7 +55,6 @@ function delAdminB()
    <div th:if= "${faqb.attList.size()>0}"></div>
 	   <div th:each="att: ${faqb.attList}"> 
 	   		<img class="img_s" th:src="'/images/'+${att.attname}">
-	   		<div> [[${att.attname}]]</div>
 	   </div>
 </div>
 </body>

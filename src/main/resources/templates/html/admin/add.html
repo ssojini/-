@@ -28,42 +28,43 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
-
+	
+<script type="text/javascript" src="/js/load.js"></script>
 <script type="text/javascript">
-$(function(){
-	$('#btnUpload').on('click',function(event){
-		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
-		
-		var form= $('#addAdminForm')[0] // FormData를 쓰기 위해 필요하다
-		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
-		
-		$('#btnUpload').prop('disabled', true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
-		
-		$.ajax({
-			url:'/admin/add',
-			method:'post',
-			enctype: 'multipart/form-data',
-			data: data,
-			dataType: 'json',
-			cache: false,
-			contentType: false,
-			processData: false,
-			timeout: 600000,
-			success: function(res){
-				$('#btnUpload').prop('disabled', false);
-				if(res.added){
-					alert('저장 되었습니다.');
-					location.href= "/admin/qaList/1/10"
-				}
-			},
-			error: function(e){
-				$('#btnUpload').prop('disabled', false);
-				alert('Server Error:'+err);
-			}
+	$(function(){
+		$('#btnUpload').on('click',function(event){
+			event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
 			
-		});
+			var form= $('#addAdminForm')[0] // FormData를 쓰기 위해 필요하다
+			var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
+			
+			$('#btnUpload').prop('disabled', true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
+			
+			$.ajax({
+				url:'/admin/add',
+				method:'post',
+				enctype: 'multipart/form-data',
+				data: data,
+				dataType: 'json',
+				cache: false,
+				contentType: false,
+				processData: false,
+				timeout: 600000,
+				success: function(res){
+					$('#btnUpload').prop('disabled', false);
+					if(res.added){
+						alert('저장 되었습니다.');
+						location.href= "/admin/qaList/1/10"
+					}
+				},
+				error: function(e){
+					$('#btnUpload').prop('disabled', false);
+					alert('Server Error:'+err);
+				}
+				
+			});
+		})
 	})
-})
 
 	window.onload = function() {
 		var name = '[[${name}]]'; 
@@ -71,7 +72,10 @@ $(function(){
 		$("#name").val(name).prop("selected", true);
 		$("#goBack").attr("onclick","location.href='/health/?add="+name+"';");
 	};
-</script>
+	
+</script>	
+
+
 </head>
 <body>
 <div>
@@ -103,7 +107,9 @@ $(function(){
 		</div>
 		<div>
 			<label for="attach">첨부파일</label>
-			<input type="file" name="attach" multiple="multiple">
+			<input type="file" name="attach" class="form input-file" multiple="multiple">
+			<div id="preview">
+			</div>
 		</div>
 		<p>
 		<div class= "btn"> 

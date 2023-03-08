@@ -60,7 +60,6 @@ function delAdminB()
    <div th:if= "${noticeb.attList.size()>0}"></div>
 	   <div th:each="att: ${noticeb.attList}"> 
 	   		<img class="img_s" th:src="'/images/'+${att.attname}">
-	   		<div> [[${att.attname}]]</div>
 	   </div>
 <p>
 <div th:if ="${noticeb.attList.size()>0}"> 

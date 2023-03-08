@@ -256,12 +256,9 @@ public class HealthController {
 			return "html/admin/qna";
 		}
 		m.addAttribute("userid", userid);
-		//PageInfo<Map<String, Object>> pageInfo =  hsvc.getPage(pg, cnt, userid);
-		//List<OneBoard> list = hsvc.qna(pageInfo.getList());
-		//m.addAttribute("list", list);
+
 		Page<OneBoard> pageOneboard = pagesvc.getList(pageable);
 		System.out.println("pageOneboard:"+pageOneboard.toList());
-		//m.addAttribute("title",title);
 		m.addAttribute("pageOneboard", pageOneboard);
 		System.out.println("getNumber:"+pageOneboard.getNumber());
 		return "html/admin/qna";
