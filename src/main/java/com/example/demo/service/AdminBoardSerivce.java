@@ -374,7 +374,7 @@ public class AdminBoardSerivce
 	@Transactional
 	public boolean addAdmin(HttpServletRequest request, AdminBoard adminb, MultipartFile[] mfiles)
 	{
-		log.info("admin svc, mfiles.length={}", mfiles.length);
+		//log.info("admin svc, mfiles.length={}", mfiles.length);
 
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
@@ -382,11 +382,11 @@ public class AdminBoardSerivce
 		List<AdminAttachBoard> alist = new ArrayList<>();
 		
 		int brow = mapper.addAdminBoard(adminb);
-		log.info("brow 값:"+ brow);
+		//log.info("brow 값:"+ brow);
 		try {
 			boolean uploaded = false;
 			
-			log.info("mfiles length:"+ mfiles.length);
+			//log.info("mfiles length:"+ mfiles.length);
 			if(!mfiles[0].isEmpty())//첨부파일 있으면
 			{
 				for(int i=0; i<mfiles.length; i++) {
@@ -400,7 +400,7 @@ public class AdminBoardSerivce
 				}
 				
 				int arow =mapper.saveAdminAttach(alist);
-				log.info("arow값:"+ arow);
+				//log.info("arow값:"+ arow);
 				uploaded = brow>0 && arow>0;
 				return uploaded;
 				
