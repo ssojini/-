@@ -1,4 +1,7 @@
 %%writefile ezenfinal.py
+#!pip install cx_Oracle
+#!pip install flask_sqlalchemy
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
@@ -33,8 +36,6 @@ def chatGPT1(prompt):
     return message
 ###################
 def prod_recommend():
-    #!pip install flask_sqlalchemy
-    #!pip install cx_Oracle
     import cx_Oracle
     import pandas as pd
     import numpy as np
@@ -149,12 +150,13 @@ def chatGPT():
     return json.dumps(answer)
 
 #다루한
-@app.route("/meal_calc", method=['POST'])
+@app.route("/meal_calc", methods=['POST'])
 def meal_calc():
     js = request.get_json()
     df = pd.read_excel('통합 식품영양성분DB_음식_20230302.xlsx',usecols=[5,11,12,15,19,26,32,48])
-    df = df[df['식품명'].isin(js['식품명'])]
-    return df.to_json()
+    print(js)
+    result = df[df['식품명'].isin(js['식품명'])]
+    return result.to_json()
 
 @app.route("/prod_recommend", methods=['POST'])
 def prodRecommend():

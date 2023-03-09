@@ -37,76 +37,136 @@ public class SecurityConfiguration {
 				// 권한에 따른 인가
 				.authorizeHttpRequests()
 				.requestMatchers(
-						"/team/denied",
-						// get 방식 허용
-						"/css/**",
-						"/js/**",
-						"/images/**",
-						"/img/**",
-						// health
-						"/health/main",
-						// team
-						"/team/login",
-						"/team/findLoginInfo",
-						"/team/rules",
-						"/team/joinForm",
-						"/team/auth/**",
-						"/team/add",
-						// shop
-						"/shop/**",
-
-						// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
-						"/team/sendemail",
-						"/team/authEmail",
-						"/team/join",
-						
-						//
-						"/**"
+						// AdminBoardController.java
+						// CalendarController.java
+						// get
+						"/calen/getCalendar",
+						// ConnectController.java
+						// post
+						"/connect/chatGPT",
+						"/connect/prod_recommend",
+						// FileController.java
+						// FreeboardController.java
+						// HealthController.java
+						""
 				).permitAll()
-				.requestMatchers("/admin/**","/manager/**").hasAnyRole("ADMIN")
+				.requestMatchers(
+						// AdminBoardController.java
+						// get
+						"/admin/qaList/**",
+						"/admin/add",
+						"/admin/detailByQnum/*",
+						"/admin/edit_q/*",
+						"/admin/notice/**",
+						"/admin/noticeMain/**",
+						"/admin/detail_notice/*",
+						"/admin/edit_notice/*",
+						"/admin/faq/**",
+						"/admin/detail_faq_admin/*",
+						"/admin/edit_faq/*",
+						// post
+						"/admin/add",
+						"/admin/edit_q/*",
+						"/admin/edit_notice/*",
+						"/admin/delAdminIndiv",
+						"/admin/delAdminB",
+						"/admin/edit_faq/*",
+						"/admin/search_notice",
+						"/admin/search_faq",
+						"/admin/search_qna",
+						// CalendarController.java
+						// ConnectController.java
+						// FileController.java
+						// FreeboardController.java
+						// HealthController.java
+						""
+						).hasAnyRole("ADMIN")
+				.requestMatchers(
+						// AdminBoardController.java
+						// get
+						"/calen/showCalen",
+						"/calen/add",
+						"/calen/detail/*",
+						"/calen/edit/*",
+						// post
+						"/calen/editCal/*",
+						"/calen/delimg",
+						"/calen/delete",
+						// CalendarController.java
+						// ConnectController.java
+						// FileController.java
+						// get
+						"/file/download",
+						// post
+						"/file/upload",
+						"/file/delete",
+						"/file/list",
+						// FreeboardController.java
+						// get
+						"/freeboard",
+						"/freeboard/",
+						"/freeboard/add",
+						"/freeboard/detail",
+						"/freeboard/edit",
+						// post
+						"/freeboard/add",
+						"/freeboard/updateContents",
+						"/freeboard/delete",
+						"/freeboard/edit",
+						"/freeboard/addReply",
+						"/freeboard/deleteReply",
+						"/freeboard/getReply",
+						"/freeboard/listFreeboard",
+						"/freeboard/likeCount",
+						// HealthController.java
+						""
+						).hasAnyRole("USER","ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
 				// csrf
 				.and()
 				.csrf()
-				.disable()
-				/*
 				.ignoringRequestMatchers(
-						"/doLogin",
-						// post 방식 허용 시에는 반드시 csrf에서도 똑같이 ignoring 해줘야 한다
-						// team
-						"/team/sendemail",
-						"/team/authEmail",
-						"/team/join",
-						
-						// freeboard
-						"/freeboard/add",
-						"/freeboard/updateContents",
-						"/file/upload",
-						"/freeboard/addReply",
-						"/freeboard/deleteReply",
-						"/freeboard/likeCount",
-						"/freeboard/edit",
-						"/freeboard/delete",
-						
-						// file
+						// AdminBoardController.java
+						// post
+						"/admin/add",
+						"/admin/edit_q/*",
+						"/admin/edit_notice/*",
+						"/admin/delAdminIndiv",
+						"/admin/delAdminB",
+						"/admin/edit_faq/*",
+						"/admin/search_notice",
+						"/admin/search_faq",
+						"/admin/search_qna",
+						// CalendarController.java
+						// post
+						"/calen/editCal/*",
+						"/calen/delimg",
+						"/calen/delete",
+						// ConnectController.java
+						// post
+						"/connect/chatGPT",
+						"/connect/prod_recommend",
+						// FileController.java
+						// post
 						"/file/upload",
 						"/file/delete",
-						
-						// 현주
-						"/cal",
-						"/userEdit",
-						"/deleteuser",
-						"/findpwd/*",
-						"/getloc",
-						"/addgoods",
-						"/editgoods",
-						
-						// 전부 허용
-						"/*"
+						"/file/list",
+						// FreeboardController.java
+						// post
+						"/freeboard/add",
+						"/freeboard/updateContents",
+						"/freeboard/delete",
+						"/freeboard/edit",
+						"/freeboard/addReply",
+						"/freeboard/deleteReply",
+						"/freeboard/getReply",
+						"/freeboard/listFreeboard",
+						"/freeboard/likeCount",
+						// HealthController.java
+						""
 				)
 				.and()
-				*/
 
 				// 로그인
 				.formLogin().loginPage("/team/login") // 접속 차단시 로그인 페이지로 가게 하기
