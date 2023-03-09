@@ -81,6 +81,7 @@ public class HealthController {
 		m.addAttribute("user", mp_svc.userinfo(userid));
 		m.addAttribute("bname",bname);
 		m.addAttribute("title",title);
+
 		return "html/mypage/myboard";
 	}
 
