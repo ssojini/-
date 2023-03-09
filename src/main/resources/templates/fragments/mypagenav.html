@@ -27,11 +27,12 @@
     <div id="headerLeft" class="header_left" style="width:250px; height:300px; margin: auto;">
 
         <ul class="left_menu" role="menu" style="display: inline;">
+           <!-- 
             <li style="padding-top:50px; font-size:1.2em;">
                 <a href="" class="left_item" role="menuitem" onclick="" aria-current="true" style="color:black;">
                     <div class="menu_text on">내정보</div>
                 </a>
-            </li>
+            </li> -->
             <li style="padding-top:20px; font-size:1.2em;">
                 <a th:href="@{'/health/useredit/'+ ${session.userid}}"class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">개인정보 관리</div>
@@ -48,13 +49,14 @@
                 </a>
             </li>
         </ul>
+        <!--  
         <ul class="left_link">
             <li style="padding-top:20px; font-size:1.2em;">
             	 <a href="" class="left_item" role="menuitem" onclick="" style="color:black;">
                     <div class="menu_text ">기타</div>
                 </a>
             </li>
-        </ul>
+        </ul>-->
 	</div>
 </div>
 
