@@ -4,25 +4,48 @@
 <meta charset="utf-8">
 <title>edit test</title>
 <style>
-.title{
-	text-align: center;
-	margin-top: 10px;
+#container{
+	padding: 52px 0 90px;
+	width: 1100px;
+	margin: 0px auto;
 }
-.containera{
-	 width: 600px;
-	 height:600px;
-	 margin: 0 auto;
-	 outline: solid 1px black;
-	 display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top:5px;
+.top_wrap{
+	position: relative;
+	background: #f4f4f4;
+	top: 5px;
+	color: #161616;
+	letter-spacing: -1px;
+	display: inline-block;
+	height: 100px;
+	font-size: 100%;
+	width:100vw;
+	margin:0 auto;
+	}
+.tit{
+	color: #161616;
+	padding: 20px 5px 20px 0;	
+	border-top: 1px solid #737373;
+	border-bottom: 1px solid #ececec;
+	line-height: 1.4em;
+	font-weight: bold;
+	font-size: large;
 }
-
-.btn{
-	width:100%;
-	margin: 0 auto;
-	
+.aut{
+	color: #434343;
+	padding: 20px 5px 20px 0;	
+	border-bottom: 1px solid #ececec;
+	line-height: 1.4em;	
+}
+.cont{
+	color: #434343;
+	padding: 20px 5px 20px 0;	
+	border-bottom: 1px solid #ececec;
+	line-height: 1.4em;	
+}
+.img_s{
+	width:400px;
+	height:400px;
+object-fit: scale-down;
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -30,9 +53,6 @@
 
 function delFiles(index)
 {
-	//alert('삭제대상:'+index);
-	//console.log($('#attid'+index).val());
-	//alert($('#attid'+index).val());
 	var id =$('#attid'+index).val();
 	
 	$.ajax({
@@ -61,8 +81,6 @@ $(function(){
 		$('#btnUpload').prop('disabled', 
 				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
 		
-		
-	//	alert("게시글 수정용 ajax 돌아감");		
 		$.ajax({
 			url:'/health/edit_q/[[${qnum}]]',
 			method:'post',
@@ -77,7 +95,7 @@ $(function(){
 				$('#btnUpload').prop('disabled', false);
 				if(res.uploaded){
 					alert('수정 되었습니다.');
-					location.href= "/health/edit_q/[[${qnum}]]"
+					location.href= "/health/detailByQnum/[[${qnum}]]";
 				}
 			},
 			error: function(e){
@@ -86,55 +104,51 @@ $(function(){
 			}
 			
 		});
-	})
+	})	
 })
+
 </script>
+<script type="text/javascript" src="/js/load.js"></script>
 </head>
 <body>
-<div>
-    <div th:replace="fragments/common :: header"></div>
-</div>
-<h3 class="title">수정하기</h3>
-<div class= "containera"> 
-<form id="editForm" >
+<div th:replace="fragments/common :: header"></div>
 
-	<div>제목
-		<label for="title"> 
-			<input id ="title" type="text" name="title" th:value= "${oneb.title}"> 
-		</label>
-	</div> 
-	<div>작성자 
-		[[${userid}]]
-	</div> 
-	<div>
-		<label for ="content">
-			<textarea name="content" rows="10" cols="40" > [[${oneb.content}]]</textarea>	
-		</label>
+<div class="top_wrap">
+	<div style="width:90%; float: right;">
+		<h1 style="padding-top:25px; text-align:left;" >수정하기</h1>
 	</div>
-<p>
-<div>첨부파일 목록 <br>
-
-	<div th:each="att, status: ${oneb.attList}" th:id="|div${status.index}|"> 
-	
-		<span th:text="${att.attname}"></span>
-		<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
-		<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
-	</div>	
 </div>
-<p>
-
-<div>
-		<label for="attach">첨부파일 추가</label>
-		<input type="file" name="attach" multiple="multiple">
-</div>
-<div class="btn">
-	<button type="button" id="btnUpload"> 저장</button>
-	<button type="reset">취소</button>
-</div>
-</form>
-</div>
-<p>
-
-
+	<form id="editForm" >
+		<div style="padding-left:400px; padding-right:200px;padding-top:20px">
+			<div class="tit">제목
+				<input id ="title" type="text" name="title" th:value= "${oneb.title}"> 
+			</div> 
+			<div class="aut">작성자 [[${userid}]]</div> 
+			<div class="cont">
+				<textarea name="content" rows="10" cols="40" > [[${oneb.content}]]
+				</textarea>	
+			</div>
+			<div>첨부파일 목록 </div>
+				<div th:each="att, status: ${oneb.attList}" th:id="|div${status.index}|"> 	
+					<span th:text="${att.attname}"></span>
+					<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
+				   		<img class="img_s" th:src="'/images/'+${att.attname}">			
+					<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
+				</div>	
+		
+			<p>
+			<div>
+				<label for="attach">첨부파일 추가</label>
+				<input type="file" name="attach" class="form input-file" multiple="multiple"> 
+				<div id="preview">
+				</div>
+			</div>
+			<p>
+			<div class="btn" style="padding-left:500px";>
+				<button type="button" id="btnUpload"> 저장</button>
+				<button type="reset">취소</button>
+			</div>
+		</div>	
+	</form>
 </body>
 </html>

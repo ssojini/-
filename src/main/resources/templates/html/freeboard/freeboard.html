@@ -19,7 +19,7 @@
 </script>
 </head>
 <body>
-	<div th:replace="fragments/common :: header"></div>
+	<div th:replace="~{fragments/common :: header}"></div>
 	<main>
 		<input type="hidden" id="bname" th:value="${bname}">
 		<div id="freeboard_table_div">

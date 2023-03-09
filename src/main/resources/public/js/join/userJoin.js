@@ -252,8 +252,6 @@ function sendEmail()
 	var obj1 = {};
 	obj1.email = email1 + '@' + email2;
 	
-	alert(obj1.email);
-	
 	$.ajax({
 		url : "/team/sendemail",
 		method : 'post',
@@ -311,6 +309,8 @@ function joinUser()
 	obj.gender = $(".gender").val();
 	obj.nickname = $("#nickname").val();
 	obj.profile = $('#profile').val();
+	
+	console.log(obj);
 	
 	$.ajax({
 		url:'/team/join',

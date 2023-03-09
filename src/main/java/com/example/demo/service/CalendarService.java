@@ -230,11 +230,51 @@ public class CalendarService
 		return list;
 	}
 	
-	public int updateCon(Schedule sch)
+	@Transactional
+	public boolean updateFiles(MultipartFile[] mfiles,HttpServletRequest request,Schedule sch)
 	{
-		int updateCon = cm.updateContenet(sch);
-		if(updateCon > 0 ? true : false);
-		return updateCon;
+		ServletContext context = request.getServletContext();
+		String savePath = fileStorageLocation.toUri().getPath();
+		List<AttachCalendar>list = new ArrayList<>();
+		int brow = cm.updateContenet(sch);
+		System.err.println("sch"+sch);
+		try {
+			boolean updated = false;
+			
+			if(!mfiles[0].isEmpty())//첨부파일 있으면
+			{
+				for(int i=0;i<mfiles.length;i++) 
+				{
+					if(mfiles[0].getSize()==0) continue;
+					mfiles[i].transferTo(new File(savePath+"/"+mfiles[i].getOriginalFilename()));
+					
+					AttachCalendar attcal = new AttachCalendar();
+					
+					String pname = mfiles[i].getOriginalFilename();
+					String extension = pname.substring(pname.lastIndexOf(".")); //파일 확장자
+					
+					attcal.setA_pnum(sch.getS_num());
+					
+					String fname = UUID.randomUUID() + extension;
+					attcal.setPname(pname);
+					attcal.setFname(fname);
+					list.add(attcal);	
+					System.err.println("list"+list);
+				}
+				int arow = cm.updateAttach(list);
+				updated = brow>0 && arow>0;
+				
+				return updated;
+			}else {
+				updated = brow > 0;
+				return updated;
+			}
+			
+		} catch (Exception e) {
+		e.printStackTrace();
+		
+		}
+		return false;
 	}
 	
 	public int delImg(int num) 

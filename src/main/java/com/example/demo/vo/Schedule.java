@@ -31,6 +31,7 @@ public class Schedule {
 	private int s_pnum;
 	private String when;
 	private String content;
+	
 	@Transient
 	private List<AttachCalendar> attlist = new ArrayList<>();
 }

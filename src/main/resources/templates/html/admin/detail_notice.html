@@ -2,60 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
    xmlns:sec="http://www.thymeleaf.org/extras/thymeleaf-extras-springsecurity5">
 <head>
-<style>
-#container{
-	padding: 52px 0 90px;
-	width: 1100px;
-	margin: 0px auto;
-}
-.top_wrap{
-	position: relative;
-	background: #f4f4f4;
-	top: 5px;
-	color: #161616;
-	letter-spacing: -1px;
-	display: inline-block;
-	height: 100px;
-	font-size: 100%;
-	width:100vw;
-	margin:0 auto;
-}
-.tit{
-	color: #161616;
-	padding: 20px 5px 20px 0;	
-	border-top: 1px solid #737373;
-	border-bottom: 1px solid #ececec;
-	line-height: 1.4em;
-	font-weight: bold;
-	font-size: large;
-}
-.aut{
-	color: #434343;
-	padding: 20px 5px 20px 0;	
-	border-bottom: 1px solid #ececec;
-	line-height: 1.4em;	
-}
-.hit{
-	color: #434343;
-	padding: 20px 5px 20px 0;	
-	border-bottom: 1px solid #ececec;
-	line-height: 1.4em;	
-}
-.date{
-	color: #434343;
-	border-bottom: 1px solid #ececec;
-	line-height: 1.4em;	
-}
-.cont{
-	color: #434343;
-	padding: 20px 5px 20px 0;	
-	border-bottom: 1px solid #ececec;
-	line-height: 1.4em;	
-}
-
-
-</style>
 <meta charset="utf-8">
+<link href="/css/adminboard.css" rel="stylesheet">
 <title>공지사항 </title>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -90,8 +38,7 @@ function delAdminB()
 </head>
 <body>
 <div th:replace="fragments/common :: header"></div>
-	<div style="margin:0 auto; width: 500px; height:100px; padding-top:30px;">
-</div>
+	<div style="margin:0 auto; width: 500px; height:100px; padding-top:30px;"></div>
 
 	<div class= "top_wrap">
 		<div style="width:90%;float:right;">
@@ -104,17 +51,21 @@ function delAdminB()
 	<div class="hit">조회수
 		<span>[[${noticeb.hit}]]</span>
 	</div>
-	<div class="date">등록일
+	<div class="date1">등록일
 		<span>[[${noticeb.date_admin}]]</span>
 	</div>
 	<div class="cont">[[${noticeb.content}]]</div>
   
-	<div>첨부파일</div>
-	<span th:if= "${noticeb.attList.size()>0}"></span>
-	<span th:each="att: ${noticeb.attList}"> [[${att.attname}]]</span>
-
+   <div>첨부파일</div>
+   <div th:if= "${noticeb.attList.size()>0}"></div>
+	   <div th:each="att: ${noticeb.attList}"> 
+	   		<img class="img_s" th:src="'/images/'+${att.attname}">
+	   </div>
 <p>
-<button type="button" onclick="delAdminB();"> 삭제</button>
+<div th:if ="${noticeb.attList.size()>0}"> 
+	<button type="button" onclick="delAdminB();"> 삭제</button>
+</div>
+
 </div>
 
 </body>

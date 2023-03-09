@@ -43,4 +43,5 @@ public class Freeboard {
 	private Timestamp datetime;
 	@ColumnDefault("0")
 	private Integer hit;
+	private String userid;
 }

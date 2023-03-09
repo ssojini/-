@@ -8,7 +8,7 @@
 <body>
 <main>
 
-<span th:if="${session.userid}!=null">[[${session.userid}]]  <a href="/team/logout">Log Out</a> </span>
+<span th:if="${session.userid}!=null">[[${session.userid}]]  <a href="/doLogout">Log Out</a> </span>
 <span th:unless="${session.userid}!=null">Not Logged On</span>
 </main>
 </body>

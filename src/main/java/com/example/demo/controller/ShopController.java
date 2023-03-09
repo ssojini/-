@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.interfaces.CartRepository;
-import com.example.demo.interfaces.GoodsRepository;
+import com.example.demo.repository.CartRepository;
+import com.example.demo.repository.GoodsRepository;
 import com.example.demo.service.ShopService;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Cart;
@@ -152,6 +152,16 @@ public class ShopController {
 
 	/*--------------------- 상욱 끝 ----------------------*/
 
+	@GetMapping("/rec_test")
+	@ResponseBody
+	public String rec_test() throws IOException, ParseException
+	{
+		Map<String,String> map = new HashMap<>();
+		String user = (String)session.getAttribute("userid");
+		System.err.println("user: "+user);
+		map.put("userid", user);
+		return svc.recommand(map).toString();
+	}
 	/* 현주 */
 	
 	@GetMapping(value="/imgtest")
@@ -161,11 +171,21 @@ public class ShopController {
 	}
 	
 	@GetMapping("/ShopMainPage")
-	public String shopmainpage(Model m)
+	public String shopmainpage(Model m) throws IOException, ParseException
 	{
-		m.addAttribute("goodslist", svc.maingoods());
-		m.addAttribute("newproduct", svc.newproduct());
+		// 추천시스템
+		Map<String,String> map = new HashMap<>();
+		String user = (String)session.getAttribute("userid");
+		map.put("userid", user);
+		if(user!=null) {
+			
+			m.addAttribute("recommend", svc.recommand(map));
+		}
+		
+		
 		m.addAttribute("random", svc.randomproduct());
+		m.addAttribute("newproduct", svc.newproduct());
+		m.addAttribute("goodslist", svc.maingoods());
 		
 		return "html/shop/ShopMain";
 	}
@@ -176,6 +196,14 @@ public class ShopController {
 		return "html/shop/AddGoods";
 
 	}
+	
+	@GetMapping("/summer/{adminid}")
+	public String summer(@PathVariable(value = "adminid", required = false) String adminid, Model m) {
+		m.addAttribute("admin", svc.admininfo(adminid));
+		return "html/shop/summernote";
+
+	}
+	
 
 	@RequestMapping(value = "/summer_image.do", produces = "application/json; charset=utf8")
 	@ResponseBody
@@ -200,7 +228,6 @@ public class ShopController {
 
 		return map;
 	}
-	
 	
 	@PostMapping("/editgoods")
 	@ResponseBody

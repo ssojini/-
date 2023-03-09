@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,11 +19,54 @@
     <link rel="stylesheet" href="/css/tooplate-style.css" />
     <!-- maingage.css -->
     <link rel="stylesheet" href="/css/mainpage.css"/>
+    <script type="text/javascript">
+    	function recommendDiet() {
+    		gender = $("input[name='gender']:checked").val();
+    		current_weight = $("#current_weight").val();
+    		goal_weight = $("#goal_weight").val();
+    		if (gender != null) {
+    			if (current_weight != "") {
+    				if (goal_weight != "") {
+		    			$.ajax({
+		        			url:"/connect/chatGPT",
+		        			method:"post",
+		        			data:{
+		        				"gender":gender,
+		        				"current_weight":current_weight,
+		        				"goal_weight":goal_weight
+		        			},
+		        			dataType:"json",
+		        			cache:false,
+		        			success:function(res){
+		        				for (var i = 0; i < res.length; i++) {
+		        					if (res[i] != "") {
+			        					console.log(res[i]);
+				        				$("#chatgpt_output").append($("<div>"+res[i] + "</div>"));
+		        					}
+		        				}
+		        			},
+		        			error:function(xhs,status,err){
+		        				alert(err);
+		        			}
+		        		});
+    				} else {
+    					alert("목표 몸무게를 입력하세요!");
+    					$("#goal_weight").focus();
+    				}
+	    		} else {
+	    			alert("현재 몸무게를 입력하세요!");
+	    			$("#current_weight").focus();
+	    		}
+    		} else {
+    			alert("성별을 선택하세요!");
+    		}
+    	}
+    </script>
   </head>
 
 <body style="background-color:#F2EEE5;">
 <div>
-    <div th:replace="fragments/common :: header"></div>
+    <div th:replace="~{fragments/common :: header}"></div>
 </div>
     <div>
     	<!-- 왼쪽 -->
@@ -204,6 +248,27 @@
 	       			</div>
 				</div>
 			</div>
+			<div id="chatgpt_div" style="padding-top:20px;color:black;">
+	    		<div style="background-color:white;border-radius:0px;padding:10px;">
+		    		<div style="background-color:yellow;border-radius:0px;padding:2.5px 5px;width:100%;text-align:center;">오늘의 추천식단</div>
+		    		<div>
+		    			<div id="gender" style="text-align:center;">
+		    				<label for="male" style="margin:0px;padding-right:10px;">남</label><input id="male" type="radio" name="gender" value="남자" style=""><label for="female" style="margin:0px;padding-left:10px;padding-right:10px;">여</label><input id="female" type="radio" name="gender" value="여자" style="">
+		    			</div>
+		    			<div style="text-align:center;">
+		    				<label for="current_weight" style="margin:0px;">현재 몸무게</label><input id="current_weight" type="text" style="width:100%;">
+		    			</div>
+		    			<div style="text-align:center;">
+		    				<label for="goal_weight" style="margin:0px;">목표 몸무게</label><input id="goal_weight" type="text" style="width:100%;">
+		    			</div>
+			    		<div style="text-align:center;">
+				    		<button onclick="recommendDiet();" style="margin:10px;">추천받기</button>
+			    		</div>
+		    		</div>
+		    		<div id="chatgpt_output">
+		    		</div>
+	    		</div>
+    		</div>
 	    </div>
 	</div>
 	

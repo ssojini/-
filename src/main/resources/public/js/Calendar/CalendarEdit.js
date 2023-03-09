@@ -1,27 +1,40 @@
-function editCalendar()
-{
-	if(!confirm('정말로 현재 정보를 수정하시겠어요?')) return;
-	var obj = {"s_pnum": $("#s_pnum").text(),
-	           "content":$("#content").val()};
-	console.log(obj)
-	$.ajax({
-		url:'/calen/updateCon',
-		method:'post',
-		data:obj,
-		cache : false,
-		dataType:'json',
-		success : function(res){
-			alert(res.update? '수정성공' :'수정실패');
-			if(res.update){
-				location.href = '';
+$(function(){
+	$('#btnUpload').on('click', function(event) {
+		event.preventDefault();
+		    
+		var form = $('#editForm')[0]
+	    var data = new FormData(form);
+		
+		for (let key of data.keys()) {
+			console.log(key, ":", data.get(key));
+		}
+		    
+		$('#btnUpload').prop('disabled', true);
+		var spnum = $('#s_pnum').val();
+		console.log(spnum);
+		
+		$.ajax ({
+			type : 'post',
+		    enctype: 'multipart/form-data',
+			url : '/calen/editCal/'+spnum,
+		    data : data,
+			dateType : 'json',
+			processData: false,  
+		    contentType: false,
+			cache : false,
+			success: function (data) {
+		           $('#btnUpload').prop('disabled', false);
+		           alert('수정되었습니다')
+		           location.reload();
+		        },
+		        error: function (e) {
+		            $('#btnUpload').prop('disabled', false);
+		            alert('수정실패');
 			}
-		},
-        error : function(xhr, status, err){
-           alert(err);
-        }
-	});	
-	return false;
-}
+		});
+	})	
+})
+
 function deleteImg(a_num)
 {			
 	var num = $("#a_num").val();

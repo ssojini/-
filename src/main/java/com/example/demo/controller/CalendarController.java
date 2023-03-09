@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
 import com.example.demo.service.CalendarService;
+import com.example.demo.vo.HCalendar;
 import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -74,8 +75,7 @@ public class CalendarController
 	}
 	@PostMapping("/add")
 	@ResponseBody
-	public Map<String,Object> morningAdd(@RequestParam("files")MultipartFile[] mfiles,
-            com.example.demo.vo.HCalendar cal, Schedule sc, HttpServletRequest request, Model m) 
+	public Map<String,Object> Add(@RequestParam("files")MultipartFile[] mfiles, HCalendar cal, Schedule sc, HttpServletRequest request, Model m) 
 	{	
 		Map<String,Object> map = new HashMap<>();
 		map.put("add", cs.add(mfiles, request, cal, sc));
@@ -97,13 +97,14 @@ public class CalendarController
 		return "html/calendar/calendarEdit";
 	}
 	
-	@PostMapping("/updateCon")
+	@PostMapping("/editCal/{spnum}")
 	@ResponseBody
-	public Map<String, Object> updateContent(Schedule sch)
+	public Map<String,Object> editCal(@PathVariable("spnum")int num,
+			@RequestParam("files")MultipartFile[] mfiles,Model model,HttpServletRequest request
+			,Schedule sch)
 	{
-		Map<String, Object> map = new HashMap<>();
-		map.put("update", cs.updateCon(sch));
-		
+		Map<String,Object> map = new HashMap<>();
+		map.put("update", cs.updateFiles(mfiles, request, sch));
 		return map;
 	}
 	

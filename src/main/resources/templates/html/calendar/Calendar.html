@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="/img/1.png" rel="shortcut icon" type="image/x-icon">
-<title>일정: 건강한 한끼</title>
+<title>식단: 건강한 한끼</title>
 <link rel="stylesheet" type="text/css" href="/css/Calendar/Calendar.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -18,6 +18,7 @@ function clickDay(t) {
 	window.location.href = "/calen/showCalen?day="+obj.date;
 }
 </script>
+
 </head>
 <body>
 <div>
@@ -43,6 +44,24 @@ function clickDay(t) {
 			<label for="tab-1">월간</label>
 			<label for="tab-2">목록</label>
 		</div>
+		<div class="wvi">
+			<div class="whenview">
+				<div class="when mo whenview" ></div> <br>
+				<div class="whenview"> 아침</div>
+			</div>
+			<div class="whenview">
+				<div class="when lu whenview" ></div> <br>
+				<div class="whenview"> 점심</div>
+			</div>
+			<div class="whenview">
+				<div class="when di whenview" ></div> <br>
+				<div class="whenview"> 저녁</div>
+			</div>
+			<div class="whenview">
+				<div class="when sn whenview" ></div> <br>
+				<div class="whenview"> 간식</div>
+			</div>
+		</div>
 		<div class="content" style="padding-top:30px;" >
 			<div class="content-dis" id="list1">
 			    <div class="gd-left gd-clear gd-title">일</div>
@@ -61,12 +80,15 @@ function clickDay(t) {
 			         [[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]	
 			  		 <div th:each="list : ${list}"
 					    	   th:if="${list.tdate == (i-(firstDayOfWeek-1)) && list.tmonth == month}">
-				    	<div>
-					    	<span th:each="sch : ${list.sch}">
+				    	<div th:each="sch : ${list.sch}" class="qwe">
 					    	<a th:href="@{'/calen/detail/'+${sch.s_pnum}}">
-					    		[[${sch.when}]] [[${sch.content}]]</span>
-					    	</a>
-					    </div>
+				    			<div th:if="${sch.when}=='아침'" class="when mo"></div>
+					    		<div th:if="${sch.when}=='점심'" class="when lu"></div>
+					    		<div th:if="${sch.when}=='저녁'" class="when di"></div>
+					    		<div th:if="${sch.when}=='간식'" class="when sn"></div>
+				    		</a>
+					    		
+				    	</div>
 				  	</div>
 			  	</div>
 			</div>

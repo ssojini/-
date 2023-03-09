@@ -26,11 +26,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.interfaces.AddGoods_AttReopsitory;
-import com.example.demo.interfaces.CartRepository;
-import com.example.demo.interfaces.GoodsRepository;
-import com.example.demo.interfaces.OrderRepository;
 import com.example.demo.mapper.ShopMapper;
+import com.example.demo.repository.AddGoods_AttReopsitory;
+import com.example.demo.repository.CartRepository;
+import com.example.demo.repository.GoodsRepository;
+import com.example.demo.repository.OrderRepository;
 import com.example.demo.vo.AddGoods_Att;
 import com.example.demo.vo.Admin;
 import com.example.demo.vo.Cart;
@@ -57,6 +57,9 @@ public class ShopService
 	
 	@Autowired //구매
 	private OrderRepository order_repo;
+	
+	@Autowired
+	private ConnectService con_svc;
 
 	
 	
@@ -477,6 +480,22 @@ public class ShopService
 	 {
 		 return false;
 	 }
+	public List<GoodsAndAtt> recommand(Map<String, String> map1) throws IOException, ParseException 
+	{
+		List<GoodsAndAtt> reco = new ArrayList<>();
+		String response = con_svc.post("http://localhost:7878/prod_recommend", map1);	
+		System.out.println("svc_response:"+response);
+		
+		String[] strarr = response.replace("[  ","").replace("]","").split(",  ");
+		for (int i = 0; i<strarr.length;i++) {
+			System.err.println("String_Arr: "+strarr[i]);
+			int goodsnum = Integer.parseInt(strarr[i]);
+			GoodsAndAtt goods_info = map.recommend(goodsnum);
+			reco.add(goods_info);
+		}		
+		
+		return  reco;
+	}
 	 
 	 
 

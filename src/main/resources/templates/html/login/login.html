@@ -25,31 +25,41 @@
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	function login(){
+		var url = window.location.href;
+		console.log(url);
 		var userid = $('#userid').val();
 		var pwd = $('#pwd').val();
-		//alert(userid+pwd);
 		$.ajax({
-			url:'/team/login',
+			url:'/doLogin',
 			method:'post',
 			cache:false,
-			data:{'userid':userid,'pwd':pwd},
+			data:{
+				'userid':userid,
+				'pwd':pwd
+				},
 			dataType:'json',
 			success: function(res){
-				if(res.login){
+				if (res.login){
 					alert(res.msg);
-					location.href='/health/main';
-				}else{
-				alert(res.msg);				
+					if (res.msg == "관리자 로그인 성공") {
+						location.href='/manager/main';
+					} else {
+						location.href='/health/main';
+					}
+				} else {
+					alert(res.msg);	
 				}
 			},error:function(xhr,status,err){
+				console.log(err);
 				alert("에러: "+err);
 			}
 		});
+		// $("<form action='/doLogin' method='post'><input type='text' name='userid' value='"+userid+"'><input type='text' name='pwd' value='"+pwd+"'></form>").submit();
 	}
 </script>
 <body>
 <div>
-    <div th:replace="fragments/common :: header"></div>
+    <div th:replace="~{fragments/common :: header}"></div>
 </div>
 	<main>
 		<div class="container1">
