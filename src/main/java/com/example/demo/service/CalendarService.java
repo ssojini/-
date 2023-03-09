@@ -26,6 +26,7 @@ import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +36,8 @@ public class CalendarService
 {
 	@Autowired
 	private CalendarMapper cm;
+	@Autowired
+	private HttpSession session;
 	
 	private final Path fileStorageLocation;
 
@@ -54,6 +57,9 @@ public class CalendarService
 	{
 		ServletContext context = request.getServletContext();
 		String savePath = fileStorageLocation.toUri().getPath();
+		
+		String userid = (String)session.getAttribute("userid");
+		cal.setUserid(userid);
 		
 		List<AttachCalendar>list = new ArrayList<>();
 		
@@ -121,7 +127,9 @@ public class CalendarService
 	
 	public List<Map<String,Object>> listCalendar()
 	{
-		List<Map<String,Object>> mlist = cm.list();	
+		String userid = (String)session.getAttribute("userid");
+		
+		List<Map<String,Object>> mlist = cm.list(userid);	
 		List<Map<String,Object>> list = new ArrayList<>();
 	
 		for (int i = 0; i < mlist.size(); i++) 
