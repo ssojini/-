@@ -90,9 +90,13 @@ def prod_recommend(userid):
 
     # DBSCAN 클러스터링
     dbscan = DBSCAN(eps=0.5, min_samples=5, metric='precomputed')
-    dbscan.fit(gower_matrix)
-    labels = dbscan.labels_
-    labels
+    try:
+        dbscan.fit(gower_matrix)
+        labels = dbscan.labels_
+        labels
+    except:
+        print("데이터 없음")
+        return "There is No Data"
 
     df_gower = pd.DataFrame(gower_matrix, index=df['USERID'], columns=df['USERID'])
     df_gower

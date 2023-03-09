@@ -47,3 +47,35 @@ div.gd-title {
    border: 1px solid #444444;
    padding: 8px;
  }   
+ 
+ .when {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+}
+.mo {
+	background-color: #B5F1CC;
+ }
+ .lu {
+	background-color: #8879B0;
+ }
+ .di {
+	background-color: #FAAB78;
+ }
+ .sn {
+ 	background-color: #6096B4;
+ }
+ .qwe{
+	float:left;
+	padding-right:10px;
+ }
+ .whenview {
+ 	float:left;
+	padding-right: 10px;
+ }
+ .wvi{
+ 	float:right;
+ 	padding-right:130px;
+ 	padding-top:30px;
+ 	padding-bottom:30px;
+ }

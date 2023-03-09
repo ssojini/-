@@ -34,7 +34,6 @@ public class Goods
 {
 	@Id
 	@SequenceGenerator(sequenceName = "ADDGOODS_SEQ",initialValue = 100, allocationSize = 1, name="GOODS_GOODSNUM_GEN")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GOODS_GOODSNUM_GEN")
 	private int goodsnum;
 	private String goodsname;
 	private Integer price;
