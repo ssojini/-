@@ -483,7 +483,9 @@ public class ShopService
 	public List<GoodsAndAtt> recommand(Map<String, String> map1) throws IOException, ParseException 
 	{
 		List<GoodsAndAtt> reco = new ArrayList<>();
-		String response = con_svc.post("http://localhost:7878/prod_recommend", map1);	
+		String response = con_svc.post("http://localhost:7878/prod_recommend", map1);
+		if(response.equals("There is No Data")) return null;
+				
 		System.out.println("svc_response:"+response);
 		
 		String[] strarr = response.replace("[  ","").replace("]","").split(",  ");

@@ -178,7 +178,7 @@ public class ShopController {
 		String user = (String)session.getAttribute("userid");
 		map.put("userid", user);
 		if(user!=null) {
-			
+			System.err.println("콘트롤러: "+svc.recommand(map));
 			m.addAttribute("recommend", svc.recommand(map));
 		}
 		
