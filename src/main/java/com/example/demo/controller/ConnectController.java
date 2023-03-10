@@ -39,8 +39,21 @@ public class ConnectController {
 		
 		JSONParser jsPar = new JSONParser();
 		JSONArray jsArr = (JSONArray)jsPar.parse(response);
+		String response = connectService.post(URL+"/chatGPT",map);
+		System.out.println("Flask response:"+response);
+		return response;
+	}
+	
+	@PostMapping("/prod_recommend")
+	@ResponseBody
+	public String prod_recommand(String userid) throws IOException, ParseException {
+		Map<String,String> map = new HashMap<>();
 		
-		return jsArr.toJSONString();
+		map.put("userid", userid);
+				
+		String response = connectService.post(URL+"/prod_recommend",map);
+		System.out.println("Flask response:"+response);
+		return response;
 	}
 	
 	@GetMapping("/meal_calc")

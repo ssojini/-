@@ -93,6 +93,24 @@
 						<input type="radio" id="tab-1" name="show" checked/>
 						<div class="tab">
 						</div>
+							<div class="wvi">
+								<div class="whenview">
+									<div class="when mo whenview" ></div> <br>
+									<div class="whenview"> 아침</div>
+								</div>
+								<div class="whenview">
+									<div class="when lu whenview" ></div> <br>
+									<div class="whenview"> 점심</div>
+								</div>
+								<div class="whenview">
+									<div class="when di whenview" ></div> <br>
+									<div class="whenview"> 저녁</div>
+								</div>
+								<div class="whenview">
+									<div class="when sn whenview" ></div> <br>
+									<div class="whenview"> 간식</div>
+								</div>
+							</div>
 						<div class="content" style="padding-left:7%;padding-top:30px; background-color:white; height:100%" 
 								onclick="location.href='/calen/getCalendar'">
 						    <div class="content-dis" id="list1">
@@ -110,11 +128,86 @@
 							         >
 							         [[${(i-(firstDayOfWeek-1))>0?(i-(firstDayOfWeek-1)):''}]]	
 							  		 <div th:each="list : ${list}"
-									    	   th:if="${list.tdate == (i-(firstDayOfWeek-1)) && list.tmonth == month}">
-								    	<div>
-									    	<span th:each="sch : ${list.sch}">
-									    		[[${sch.when}]][[${sch.content}]]</span>
-									    </div>
+									    	   th:if="${list.tdate == (i-(firstDayOfWeek-1)) && list.tmonth == month && session.userid!=null}">
+								    	<div th:each="sch : ${list.sch}" class="qwe">
+									    	<div th:if="${sch.when}=='아침'" class="when mo"></div>
+								    		<div th:if="${sch.when}=='점심'" class="when lu"></div>
+								    		<div th:if="${sch.when}=='저녁'" class="when di"></div>
+								    		<div th:if="${sch.when}=='간식'" class="when sn"></div>
+				    					</div>
+								  	</div>
+								  	<div th:if="${session.userid==null}">
+								  		<div th:if="${(i-(firstDayOfWeek-1))==3}">
+								  			<div class="qwe">
+								  				<div class="when mo"></div>
+								  			</div>
+								  			<div class="qwe">
+							    				<div class="when lu"></div>
+							    			</div>
+								  		</div>
+								  		<div th:if="${(i-(firstDayOfWeek-1))==7}" class="qwe">
+								  			<div class="qwe">
+								  				<div class="when mo"></div>
+								  			</div>
+								  			<div class="qwe">
+							    				<div class="when lu"></div>
+							    			</div>
+							    			<div class="qwe">
+								  				<div class="when di"></div>
+								  			</div>
+								  			<div class="qwe">
+							    				<div class="when sn"></div>
+							    			</div>
+								  		</div>
+								  		<div th:if="${(i-(firstDayOfWeek-1))==10}" class="qwe">
+								  			<div class="qwe">
+								  				<div class="when mo"></div>
+								  			</div>
+								  			<div class="qwe">
+							    				<div class="when lu"></div>
+							    			</div>
+							    			<div class="qwe">
+								  				<div class="when di"></div>
+								  			</div>
+								  			<div class="qwe">
+							    				<div class="when sn"></div>
+							    			</div>
+								  		</div>
+								  		<div th:if="${(i-(firstDayOfWeek-1))==13}" class="qwe">
+								  			<div class="qwe">
+								  				<div class="when di"></div>
+								  			</div>
+								  			<div class="qwe">
+							    				<div class="when sn"></div>
+							    			</div>
+								  		</div>
+								  		<div th:if="${(i-(firstDayOfWeek-1))==14}" class="qwe">
+								  			<div class="qwe">
+								  				<div class="when mo"></div>
+								  			</div>
+								  			<div class="qwe">
+							    				<div class="when lu"></div>
+							    			</div>
+							    			<div class="qwe">
+								  				<div class="when di"></div>
+								  			</div>
+								  		</div>
+								  		<div th:if="${(i-(firstDayOfWeek-1))==23}" class="qwe">
+								  			<div class="qwe">
+								  				<div class="when mo"></div>
+								  			</div>
+							    			<div class="qwe">
+								  				<div class="when di"></div>
+								  			</div>
+								  		</div>
+								  		<div th:if="${(i-(firstDayOfWeek-1))==27}" class="qwe">
+								  			<div class="qwe">
+								  				<div class="when lu"></div>
+								  			</div>
+							    			<div class="qwe">
+								  				<div class="when di"></div>
+								  			</div>
+								  		</div>
 								  	</div>
 							  	</div>
 							</div>	

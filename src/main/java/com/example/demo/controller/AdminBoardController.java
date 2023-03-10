@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -133,7 +134,7 @@ public class AdminBoardController
 	{
 		AdminBoard noticeb = absvc.detail_adminb(adnum);
 		m.addAttribute("noticeb", noticeb);
-		return "html/admin/detail_notice";
+		return "html/admin/detail_notice_admin";
 	}
 	
 	@GetMapping("/edit_notice/{adnum}")
@@ -235,7 +236,7 @@ public class AdminBoardController
 		return "html/admin/faq_admin";
 	}
 	
-	@GetMapping("/detail_faq/{adnum}")
+	@GetMapping("/detail_faq_admin/{adnum}")
 	public String detail_faq(@PathVariable("adnum") int adnum, Model m)
 	{
 		AdminBoard faqb = absvc.detail_adminb(adnum);
@@ -249,7 +250,7 @@ public class AdminBoardController
 		AdminBoard adminb = absvc.detail_adminb(adnum);
 		m.addAttribute("adminb", adminb);
 		m.addAttribute("adnum", adnum);
-		return "html/admin/edit_faq_admin";
+		return "html/admin/edit_faq";
 	}
 	
 	@PostMapping("/edit_faq/{adnum}")
@@ -265,7 +266,25 @@ public class AdminBoardController
 		return map;
 	}
 	
+    @PostMapping("/search_notice")
+    @ResponseBody
+    public String search_notice(@RequestParam String input)
+    {
+       return absvc.search_notice(input).toJSONString();
+    }
 	
-	
-	
+    @PostMapping("/search_faq")
+    @ResponseBody
+    public String search_faq(@RequestParam String input)
+    {
+       return absvc.search_faq(input).toJSONString();
+    }
+    
+    @PostMapping("/search_qna")
+    @ResponseBody
+    public String search_qna(@RequestParam String input, HttpSession session)
+    {
+		String userid =(String)session.getAttribute("userid");
+    	return absvc.search_qna(input, userid).toJSONString();
+    }
 }

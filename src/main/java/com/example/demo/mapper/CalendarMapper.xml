@@ -5,8 +5,8 @@
 <mapper namespace="com.example.demo.mapper.CalendarMapper">
 
 	<insert id = "saveCalendar" parameterType="com.example.demo.vo.HCalendar">
-		INSERT INTO hcalendar(c_num,datetime)
-		VALUES(CALENDAR_SEQ.NEXTVAL,#{datetime})
+		INSERT INTO hcalendar(c_num,datetime,userid)
+		VALUES(CALENDAR_SEQ.NEXTVAL,#{datetime},#{userid})
 	</insert>
 	
 	<insert id="saveSchedule" parameterType="com.example.demo.vo.Schedule">
@@ -33,15 +33,16 @@
 		WHERE a.datetime = #{datetime}
 	</select>
 	
-	<select id="list" resultType="map">
+	<select id="list" parameterType="String" resultType="map">
 		SELECT c_num, datetime, s_num, s_pnum, when, content,LISTAGG(PNAME,',')
 		WITHIN GROUP (ORDER BY PNAME)AS PNAME
-		FROM (SELECT a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_num, c.a_pnum, c.pname
-		FROM hcalendar a 
-		LEFT OUTER JOIN calen_schedule b
-		ON a.c_num = b.s_pnum
-		LEFT OUTER JOIN attachcalendar c
-		ON b.s_num = c.a_pnum)
+		FROM (SELECT a.c_num, a.datetime, b.s_num, b.s_pnum, b.when, b.content, c.a_num, c.a_pnum, c.pname 
+			FROM hcalendar a 
+			LEFT OUTER JOIN calen_schedule b
+			ON a.c_num = b.s_pnum
+			LEFT OUTER JOIN attachcalendar c
+			ON b.s_num = c.a_pnum
+			WHERE userid = #{userid})
 		GROUP BY c_num, datetime, s_num, s_pnum, when, content
 		ORDER BY DECODE(when, '아침',1,'점심',2,'저녁',3,'간식',4)
 	</select>

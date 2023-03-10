@@ -30,7 +30,7 @@ public class ConnectService {
         connection.setRequestProperty("User-Agent", USER_AGENT);
 
         int responseCode = connection.getResponseCode();
-        System.out.println("resposneCode:"+responseCode);
+        System.err.println("resposneCode:"+responseCode);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuffer stringBuffer = new StringBuffer();
@@ -61,7 +61,7 @@ public class ConnectService {
         os.close();
 
         int responseCode = connection.getResponseCode();
-        System.out.println("resposneCode:"+responseCode);
+        System.err.println("resposneCode:"+responseCode);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuffer stringBuffer = new StringBuffer();

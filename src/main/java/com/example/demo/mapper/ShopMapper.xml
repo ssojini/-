@@ -116,4 +116,15 @@
 		where goodsnum=#{goodsnum} and rn=1
 	</select>
 	
+	<select id="recommend" parameterType="int" resultType="com.example.demo.vo.GoodsAndAtt">
+			 select * from 
+        (
+           select  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server from goods g left outer join addgoods_att t on g.goodsnum=t.goodsnum 
+                 GROUP BY  g.category, g.goodsnum, g.price, g.goodsname, t.mainpic_server
+        )
+		WHERE  goodsnum = #{goodsnum}
+	</select>
+	
+	
+	
 </mapper>

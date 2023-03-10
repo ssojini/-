@@ -39,6 +39,12 @@ public interface AdminBoardMapper
 	public int delAdminB(int adnum);
 
 	public int deleteAllF_admin(int adnum);
+	
+	public List<AdminBoard> search_notice(String input);
+
+	public List<AdminBoard> search_faq(String input);
+
+	public List<OneBoard> search_qna(String input, String userid);
 
 	/* */
 }
