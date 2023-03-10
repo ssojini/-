@@ -480,10 +480,17 @@ public class ShopService
 	 {
 		 return false;
 	 }
-	public List<GoodsAndAtt> recommand(Map<String, String> map1) throws IOException, ParseException 
+	public List<GoodsAndAtt> recommand(Map<String, String> map1)  
 	{
 		List<GoodsAndAtt> reco = new ArrayList<>();
-		String response = con_svc.post("http://localhost:7878/prod_recommend", map1);
+		String response;
+		try {
+			response = con_svc.post("http://localhost:7878/prod_recommend", map1);
+		} catch (IOException | ParseException e) {
+			System.err.println("Connection Error: Python");
+			e.printStackTrace();
+			return null;
+		}
 		if(response.equals("There is No Data")) return null;
 				
 		System.out.println("svc_response:"+response);
