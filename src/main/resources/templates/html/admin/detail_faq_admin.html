@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="/css/detail_adminb.css" rel="stylesheet">
 <meta charset="utf-8">
 <title>공지사항 </title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -11,8 +12,8 @@ function delAdminB()
 	$.ajax({
 		url:'/admin/delAdminB',
 		method:'post',
-		data: {"adnum": [[${adnum}]]},
-		dataType: 'json',
+		data: {"adnum": [[${adnum}]]},  
+		dataType: 'json',				
 		cache: false,
 		success: function(res){
 			alert(res.deleted?"삭제 성공": "삭제 실패")
@@ -28,43 +29,55 @@ function delAdminB()
 	})
 }
 
-
+function edit_btn(){
+	location.href = "/admin/edit_faq/[[${adnum}]]"
+}
 
 </script>
 </head>
-<body>
+<body style="padding:0; margin:0 auto;">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
-<div style="margin:0 auto; width: 500px; height:100px; padding-top:30px;">
+
+<div style="padding-top:20px;">
+	<div class= "top_wrap"> 
+		<h1 style="padding-top:25px; text-align:center;"> FAQ </h1> 
+	</div>	
+	
+	<div style="padding-left:400px; padding-right:200px;padding-top:20px">
+		<div class="tit">제목
+			<span style="font-weight: bold;
+	font-size: large;">[[${faqb.title}]]</span>
+		</div>
+		<div class="aut">작성자
+			<span>[[${faqb.author}]]</span>
+		</div>
+		<div class="hit">조회수
+			<span>[[${faqb.hit}]]</span>
+		</div>
+		<div class="date1">등록일
+			<span>[[${faqb.date_admin}]]</span>
+		</div>
+		<div class ="cont">내용
+			<span>[[${faqb.content}]]</span>
+		</div>
+	  
+		<div>첨부파일</div>
+		<span th:if= "${faqb.attList.size()>0}"></span>
+		<span th:each="att: ${faqb.attList}"> 
+			[[${att.attname}]]
+			<img th:src="'/images/'+${att.attname}"> 
+		</span>
+	<p>
+	</div>
+	
+	<div style="text-align:center;"> 
+		<button type="button" onclick="delAdminB();"> 삭제</button>
+		<button type="button" onclick="edit_btn();"> 수정 </button>
+		<!-- <a class="btn_edit" th:href= "|/admin/edit_faq/${faqb.adnum}|">[수정하기]</a>  -->
+	</div>
+
 </div>
-<main style="float:right"> 
-
-<h3> FAQ</h3> 
-	<div>제목
-		<span>[[${faqb.title}]]</span>
-	</div>
-	<div>작성자
-		<span>[[${faqb.author}]]</span>
-	</div>
-	<div>조회수
-		<span>[[${faqb.hit}]]</span>
-	</div>
-	<div>등록일
-		<span>[[${faqb.date_admin}]]</span>
-	</div>
-	<div>내용
-		<span>[[${faqb.content}]]</span>
-	</div>
-  
-	<div>첨부파일</div>
-	<span th:if= "${faqb.attList.size()>0}"></span>
-	<span th:each="att: ${faqb.attList}"> [[${att.attname}]]</span>
-
-<a th:href= "|/admin/edit_faq/${faqb.adnum}|">[수정하기]</a>
-<p>
-<button type="button" onclick="delAdminB();"> 삭제</button>
-</p>
-</main>
 </body>
 </html>

@@ -97,7 +97,7 @@
 		#{item.attsize} AS attsize, 
 		#{item.attname} AS attname, 
 		#{item.qnum} AS qnum,
-		(SELECT MAX(anum) FROM queBoard) AS anum
+		#{item.anum} AS anum
 		FROM DUAL
 		</foreach>
 	)t

@@ -18,7 +18,7 @@
 			<ul >
 				<li>
 					<span th:if="${session.userid}!=null">[[${session.userid}]] ||
-						<a href="/team/logout">로그아웃</a>|| 
+						<a href="/doLogout">로그아웃</a>|| 
 						<a th:href="'/health/useredit/'+ ${session.userid}">마이페이지</a>
 					</span> 
 					<span th:unless="${session.userid}!=null">
@@ -36,12 +36,13 @@
 						<li><a href="/shop/category3">단백질</a></li>
 					</ul>
 				</li>
+				<!-- 
 				<li><a href="#">네비바2<span>▼</span>	</a>
 					<ul>
 						<li><a href="#">2-1</a></li>
 						<li><a href="#">2-2</a></li>
 					</ul>
-				</li>
+				</li> -->
 				<li><a href="/health/qna/1/10">문의하기</a></li>
 				<li><a href="/shop/cart">장바구니</a></li>
 				<li><a href="/health/main">건끼로 돌아가기</a></li>

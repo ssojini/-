@@ -1,38 +1,17 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>edit faq</title>
-<style>
-.title{
-	text-align: center;
-	margin-top: 10px;
-}
-.containera{
-	 width: 600px;
-	 height:600px;
-	 margin: 0 auto;
-	 outline: solid 1px black;
-	 display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top:5px;
-}
+<title>edit faq</title> 
+<link href="/css/edit.css" rel="stylesheet">
 
-.btn{
-	width:100%;
-	margin: 0 auto;
-	
-}
-</style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
 function delFiles(index)
 {
-	//alert('삭제대상:'+index);
-	//console.log($('#attid'+index).val());
-	//alert($('#attid'+index).val());
+
 	var id =$('#attid'+index).val();
 	
 	$.ajax({
@@ -75,7 +54,7 @@ $(function(){
 				$('#btnUpload').prop('disabled', false);
 				if(res.uploaded){
 					alert('수정 되었습니다.');
-					location.href= "/admin/edit_faq/[[${adnum}]]"
+					location.href= "/admin/detail_faq_admin/[[${adnum}]]"
 				}
 			},
 			error: function(e){
@@ -90,49 +69,52 @@ $(function(){
 </head>
 <body>
 <div>
-    <div th:replace="fragments/common :: header"></div>
+    <div th:replace="fragments/managernav :: header"></div>
 </div>
-<h3 class="title">수정하기</h3>
-<div class= "containera"> 
+
+<div style="padding-top:20px;">
 <form id="editForm" >
 
-	<div>제목
-		<label for="title"> 
-			<input id ="title" type="text" name="title" th:value= "${adminb.title}"> 
-		</label>
-	</div> 
-	<div>작성자 
-		관리자
-	</div> 
-	<div>
-		<label for ="content">
-			<textarea name="content" rows="10" cols="40" > [[${adminb.content}]]</textarea>	
-		</label>
-	</div>
-<p>
-<div>첨부파일 목록 <br>
-
-	<div th:each="att, status: ${adminb.attList}" th:id="|div${status.index}|"> 
-	
-		<span th:text="${att.attname}"></span>
-		<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
-		<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
+	<div class= "top_wrap"> 
+		<h1 style="padding-top:25px; text-align:center;"> 수정하기 </h1> 
 	</div>	
-</div>
-<p>
+	
+		<div style="padding-left:400px; padding-right:200px;padding-top:20px">
+			<div class="tit">제목
+				<div style="font-weight: bold; font-size: large;">
+					<input id ="title" type="text" name="title" th:value= "${adminb.title}"> 
+				</div>
+			</div>
+			<div class="aut">작성자
+				<span>관리자</span>
+			</div>
+			<div class= "cont"> 
+				<textarea name="content" rows="10" cols="40" > [[${adminb.content}]]
+				</textarea>	
+			</div>
+			<div>첨부파일 목록</div>
+				<div th:each="att, status: ${adminb.attList}" th:id="|div${status.index}|"> 
+					<span th:text="${att.attname}"></span>
+					<input type="hidden" th:id="|attid${status.index}|" name="attid" th:value="${att.attid}">
+						<img th:src="'/images/'+${att.attname}"> 
+					<button th:id="|btn${status.index}|" type="button" th:onclick="|delFiles(${status.index})|"> 삭제</button>
+				</div>	
+			<p>
+			<div>
+				<label for="attach">첨부파일 추가</label>
+				<input type="file" name="attach" multiple="multiple">
+			</div>
+				<p>
+			<div class="btn">
+					<button type="button" id="btnUpload"> 저장</button>
+					<button type="reset">취소</button>
+			</div>
+		
+		</div>
+		
 
-<div>
-		<label for="attach">첨부파일 추가</label>
-		<input type="file" name="attach" multiple="multiple">
-</div>
-<div class="btn">
-	<button type="button" id="btnUpload"> 저장</button>
-	<button type="reset">취소</button>
-</div>
 </form>
 </div>
-<p>
-
 
 </body>
 </html>

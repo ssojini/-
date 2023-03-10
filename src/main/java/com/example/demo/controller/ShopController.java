@@ -152,6 +152,16 @@ public class ShopController {
 
 	/*--------------------- 상욱 끝 ----------------------*/
 
+	@GetMapping("/rec_test")
+	@ResponseBody
+	public String rec_test() throws IOException, ParseException
+	{
+		Map<String,String> map = new HashMap<>();
+		String user = (String)session.getAttribute("userid");
+		System.err.println("user: "+user);
+		map.put("userid", user);
+		return svc.recommand(map).toString();
+	}
 	/* 현주 */
 	
 	@GetMapping(value="/imgtest")
@@ -161,11 +171,21 @@ public class ShopController {
 	}
 	
 	@GetMapping("/ShopMainPage")
-	public String shopmainpage(Model m)
+	public String shopmainpage(Model m) throws IOException, ParseException
 	{
-		m.addAttribute("goodslist", svc.maingoods());
-		m.addAttribute("newproduct", svc.newproduct());
+		// 추천시스템
+		Map<String,String> map = new HashMap<>();
+		String user = (String)session.getAttribute("userid");
+		map.put("userid", user);
+		if(user!=null) {
+			System.err.println("콘트롤러: "+svc.recommand(map));
+			m.addAttribute("recommend", svc.recommand(map));
+		}
+		
+		
 		m.addAttribute("random", svc.randomproduct());
+		m.addAttribute("newproduct", svc.newproduct());
+		m.addAttribute("goodslist", svc.maingoods());
 		
 		return "html/shop/ShopMain";
 	}
