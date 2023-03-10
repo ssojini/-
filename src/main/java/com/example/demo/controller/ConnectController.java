@@ -9,9 +9,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ConnectService;
@@ -19,7 +22,6 @@ import com.example.demo.service.ConnectService;
 @Controller
 @RequestMapping("/connect")
 public class ConnectController {
-	private static final String URL = "http://localhost:7878";
 	@Autowired
 	private ConnectService connectService;
 	
@@ -32,6 +34,11 @@ public class ConnectController {
 		map.put("current_weight", current_weight);
 		map.put("goal_weight", goal_weight);
 		
+		String response = connectService.post("/chatGPT",map);
+		System.out.println("response:"+response);
+		
+		JSONParser jsPar = new JSONParser();
+		JSONArray jsArr = (JSONArray)jsPar.parse(response);
 		String response = connectService.post(URL+"/chatGPT",map);
 		System.out.println("Flask response:"+response);
 		return response;
@@ -47,5 +54,11 @@ public class ConnectController {
 		String response = connectService.post(URL+"/prod_recommend",map);
 		System.out.println("Flask response:"+response);
 		return response;
+	}
+	
+	@GetMapping("/meal_calc")
+	@ResponseBody
+	public String meal_calc() throws IOException, ParseException {
+		return connectService.meal_calc();
 	}
 }
