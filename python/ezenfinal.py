@@ -1,9 +1,13 @@
 %%writefile ezenfinal.py
+#!pip install cx_Oracle
+#!pip install flask_sqlalchemy
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from flask import jsonify
 import json
+import pandas as pd
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -31,7 +35,7 @@ def chatGPT1(prompt):
     
     return message
 ###################
-def prod_recommend():
+def prod_recommend(userid):
     #!pip install flask_sqlalchemy
     #!pip install cx_Oracle
     import cx_Oracle
@@ -90,9 +94,13 @@ def prod_recommend():
 
     # DBSCAN 클러스터링
     dbscan = DBSCAN(eps=0.5, min_samples=5, metric='precomputed')
-    dbscan.fit(gower_matrix)
-    labels = dbscan.labels_
-    labels
+    try:
+        dbscan.fit(gower_matrix)
+        labels = dbscan.labels_
+        labels
+    except:
+        print("데이터 없음")
+        return "There is No Data"
 
     df_gower = pd.DataFrame(gower_matrix, index=df['USERID'], columns=df['USERID'])
     df_gower
@@ -105,35 +113,44 @@ def prod_recommend():
     df
     df.sort_values(by=['cluster'])
 
-    # userid='smith 인 사람의 cluster 값을 가져옴
-    user='smith'
-    cluster_user = df.loc[df['USERID']==user, 'cluster'].values[0]
+    # 가장 많이 팔린 4개 상품
+    top4 = df_goods['GOODSNUM'].value_counts().nlargest(4).index.tolist()
+    print(top4)
+    
+    recommend = []
 
-    # cluster가 동일한 그룹의 distinct(GOODSNUM)를 구함
-    A = set(df.loc[df['cluster']==cluster_user, 'GOODSNUM'].unique())
-
-    # userid='qwer44' 인 사람이 구매하지 않은 GOODSNUM 구함
-    not_purchased = A - set(df.loc[df['USERID']==user, 'GOODSNUM'].unique())
-
-    print(not_purchased)
-    rec = list(not_purchased)
-    len(rec)
-
-    # 가장 많이 팔린 3개 상품
-    top3 = df_goods['GOODSNUM'].value_counts().nlargest(3).index.tolist()
-    top3
-
-    # def recommand():
-    recommand = []
-    if len(rec)==0:
-        recommand = top3
-        return json.dumps(recommand)
-
+    try:
+        user=userid
+        cluster_user = df.loc[df['USERID']==user, 'cluster'].values[0]
+    except:
+        print("예외: 구매목록없음")
+        recommend=top4
+        return recommend
     else:
-        recommand = rec
-        return json.dumps(recommand)
+        # userid=user인 사람의 cluster 값을 가져옴
+        cluster_user = df.loc[df['USERID']==user, 'cluster'].values[0]
+        
+        # cluster가 동일한 그룹의 distinct(prod_num)를 구함
+        A = set(df.loc[df['cluster']==cluster_user, 'GOODSNUM'].unique())
+        
+        # {userid} 인 사람이 구매하지 않은 GOODSNUM 구함
+        not_purchased = A - set(df.loc[df['USERID']==user, 'GOODSNUM'].unique())
+        print("rec_for_user:",not_purchased)
+
+        # 리스트로 변환하고 내부 요소를 정수형으로 변환
+        rec = [int(x) for x in not_purchased]                
+        
+        if len(rec)!=0:
+            recommend = rec
+
+        else:
+            recommend = top4
+        
+        print("recommen:",recommend)
+        return recommend
 #####################################
 
+#다루한
 @app.route("/chatGPT",methods=['POST'])
 def chatGPT():
     js = request.get_json()
@@ -146,9 +163,22 @@ def chatGPT():
     print(answer)
     return json.dumps(answer)
 
+#다루한
+@app.route("/meal_calc", methods=['POST'])
+def meal_calc():
+    js = request.get_json()
+    df = pd.read_excel('통합 식품영양성분DB_음식_20230302.xlsx',usecols=[5,11,12,15,19,26,32,48])
+    print(js)
+    result = df[df['식품명'].isin(js['식품명'])]
+    return result.to_json()
+
+#상욱
 @app.route("/prod_recommend", methods=['POST'])
 def prodRecommend():
-    return prod_recommend()
+    json = request.get_json()
+    userid = json['userid']
+    print("userid:"+userid)
+    return prod_recommend(userid)
     
     
 app.run(host='0.0.0.0',debug=True,port=7878)

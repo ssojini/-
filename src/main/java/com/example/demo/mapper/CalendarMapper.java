@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.demo.vo.AttachCalendar;
 import com.example.demo.vo.HCalendar;
 import com.example.demo.vo.Schedule;
+import com.example.demo.vo.User;
 
 @Mapper
 public interface CalendarMapper 
@@ -21,7 +22,7 @@ public interface CalendarMapper
 
 	List<Map<String, Object>> detail(int num);
 
-	List<Map<String, Object>> list();
+	List<Map<String, Object>> list(String userid);
 
 	int updateContenet(Schedule sch);
 
@@ -38,6 +39,8 @@ public interface CalendarMapper
 	int saveAttach(int num);
 
 	int updateAttach(List<AttachCalendar> list);
+
+	User userinfo(String userid);
 
 
 }

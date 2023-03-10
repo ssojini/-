@@ -57,6 +57,9 @@ public class ShopService
 	
 	@Autowired //구매
 	private OrderRepository order_repo;
+	
+	@Autowired
+	private ConnectService con_svc;
 
 	
 	
@@ -477,6 +480,31 @@ public class ShopService
 	 {
 		 return false;
 	 }
+	public List<GoodsAndAtt> recommand(Map<String, String> map1)  
+	{
+		List<GoodsAndAtt> reco = new ArrayList<>();
+		String response;
+		try {
+			response = con_svc.post("http://localhost:7878/prod_recommend", map1);
+		} catch (IOException | ParseException e) {
+			System.err.println("Connection Error: Python");
+			e.printStackTrace();
+			return null;
+		}
+		if(response.equals("There is No Data")) return null;
+				
+		System.out.println("svc_response:"+response);
+		
+		String[] strarr = response.replace("[  ","").replace("]","").split(",  ");
+		for (int i = 0; i<strarr.length;i++) {
+			System.err.println("String_Arr: "+strarr[i]);
+			int goodsnum = Integer.parseInt(strarr[i]);
+			GoodsAndAtt goods_info = map.recommend(goodsnum);
+			reco.add(goods_info);
+		}		
+		
+		return  reco;
+	}
 	 
 	 
 

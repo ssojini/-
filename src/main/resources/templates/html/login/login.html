@@ -25,8 +25,11 @@
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	function login(){
+		var url = window.location.href;
+		console.log(url);
 		var userid = $('#userid').val();
 		var pwd = $('#pwd').val();
+		// 로그인
 		$.ajax({
 			url:'/doLogin',
 			method:'post',

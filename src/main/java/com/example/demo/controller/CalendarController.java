@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
@@ -24,6 +25,7 @@ import com.example.demo.vo.HCalendar;
 import com.example.demo.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -35,9 +37,12 @@ public class CalendarController
 	private CalendarService cs;
 	@Autowired
 	private CalendarMapper cm;
+	@Autowired
+	private HttpSession session;
 	
 	@GetMapping("/getCalendar")
-	public String getCalendar(@RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day, Model model,String datetime)
+	public String getCalendar(@RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day, 
+			Model model,String datetime, @SessionAttribute(name="userid", required = false)String userid)
 	{
 		Map<String, Object> map = cs.getCalendar(day);
 		
@@ -47,7 +52,10 @@ public class CalendarController
 		model.addAttribute("lastDay", map.get("lastDay")); // 마지막 일
 		model.addAttribute("today", map.get("today"));
 		model.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
-		model.addAttribute("list",cs.listCalendar());
+		
+		if(userid!=null) {			
+			model.addAttribute("list",cs.listCalendar());
+		}
 		
 	 	return "html/calendar/Calendar";
 	}

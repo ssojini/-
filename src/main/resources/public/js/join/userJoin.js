@@ -310,6 +310,8 @@ function joinUser()
 	obj.nickname = $("#nickname").val();
 	obj.profile = $('#profile').val();
 	
+	console.log(obj);
+	
 	$.ajax({
 		url:'/team/join',
 		method:'post',
