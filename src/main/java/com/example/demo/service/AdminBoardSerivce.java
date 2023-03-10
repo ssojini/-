@@ -5,10 +5,8 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Timestamp;
 import java.sql.Clob;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 
 import java.util.*;
 
@@ -31,6 +29,7 @@ import com.github.pagehelper.PageInfo;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import oracle.sql.TIMESTAMP;
 
 @Service
 @Slf4j
@@ -332,7 +331,7 @@ public class AdminBoardSerivce
 			String strcontent = parseClobToString(clb);
 			adminb.setContent(strcontent);
 			
-			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("ADATE");
+			oracle.sql.TIMESTAMP timestamp = (TIMESTAMP) map.get("ADATE");
 			long milliseconds = timestamp.timestampValue().getTime();
 			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
 			adminb.setAdate(javaTimestamp);

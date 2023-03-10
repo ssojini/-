@@ -36,11 +36,7 @@ public class ConnectController {
 		
 		String response = connectService.post("/chatGPT",map);
 		System.out.println("response:"+response);
-		
-		JSONParser jsPar = new JSONParser();
-		JSONArray jsArr = (JSONArray)jsPar.parse(response);
-		String response = connectService.post(URL+"/chatGPT",map);
-		System.out.println("Flask response:"+response);
+
 		return response;
 	}
 	
@@ -51,7 +47,7 @@ public class ConnectController {
 		
 		map.put("userid", userid);
 				
-		String response = connectService.post(URL+"/prod_recommend",map);
+		String response = connectService.post("/prod_recommend",map);
 		System.out.println("Flask response:"+response);
 		return response;
 	}

@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
