@@ -4,17 +4,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ConnectService;
@@ -37,10 +32,6 @@ public class ConnectController {
 		String response = connectService.post("/chatGPT",map);
 		System.out.println("response:"+response);
 		
-		JSONParser jsPar = new JSONParser();
-		JSONArray jsArr = (JSONArray)jsPar.parse(response);
-		String response = connectService.post(URL+"/chatGPT",map);
-		System.out.println("Flask response:"+response);
 		return response;
 	}
 	
@@ -51,7 +42,7 @@ public class ConnectController {
 		
 		map.put("userid", userid);
 				
-		String response = connectService.post(URL+"/prod_recommend",map);
+		String response = connectService.post("/prod_recommend",map);
 		System.out.println("Flask response:"+response);
 		return response;
 	}
