@@ -205,7 +205,7 @@ public class ShopController {
 	}
 	
 
-	@RequestMapping(value = "/summer_image.do", produces = "application/json; charset=utf8")
+	@PostMapping(value = "/summer_image.do", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
 			HttpServletRequest request) throws IOException {

@@ -103,8 +103,7 @@ public class SecurityConfiguration {
 						"/shop/category1", // g
 						"/shop/category2", // g
 						"/shop/category3", // g
-						"/shop/main", // g
-						""
+						"/shop/main" // g
 				).permitAll()
 				.requestMatchers(
 						// User
@@ -191,8 +190,7 @@ public class SecurityConfiguration {
 						"/shop/delAll", // u
 						"/shop/delSel", // u
 						"/shop/buynow", // u
-						"/shop/buycart", // u
-						""
+						"/shop/buycart" // u
 						).hasAnyRole("USER","ADMIN")
 				.requestMatchers(
 						// Admin
@@ -259,7 +257,7 @@ public class SecurityConfiguration {
 						// post
 						"/shop/addgoods", // a
 						"/shop/editgoods", // a
-						""
+						"/shop/summer_image.do" //a
 						).hasAnyRole("ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
@@ -360,7 +358,7 @@ public class SecurityConfiguration {
 						"/shop/buycart", // u
 						"/shop/addgoods", // a
 						"/shop/editgoods", // a
-						""
+						"/shop/summer_image.do"
 				)
 				.and()
 
