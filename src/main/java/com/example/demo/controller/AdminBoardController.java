@@ -10,6 +10,9 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
+import com.example.demo.service.PagingService;
 import com.example.demo.vo.AdminAttachBoard;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.OneBoard;
@@ -37,12 +41,18 @@ public class AdminBoardController
 	@Autowired 
 	private AdminBoardSerivce absvc;
 
-	@GetMapping("/qaList/{pg}/{cnt}") 
-	public String qaList(Model m, @PathVariable int pg, @PathVariable int cnt)
+	@Autowired
+	private PagingService pagesvc;
+	
+	@GetMapping("/qaList") 
+	public String qaList(Model m,
+			HttpSession session,
+			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
+)
 	{
-		PageInfo<Map<String, Object>> pageInfo =  absvc.getPage(pg, cnt);
-		List<OneBoard> list = absvc.qaList(pageInfo.getList());
-		m.addAttribute("list", list);
+		String userid = (String)session.getAttribute("userid");
+		Page<OneBoard> pageOneboard = pagesvc.getList(pageable, userid);
+		m.addAttribute("pageOneboard", pageOneboard);
 		
 		return "html/admin/qaList";
 	}
@@ -103,17 +113,24 @@ public class AdminBoardController
 	}
 	
 	
-	@GetMapping("/notice/{pg}/{cnt}") 
-	public String notice(Model m, @PathVariable int pg, @PathVariable int cnt)
+	@GetMapping("/board") 
+	public String notice(Model m, HttpSession session, 
+			String name,
+			@PageableDefault(size=10, sort="adnum", page=0) Pageable pageable)
 	{
-		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
-		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-		m.addAttribute("list", list);
+		Page<AdminBoard> pageAdminBoard = pagesvc.getNoticeOrFAQ(pageable, name);
+
+		m.addAttribute("pageAdminBoard", pageAdminBoard);
+		m.addAttribute("name", name);
 		
+		if(name.equals("notice")) {
 		return "html/admin/notice_admin";
+		}else {
+			return "html/admin/faq_admin";
+		}
 	}
 	
-	//
+	
 	@GetMapping("/noticeMain/{pg}/{cnt}")
 	public String noticeMain(Model m, @PathVariable int pg, @PathVariable int cnt)
 	{

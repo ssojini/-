@@ -187,14 +187,19 @@ public class HealthController {
 
 	/* 종빈 */
 	@GetMapping("/main")
-	public String main1(Model m, @RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+	public String main1(Model m, @RequestParam(value="day",required = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day,
+	Pageable pageable) {
 		// 메인페이지 오늘의 베스트 출력
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
 		
-		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(1, 3);
-		List<AdminBoard> noitce_list = absvc.adminBList(pageInfo.getList());
-		m.addAttribute("noitce_list", noitce_list);
+		//메인 페이지 공지사항 출력
+		String name ="notice";
+		Page<AdminBoard> pageAdminBoard = pagesvc.getNoticeOrFAQ(pageable, name);
+		m.addAttribute("pageAdminBoard", pageAdminBoard);
+		m.addAttribute("name", name);
+		
 		
 		// 메인 타이틀 문구
 		Main_Title main = mp_svc.mainTitle();
@@ -227,24 +232,16 @@ public class HealthController {
 	@GetMapping("/qna")
 	public String qa(Model m, 
 			HttpSession session,
-			String title, 
 			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
 			)
 	{
 		
 		String userid = (String)session.getAttribute("userid");
-		//log.info("ctrl, session에서 전달된 userid:"+ userid);
-		System.out.println("userid:"+userid);
-		if(userid==null)
-		{
-			return "html/admin/qna";
-		}
 		m.addAttribute("userid", userid);
-
-		Page<OneBoard> pageOneboard = pagesvc.getList(pageable);
-		System.out.println("pageOneboard:"+pageOneboard.toList());
+		
+		Page<OneBoard> pageOneboard = pagesvc.getList(pageable, userid);
 		m.addAttribute("pageOneboard", pageOneboard);
-		System.out.println("getNumber:"+pageOneboard.getNumber());
+		
 		return "html/admin/qna";
 	}
 	
@@ -399,14 +396,22 @@ public class HealthController {
 		}
 		
 		
-		@GetMapping("/faq/{pg}/{cnt}") 
-		public String faq(Model m, @PathVariable int pg, @PathVariable int cnt)
+		@GetMapping("/board") 
+		public String faq(Model m, HttpSession session,
+							String name,
+							@PageableDefault(size=10, sort="adnum", page=0) Pageable pageable)
 		{
-			PageInfo<Map<String, Object>> pageInfo = absvc.faqPage(pg, cnt);
-			List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-			m.addAttribute("list", list);
+			Page<AdminBoard> pageAdminBoard = pagesvc.getNoticeOrFAQ(pageable, name);
 			
-			return "html/admin/faq";
+			m.addAttribute("pageAdminBoard", pageAdminBoard);
+			m.addAttribute("name", name);
+			
+			if(name.equals("notice")) {
+			return "html/admin/notice";
+			}else {
+				return "html/admin/faq";
+			}
+						
 		}
 		
 		@GetMapping("/detail_faq/{adnum}")
@@ -441,15 +446,6 @@ public class HealthController {
 			return map;
 		}	
 	
-		@GetMapping("/notice/{pg}/{cnt}") 
-		public String notice(Model m, @PathVariable int pg, @PathVariable int cnt)
-		{
-			PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
-			List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-			m.addAttribute("list", list);
-			
-			return "html/admin/notice";
-		}
 		
 		@GetMapping("/detail_notice/{adnum}")
 		public String detail_notice(@PathVariable("adnum") int adnum, Model m)

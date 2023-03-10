@@ -18,7 +18,7 @@ function delAdminB()
 		success: function(res){
 			alert(res.deleted?"삭제 성공": "삭제 실패")
 			if(res.deleted){
-				location.href='/admin/faq/1/10'
+				location.href='/admin/board?name=faq'
 			}
 		},
 		error: function(xhr, status, err){
@@ -57,7 +57,7 @@ function edit_btn(){
 			<span>[[${faqb.hit}]]</span>
 		</div>
 		<div class="date1">등록일
-			<span>[[${faqb.date_admin}]]</span>
+			<span>[[${faqb.adate}]]</span>
 		</div>
 		<div class ="cont">내용
 			<span>[[${faqb.content}]]</span>

@@ -17,18 +17,18 @@
 
 	<select id="noticeList"
 		resultType="map">
-		SELECT adnum, title, author, content, hit, date_admin
+		SELECT adnum, title, author, content, hit, adate
 		FROM admin_board
 		WHERE name='notice'
-		ORDER BY date_admin DESC
+		ORDER BY adate DESC
 	</select>
 	
 	<select id="faqList"
 		resultType="map">
-		SELECT adnum, title, author, content, hit, date_admin
+		SELECT adnum, title, author, content, hit, adate
 		FROM admin_board
 		WHERE name='faq'
-		ORDER BY date_admin DESC
+		ORDER BY adate DESC
 	</select>
 
 	<select id="detail_adminb"
@@ -36,7 +36,7 @@
 	resultType="map"
 	>
 		SELECT * FROM(
-		SELECT n.adnum, n.title, n.author, n.date_admin, n.content, hit, attsize, attname, attid
+		SELECT n.adnum, n.title, n.author, n.adate, n.content, hit, attsize, attname, attid
 		FROM admin_board n LEFT OUTER JOIN admin_attach a
 		ON n.adnum = a.adnum
 		ORDER BY adnum DESC, attid ASC
@@ -51,7 +51,7 @@
 	
 	<insert id="addAdminBoard"
 	parameterType="com.example.demo.vo.AdminBoard">
-	INSERT INTO ADMIN_BOARD(adnum, title, author, date_admin, content, hit, name)
+	INSERT INTO ADMIN_BOARD(adnum, title, author, adate, content, hit, name)
 	VALUES(ADMIN_BOARD_SEQ.NEXTVAL, #{title}, #{author}, sysdate, #{content}, #{hit}, #{name, jdbcType=VARCHAR})
 	
 	</insert>

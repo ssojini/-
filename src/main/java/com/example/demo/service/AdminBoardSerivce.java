@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
-import java.io.File;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Timestamp;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
@@ -71,18 +74,21 @@ public class AdminBoardSerivce
 		OneBoard oneb = new OneBoard(big.intValue());
 		oneb.setTitle((String)map.get("TITLE"));
 		oneb.setAuthor((String)map.get("AUTHOR"));
-		oneb.setContent((String)map.get("CONTENT"));
 
+		Clob clb = (Clob)map.get("CONTENT");
 		try {
-			String jts = String.valueOf(map.get("QDATE"));
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date parseDate;
-		//	log.info("날짜:" + dateFormat.format(map.get("QDATE"))); 
-			String date =dateFormat.format(map.get("QDATE"));
-			oneb.setQdate(date);
+			String strcontent = parseClobToString(clb);
+			oneb.setContent(strcontent);
+			
+			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("QDATE");
+			long milliseconds = timestamp.timestampValue().getTime();
+			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
+			oneb.setQdate(javaTimestamp);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
+		
 		
 		return oneb;
 	}
@@ -320,23 +326,39 @@ public class AdminBoardSerivce
 		AdminBoard adminb = new AdminBoard(big.intValue());
 		adminb.setTitle((String)map.get("TITLE"));
 		adminb.setAuthor((String)map.get("AUTHOR"));
-		adminb.setContent((String)map.get("CONTENT"));
-
+		
+		Clob clb = (Clob)map.get("CONTENT");
 		try {
-			String jts = String.valueOf(map.get("DATE_ADMIN"));
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			//Date parseDate;
-			//System.out.println(map.get("DATE_ADMIN"));
-			//log.info("날짜:" + dateFormat.format(map.get("DATE_ADMIN"))); 
-			String date = dateFormat.format(map.get("DATE_ADMIN"));
-			adminb.setDate_admin(date);
-			//adminb.setDate_admin(new java.sql.Timestamp(parseDate.getTime()));
+			String strcontent = parseClobToString(clb);
+			adminb.setContent(strcontent);
+			
+			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("ADATE");
+			long milliseconds = timestamp.timestampValue().getTime();
+			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
+			adminb.setAdate(javaTimestamp);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return adminb;
 	}
+	
+	public static String parseClobToString(Clob clob) throws SQLException, IOException {
+        if (clob == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        try (Reader reader = clob.getCharacterStream();
+             BufferedReader br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        }
+        return sb.toString();
+    }
+
 	public AdminBoard detail_adminb(int adnum)
 	{
 		List<Map<String, Object>> mlist = mapper.detail_adminb(adnum);
@@ -570,7 +592,7 @@ public class AdminBoardSerivce
 	         json.put("title", adminb.getTitle());
 	         json.put("author", adminb.getAuthor());
 	         json.put("content", adminb.getContent());
-	         json.put("date_admin", adminb.getDate_admin());
+	         json.put("adate", adminb.getAdate());
 	         json.put("hit", adminb.getHit());
 	         json.put("adnum", adminb.getAdnum());
 	        
