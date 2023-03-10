@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.AdminBoardSerivce;
@@ -188,7 +189,7 @@ public class HealthController {
 
 	/* 종빈 */
 	@GetMapping("/main")
-	public String main1(Model m, @RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+	public String main1(Model m, @RequestParam(value="day",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day, @SessionAttribute(name="userid", required = false)String userid) {
 		// 메인페이지 오늘의 베스트 출력
 		List<Freeboard> listFreeboard = freeboardService.getListByOrderByHitDesc();
 		m.addAttribute("listFreeboard",listFreeboard);
@@ -209,7 +210,9 @@ public class HealthController {
 		m.addAttribute("lastDay", map.get("lastDay")); // 마지막 일
 		m.addAttribute("today", map.get("today"));
 		m.addAttribute("firstDayOfWeek", map.get("firstDayOfWeek"));
-		m.addAttribute("list",cs.listCalendar());
+		if(userid!=null) {			
+			m.addAttribute("list",cs.listCalendar());
+		}
 	 	
 		return "html/mainPage";
 	}
