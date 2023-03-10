@@ -341,27 +341,29 @@
 	       			</div>
 				</div>
 			</div>
-			<div id="chatgpt_div" style="padding-top:20px;color:black;">
-	    		<div style="background-color:white;border-radius:0px;padding:10px;">
-		    		<div style="background-color:yellow;border-radius:0px;padding:2.5px 5px;width:100%;text-align:center;">오늘의 추천식단</div>
-		    		<div>
-		    			<div id="gender" style="text-align:center;">
-		    				<label for="male" style="margin:0px;padding-right:10px;">남</label><input id="male" type="radio" name="gender" value="남자" style=""><label for="female" style="margin:0px;padding-left:10px;padding-right:10px;">여</label><input id="female" type="radio" name="gender" value="여자" style="">
-		    			</div>
-		    			<div style="text-align:center;">
-		    				<label for="current_weight" style="margin:0px;">현재 몸무게</label><input id="current_weight" type="text" style="width:100%;">
-		    			</div>
-		    			<div style="text-align:center;">
-		    				<label for="goal_weight" style="margin:0px;">목표 몸무게</label><input id="goal_weight" type="text" style="width:100%;">
-		    			</div>
-			    		<div style="text-align:center;">
-				    		<button onclick="recommendDiet();" style="margin:10px;">추천받기</button>
-			    		</div>
-		    		</div>
-		    		<div id="chatgpt_output">
-		    		</div>
-	    		</div>
-    		</div>
+    		<div id="chatgpt_div" style="padding-top: 20px;">
+				<div class="form">
+					<div class="meal">오늘의 추천식단을 확인해보세요!</div>
+					<div class="switch-field" id="gender">
+						<input type="radio" id="male" name="gender" value="남자">
+						<label for="male">남</label>
+						<input type="radio" id="female" name="gender" value="여자">
+						<label for="female">여</label>
+					</div>
+			
+				<div class="meal_bottom">
+					<div>
+						<input id="current_weight" type="text" placeholder="현재 몸무게">
+					</div>
+					<div style="padding-top:5px;">
+						<input id="goal_weight" type="text" placeholder="목표 몸무게">
+					</div>
+					<div style="padding-top:5px;">
+						<button onclick="recommendDiet();">추천받기</button>
+					</div>
+					<div id="chatgpt_output"></div>
+					</div>
+				</div>
 	    </div>
 	</div>
 	
