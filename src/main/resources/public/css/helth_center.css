@@ -105,6 +105,8 @@ th{
 	width: 20%;
 	margin: 0 5px;  
 	float: right;
+	position: sticky;
+ 	top: 30%;
 
 }
 
