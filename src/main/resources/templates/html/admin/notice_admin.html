@@ -80,8 +80,8 @@
 	</tr>
 	</thead>
 	<tbody> 
-	<tr th:each="notice, iStat: ${list}">
-		    <td th:text="${iStat.index+1}"> </td>
+	<tr th:each="notice, iStat: ${pageAdminBoard}">
+		    <td>[[${notice.adnum}]] </td>
 		<td>
 			<a th:href= "|/admin/detail_notice/${notice.adnum}|">
 			[[${notice.title}]]
@@ -89,14 +89,21 @@
 		</td>
 		<td>[[${notice.author}]]</td>
 		<td>[[${notice.hit}]]</td>
-		<td>[[${notice.date_admin}]]</td>	
+		<td>[[${notice.adate}]]</td>	
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="text-center"> 
-	<span th:each="page, i: ${list}">
-	<a th:href = "|/noticeList/${i}/10|"> [[${i.index+1}]]</a>
+<div id="pagination" style=" margin-left:150px; padding-top:20px; text-align: center; width: 80%;" >
+	<span th:if="${pageAdminBoard.getNumber() gt 9}"><a
+		th:href="@{/admin/board?name=notice(page=${pageAdminBoard.getNumber()/10*10-1})}">이전</a></span>
+
+	<th:block th:if="${i le pageAdminBoard.getTotalPages()}" th:each="i : ${#numbers.sequence(pageAdminBoard.getNumber()/10*10+1 , pageAdminBoard.getNumber()/10*10+10)}">
+		<a th:href="@{/admin/board?name=notice(page=${i-1})}"> [[${i}]]</span>
+	</th:block>
+	
+	<span th:if="${(pageAdminBoard.getNumber()/10*10+10)<pageAdminBoard.getTotalPages()}">
+		<a th:href="@{/admin/board?name=notice(page=${pageAdminBoard.getNumber()/10*10+10})}">다음</a>
 	</span>
 </div>
 </body>

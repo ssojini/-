@@ -1,6 +1,11 @@
 package com.example.demo.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.math.BigDecimal;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +44,8 @@ public class HealthService
 		return list;
 	}
 	
+	
+	
 	public OneBoard parseOneb(Map<String, Object> map)
 	{
 		BigDecimal big = (java.math.BigDecimal)map.get("QNUM");
@@ -47,13 +54,16 @@ public class HealthService
 		oneb.setTitle((String)map.get("TITLE"));
 		oneb.setAuthor((String)map.get("AUTHOR"));
 
+		Clob clb = (Clob)map.get("CONTENT");
 		try {
-			String jts = String.valueOf(map.get("QDATE"));
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date parseDate;
-			log.info("날짜:" + dateFormat.format(map.get("QDATE"))); 
-			String date =dateFormat.format(map.get("QDATE"));
-			oneb.setQdate(date);
+			String strcontent = parseClobToString(clb);
+			oneb.setContent(strcontent);
+			
+			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("QDATE");
+			long milliseconds = timestamp.timestampValue().getTime();
+			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
+			oneb.setQdate(javaTimestamp);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -61,13 +71,24 @@ public class HealthService
 		return oneb;
 	}
 	
-	public PageInfo<Map<String, Object>> getPage(int pg, int cnt, String author)
+	public static String parseClobToString(Clob clob) throws SQLException, IOException {
+        if (clob == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        try (Reader reader = clob.getCharacterStream();
+             BufferedReader br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        }
+        return sb.toString();
+    }
+
+	public List<Map<String, Object>> getOnebList(String author)
 	{
-		PageHelper.startPage(pg, cnt);
-		PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(qamapper.qna(author));
-		List<Map<String, Object>> mlist = pageInfo.getList();
-		
-		return pageInfo;
+		List<Map<String, Object>> mlist =qamapper.qna(author);
+		return mlist;
 	}
-	
 }

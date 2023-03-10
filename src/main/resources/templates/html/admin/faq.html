@@ -34,7 +34,7 @@
             	   							+'</td>'
             	   							+'<td>'+res[i].author+'</td>'
             	   							+'<td>'+res[i].hit+'</td>'
-            	   							+'<td>'+res[i].date_admin+'</td>'
+            	   							+'<td>'+res[i].adate+'</td>'
             	   							+ '</tr>'
             	   )            	   
                
@@ -75,8 +75,8 @@
 </tr>
 </thead>
 <tbody> 
-<tr th:each="faq, iStat: ${list}">
-	<td th:text="${iStat.index +1}"> </td>
+<tr th:each="faq :${pageAdminBoard}">
+	<td> [[${faq.adnum}]] </td>
 	<td>
 		<a th:href= "|/health/detail_faq/${faq.adnum}|">
 		[[${faq.title}]]
@@ -84,14 +84,22 @@
 	</td>
 	<td>[[${faq.author}]]</td>
 	<td>[[${faq.hit}]]</td>
-	<td>[[${faq.date_admin}]]</td>
+	<td>[[${faq.adate}]]</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class ="text-center"> 
-	<span th:each="page, i: ${list}">
-	<a th:href = "|/faqList/${i}/10|"> [[${i.index+1}]]</a>
+
+<div id="pagination" style=" margin-left:150px; padding-top:20px; text-align: center; width: 80%;" >
+	<span th:if="${pageAdminBoard.getNumber() gt 9}"><a
+		th:href="@{/health/board?name=faq(page=${pageAdminBoard.getNumber()/10*10-1})}">이전</a></span>
+
+	<th:block th:if="${i le pageAdminBoard.getTotalPages()}" th:each="i : ${#numbers.sequence(pageAdminBoard.getNumber()/10*10+1 , pageAdminBoard.getNumber()/10*10+10)}">
+		<a th:href="@{/health/board?name=faq(page=${i-1})}"> [[${i}]]</span>
+	</th:block>
+	
+	<span th:if="${(pageAdminBoard.getNumber()/10*10+10)<pageAdminBoard.getTotalPages()}">
+		<a th:href="@{/health/board?name=faq(page=${pageAdminBoard.getNumber()/10*10+10})}">다음</a>
 	</span>
 </div>
 

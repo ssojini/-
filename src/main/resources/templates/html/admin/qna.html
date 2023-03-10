@@ -83,7 +83,7 @@ crossorigin="anonymous"></script>
 		</thead>
 		<tbody>
 			<tr th:each="board, iStat: ${pageOneboard}">
-		    <td th:text="${iStat.index+1}"> </td>
+		    <td> [[${board.qnum}]] </td>
 				<td>
 					<a th:href= "|/health/detailByQnum/${board.qnum}|" style="text-decoration:none">	
 					[[${board.title}]]
