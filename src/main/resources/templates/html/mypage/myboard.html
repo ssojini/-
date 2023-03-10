@@ -3,6 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>freeboard</title>
+<style type="text/css">
+th, td{
+	padding:0 50px 0 50px;
+}
+th{
+	font-size: 30px;
+}
+#freeboard_interface_div{
+	padding-top:100px;
+}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 	crossorigin="anonymous"></script>
@@ -23,29 +34,31 @@
     <div th:replace="fragments/mypagenav :: mypagenav"></div>
 </div>
 
-<div style="width:100vw;">
-	<div id="freeboard_interface_div">
-		<div id="freeboard_btn_div">
-			<button id="add_freeboard_btn" onclick="addFreeboard();">글 쓰기</button>
+<div style="width:70vw;float:right;">
+	<div style="padding-top:50px; margin:0 auto; text-align: center;">
+		<main class="myboard">
+			<input type="hidden" id="bname" th:value="${bname}">
+			<div id="freeboard_table_div">
+				<table id="freeboard_table" style="text-align: center; margin:0 auto;">
+					<tr>
+						<th class="freeboard_table_num"><b>번호</b></th>
+						<th class="freeboard_table_title"><b>제목</b></th>
+						<th class="freeboard_table_hit"><b>조회수</b></th>
+					</tr>
+					<tr class="boardTr" th:each="board : ${board}">
+						<td>[[${board.fbnum}]]</td>
+						<td><a th:href="@{/freeboard/detail(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
+						<td>[[${board.hit}]]</td>
+					</tr>
+				</table>
+			</div>
+		</main>
+		<div id="freeboard_interface_div">
+			<div id="freeboard_btn_div">
+				<button id="add_freeboard_btn" onclick="addFreeboard();">글 쓰기</button>
+			</div>
 		</div>
 	</div>
-	<main class="myboard">
-		<input type="hidden" id="bname" th:value="${bname}">
-		<div id="freeboard_table_div">
-			<table id="freeboard_table" style="text-align: center; margin:0 auto;">
-				<tr>
-					<th class="freeboard_table_num"><b>번호</b></th>
-					<th class="freeboard_table_title"><b>제목</b></th>
-					<th class="freeboard_table_hit"><b>조회수</b></th>
-				</tr>
-				<tr class="boardTr" th:each="board : ${board}">
-					<td>[[${board.fbnum}]]</td>
-					<td><a th:href="@{/freeboard/detail(fbnum=${board.fbnum})}">[[${board.title}]]</a></td>
-					<td>[[${board.hit}]]</td>
-				</tr>
-			</table>
-		</div>
-	</main>
 </div>
 </body>
 </html>
