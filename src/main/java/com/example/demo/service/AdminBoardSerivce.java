@@ -29,6 +29,7 @@ import com.github.pagehelper.PageInfo;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import oracle.sql.TIMESTAMP;
 
 @Service
 @Slf4j
@@ -78,8 +79,8 @@ public class AdminBoardSerivce
 			String strcontent = parseClobToString(clb);
 			oneb.setContent(strcontent);
 			
-			java.sql.Timestamp timestamp = (java.sql.Timestamp) map.get("QDATE");
-			long milliseconds = timestamp.getTime();
+			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("QDATE");
+			long milliseconds = timestamp.timestampValue().getTime();
 			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
 			oneb.setQdate(javaTimestamp);
 
@@ -330,8 +331,8 @@ public class AdminBoardSerivce
 			String strcontent = parseClobToString(clb);
 			adminb.setContent(strcontent);
 			
-			java.sql.Timestamp timestamp = (java.sql.Timestamp) map.get("ADATE");
-			long milliseconds = timestamp.getTime();
+			oracle.sql.TIMESTAMP timestamp = (TIMESTAMP) map.get("ADATE");
+			long milliseconds = timestamp.timestampValue().getTime();
 			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
 			adminb.setAdate(javaTimestamp);
 

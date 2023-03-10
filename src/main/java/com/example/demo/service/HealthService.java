@@ -60,8 +60,8 @@ public class HealthService
 			String strcontent = parseClobToString(clb);
 			oneb.setContent(strcontent);
 			
-			Timestamp timestamp = (Timestamp) map.get("QDATE");
-			long milliseconds = timestamp.getTime();
+			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("QDATE");
+			long milliseconds = timestamp.timestampValue().getTime();
 			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
 			oneb.setQdate(javaTimestamp);
 
