@@ -350,6 +350,16 @@ public class SecurityConfiguration {
 						"/manager/board/delete",
 						"/manager/deletegoods/*",
 						// SecurityController.java
+						// ShopController.java
+						// post
+						"/shop/cart", // u
+						"/shop/cnt_change", // u
+						"/shop/delAll", // u
+						"/shop/delSel", // u
+						"/shop/buynow", // u
+						"/shop/buyccart", // u
+						"/shop/addgoods", // a
+						"/shop/editgoods", // a
 						""
 				)
 				.and()

@@ -485,7 +485,7 @@ public class ShopService
 		List<GoodsAndAtt> reco = new ArrayList<>();
 		String response;
 		try {
-			response = con_svc.post("http://localhost:7878/prod_recommend", map1);
+			response = con_svc.post("/prod_recommend", map1);
 		} catch (IOException | ParseException e) {
 			System.err.println("Connection Error: Python");
 			e.printStackTrace();

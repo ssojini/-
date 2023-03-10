@@ -48,7 +48,9 @@ public class ConnectService {
     }
     
     public String post(String url, Map<String,String> map) throws IOException, ParseException {
-        URL url2 = new URL(URL+url);
+    	
+    	System.err.println(URL+" "+url);
+    	URL url2 = new URL(URL+url);
         HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
 
         connection.setRequestMethod("POST");     // POST 방식 요청
