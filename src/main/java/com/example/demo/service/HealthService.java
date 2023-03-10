@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,8 +60,8 @@ public class HealthService
 			String strcontent = parseClobToString(clb);
 			oneb.setContent(strcontent);
 			
-			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("QDATE");
-			long milliseconds = timestamp.timestampValue().getTime();
+			Timestamp timestamp = (Timestamp) map.get("QDATE");
+			long milliseconds = timestamp.getTime();
 			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
 			oneb.setQdate(javaTimestamp);
 

@@ -5,10 +5,8 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Timestamp;
 import java.sql.Clob;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 
 import java.util.*;
 
@@ -80,8 +78,8 @@ public class AdminBoardSerivce
 			String strcontent = parseClobToString(clb);
 			oneb.setContent(strcontent);
 			
-			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("QDATE");
-			long milliseconds = timestamp.timestampValue().getTime();
+			java.sql.Timestamp timestamp = (java.sql.Timestamp) map.get("QDATE");
+			long milliseconds = timestamp.getTime();
 			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
 			oneb.setQdate(javaTimestamp);
 
@@ -332,8 +330,8 @@ public class AdminBoardSerivce
 			String strcontent = parseClobToString(clb);
 			adminb.setContent(strcontent);
 			
-			oracle.sql.TIMESTAMP timestamp = (oracle.sql.TIMESTAMP) map.get("ADATE");
-			long milliseconds = timestamp.timestampValue().getTime();
+			java.sql.Timestamp timestamp = (java.sql.Timestamp) map.get("ADATE");
+			long milliseconds = timestamp.getTime();
 			java.sql.Timestamp javaTimestamp = new java.sql.Timestamp(milliseconds);
 			adminb.setAdate(javaTimestamp);
 
