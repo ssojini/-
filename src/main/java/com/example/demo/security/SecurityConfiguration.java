@@ -37,6 +37,14 @@ public class SecurityConfiguration {
 				// 권한에 따른 인가
 				.authorizeHttpRequests()
 				.requestMatchers(
+						// Guest
+						
+						// 
+						"/js/**",
+						"/css/**",
+						"/images/**",
+						"/img/**",
+						
 						// AdminBoardController.java
 						// CalendarController.java
 						// get
@@ -48,9 +56,147 @@ public class SecurityConfiguration {
 						// FileController.java
 						// FreeboardController.java
 						// HealthController.java
+						// get
+						"/health/main", // g
+						"/health/bmi", // g
+						// post
+						"/health/cal", // g
+						"/health/getloc", // g
+						// ImageController.java
+						// post
+						"/images/*", // g
+						"/goodsimg/*", // g
+						// JoinController.java
+						// get
+						"/team/rules", // g
+						"/team/joinForm", // g
+						"/team/", // g
+						"/team/login", // g
+						"/team/findLoginInfo", // g
+						"/team/logon", // g
+						// post
+						"/team/add", // g
+						"/team/idcheck", // g
+						"/team/nickcheck", // g
+						"/team/join", // g
+						"/team/sendemail", // g
+						"/team/check", // g
+						"/team/reset", // g
+						"/team/find", // g
+						"/team/auth/**", // g
+						"/team/authEmail", // g
+						"/team/loginsuccess", // g
+						"/team/login-error", // g
+						// ManagerController.java
+						// SecurityController.java
+						// get
+						"/sec/denied", // g
+						// ShopController.java
+						// get
+						"/shop/detail/*", // g
+						"/shop/detail/review", // g
+						"/shop/rec_test", // g
+						"/shop/imgtest", // g
+						"/shop/ShopMainPage", // g
+						"/shop/summer/*", // 
+						"/shop/searchgoods", // g
+						"/shop/category1", // g
+						"/shop/category2", // g
+						"/shop/category3", // g
+						"/shop/main", // g
 						""
 				).permitAll()
 				.requestMatchers(
+						// User
+						
+						// AdminBoardController.java
+						// CalendarController.java
+						// get
+						"/calen/showCalen",
+						"/calen/add",
+						"/calen/detail/*",
+						"/calen/edit/*",
+						// post
+						"/calen/editCal/*",
+						"/calen/delimg",
+						"/calen/delete",
+						// ConnectController.java
+						// FileController.java
+						// get
+						"/file/download",
+						// post
+						"/file/upload",
+						"/file/delete",
+						"/file/list",
+						// FreeboardController.java
+						// get
+						"/freeboard",
+						"/freeboard/",
+						"/freeboard/add",
+						"/freeboard/detail",
+						"/freeboard/edit",
+						// post
+						"/freeboard/add",
+						"/freeboard/updateContents",
+						"/freeboard/delete",
+						"/freeboard/edit",
+						"/freeboard/addReply",
+						"/freeboard/deleteReply",
+						"/freeboard/getReply",
+						"/freeboard/listFreeboard",
+						"/freeboard/likeCount",
+						// HealthController.java
+						// get
+						"/health/myboard/*", // u
+						"/health/useredit/*", // u
+						"/health/deleteuser/*", // u 
+						"/health/deleteuser_check/*", // u
+						"/health/user_addinfo/*", // u
+						"/health/findpwd/*", // u
+						"/health/center_search", // u
+						"/health/qna", // u
+						"/health/writeQueB", // u
+						"/health/detailByQnum/*", // u
+						"/health/edit_q/*", // u
+						"/health/faq/**", // u
+						"/health/detail_faq/*", // u
+						"/health/edit_faq/*", // u
+						"/health/notice/**", // u
+						"/health/detail_notice/*", // u
+						"/health/edit_notice/*", // u
+						// post
+						"/health/userEdit", // u
+						"/health/deleteuser", // u
+						"/health/changepwd/*", // u
+						"/health/writeQueB", // u
+						// post
+						"/health/edit_q/*", // u
+						"/health/delIndiv", // u
+						"/health/deleteQueB", // u
+						"/health/edit_faq/*", // u
+						"/health/edit_notice/*", // u
+						// ImageController.java
+						// JoinController.java
+						// ManagerController.java
+						// SecurityController.java
+						// ShopController.java
+						// get
+						"/shop/cart", // u
+						"/shop/payment", // u
+						"/shop/mypage/*", // u
+						"/shop/mypage/itemdetail/*", // u
+						// post
+						"/shop/cart", // u
+						"/shop/cnt_change", // u
+						"/shop/delAll", // u
+						"/shop/delSel", // u
+						"/shop/buynow", // u
+						"/shop/buyccart", // u
+						""
+						).hasAnyRole("USER","ADMIN")
+				.requestMatchers(
+						// Admin
+						
 						// AdminBoardController.java
 						// get
 						"/admin/qaList/**",
@@ -79,54 +225,54 @@ public class SecurityConfiguration {
 						// FileController.java
 						// FreeboardController.java
 						// HealthController.java
+						// get
+						"/health/reply/*", // a
+						// post
+						"/health/reply", // a
+						// ImageController.java
+						// JoinController.java
+						// ManagerController.java
+						// get
+						"/manager/",
+						"/manager/main",
+						"/manager/userlist",
+						"/manager/userdetail/*",
+						"/manager/shop",
+						"/manager/shoplist",
+						"/manager/shop/detail",
+						"/manager/board",
+						"/manager/board/detail",
+						"/manager/shopitem",
+						"/manager/item/edit/*",
+						"/manager/editgoods/*",
+						// post
+						"/manager/calchart",
+						"/manager/userchart",
+						"/manager/DelAccount",
+						"/manager/shop/edit",
+						"/manager/board/delete",
+						"/manager/deletegoods/*",
+						// SecurityController.java
+						// ShopController.java
+						// get
+						"/shop/addgoods/*", // a
+						// post
+						"/shop/addgoods", // a
+						"/shop/editgoods", // a
 						""
 						).hasAnyRole("ADMIN")
-				.requestMatchers(
-						// AdminBoardController.java
-						// get
-						"/calen/showCalen",
-						"/calen/add",
-						"/calen/detail/*",
-						"/calen/edit/*",
-						// post
-						"/calen/editCal/*",
-						"/calen/delimg",
-						"/calen/delete",
-						// CalendarController.java
-						// ConnectController.java
-						// FileController.java
-						// get
-						"/file/download",
-						// post
-						"/file/upload",
-						"/file/delete",
-						"/file/list",
-						// FreeboardController.java
-						// get
-						"/freeboard",
-						"/freeboard/",
-						"/freeboard/add",
-						"/freeboard/detail",
-						"/freeboard/edit",
-						// post
-						"/freeboard/add",
-						"/freeboard/updateContents",
-						"/freeboard/delete",
-						"/freeboard/edit",
-						"/freeboard/addReply",
-						"/freeboard/deleteReply",
-						"/freeboard/getReply",
-						"/freeboard/listFreeboard",
-						"/freeboard/likeCount",
-						// HealthController.java
-						""
-						).hasAnyRole("USER","ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
 				// csrf
 				.and()
 				.csrf()
 				.ignoringRequestMatchers(
+						// csrf
+						
+						//
+						"/doLogin",
+						"/doLogout",
+						
 						// AdminBoardController.java
 						// post
 						"/admin/add",
@@ -164,6 +310,46 @@ public class SecurityConfiguration {
 						"/freeboard/listFreeboard",
 						"/freeboard/likeCount",
 						// HealthController.java
+						// post
+						"/health/cal", // g
+						"/health/userEdit", // u
+						"/health/deleteuser", // u
+						"/health/changepwd/*", // u
+						"/health/getloc", // g
+						"/health/writeQueB", // u
+						"/health/reply", // a
+						"/health/edit_q/*", // u
+						"/health/delIndiv", // u
+						"/health/deleteQueB", // u
+						"/health/edit_faq/*", // u
+						"/health/edit_notice/*", // u
+						// ImageController.java
+						// post
+						"/images/*", // g
+						"/goodsimg/*", // g
+						// JoinController.java
+						// post
+						"/team/add", // g
+						"/team/idcheck", // g
+						"/team/nickcheck", // g
+						"/team/join", // g
+						"/team/sendemail", // g
+						"/team/check", // g
+						"/team/reset", // g
+						"/team/find", // g
+						"/team/auth/**", // g
+						"/team/authEmail", // g
+						"/team/loginsuccess", // g
+						"/team/login-error", // g
+						// ManagerController.java
+						// post
+						"/manager/calchart",
+						"/manager/userchart",
+						"/manager/DelAccount",
+						"/manager/shop/edit",
+						"/manager/board/delete",
+						"/manager/deletegoods/*",
+						// SecurityController.java
 						""
 				)
 				.and()

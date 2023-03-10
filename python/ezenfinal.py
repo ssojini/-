@@ -158,8 +158,9 @@ def meal_calc():
     result = df[df['식품명'].isin(js['식품명'])]
     return result.to_json()
 
+#상욱
 @app.route("/prod_recommend", methods=['POST'])
 def prodRecommend():
     return prod_recommend()
-    
+
 app.run(host='0.0.0.0',debug=True,port=7878)
