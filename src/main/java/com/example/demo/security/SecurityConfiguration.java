@@ -191,7 +191,7 @@ public class SecurityConfiguration {
 						"/shop/delAll", // u
 						"/shop/delSel", // u
 						"/shop/buynow", // u
-						"/shop/buyccart", // u
+						"/shop/buycart", // u
 						""
 						).hasAnyRole("USER","ADMIN")
 				.requestMatchers(
@@ -357,7 +357,7 @@ public class SecurityConfiguration {
 						"/shop/delAll", // u
 						"/shop/delSel", // u
 						"/shop/buynow", // u
-						"/shop/buyccart", // u
+						"/shop/buycart", // u
 						"/shop/addgoods", // a
 						"/shop/editgoods", // a
 						""
