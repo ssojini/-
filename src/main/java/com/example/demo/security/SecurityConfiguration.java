@@ -209,6 +209,7 @@ public class SecurityConfiguration {
 						"/admin/faq/**",
 						"/admin/detail_faq_admin/**",
 						"/admin/edit_faq/**",
+						"/admin/**",
 						// post
 						"/admin/add",
 						"/admin/edit_q/**",
@@ -219,6 +220,7 @@ public class SecurityConfiguration {
 						"/admin/search_notice",
 						"/admin/search_faq",
 						"/admin/search_qna",
+						"/admin/**",
 						// CalendarController.java
 						// ConnectController.java
 						// FileController.java
@@ -361,7 +363,9 @@ public class SecurityConfiguration {
 						"/shop/buycart", // u
 						"/shop/addgoods", // a
 						"/shop/editgoods", // a
-						"/shop/summer_image.do"
+						"/shop/summer_image.do",
+						
+						"/**"
 				)
 				.and()
 				 */
