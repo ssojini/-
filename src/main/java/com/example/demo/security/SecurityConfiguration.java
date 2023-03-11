@@ -258,7 +258,7 @@ public class SecurityConfiguration {
 						// post
 						"/shop/addgoods", // a
 						"/shop/editgoods", // a
-						"/shop/summer_image.do/" //a
+						"/shop/summer_image.do" //a
 						).hasAnyRole("ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
