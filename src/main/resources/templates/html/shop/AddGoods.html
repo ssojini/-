@@ -232,10 +232,10 @@ function jsonFn(jsonArray){
 		{
 			var form=$('#addgoods')[0];
 			var data = new FormData(form);
-			
+			alert(0<jsonArray.length);
 			for(var i = 0; i<jsonArray.length; i++){
 			    var str = jsonArray[i];
-			    
+			    alert(str.toString);
 			    // str의 값 :/summernoteImage/bc395afe-2324-438d-ae68-1a0a75d0a431.png 
 			    // '/summernoteImage/'를 기준으로 자른다.
 			    var result = str.toString().split("/summernoteImage/");
@@ -250,8 +250,6 @@ function jsonFn(jsonArray){
 			//plain text
 			var goods_detail = $($("#summernote").summernote("code")).text();
 			data.append('goods_detail', goods_detail);
-
-		    console.log(content);
 			
 			$.ajax({
 				url:'/shop/addgoods',

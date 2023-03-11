@@ -402,6 +402,7 @@ public class ShopService
 	        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
 	        
 		   String jsonvalue = json.toString();
+		   System.out.println("jsonvalue:  "+jsonvalue);
 		   return jsonvalue;
 
 	 }
