@@ -213,11 +213,12 @@
 		</dependency>
 	    <!-- security -->
 	    <!-- Oracle JDBC driver -->
-	    <dependency>
-	        <groupId>com.oracle.database.jdbc</groupId>
-	        <artifactId>ojdbc8</artifactId>
-	        <version>18.3.0.0</version>
-	    </dependency>
+	    <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ojdbc8</artifactId>
+		    <version>21.9.0.0</version>
+		</dependency>
 		<!-- 추가 -->
 		
 		<dependency>

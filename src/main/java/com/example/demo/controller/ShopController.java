@@ -205,7 +205,7 @@ public class ShopController {
 	}
 	
 
-	@RequestMapping(value = "/summer_image.do", produces = "application/json; charset=utf8")
+	@PostMapping(value = "/summer_image.do", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
 			HttpServletRequest request) throws IOException {
@@ -215,7 +215,7 @@ public class ShopController {
 	@PostMapping("/addgoods")
 	@ResponseBody
 	public Map<String, Object> addgoods(@RequestParam("main_file") MultipartFile file,
-			@RequestParam("goods_detail") String goods_detail, @RequestParam("file[]") List<String> fileList,
+			@RequestParam("goods_detail") String goods_detail, @RequestParam(value="fileList[]") List<String> fileList,
 			HttpServletRequest request, Goods goods, AddGoods_Att att) {
 		boolean a =svc.storeFile(file, goods_detail, fileList, goods, att);
 		boolean added = false;

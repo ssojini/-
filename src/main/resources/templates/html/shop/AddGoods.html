@@ -203,7 +203,7 @@ $(function(){
         data.append("file",file);
             $.ajax({
               url: '/shop/summer_image.do',
-              type: "POST",
+              type: "post",
               enctype: 'multipart/form-data',
               data: data,
               cache: false,
@@ -239,9 +239,11 @@ function jsonFn(jsonArray){
 			    // str의 값 :/summernoteImage/bc395afe-2324-438d-ae68-1a0a75d0a431.png 
 			    // '/summernoteImage/'를 기준으로 자른다.
 			    var result = str.toString().split("/summernoteImage/");
-			 	data.append('file[]',result[1]);
+			 	data.append('fileList',result[1]);
+			 	console.log(result[1]);
 			    // result[1] : bc395afe-2324-438d-ae68-1a0a75d0a431.png
 			}
+			console.log(data.fileList);
 			
 			const content = $('#summernote').summernote('code');
 			

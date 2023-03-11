@@ -8,8 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.interfaces.AdminboardRepository;
-import com.example.demo.interfaces.OneboardRepository;
+import com.example.demo.repository.AdminboardRepository;
+import com.example.demo.repository.OneboardRepository;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.Freeboard;
 import com.example.demo.vo.OneBoard;
