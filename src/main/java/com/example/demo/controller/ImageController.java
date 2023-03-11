@@ -58,4 +58,24 @@ public class ImageController {
 		}
 		return null;
 	}
+	
+	@GetMapping(value="/summernoteImage/{filepath}", produces=MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getSummernoteImage(@PathVariable("filepath") String filepath) {
+		try {
+			Resource resource = resourceLoader.getResource("WEB-INF/files/goodsimg/" + filepath);
+			System.out.println("resource:"+resource);
+			InputStream is = resource.getInputStream();
+			int len = (int)resource.getFile().length();
+			byte[] buf = new byte[len];
+			
+			is.read(buf);
+			is.close();
+			return buf;
+		} catch(Exception e) {
+			System.err.println("이미지 로드 실패");
+			//e.printStackTrace();
+		}
+		return null;
+	}
 }
