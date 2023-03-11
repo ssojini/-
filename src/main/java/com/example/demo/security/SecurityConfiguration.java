@@ -42,9 +42,7 @@ public class SecurityConfiguration {
 						// 
 						"/js/**",
 						"/css/**",
-						"/images/**",
 						"/img/**",
-						"/summernoteImage/**",
 						
 						// AdminBoardController.java
 						// CalendarController.java
@@ -64,7 +62,7 @@ public class SecurityConfiguration {
 						"/health/cal", // g
 						"/health/getloc", // g
 						// ImageController.java
-						// post
+						// get
 						"/images/**", // g
 						"/goodsimg/**", // g
 						// JoinController.java
@@ -104,7 +102,10 @@ public class SecurityConfiguration {
 						"/shop/category1", // g
 						"/shop/category2", // g
 						"/shop/category3", // g
-						"/shop/main" // g
+						"/shop/main", // g
+						// SummernoteImageController.java
+						// get
+						"/summernoteImage/**"
 				).permitAll()
 				.requestMatchers(
 						// User
