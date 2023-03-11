@@ -179,6 +179,7 @@ button {
 	color: #fff;
 	background-color: #FFB59F;
 	border-radius: 10px;
+	border:0px;
 }
 
 .chatgpt_output {

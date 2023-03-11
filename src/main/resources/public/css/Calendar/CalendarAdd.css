@@ -8,8 +8,6 @@
   background:#FFF;
   padding:5px 50px 50px;
   text-align: center;
-  
-
 }
 
 .selector{
@@ -22,7 +20,7 @@
 .selector input{ display: none; }
 .selector label{
     font-family: sans-serif;
-    padding: 8px 30px;
+    padding: 8px 23px;
     border-right: 1px solid #ccc;
     cursor: pointer;
    
