@@ -27,6 +27,8 @@
     		if (gender != null) {
     			if (current_weight != "") {
     				if (goal_weight != "") {
+    					$("#recommendDiet_button").attr("disabled","disabled");
+    					BF8877
 		    			$.ajax({
 		        			url:"/connect/chatGPT",
 		        			method:"post",
@@ -44,9 +46,11 @@
 				        				$("#chatgpt_output").append($("<div>"+res[i] + "</div>"));
 		        					}
 		        				}
+		        				$("#recommendDiet_button").removeAttr("disabled");
 		        			},
 		        			error:function(xhs,status,err){
 		        				alert(err);
+		        				$("#recommendDiet_button").removeAttr("disabled");
 		        			}
 		        		});
     				} else {
@@ -363,7 +367,7 @@
 						<input id="goal_weight" type="text" placeholder="목표 몸무게">
 					</div>
 					<div style="padding-top:5px;padding-bottom:5px;">
-						<button onclick="recommendDiet();" style="">추천받기</button>
+						<button id="recommendDiet_button" onclick="recommendDiet();" >추천받기</button>
 					</div>
 					<div id="chatgpt_output" style="color:#000000;"></div>
 				</div>
