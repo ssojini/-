@@ -85,6 +85,8 @@ public class AdminBoardController
 		m.addAttribute("oneb", oneb);
 		String userid =(String)session.getAttribute("userid");
 		m.addAttribute("userid", userid);
+		m.addAttribute("qnum", qnum);
+		
 		return "html/admin/detail_q_admin";
 	}
 	
@@ -243,16 +245,7 @@ public class AdminBoardController
 		return map;
 	}
 
-	@GetMapping("/faq/{pg}/{cnt}") 
-	public String faq(Model m, @PathVariable int pg, @PathVariable int cnt)
-	{
-		PageInfo<Map<String, Object>> pageInfo = absvc.faqPage(pg, cnt);
-		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-		m.addAttribute("list", list);
-		
-		return "html/admin/faq_admin";
-	}
-	
+
 	@GetMapping("/detail_faq_admin/{adnum}")
 	public String detail_faq(@PathVariable("adnum") int adnum, Model m)
 	{
@@ -304,4 +297,32 @@ public class AdminBoardController
 		String userid =(String)session.getAttribute("userid");
     	return absvc.search_qna(input, userid).toJSONString();
     }
+    
+	@GetMapping("/reply/{qnum}")
+	public String replyQueB(Model m, @PathVariable("qnum") int qnum)
+	{
+		OneBoard queb = absvc.getQueBoard(qnum);
+		String title = queb.getTitle();
+		m.addAttribute("title", title);
+		m.addAttribute("qnum", qnum);
+		log.info("get reply 방식 ");
+		return "html/admin/replyAnsB";
+	}
+	
+	@PostMapping("/reply")
+	@ResponseBody
+	public Map<String, Boolean> reply(HttpServletRequest request,
+			OneBoard oneb,
+			@RequestParam("attach") MultipartFile[] mfiles)
+	{
+		log.info("ctrl, reply ajax로 돌아감");
+		boolean uploaded =absvc.uploadQueB(request, oneb, mfiles);
+		Map<String, Boolean> map= new HashMap<>();
+		map.put("uploaded", uploaded);
+		log.info("ctrl, uploaded값:"+ uploaded);
+		return map;
+		
+	}
+	
+    
 }

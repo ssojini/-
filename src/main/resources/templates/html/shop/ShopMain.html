@@ -37,7 +37,7 @@ function s_function() {
 		
 		<div id="links" th:if="${session.userid==null}">
 				<ul>
-					<h2>랜덤상품</h2>
+					<h2>오늘의 상품</h2>
 					<li th:each="goods: ${random}">
 						<a th:href="'/shop/detail/'+ ${goods.goodsnum}">
 							<span id="quick-icon1"></span>

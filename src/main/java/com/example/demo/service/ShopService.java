@@ -369,6 +369,7 @@ public class ShopService
 	
 	 public String filesave(MultipartFile file)
 	 {
+		 System.out.println(file.getOriginalFilename());
 		// String savedFileName = filesaves(file);
 		 JsonObject json = new JsonObject(); 
 		
@@ -381,13 +382,14 @@ public class ShopService
 
 		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 		   
-		    File targetFile = new File(fileRoot +"\\"+ savedFileName);
+		    File targetFile = new File(fileRoot +"/"+ savedFileName);
 		    File targetFile2 = new File(fileRoot2 + savedFileName);//summernote priview
 		    
 		    try {
 		        // 파일 저장
 		        InputStream fileStream = file.getInputStream();
 		        FileUtils.copyInputStreamToFile(fileStream, targetFile);
+		        System.out.println(targetFile);
 		      
 		        InputStream fileStream2 = file.getInputStream(); //summernote priview
 		        FileUtils.copyInputStreamToFile(fileStream2, targetFile2);
@@ -402,6 +404,7 @@ public class ShopService
 	        // 파일을 열기위하여 common/getImg.do 호출 / 파라미터로 savedFileName 보냄.
 	        
 		   String jsonvalue = json.toString();
+		   System.out.println("jsonvalue:  "+jsonvalue);
 		   return jsonvalue;
 
 	 }
@@ -485,7 +488,7 @@ public class ShopService
 		List<GoodsAndAtt> reco = new ArrayList<>();
 		String response;
 		try {
-			response = con_svc.post("http://localhost:7878/prod_recommend", map1);
+			response = con_svc.post("/prod_recommend", map1);
 		} catch (IOException | ParseException e) {
 			System.err.println("Connection Error: Python");
 			e.printStackTrace();

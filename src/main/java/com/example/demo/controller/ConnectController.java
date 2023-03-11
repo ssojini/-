@@ -52,4 +52,10 @@ public class ConnectController {
 	public String meal_calc() throws IOException, ParseException {
 		return connectService.meal_calc();
 	}
+	
+	@PostMapping("/food_ident")
+	public String food_ident() {
+		
+		return null;
+	}
 }

@@ -37,4 +37,15 @@
 	border-bottom: 1px solid #ececec;
 	line-height: 1.4em;	
 }
+.textarea{
+	width:700px; 
+	height:400px; 
+    resize:none;/* 크기고정 */ 
+/*   resize: horizontal; // 가로크기만 조절가능 
+	resize: vertical;  세로크기만 조절가능  */
+}
 
+input {
+  width:650px;
+  height:30px;
+}

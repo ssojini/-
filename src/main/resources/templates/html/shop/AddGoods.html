@@ -199,20 +199,26 @@ $(function(){
     $('#summernote').summernote('fontSize', '24');
 
     function uploadSummernoteImageFile(file, el) {
+    	console.log(file);
         var data = new FormData();	
         data.append("file",file);
             $.ajax({
               url: '/shop/summer_image.do',
-              type: "POST",
+              type: "post",
               enctype: 'multipart/form-data',
               data: data,
               cache: false,
               contentType : false,
               processData : false,
+              dataType:"json",
               success : function(data) {
+            	  console.log("uploadSummernoteImageFile");
+            	  console.log(data);
             	  var json = data;
+            	  console.log(json["url"]);
                         $(el).summernote('editor.insertImage',json["url"]);
                             jsonArray.push(json["url"]);
+                            console.log(jsonArray);
                             jsonFn(jsonArray);
                     },
                     error : function(e) {
@@ -230,26 +236,28 @@ function jsonFn(jsonArray){
 		
 		function saveContent(file,editor)
 		{
+			console.log(jsonArray);
 			var form=$('#addgoods')[0];
 			var data = new FormData(form);
-			
+			alert(0<jsonArray.length);
 			for(var i = 0; i<jsonArray.length; i++){
+				console.log(jsonArray[i]);
 			    var str = jsonArray[i];
-			    
+			    alert(str.toString);
 			    // str의 값 :/summernoteImage/bc395afe-2324-438d-ae68-1a0a75d0a431.png 
 			    // '/summernoteImage/'를 기준으로 자른다.
 			    var result = str.toString().split("/summernoteImage/");
-			 	data.append('file[]',result[1]);
+			 	data.append('fileList',result[1]);
+			 	console.log(result[1]);
 			    // result[1] : bc395afe-2324-438d-ae68-1a0a75d0a431.png
 			}
+			console.log(data.fileList);
 			
 			const content = $('#summernote').summernote('code');
 			
 			//plain text
 			var goods_detail = $($("#summernote").summernote("code")).text();
 			data.append('goods_detail', goods_detail);
-
-		    console.log(content);
 			
 			$.ajax({
 				url:'/shop/addgoods',

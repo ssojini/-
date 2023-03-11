@@ -133,7 +133,6 @@ div.gd-title {
 .form {
 	background-color:#C2DED1; 
 	width:90%; 
-	height: 230px;
 }
 
 .meal {
@@ -148,6 +147,8 @@ div.gd-title {
 
 .meal_bottom {
 	color:white; 
+	padding-right: 20px;
+	padding-bottom:20px;
 	padding-left:20px; 
 	height:20%;	
 }
@@ -182,7 +183,10 @@ button {
 }
 
 .chatgpt_output {
-	font-size:small;
+	font-size: small;
 }
- 
- 
+
+#recommendDiet_button:disabled {
+	pointer-events : none;
+    background-color: #BF8877;
+}

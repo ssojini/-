@@ -27,6 +27,8 @@
     		if (gender != null) {
     			if (current_weight != "") {
     				if (goal_weight != "") {
+    					$("#recommendDiet_button").attr("disabled","disabled");
+    					BF8877
 		    			$.ajax({
 		        			url:"/connect/chatGPT",
 		        			method:"post",
@@ -44,9 +46,11 @@
 				        				$("#chatgpt_output").append($("<div>"+res[i] + "</div>"));
 		        					}
 		        				}
+		        				$("#recommendDiet_button").removeAttr("disabled");
 		        			},
 		        			error:function(xhs,status,err){
 		        				alert(err);
+		        				$("#recommendDiet_button").removeAttr("disabled");
 		        			}
 		        		});
     				} else {
@@ -60,6 +64,12 @@
     		} else {
     			alert("성별을 선택하세요!");
     		}
+    	}
+    	
+    	function addFoodRating() {
+    		$.ajax({
+    			url:"/"
+    		});
     	}
     </script>
   </head>
@@ -341,16 +351,14 @@
 	       			</div>
 				</div>
 			</div>
-    		<div id="chatgpt_div" style="padding-top: 20px;">
+			<div id="chatgpt_div" style="padding-top: 20px;">
 				<div class="form">
 					<div class="meal">오늘의 추천식단을 확인해보세요!</div>
 					<div class="switch-field" id="gender">
-						<input type="radio" id="male" name="gender" value="남자">
-						<label for="male">남</label>
-						<input type="radio" id="female" name="gender" value="여자">
-						<label for="female">여</label>
+						<input type="radio" id="male" name="gender" value="남자"> 
+						<label for="male">남</label> 
+						<input type="radio" id="female" name="gender" value="여자"> <label for="female">여</label>
 					</div>
-			
 				<div class="meal_bottom">
 					<div>
 						<input id="current_weight" type="text" placeholder="현재 몸무게">
@@ -358,12 +366,10 @@
 					<div style="padding-top:5px;">
 						<input id="goal_weight" type="text" placeholder="목표 몸무게">
 					</div>
-					<div style="padding-top:5px; padding-left:10px">
-						<button onclick="recommendDiet();">추천받기</button>
 					</div>
-					<div id="chatgpt_output"></div>
-					</div>
+					<div id="chatgpt_output" style="color:#000000;"></div>
 				</div>
+			</div>
 	    </div>
 	</div>
 	

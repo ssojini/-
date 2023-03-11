@@ -42,7 +42,6 @@ public class SecurityConfiguration {
 						// 
 						"/js/**",
 						"/css/**",
-						"/images/**",
 						"/img/**",
 						
 						// AdminBoardController.java
@@ -63,9 +62,9 @@ public class SecurityConfiguration {
 						"/health/cal", // g
 						"/health/getloc", // g
 						// ImageController.java
-						// post
-						"/images/*", // g
-						"/goodsimg/*", // g
+						// get
+						"/images/**", // g
+						"/goodsimg/**", // g
 						// JoinController.java
 						// get
 						"/team/rules", // g
@@ -93,18 +92,20 @@ public class SecurityConfiguration {
 						"/sec/denied", // g
 						// ShopController.java
 						// get
-						"/shop/detail/*", // g
+						"/shop/detail/**", // g
 						"/shop/detail/review", // g
 						"/shop/rec_test", // g
 						"/shop/imgtest", // g
 						"/shop/ShopMainPage", // g
-						"/shop/summer/*", // 
+						"/shop/summer/**", // 
 						"/shop/searchgoods", // g
 						"/shop/category1", // g
 						"/shop/category2", // g
 						"/shop/category3", // g
 						"/shop/main", // g
-						""
+						// SummernoteImageController.java
+						// get
+						"/summernoteImage/**"
 				).permitAll()
 				.requestMatchers(
 						// User
@@ -114,10 +115,10 @@ public class SecurityConfiguration {
 						// get
 						"/calen/showCalen",
 						"/calen/add",
-						"/calen/detail/*",
-						"/calen/edit/*",
+						"/calen/detail/**",
+						"/calen/edit/**",
 						// post
-						"/calen/editCal/*",
+						"/calen/editCal/**",
 						"/calen/delimg",
 						"/calen/delete",
 						// ConnectController.java
@@ -147,34 +148,34 @@ public class SecurityConfiguration {
 						"/freeboard/likeCount",
 						// HealthController.java
 						// get
-						"/health/myboard/*", // u
-						"/health/useredit/*", // u
-						"/health/deleteuser/*", // u 
-						"/health/deleteuser_check/*", // u
-						"/health/user_addinfo/*", // u
-						"/health/findpwd/*", // u
+						"/health/myboard/**", // u
+						"/health/useredit/**", // u
+						"/health/deleteuser/**", // u 
+						"/health/deleteuser_check/**", // u
+						"/health/user_addinfo/**", // u
+						"/health/findpwd/**", // u
 						"/health/center_search", // u
 						"/health/qna", // u
 						"/health/writeQueB", // u
-						"/health/detailByQnum/*", // u
-						"/health/edit_q/*", // u
+						"/health/detailByQnum/**", // u
+						"/health/edit_q/**", // u
 						"/health/faq/**", // u
-						"/health/detail_faq/*", // u
-						"/health/edit_faq/*", // u
+						"/health/detail_faq/**", // u
+						"/health/edit_faq/**", // u
 						"/health/notice/**", // u
-						"/health/detail_notice/*", // u
-						"/health/edit_notice/*", // u
+						"/health/detail_notice/**", // u
+						"/health/edit_notice/**", // u
 						// post
 						"/health/userEdit", // u
 						"/health/deleteuser", // u
-						"/health/changepwd/*", // u
+						"/health/changepwd/**", // u
 						"/health/writeQueB", // u
 						// post
-						"/health/edit_q/*", // u
+						"/health/edit_q/**", // u
 						"/health/delIndiv", // u
 						"/health/deleteQueB", // u
-						"/health/edit_faq/*", // u
-						"/health/edit_notice/*", // u
+						"/health/edit_faq/**", // u
+						"/health/edit_notice/**", // u
 						// ImageController.java
 						// JoinController.java
 						// ManagerController.java
@@ -183,16 +184,15 @@ public class SecurityConfiguration {
 						// get
 						"/shop/cart", // u
 						"/shop/payment", // u
-						"/shop/mypage/*", // u
-						"/shop/mypage/itemdetail/*", // u
+						"/shop/mypage/**", // u
+						"/shop/mypage/itemdetail/**", // u
 						// post
 						"/shop/cart", // u
 						"/shop/cnt_change", // u
 						"/shop/delAll", // u
 						"/shop/delSel", // u
 						"/shop/buynow", // u
-						"/shop/buyccart", // u
-						""
+						"/shop/buycart" // u
 						).hasAnyRole("USER","ADMIN")
 				.requestMatchers(
 						// Admin
@@ -201,22 +201,22 @@ public class SecurityConfiguration {
 						// get
 						"/admin/qaList/**",
 						"/admin/add",
-						"/admin/detailByQnum/*",
-						"/admin/edit_q/*",
+						"/admin/detailByQnum/**",
+						"/admin/edit_q/**",
 						"/admin/notice/**",
 						"/admin/noticeMain/**",
-						"/admin/detail_notice/*",
-						"/admin/edit_notice/*",
+						"/admin/detail_notice/**",
+						"/admin/edit_notice/**",
 						"/admin/faq/**",
-						"/admin/detail_faq_admin/*",
-						"/admin/edit_faq/*",
+						"/admin/detail_faq_admin/**",
+						"/admin/edit_faq/**",
 						// post
 						"/admin/add",
-						"/admin/edit_q/*",
-						"/admin/edit_notice/*",
+						"/admin/edit_q/**",
+						"/admin/edit_notice/**",
 						"/admin/delAdminIndiv",
 						"/admin/delAdminB",
-						"/admin/edit_faq/*",
+						"/admin/edit_faq/**",
 						"/admin/search_notice",
 						"/admin/search_faq",
 						"/admin/search_qna",
@@ -226,7 +226,7 @@ public class SecurityConfiguration {
 						// FreeboardController.java
 						// HealthController.java
 						// get
-						"/health/reply/*", // a
+						"/health/reply/**", // a
 						// post
 						"/health/reply", // a
 						// ImageController.java
@@ -236,36 +236,38 @@ public class SecurityConfiguration {
 						"/manager/",
 						"/manager/main",
 						"/manager/userlist",
-						"/manager/userdetail/*",
+						"/manager/userdetail/**",
 						"/manager/shop",
 						"/manager/shoplist",
 						"/manager/shop/detail",
 						"/manager/board",
 						"/manager/board/detail",
 						"/manager/shopitem",
-						"/manager/item/edit/*",
-						"/manager/editgoods/*",
+						"/manager/item/edit/**",
+						"/manager/editgoods/**",
 						// post
 						"/manager/calchart",
 						"/manager/userchart",
 						"/manager/DelAccount",
 						"/manager/shop/edit",
 						"/manager/board/delete",
-						"/manager/deletegoods/*",
+						"/manager/deletegoods/**",
 						// SecurityController.java
 						// ShopController.java
 						// get
-						"/shop/addgoods/*", // a
+						"/shop/addgoods/**", // a
 						// post
 						"/shop/addgoods", // a
 						"/shop/editgoods", // a
-						""
+						"/shop/summer_image.do" //a
 						).hasAnyRole("ADMIN")
 				.anyRequest().authenticated() // 그 외 모든 요청은 인증된 사용자만 접근 가능
 
 				// csrf
 				.and()
 				.csrf()
+				.disable()
+				/*
 				.ignoringRequestMatchers(
 						// csrf
 						
@@ -276,17 +278,17 @@ public class SecurityConfiguration {
 						// AdminBoardController.java
 						// post
 						"/admin/add",
-						"/admin/edit_q/*",
-						"/admin/edit_notice/*",
+						"/admin/edit_q/**",
+						"/admin/edit_notice/**",
 						"/admin/delAdminIndiv",
 						"/admin/delAdminB",
-						"/admin/edit_faq/*",
+						"/admin/edit_faq/**",
 						"/admin/search_notice",
 						"/admin/search_faq",
 						"/admin/search_qna",
 						// CalendarController.java
 						// post
-						"/calen/editCal/*",
+						"/calen/editCal/**",
 						"/calen/delimg",
 						"/calen/delete",
 						// ConnectController.java
@@ -314,19 +316,19 @@ public class SecurityConfiguration {
 						"/health/cal", // g
 						"/health/userEdit", // u
 						"/health/deleteuser", // u
-						"/health/changepwd/*", // u
+						"/health/changepwd/**", // u
 						"/health/getloc", // g
 						"/health/writeQueB", // u
 						"/health/reply", // a
-						"/health/edit_q/*", // u
+						"/health/edit_q/**", // u
 						"/health/delIndiv", // u
 						"/health/deleteQueB", // u
-						"/health/edit_faq/*", // u
-						"/health/edit_notice/*", // u
+						"/health/edit_faq/**", // u
+						"/health/edit_notice/**", // u
 						// ImageController.java
 						// post
-						"/images/*", // g
-						"/goodsimg/*", // g
+						"/images/**", // g
+						"/goodsimg/**", // g
 						// JoinController.java
 						// post
 						"/team/add", // g
@@ -348,11 +350,22 @@ public class SecurityConfiguration {
 						"/manager/DelAccount",
 						"/manager/shop/edit",
 						"/manager/board/delete",
-						"/manager/deletegoods/*",
+						"/manager/deletegoods/**",
 						// SecurityController.java
-						""
+						// ShopController.java
+						// post
+						"/shop/cart", // u
+						"/shop/cnt_change", // u
+						"/shop/delAll", // u
+						"/shop/delSel", // u
+						"/shop/buynow", // u
+						"/shop/buycart", // u
+						"/shop/addgoods", // a
+						"/shop/editgoods", // a
+						"/shop/summer_image.do"
 				)
 				.and()
+				 */
 
 				// 로그인
 				.formLogin().loginPage("/team/login") // 접속 차단시 로그인 페이지로 가게 하기

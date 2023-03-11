@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link href="/css/detail_adminb.css" rel="stylesheet">
+
 <title>관리자 - 1:1 문의 상세보기 </title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -30,46 +32,135 @@ function deleteQueB()
 }
 
 
+function edit_btn(){
+	location.href = "/admin/edit_q/[[${oneb.qnum}]]"
+}
+
+$(function(){
+	$('#btnUpload').on('click',function(event){
+		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
+		
+		var form= $('#replyForm')[0] // FormData를 쓰기 위해 필요하다
+		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
+		
+		$('#btnUpload').prop('disabled', 
+				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
+		
+		$.ajax({
+			url:'/admin/reply',
+			method:'post',
+			enctype: 'multipart/form-data',
+			data: data,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 600000,
+			success: function(res){
+				
+				$('#btnUpload').prop('disabled', false);
+				if(res.uploaded){
+					alert('답변이 저장 되었습니다.');
+					location.href= "/admin/qaList"
+				}
+			},
+			error: function(e){
+				$('#btnUpload').prop('disabled', false);
+				alert('Server Error');
+			}
+			
+		});
+	})
+})
+
 
 </script>
 </head>
-<body>
+<body style="margin:0 auto; padding:0;">
 <div>
     <div th:replace="fragments/managernav :: header"></div>
 </div>
 
-<div style="margin:0 auto; width: 500px; height:500px; padding-top:30px;">
 
 <div style="float:right">
-<a th:href= "|/health/reply/${oneb.qnum}|">답변하기</a>
+<a th:href= "|/admin/reply/${oneb.qnum}|">답변하기</a>
 </div>
-<main style="float:right"> 
 
-	   <div>제목
-	      <span>[[${oneb.title}]]</span>
+
+<div style="padding-top:20px;">
+	<div class= "top_wrap"> 
+		<h1 style="padding-top:25px; text-align:center;"> 1:1 Q&A </h1> 
+	</div>
+		
+	<div style="padding-left:400px; padding-right:200px;padding-top:20px">
+		<div class="tit">제목
+	      <span style="font-weight: bold;
+	font-size: large;">[[${oneb.title}]]</span>
 	   </div>
-	   <div>작성자
+	   <div class="aut">작성자
 	      <span>[[${userid}]]</span>
 	   </div>
-	   <div>조회수
+	   <div class="hit">조회수
 	      <span>[[${oneb.hit}]]</span>
 	   </div>
-	   <div>등록일
+	   <div class="date1">등록일
 	      <span>[[${oneb.qdate}]]</span>
 	   </div>
-	   <div>내용
+	   <div  class ="cont">내용
 	      <span>[[${oneb.content}]]</span>
 	   </div>
 	   
 	   <div>첨부파일</div>
 	   <span th:if= "${oneb.attList.size()>0}"></span>
-	   <span th:each="att: ${oneb.attList}"> [[${att.attname}]]</span>
-	
-	<a th:href= "|/admin/edit_q/${oneb.qnum}|">[수정하기]</a>
+	   <span th:each="att: ${oneb.attList}"> 
+	   		[[${att.attname}]]
+			<img th:src="'/images/'+${att.attname}"> 
+	   </span>	
 	<p>
-	<button type="button" onclick="deleteQueB();"> 삭제</button>
-	</p>
-</main>
+	</div>
+	<div style="text-align:center;"> 
+		<button type="button" onclick="delQueB();"> 삭제</button>
+		<button type="button" onclick="edit_btn();"> 수정 </button>
+	</div>
+	
+	<div class="containera" style="padding-top:50px;">
+		<h3 style="text-align:center;">답변하기</h3>
+		<form id ="replyForm"  style="text-align:center;">
+			<input type="hidden" name= "qnum" th:value="${qnum}">
+				<div>
+					관리자
+					<input type="hidden" name="author" value="admin"/>
+				</div>
+				<div>
+					<script>
+						today = new Date().toLocaleDateString();
+						document.write(today);
+					</script>
+				</div>
+			
+				<div>
+					<label for="title" style="width:100%;"> 제목</label>
+					<input id ="title" type="text" name="title" th:value="|RE:${oneb.title}|">
+				</div>
+				<p>
+				<div>
+					<textarea class="textarea" name="content" rows="10" cols="40" placeholder="내용을 입력하세요"></textarea>
+				</div>
+				<div>
+					<label for="attach">첨부파일</label>
+					<input type="file" name="attach" multiple="multiple">
+				</div>
+				
+				<p>
+				<div class="btn"> 
+				<button type="button" id="btnUpload">저장</button>
+				<button type="reset">취소</button>
+				</div>
+		</form>
+	</div>
+	
+
+	
 </div>
 </body>
 </html>

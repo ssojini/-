@@ -34,14 +34,15 @@ function addFreeboard() {
 }
 
 function updateContents(listAttach) {
-	var img = $("#contents > img");
+	var img = $("#contents img");
 	for (var i = 0; i < img.length; i++) {
 		for (var j = 0; j < listAttach.length; j++) {
-			if (img[i].className == listAttach[j].aname) {
+			if (img[i].className.localeCompare(listAttach[j].aname, "ko-KR") == 0) {
 				img[i].src = "/images/" + listAttach[j].anum + "_" + listAttach[j].aname;
 			}
 		}
 	}
+	alert("");
 	$.ajax({
 		url:"/freeboard/updateContents",
 		method:"post",

@@ -48,6 +48,44 @@
 			</tr>
 		</tbody>
 	</table>
+	<table class="form">
+		<thead class="form">
+			<tr>
+				<td>기준중량(g)</td>
+				<td>에너지(kcal)</td>
+				<td>탄수화물(g)</td>
+				<td>단백질(g)</td>
+				<td>지방(g)</td>
+				<td>당류(g)</td>
+				<td>나트륨(mg)</td>
+			</tr>
+		</thead>
+		<tbody class="form">
+			<tr th:each="list : ${mlist}">
+				<td th:each="cal : ${list.cal}"
+				 	th:text="${cal.datetime}">
+				</td>
+				<td th:each="sch : ${list.sch}"
+					th:text="${sch.when}">
+				</td>
+				<td th:each="sch : ${list.sch}"
+					th:text="${sch.content}">
+				</td>
+				<td th:each="sch : ${list.sch}"
+					th:text="${sch.content}">
+				</td>
+				<td th:each="sch : ${list.sch}"
+					th:text="${sch.content}">
+				</td>
+				<td th:each="sch : ${list.sch}"
+					th:text="${sch.content}">
+				</td>
+				<td th:each="sch : ${list.sch}"
+					th:text="${sch.content}">
+				</td>
+			</tr>
+		</tbody>
+	</table>
 	<div th:each="list : ${mlist}">
 		<div th:each="sch : ${list.sch}" class="footBtwrap">
 			<div style="padding-right:10px;"><button type="button" class="form-btn reset footBtwrap_l" th:onclick="|location.href='@{'/calen/edit/'+${sch.s_pnum}}'|">수정</button></div>
