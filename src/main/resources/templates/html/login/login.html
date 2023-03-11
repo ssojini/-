@@ -40,6 +40,7 @@
 				},
 			dataType:'json',
 			success: function(res){
+				console.log(res);
 				if (res.login){
 					alert(res.msg);
 					if (res.msg == "관리자 로그인 성공") {
