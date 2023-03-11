@@ -46,7 +46,6 @@ public class FreeboardController {
 	@GetMapping({"","/"})
 	public String freeboard(Model m, @RequestParam(name="bname",defaultValue="") String bname, String title, @PageableDefault(size=10, sort="fbnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable) {
 		Page<Freeboard> pageFreeboard = freeboardService.getListByBnameAndTitle(bname,title,pageable);
-		System.out.println("pageFreeboard:"+pageFreeboard.toList());
 		m.addAttribute("bname",bname);
 		m.addAttribute("title",title);
 		m.addAttribute("pageFreeboard", pageFreeboard);
@@ -62,10 +61,8 @@ public class FreeboardController {
 	@ResponseBody
 	public Map<String,Object> add(Model m, Freeboard freeBoard) {
 		java.sql.Date date = new java.sql.Date(100);
-		System.out.println("FreeboardController/add(Model m, Freeboard freeBoard)");
 		Map<String,Object> map = new HashMap<>();
 		String nickname = (String)session.getAttribute("nickname");
-		System.out.println("nickname:"+nickname);
 		freeBoard.setAuthor(nickname);
 		String userid = (String)session.getAttribute("userid");
 		freeBoard.setUserid(userid);
@@ -78,8 +75,6 @@ public class FreeboardController {
 	@PostMapping("/updateContents")
 	@ResponseBody
 	public Map<String, Object> updateContents(Integer fbnum, String contents) {
-		System.out.println("fbnum:"+fbnum);
-		System.out.println("contents:"+contents);
 		Map<String, Object> map = new HashMap<>();
 		Freeboard updateFreeBoard = freeboardService.updateContents(fbnum, contents);
 		map.put("result", updateFreeBoard!=null?true:false);
@@ -112,8 +107,6 @@ public class FreeboardController {
 	
 	@GetMapping("/edit")
 	public String edit(Model m, Integer fbnum, String title, String contents) {
-		System.out.println("title:"+title);
-		System.out.println("contents:"+contents);
 		Freeboard freeboard = freeboardService.getByFbnum(fbnum);
 		if (title != null) {
 			freeboard.setTitle(title);
@@ -126,7 +119,6 @@ public class FreeboardController {
 	@PostMapping("/edit")
 	@ResponseBody
 	public Map<String,Object> edit(Freeboard freeboard) {
-		System.out.println("freeboard:"+freeboard);
 		Map<String,Object> map = new HashMap<>();
 		freeboardService.update(freeboard);
 		map.put("result", true);
@@ -136,7 +128,6 @@ public class FreeboardController {
 	@PostMapping("/addReply")
 	@ResponseBody
 	public Map<String,Object> addReply(FreeboardReply reply) {
-		System.out.println("addReply()");
 		Map<String,Object> map = new HashMap<>();
 		String userid = (String)session.getAttribute("nickname");
 		reply.setAuthor(userid);
@@ -148,7 +139,6 @@ public class FreeboardController {
 	@PostMapping("/deleteReply")
 	@ResponseBody
 	public Map<String,Object> deleteReply(Integer num) {
-		System.out.println("num:"+num);
 		Map<String,Object> map = new HashMap<>();
 		replyService.deleteByNum(num);
 		map.put("result", true);
@@ -176,7 +166,6 @@ public class FreeboardController {
 	@PostMapping("/likeCount")
 	@ResponseBody
 	public Map<String,Object> likeCount(Integer fbnum) {
-		System.out.println("likeCount fbnum:"+fbnum);
 		Map<String,Object> map = new HashMap<>();
 		String nickname = (String)session.getAttribute("nickname");
 		boolean result = freeboardService.changeLikecount(fbnum, nickname);
