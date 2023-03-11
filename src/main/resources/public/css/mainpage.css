@@ -184,5 +184,8 @@ button {
 .chatgpt_output {
 	font-size: small;
 }
- 
- 
+
+#recommendDiet_button:disabled {
+	pointer-events : none;
+    background-color: #BF8877;
+}
