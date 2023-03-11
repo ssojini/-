@@ -95,14 +95,14 @@ public class AdminBoardSerivce
 	@Transactional
 	public boolean uploadQueB(HttpServletRequest request, OneBoard oneb, MultipartFile[] mfiles)
 	{
-
+		log.info("svc uploadQueB 돌아감");
 		//log.info("svc, mfiles.length={}", mfiles.length);
 		ServletContext context =request.getServletContext();
 		String savePath = context.getRealPath("/WEB-INF/files");
 		List<AttachBoard> alist = new ArrayList<>();
 		if(oneb.getQnum()!=0) 
 		{	
-			
+			log.info("svc qnum이 있으면 부분 돌아감");
 			oneb.setAnum(oneb.getQnum());
 		}
 		int brow = qamapper.addQueBoard(oneb);
@@ -361,8 +361,8 @@ public class AdminBoardSerivce
 	public AdminBoard detail_adminb(int adnum)
 	{
 		List<Map<String, Object>> mlist = mapper.detail_adminb(adnum);
+	//	log.info("mlist 사이즈:"+ mlist.size());
 		Map<String, Object> boardMap = mlist.get(0);
-		
 		AdminBoard adminb =parseAdminB(boardMap);
 		
 		if(boardMap.get("ATTID")!=null)
