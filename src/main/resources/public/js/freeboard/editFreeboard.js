@@ -57,7 +57,6 @@ function deleteFile() {
 			cache:false,
 			dataType:"json",
 			success:function(res) {
-				console.log("contents:"+$("#contents").html());
 				if (res.result) {
 					location.href = "/freeboard/edit?fbnum="+$("#fbnum").text()+"&title="+$("#title").val()+"&contents="+$("#contents").html();
 				} else {

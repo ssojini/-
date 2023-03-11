@@ -1,6 +1,7 @@
 %%writefile ezenfinal.py
 #!pip install cx_Oracle
 #!pip install flask_sqlalchemy
+#!pip install openai
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
