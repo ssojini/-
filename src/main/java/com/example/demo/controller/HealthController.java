@@ -273,31 +273,6 @@ public class HealthController {
 		return map;
 	}
 	
-	@GetMapping("/reply/{qnum}")
-	public String replyQueB(Model m, @PathVariable("qnum") int qnum)
-	{
-		OneBoard queb = absvc.getQueBoard(qnum);
-		String title = queb.getTitle();
-		m.addAttribute("title", title);
-		m.addAttribute("qnum", qnum);
-		return "html/admin/replyAnsB";
-	}
-	
-	@PostMapping("/reply")
-	@ResponseBody
-	public Map<String, Boolean> reply(HttpServletRequest request,
-			OneBoard oneb,
-			@RequestParam("attach") MultipartFile[] mfiles)
-	{
-		//log.info("ctrl, reply ajax로 돌아감");
-		boolean uploaded =absvc.uploadQueB(request, oneb, mfiles);
-		Map<String, Boolean> map= new HashMap<>();
-		map.put("uploaded", uploaded);
-		//log.info("ctrl, uploaded값:"+ uploaded);
-		return map;
-	}
-	
-	
 	@GetMapping("/detailByQnum/{qnum}")
 	public String detailByQnum(@PathVariable("qnum") int qnum, Model m, HttpSession session)
 	{
