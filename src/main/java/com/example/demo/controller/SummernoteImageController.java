@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.io.InputStream;
-import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,34 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/images")
-public class ImageController {
+@RequestMapping("/summernoteImage")
+public class SummernoteImageController {
 	@Autowired
 	ResourceLoader resourceLoader;
-
+	
 	@GetMapping(value="/{filepath}", produces=MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public byte[] getFiles(@PathVariable("filepath") String filepath) {
-		try {
-			Resource resource = resourceLoader.getResource("WEB-INF/files/" + filepath);
-			System.out.println("resource:"+resource);
-			InputStream is = resource.getInputStream();
-			int len = (int)resource.getFile().length();
-			byte[] buf = new byte[len];
-			
-			is.read(buf);
-			is.close();
-			return buf;
-		} catch(Exception e) {
-			System.err.println("이미지 로드 실패");
-			//e.printStackTrace();
-		}
-		return null;
-	}
-	
-	@GetMapping(value="/goodsimg/{filepath}", produces=MediaType.IMAGE_JPEG_VALUE)
-	@ResponseBody
-	public byte[] getGoodsimg(@PathVariable("filepath") String filepath) {
+	public byte[] getSummernoteImage(@PathVariable("filepath") String filepath) {
 		try {
 			Resource resource = resourceLoader.getResource("WEB-INF/files/goodsimg/" + filepath);
 			System.out.println("resource:"+resource);

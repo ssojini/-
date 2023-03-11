@@ -369,6 +369,7 @@ public class ShopService
 	
 	 public String filesave(MultipartFile file)
 	 {
+		 System.out.println(file.getOriginalFilename());
 		// String savedFileName = filesaves(file);
 		 JsonObject json = new JsonObject(); 
 		
@@ -381,13 +382,14 @@ public class ShopService
 
 		    String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 		   
-		    File targetFile = new File(fileRoot +"\\"+ savedFileName);
+		    File targetFile = new File(fileRoot +"/"+ savedFileName);
 		    File targetFile2 = new File(fileRoot2 + savedFileName);//summernote priview
 		    
 		    try {
 		        // 파일 저장
 		        InputStream fileStream = file.getInputStream();
 		        FileUtils.copyInputStreamToFile(fileStream, targetFile);
+		        System.out.println(targetFile);
 		      
 		        InputStream fileStream2 = file.getInputStream(); //summernote priview
 		        FileUtils.copyInputStreamToFile(fileStream2, targetFile2);
