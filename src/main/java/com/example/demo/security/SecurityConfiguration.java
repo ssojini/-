@@ -265,6 +265,8 @@ public class SecurityConfiguration {
 				// csrf
 				.and()
 				.csrf()
+				.disable()
+				/*
 				.ignoringRequestMatchers(
 						// csrf
 						
@@ -362,6 +364,7 @@ public class SecurityConfiguration {
 						"/shop/summer_image.do"
 				)
 				.and()
+				 */
 
 				// 로그인
 				.formLogin().loginPage("/team/login") // 접속 차단시 로그인 페이지로 가게 하기
