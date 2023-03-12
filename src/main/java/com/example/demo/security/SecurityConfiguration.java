@@ -45,6 +45,10 @@ public class SecurityConfiguration {
 						"/img/**",
 						
 						// AdminBoardController.java
+						// post
+						"/admin/search_notice",
+						"/admin/search_faq",
+						"/admin/search_qna",
 						// CalendarController.java
 						// get
 						"/calen/getCalendar",
@@ -111,10 +115,6 @@ public class SecurityConfiguration {
 						// User
 						
 						// AdminBoardController.java
-						// post
-						"/admin/search_notice",
-						"/admin/search_faq",
-						"/admin/search_qna",
 						// CalendarController.java
 						// get
 						"/calen/showCalen",
