@@ -68,7 +68,6 @@ public class AdminBoardController
 	@ResponseBody
 	public Map<String,Object> addAdmin(HttpServletRequest request,Model m, 
 			AdminBoard adminb, @RequestParam("attach") MultipartFile[] mfiles) {
-		
 		boolean added = absvc.addAdmin(request, adminb, mfiles);
 		log.info("name값:"+adminb.getName());
 		Map<String, Object> map = new HashMap<>();
