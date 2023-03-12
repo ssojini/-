@@ -591,7 +591,7 @@ public class AdminBoardSerivce
 	         json.put("title", adminb.getTitle());
 	         json.put("author", adminb.getAuthor());
 	         json.put("content", adminb.getContent());
-	         json.put("adate", adminb.getAdate());
+	         json.put("adate", adminb.getAdate().toString());
 	         json.put("hit", adminb.getHit());
 	         json.put("adnum", adminb.getAdnum());
 	        
@@ -615,7 +615,7 @@ public class AdminBoardSerivce
 	         json.put("title", oneb.getTitle());
 	         json.put("author", oneb.getAuthor());
 	         json.put("content", oneb.getContent());
-	         json.put("qdate", oneb.getQdate());
+	         json.put("qdate", oneb.getQdate().toString());
 	         json.put("hit", oneb.getHit());
 	         json.put("qnum", oneb.getQnum());
 	         

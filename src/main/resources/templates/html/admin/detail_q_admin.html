@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
-function deleteQueB()
+function delQueB()
 {
    $.ajax({
       url:'/health/deleteQueB',
@@ -82,11 +82,6 @@ $(function(){
 </div>
 
 
-<div style="float:right">
-<a th:href= "|/admin/reply/${oneb.qnum}|">답변하기</a>
-</div>
-
-
 <div style="padding-top:20px;">
 	<div class= "top_wrap"> 
 		<h1 style="padding-top:25px; text-align:center;"> 1:1 Q&A </h1> 
@@ -111,11 +106,11 @@ $(function(){
 	   </div>
 	   
 	   <div>첨부파일</div>
-	   <span th:if= "${oneb.attList.size()>0}"></span>
-	   <span th:each="att: ${oneb.attList}"> 
-	   		[[${att.attname}]]
-			<img th:src="'/images/'+${att.attname}"> 
-	   </span>	
+	   <div th:if= "${oneb.attList.size()>0}"></div>
+		   <div th:each="att: ${oneb.attList}"> 
+		   		[[${att.attname}]]
+				<img class="img_s" th:src="'/images/'+${att.attname}"> 
+		   </div>	
 	<p>
 	</div>
 	<div style="text-align:center;"> 

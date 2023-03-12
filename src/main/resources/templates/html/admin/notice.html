@@ -17,7 +17,8 @@
       {
 
          var serData = $('#search_board').serialize();
-        
+      //   var parseData =JSON.parse(serData);
+
          
          $.ajax({
             url: '/admin/search_notice',
@@ -39,14 +40,14 @@
             	   							+'<td>'+res[i].hit+'</td>'
             	   							+'<td>'+res[i].adate+'</td>'
             	   							+ '</tr>'
-            	   )            	   
+            	   );            	   
                
                }
             }, 
             error: function(xhr,status,err){
                alert('에러'+err);
             }
-         })
+         });
    
          return false;
       }
