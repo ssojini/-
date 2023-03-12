@@ -28,7 +28,7 @@ function search_board()
        	var cnt = res.length;
          for(var i=0; i<cnt; i++)
          {
-      	   $('#found tbody').html( '<tr>'
+      	   $('#found tbody').append( '<tr>'
       	   							+ '<td>'+res[i].qnum+'</td>'
       	   							+'<td>'+
       	   								'<a href = "/admin/detail_q/'+ res[i].qnum + '">'  + res[i].title + '</a>'

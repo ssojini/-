@@ -39,7 +39,7 @@
 	>
 		SELECT * FROM(
 		SELECT q.qnum, q.title, q.author, q.qdate AS qdate, q.content, q.hit, attsize, attname, attid
-		FROM queBoard q LEFT OUTER JOIN attach a
+		FROM queBoard q LEFT OUTER JOIN attach_board a
 		ON q.qnum = a.qnum
 		ORDER BY q.qnum DESC, attid ASC
 		)t
@@ -70,7 +70,7 @@
 	
 	<update id="saveAttach"
 	parameterType="list">
-	INSERT INTO attach (attid, attsize, attname, qnum, anum)
+	INSERT INTO attach_board (attid, attsize, attname, qnum, anum)
 	SELECT
 	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
 	(
@@ -88,7 +88,7 @@
 <!-- 수정할 때 추가하는 첨부파일 -->	
 	<update id="moreAttach" 
 	parameterType="list">
-	INSERT INTO attach (attid, attsize, attname, qnum, anum)
+	INSERT INTO attach_board (attid, attsize, attname, qnum, anum)
 	SELECT
 	ATTACH_SEQ.NEXTVAL AS attid, t.* FROM
 	(
@@ -115,7 +115,7 @@
 		id="deleteAllF"
 		parameterType="Integer"
 	>
-	DELETE FROM attach WHERE qnum=#{qnum} 
+	DELETE FROM attach_board WHERE qnum=#{qnum} 
 	</delete>
 	
 	<delete
@@ -129,7 +129,7 @@
 	id="deleteAttach"
 	parameterType="Integer"
 	>
-	DELETE FROM attach WHERE attid=#{attid}
+	DELETE FROM attach_board WHERE attid=#{attid}
 	</delete>
 	
 	<select
@@ -137,7 +137,7 @@
 		resultType="com.example.demo.vo.AttachBoard"
 		parameterType="Integer"
 	>
-	SELECT * FROM attach WHERE qnum=#{qnum}
+	SELECT * FROM attach_board WHERE qnum=#{qnum}
 	</select>
 	
 	<select
@@ -145,7 +145,7 @@
 		resultType="com.example.demo.vo.AttachBoard"
 		parameterType="Integer"
 	>
-	SELECT * FROM attach WHERE attid=#{attid}
+	SELECT * FROM attach_board WHERE attid=#{attid}
 	</select>
 
 
