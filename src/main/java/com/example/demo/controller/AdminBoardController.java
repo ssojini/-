@@ -50,8 +50,7 @@ public class AdminBoardController
 			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
 )
 	{
-		String userid = (String)session.getAttribute("userid");
-		Page<OneBoard> pageOneboard = pagesvc.getList(pageable, userid);
+		Page<OneBoard> pageOneboard = pagesvc.getAllList(pageable);
 		m.addAttribute("pageOneboard", pageOneboard);
 		
 		return "html/admin/qaList";
@@ -131,23 +130,8 @@ public class AdminBoardController
 			return "html/admin/faq_admin";
 		}
 	}
-	
-	
-	@GetMapping("/noticeMain/{pg}/{cnt}")
-	public String noticeMain(Model m, @PathVariable int pg, @PathVariable int cnt)
-	{
-		PageInfo<Map<String, Object>> pageInfo = absvc.noticePage(pg, cnt);
-		List<AdminBoard> list = absvc.adminBList(pageInfo.getList());
-		m.addAttribute("list", list);
-		
-		return "html/mainPage";
-	}
-	
 
 
-	
-	
-	//
 	@GetMapping("/detail_notice/{adnum}")
 	public String detail_notice(@PathVariable("adnum") int adnum, Model m)
 	{
@@ -294,6 +278,7 @@ public class AdminBoardController
     @ResponseBody
     public String search_qna(@RequestParam String input, HttpSession session)
     {
+
 		String userid =(String)session.getAttribute("userid");
     	return absvc.search_qna(input, userid).toJSONString();
     }

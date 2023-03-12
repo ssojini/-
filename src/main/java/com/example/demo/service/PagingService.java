@@ -26,11 +26,16 @@ public class PagingService
 	@Autowired
 	private AdminboardRepository admin_repo;
 	
+	
 	public Page<OneBoard> getList(Pageable pageable, String userid) 
 	{
-		return repo.getQnaListByAuthor(pageable,userid);
+		return repo.getQnaByAuthor(pageable,userid);
 	}
 	
+	public Page<OneBoard> getAllList(Pageable pageale)
+	{
+		return repo.findQAList(pageale);
+	}
 	public Page<AdminBoard> getNoticeOrFAQ(Pageable pageable, String name)
 	{
 		return admin_repo.findByNameOrderByAdateDesc(pageable, name);

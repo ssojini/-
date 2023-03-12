@@ -3,27 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>이용자 1:1 문의 페이지</title>
+<link href="/css/adminboard.css" rel="stylesheet">
 
-<style>
-.title{
-	text-align: center;
-	margin-top: 10px;
-}
-.containera{
-	 width: 600px;
-	 height:600px;
-	 margin: 0 auto;
-	 outline: solid 1px black;
-	 display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 5px;
-}
-.btn{
-	width: 100%
-	margin: 0 auto;	
-}
-</style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" 
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
 	crossorigin="anonymous">
@@ -70,41 +51,45 @@ $(function(){
 
 </head>
 <body>
-<div>
-<div th:replace="fragments/common :: header"></div>
-</div>
-<h3 class="title">1:1 문의</h3>
-<div class="containera">
-<form id ="questionForm" >
 	<div>
-		<script>
-			today = new Date().toLocaleDateString();
-			document.write(today);
-		</script>
+		<div th:replace="fragments/common :: header"></div>
 	</div>
-	<div>
-		<label for="title"> 제목</label>
-		<input id ="title" type="text" name="title" placeholder="제목을 입력하세요">
-	</div>
-	<div>
-		<input type="hidden" name="author" th:value='${userid}' >
-		[[${userid}]]
-	</div>
-	<div>
-		<textarea name="content" rows="10" cols="40" placeholder="내용을 입력하세요"></textarea>
-	</div>
-	<div>
-		<label for="attach">첨부파일</label>
-		<input type="file" name="attach" multiple="multiple">
-		<div id="preview">
+	<div class= "top_wrap">
+		<div style="width:90%;float:right;">
+			<h1 style="padding-top:25px; text-align: left;">1:1 문의</h1> 
 		</div>
 	</div>
-	<p>
-	<div class="btn"> 
-	<button type="button" id="btnUpload">저장</button>
-	<button type="reset">취소</button>
+
+	<div id= "container">	
+		<form id ="questionForm" >
+			<div class="date1"> 
+				<script>
+					today = new Date().toLocaleDateString();
+					document.write(today);
+				</script>
+			</div>
+			<div class="tit"> 제목
+				<input id ="title" type="text" name="title" placeholder="제목을 입력하세요" style="width:1050px; height:30px;">
+			</div>
+			<div class="aut">
+				<input type="hidden" name="author" th:value='${userid}' >
+				[[${userid}]]
+			</div>
+			<div class="cont">
+				<textarea name="content" rows="10" cols="40" placeholder="내용을 입력하세요" style="width:1090px; height:400px; resize:none;"></textarea>
+			</div>
+			<div>
+				<label for="attach">첨부파일</label>
+				<input type="file" name="attach" class="form input-file" multiple="multiple">
+				<div id="preview">
+				</div>
+			</div>
+			<p>
+			<div class="btn" style="text-align:center;"> 
+			<button type="button" id="btnUpload">저장</button>
+			<button type="reset">취소</button>
+			</div>
+		</form>
 	</div>
-</form>
-</div>
 </body>
 </html>

@@ -59,6 +59,7 @@ crossorigin="anonymous"></script>
 </head>
 <body>
 <div th:replace="fragments/common :: header"></div>
+
 <div class="container">
 	<h5 style="text-align:left; margin-top:20px; font-size:1em; font-weight:bold; color:black;">1:1 문의</h5>
 	
@@ -113,9 +114,6 @@ crossorigin="anonymous"></script>
 		<a th:href="'javascript:goPage(\''+${pageOneboard.getNumber()/10*10+10}+'\')'">다음</a>
 	</span>
 	
-	
 </div>
-
-
 </body>
 </html>

@@ -49,3 +49,10 @@ input {
   width:650px;
   height:30px;
 }
+
+.img_s{
+	width:400px;
+	height:400px;
+object-fit: scale-down;
+}
+	

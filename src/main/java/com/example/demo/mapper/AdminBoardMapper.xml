@@ -131,7 +131,7 @@
       parameterType="String"
       resultType="com.example.demo.vo.AdminBoard"
    >
-     SELECT * FROM admin_board WHERE REGEXP_LIKE(title,#{input}) AND name='notice' 
+	 SELECT * FROM admin_board WHERE REGEXP_LIKE(title,#{input}) AND name='notice' 
    </select>
 
 	<select
