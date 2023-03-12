@@ -111,6 +111,10 @@ public class SecurityConfiguration {
 						// User
 						
 						// AdminBoardController.java
+						// post
+						"/admin/search_notice",
+						"/admin/search_faq",
+						"/admin/search_qna",
 						// CalendarController.java
 						// get
 						"/calen/showCalen",
@@ -218,9 +222,6 @@ public class SecurityConfiguration {
 						"/admin/delAdminIndiv",
 						"/admin/delAdminB",
 						"/admin/edit_faq/**",
-						"/admin/search_notice",
-						"/admin/search_faq",
-						"/admin/search_qna",
 						"/admin/**",
 						// CalendarController.java
 						// ConnectController.java
