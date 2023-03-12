@@ -51,6 +51,7 @@
 	<table class="form">
 		<thead class="form">
 			<tr>
+				<td>음식명</td>
 				<td>기준중량(g)</td>
 				<td>에너지(kcal)</td>
 				<td>탄수화물(g)</td>
@@ -61,28 +62,15 @@
 			</tr>
 		</thead>
 		<tbody class="form">
-			<tr th:each="list : ${mlist}">
-				<td th:each="cal : ${list.cal}"
-				 	th:text="${cal.datetime}">
-				</td>
-				<td th:each="sch : ${list.sch}"
-					th:text="${sch.when}">
-				</td>
-				<td th:each="sch : ${list.sch}"
-					th:text="${sch.content}">
-				</td>
-				<td th:each="sch : ${list.sch}"
-					th:text="${sch.content}">
-				</td>
-				<td th:each="sch : ${list.sch}"
-					th:text="${sch.content}">
-				</td>
-				<td th:each="sch : ${list.sch}"
-					th:text="${sch.content}">
-				</td>
-				<td th:each="sch : ${list.sch}"
-					th:text="${sch.content}">
-				</td>
+			<tr >
+				<td th:text="${food_info.food_name}"></td>
+				<td th:text="${food_info.serving_size}"></td>
+				<td th:text="${food_info.cal}"></td>
+				<td th:text="${food_info.carb}"></td>
+				<td th:text="${food_info.protein}"></td>
+				<td th:text="${food_info.fat}"></td>
+				<td th:text="${food_info.sugars}"></td>
+				<td th:text="${food_info.sodium}"></td>
 			</tr>
 		</tbody>
 	</table>

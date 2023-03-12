@@ -3,6 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.CalendarMapper">
+	<insert id="addnut" parameterType="string">
+	INSERT INTO NUTRIENTS (USERID, CAL, CARB, PROTEIN, FAT, SUGARS, SODIUM, S_NUM, S_PNUM, WHEN, FOOD_NAME,SERVING_SIZE)
+	SELECT #{userid}, CAL, CARB, PROTEIN, FAT, SUGARS, SODIUM, CALEN_SCHEDULE_SEQ.CURRVAL, (SELECT MAX(c_num) FROM hcalendar), #{when}, #{food_name},SERVING_SIZE
+	FROM FOOD_INFO
+	WHERE FOOD_NAME = #{food_name}
+	</insert>
+	
 
 	<insert id = "saveCalendar" parameterType="com.example.demo.vo.HCalendar">
 		INSERT INTO hcalendar(c_num,datetime,userid)
@@ -55,6 +62,13 @@
 		LEFT OUTER JOIN attachcalendar c
 		ON b.s_num = c.a_pnum
 		WHERE a.c_num = #{c_num}
+	</select>
+	
+	
+	<select id="food_info" parameterType="Integer" resultType="com.example.demo.vo.nutrients">
+		SELECT *
+		FROM nutrients
+		WHERE s_pnum = #{c_num}
 	</select>
 	
 	<update id = "updateAttach" parameterType="list">

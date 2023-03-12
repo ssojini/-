@@ -9,6 +9,7 @@ import com.example.demo.vo.AttachCalendar;
 import com.example.demo.vo.HCalendar;
 import com.example.demo.vo.Schedule;
 import com.example.demo.vo.User;
+import com.example.demo.vo.nutrients;
 
 @Mapper
 public interface CalendarMapper 
@@ -21,6 +22,8 @@ public interface CalendarMapper
 	int saveSchedule(Schedule schedule);
 
 	List<Map<String, Object>> detail(int num);
+	
+	nutrients food_info(int num);
 
 	List<Map<String, Object>> list(String userid);
 
@@ -41,6 +44,7 @@ public interface CalendarMapper
 	int updateAttach(List<AttachCalendar> list);
 
 	User userinfo(String userid);
-
+	
+	int addnut(String food_name,String userid,String when);
 
 }

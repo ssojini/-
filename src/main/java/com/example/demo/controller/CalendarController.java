@@ -1,11 +1,22 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -21,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.mapper.CalendarMapper;
 import com.example.demo.service.CalendarService;
+import com.example.demo.service.ConnectService;
 import com.example.demo.vo.HCalendar;
 import com.example.demo.vo.Schedule;
 
@@ -31,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/calen")
 @Slf4j
-public class CalendarController 
+public class CalendarController
 {
 	@Autowired
 	private CalendarService cs;
@@ -81,19 +93,23 @@ public class CalendarController
 		
 		return "html/calendar/calendarAdd";
 	}
+	
 	@PostMapping("/add")
 	@ResponseBody
 	public Map<String,Object> Add(@RequestParam("files")MultipartFile[] mfiles, HCalendar cal, Schedule sc, HttpServletRequest request, Model m) 
 	{	
+		
 		Map<String,Object> map = new HashMap<>();
 		map.put("add", cs.add(mfiles, request, cal, sc));
-		
+		cs.food_info(mfiles,cal, sc, request);
 		return map;
 	}
 	
 	@GetMapping("/detail/{num}")
 	public String calenDetail(@PathVariable("num") int num, Model model)
 	{
+		model.addAttribute("food_info",cs.food_info(num));
+		System.out.println("food_info: "+ cs.food_info(num));
 		model.addAttribute("mlist",cs.detailCalendar(num));
 		return "html/calendar/CalendarDetail";
 	}

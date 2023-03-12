@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.ConnectService;
 
@@ -53,9 +54,19 @@ public class ConnectController {
 		return connectService.meal_calc();
 	}
 	
-	@PostMapping("/food_ident")
-	public String food_ident() {
-		
-		return null;
+	@PostMapping("/food_info")
+	@ResponseBody
+	public String food_ident(@RequestParam("files")MultipartFile[] mfiles) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("mfiles", mfiles);
+		String response = null;
+		try {
+			response = connectService.post2("/food_info",map);
+			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return response;
 	}
+
 }

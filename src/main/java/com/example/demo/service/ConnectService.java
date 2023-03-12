@@ -80,6 +80,39 @@ public class ConnectService {
         return response;
     }
     
+public String post2(String url, Map<String,Object> map) throws IOException, ParseException {
+    	
+    	System.err.println(URL+" "+url);
+    	URL url2 = new URL(URL+url);
+        HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
+
+        connection.setRequestMethod("POST");     // POST 방식 요청
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
+
+        OutputStream os = connection.getOutputStream();
+        os.write(new JSONObject(map).toJSONString().getBytes());
+        os.flush();
+        os.close();
+
+        int responseCode = connection.getResponseCode();
+        System.err.println("resposneCode:"+responseCode);
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuffer stringBuffer = new StringBuffer();
+        String inputLine;
+
+        while ((inputLine = bufferedReader.readLine()) != null) {
+            stringBuffer.append(inputLine);
+        }
+        bufferedReader.close();
+
+        String response = stringBuffer.toString();
+        System.out.println("response:"+response);
+        
+        return response;
+    }
+    
     public String meal_calc() throws IOException, ParseException {
     	Map<String,String> map = new HashMap<>();
     	map.put("식품명", "꿩불고기");
@@ -87,4 +120,5 @@ public class ConnectService {
     	String response = post(URL+"/meal_calc",map);
     	return response;
     }
+
 }
