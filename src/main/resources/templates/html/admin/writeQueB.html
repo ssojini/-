@@ -11,41 +11,41 @@
 </script>
 <script type="text/javascript" src="/js/load.js"></script>
 <script type="text/javascript">
-$(function(){
-	$('#btnUpload').on('click',function(event){
-		event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
-		
-		var form= $('#questionForm')[0] // FormData를 쓰기 위해 필요하다
-		var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
-		
-		$('#btnUpload').prop('disabled', 
-				true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
-		
-		$.ajax({
-			url:'/health/writeQueB',
-			method:'post',
-			enctype: 'multipart/form-data',
-			data: data,
-			dataType: 'json',
-			cache: false,
-			contentType: false,
-			processData: false,
-			timeout: 600000,
-			success: function(res){
-				$('#btnUpload').prop('disabled', false);
-				if(res.uploaded){
-					alert('문의사항이 저장 되었습니다.');
-					location.href= "/health/qna"
-				}
-			},
-			error: function(e){
-				$('#btnUpload').prop('disabled', false);
-				alert('Server Error');
-			}
+	$(function(){
+		$('#btnUpload').on('click',function(event){
+			event.preventDefault(); //html의 bubbling을 막아준다. 부모까지 전파되지 않고, 현재 태그안에서만 처리되도록함.
 			
-		});
+			var form= $('#questionForm')[0] // FormData를 쓰기 위해 필요하다
+			var data= new FormData(form); //FormData가 있어야 ajax로 첨부파일까지 전송가능
+			
+			$('#btnUpload').prop('disabled', 
+					true); //이용자가 버튼을 한번 눌렀는데 로딩 안되서 계속 누르는 걸 방지하기 위해 disabled 시켜놈
+			
+			$.ajax({
+				url:'/health/writeQueB',
+				method:'post',
+				enctype: 'multipart/form-data',
+				data: data,
+				dataType: 'json',
+				cache: false,
+				contentType: false,
+				processData: false,
+				timeout: 600000,
+				success: function(res){
+					$('#btnUpload').prop('disabled', false);
+					if(res.uploaded){
+						alert('문의사항이 저장 되었습니다.');
+						location.href= "/health/qna"
+					}
+				},
+				error: function(e){
+					$('#btnUpload').prop('disabled', false);
+					alert('Server Error');
+				}
+				
+			});
+		})
 	})
-})
 
 </script>
 
