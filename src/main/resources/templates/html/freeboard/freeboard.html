@@ -36,7 +36,7 @@
 					<td>[[${board.author}]]</td>
 					<td>[[${board.hit}]]</td>
 				</tr>
-				<tr class="boardTr" th:each="i : ${#numbers.sequence(0,10 - #lists.size(pageFreeboard.toList()))}"></tr>
+				<tr class="boardTr" th:if="${(10 - #lists.size(pageFreeboard.toList())) gt 0}" th:each="i : ${#numbers.sequence(1,10 - #lists.size(pageFreeboard.toList()))}"><td></td><td></td><td></td><td></td></tr>
 			</table>
 		</div>
 		<div id="freeboard_page_div">

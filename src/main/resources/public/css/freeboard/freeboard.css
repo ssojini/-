@@ -37,7 +37,7 @@ main {
 }
 #freeboard_table > tbody > tr {
 	width: 100%;
-	height: auto;
+	height: 9%;
 	border-color: inherit;
     border-style: solid;
     border-width: 0;
