@@ -29,7 +29,7 @@
             	var cnt = res.length;
                for(var i=0; i<cnt; i++)
                {
-            	   $('#found tbody').html( '<tr>'
+            	   $('#found tbody').append( '<tr>'
             	   							+ '<td>'+res[i].adnum+'</td>'
             	   							+'<td>'+
             	   								'<a href = "/health/detail_faq/'+ res[i].adnum + '">'  + res[i].title + '</a>'

@@ -34,7 +34,7 @@ crossorigin="anonymous"></script>
            	var cnt = res.length;
              for(var i=0; i<cnt; i++)
              {
-          	   $('#found tbody').html( '<tr>'
+          	   $('#found tbody').append( '<tr>'
           	   							+ '<td>'+res[i].qnum+'</td>'
           	   							+'<td>'+
           	   								'<a href = "/health/detail_q/'+ res[i].qnum + '">'  + res[i].title + '</a>'
@@ -85,7 +85,7 @@ crossorigin="anonymous"></script>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="board, iStat: ${pageOneboard}">
+			<tr th:each="board: ${pageOneboard}">
 		    <td> [[${board.qnum}]] </td>
 				<td>
 					<div id="titles"> 
@@ -105,13 +105,14 @@ crossorigin="anonymous"></script>
 
 <div id="pagination" style=" margin-left:150px; padding-top:20px; text-align: center; width: 80%;" >
 	<span th:if="${pageOneboard.getNumber() gt 9}"><a
-		th:href="'javascript:goPage(\''+${pageOneboard.getNumber()/10*10-1}+'\');'">이전</a></span>
+		th:href="@{/health/qna(page=${pageOneboard.getNumber()/10*10-1})}">이전</a></span>
+	
 	<th:block th:if="${i le pageOneboard.getTotalPages()}" th:each="i : ${#numbers.sequence(pageOneboard.getNumber()/10*10+1 , pageOneboard.getNumber()/10*10+10)}">
-		<span th:if="${i-1 == pageOneboard.getNumber()}" class="current_page_span" th:text="${i}"></span>
-		<span th:if="${i-1 != pageOneboard.getNumber()}" class="page_span"><a th:href="'javascript:goPage(\''+${i-1}+'\');'" th:text="${i}"></a></span>
+		<a th:href="@{/health/qna(page=${i-1})}"> [[${i}]]</span>
 	</th:block>
+	
 	<span th:if="${(pageOneboard.getNumber()/10*10+10)<pageOneboard.getTotalPages()}">
-		<a th:href="'javascript:goPage(\''+${pageOneboard.getNumber()/10*10+10}+'\')'">다음</a>
+		<a th:href="@{/health/qna(page=${pageOneboard.getNumber()/10*10+10})}">다음</a>
 	</span>
 	
 </div>
