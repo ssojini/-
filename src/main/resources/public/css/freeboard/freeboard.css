@@ -14,11 +14,12 @@ main {
 	margin: auto;
 	padding: 5px;
 	width: 80%;
-	height: 330px;
+	height: 60%;
 }
 #freeboard_table {
 	background: white;
 	width: 100%;
+	height: 100%;
 	table-layout: fixed;
 	border-radius: 10px;
 	border-collapse: collapse;
@@ -36,6 +37,7 @@ main {
 }
 #freeboard_table > tbody > tr {
 	width: 100%;
+	height: 9%;
 	border-color: inherit;
     border-style: solid;
     border-width: 0;
@@ -91,7 +93,6 @@ main {
 	border: 1px solid black;
 	padding: 5px 10px;
 	width: 200px;
-	height: 25px;
 }
 #search_freeboard_button {
 	background: rgb(239,239,239);
@@ -113,7 +114,7 @@ main {
 #add_freeboard_btn {
 	background: rgb(239,239,239);
 	display: inline-block;
-	margin: 0px 2.5px;
+	margin: 0px 0px 0px 0px;
 	border-radius: 10px;
 	border: 1px solid black;
 	padding: 5px 10px;

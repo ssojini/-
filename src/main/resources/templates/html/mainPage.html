@@ -296,11 +296,11 @@
 	    	<!-- 오늘의 베스트 -->
 	    	<div id="freeboard_todayBest" style=" width:90%; height: 200px; background:#BDB9B1; overflow: hidden;">
         		<script src="/js/mainPage/freeboard.js"></script>
-        		<div style="float:left; widht:80px; width: 85%; height: 100%">
+        		<div style="float:left; width:80px; width: 85%; height: 100%">
 	        		<div style="color:white; padding-left:20px; padding-top:20px; text-align:left; height:20%;">오늘의 베스트</div>
         			<div style="color:white; padding:20px; height: 80%; text-align:left; ">
         				<div style="width: 100%; height: 100%; overflow: hidden;">
-		        			<ul id="freeboard_todayBest_ul" style="display: inline; font-size: 17px; line-height: 20px;">
+		        			<ul id="freeboard_todayBest_ul" style="display: inline; font-size: 17px; line-height: 19px;">
 		        				<th:block th:if="${listFreeboard!=null}" th:each="freeboard, i : ${listFreeboard}">
 				        			<li th:class="'freeboard_'+${i.index / 6}"><a th:href="@{/freeboard/detail(fbnum=${freeboard.fbnum})}" style="color:white;">[[${freeboard.title}]]</a></li>
 		        				</th:block>
@@ -310,7 +310,7 @@
        			</div>
        			<div style="float:right; width:15%; height: 200px;">
       				<div style="float:top;height:33.33%; text-align: center; padding-top:17px; border: 0.3px solid white;">
-      					<a href="#"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png"></a>     					
+      					<a href="/freeboard"><img style="width:70%; height:70%; object-fit:cover; cursor:pointer;" alt="glass" src="/img/icon-glass.png"></a>     					
       				</div>
       				<input id="freeboard_currentPage" type="hidden" value="0">
       				<div style="float:top;height:33.33%; text-align: center; padding-top:13px; border: 0.3px solid white;">

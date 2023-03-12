@@ -52,8 +52,7 @@
 					alert(res.msg);	
 				}
 			},error:function(xhr,status,err){
-				console.log(err);
-				alert("에러: "+err);
+				alert("로그인 실패");
 			}
 		});
 		// $("<form action='/doLogin' method='post'><input type='text' name='userid' value='"+userid+"'><input type='text' name='pwd' value='"+pwd+"'></form>").submit();
