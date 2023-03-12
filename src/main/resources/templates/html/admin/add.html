@@ -3,29 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자용 쓰기 페이지(Notice, FAQ)</title>
-<style>
-.title{
-	text-align: center;
-	margin-top: 10px;
-}
-.containera{
-	 width: 600px;
-	 height:600px;
-	 margin: 0 auto;
-	 outline: solid 1px black;
-	 display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 5px;
-}
-.btn{
-	width: 100%
-	margin: 0 auto;	
-}
-</style>
+<link href="/css/detail_adminb.css" rel="stylesheet">
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous">
+</script>
 	
 <script type="text/javascript" src="/js/load.js"></script>
 <script type="text/javascript">
@@ -76,46 +59,53 @@
 
 
 </head>
-<body>
-<div>
-    <div th:replace="fragments/managernav :: header"></div>
-</div>
-<h3 class="title">고객 관리</h3>
-<div class="containera">
-	<form id="addAdminForm">
-		<div> 선택
-			<select id="name" name="name">
-				<option value="notice">공지사항</option>
-				<option value="faq">FAQ</option>
-			</select>
-		<div>
-		<script>
-			today = new Date().toLocaleDateString();
-			document.write(today);
-		</script>
-		</div>
-		<label for="title"> 제목</label>
-		<input id ="title" type="text" name="title" placeholder="제목을 입력하세요">
+<body style="margin:0 auto; padding:0;">
+	<div> 
+	<div th:replace="fragments/managernav :: header"></div>
 	</div>
-		<div>
-			<input type="hidden" name="author" value='관리자' >
-			관리자
-		</div>
-		<div>
-			<textarea name="content" rows="10" cols="40" placeholder="내용을 입력하세요"></textarea>
-		</div>
-		<div>
-			<label for="attach">첨부파일</label>
-			<input type="file" name="attach" class="form input-file" multiple="multiple">
-			<div id="preview">
+
+	<div style="padding-top:20px;">
+		<div class= "top_wrap"> 
+			<h1 style="padding-top:25px; text-align:center;"> 고객 관리 </h1> 
+	</div>
+	
+	<div style="padding-left:400px; padding-right:200px;padding-top:20px">
+		<form id="addAdminForm">
+			<div style= "border-bottom: 1px solid #ececec;	padding:20px 5px 20px 0;">
+			 선택
+				<select id="name" name="name">
+					<option value="notice">공지사항</option>
+					<option value="faq">FAQ</option>
+				</select>
 			</div>
-		</div>
-		<p>
-		<div class= "btn"> 
-		<button type="button" id="btnUpload">저장</button>
-		<button type="reset">취소</button>
-		</div>
-	</form>
-</div>
+			<div class= "date1">
+				<script>
+					today = new Date().toLocaleDateString();
+					document.write(today);
+				</script>
+			</div>
+			<div class="tit"> 제목
+				<input id ="title" type="text" name="title" placeholder="제목을 입력하세요" style="width:1050px; height:30px;" >
+			</div>
+			<div class="aut">
+				<input type="hidden" name="author" value='관리자' >
+				관리자
+			</div>
+			<div class="cont">
+				<textarea name="content" rows="10" cols="40" placeholder="내용을 입력하세요" style="width:1090px; height:400px; resize:none;"></textarea>
+			</div>
+			<div>
+				<label for="attach">첨부파일</label>
+				<input type="file" name="attach" class="form input-file" multiple="multiple">
+				<div id="preview">
+				</div>
+			</div>
+			<p>
+			<div style="padding-left:510px; "> 
+			<button type="button" id="btnUpload">저장</button>
+			<button type="reset">취소</button>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
