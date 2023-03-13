@@ -46,7 +46,7 @@ function edit_btn(){
 	</div>
 <div id= "container">	
    <div class="tit">[[${oneb.title}]]</div>
-   <div class="aut">작성자 [[${userid}]]</div>
+   <div class="aut">작성자 [[${oneb.author}]]</div>
    <div class="hit">조회수
       <span>[[${oneb.hit}]]</span>
    </div>
@@ -64,7 +64,7 @@ function edit_btn(){
 
 	<div style="text-align:center;"> 
 		<button type="button" onclick="deleteQueB();"> 삭제</button>
-		<button type="button" onclick="edit_btn();"> 수정 </button>
+		<button th:if="${session.userid} == ${oneb.author}" type="button" onclick="edit_btn();"> 수정 </button>
 	</div>
 
 </div>
