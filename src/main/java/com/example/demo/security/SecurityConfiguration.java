@@ -61,11 +61,15 @@ public class SecurityConfiguration {
 						"/connect/prod_recommend",
 						// FileController.java
 						// FreeboardController.java
+						// get
+						"/freeboard", // g
+						"/freeboard/", // g
 						// HealthController.java
 						// get
 						"/health/main", // g
 						"/health/bmi", // g
-						"/health/center_search", // u
+						"/health/center_search", // g
+						"/health/board", // g
 						// post
 						"/health/cal", // g
 						"/health/getloc", // g
@@ -139,8 +143,6 @@ public class SecurityConfiguration {
 						"/file/list",
 						// FreeboardController.java
 						// get
-						"/freeboard",
-						"/freeboard/",
 						"/freeboard/add",
 						"/freeboard/detail",
 						"/freeboard/edit",
@@ -177,7 +179,6 @@ public class SecurityConfiguration {
 						"/health/deleteuser", // u
 						"/health/changepwd/**", // u
 						"/health/writeQueB", // u
-						// post
 						"/health/edit_q/**", // u
 						"/health/delIndiv", // u
 						"/health/deleteQueB", // u
