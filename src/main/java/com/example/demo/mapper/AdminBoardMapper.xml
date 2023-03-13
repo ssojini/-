@@ -131,8 +131,16 @@
       parameterType="String"
       resultType="com.example.demo.vo.AdminBoard"
    >
-	 SELECT * FROM admin_board WHERE REGEXP_LIKE(title,#{input}) AND name='notice' 
-   </select>
+		  SELECT * FROM admin_board
+		  <where>
+		    <if test="input != null and input != ''">
+		      <foreach collection="input.split(' ')" item="keyword" separator="AND">
+		        AND REGEXP_LIKE(title, #{keyword})
+		      </foreach>
+		    </if>
+		    AND name = 'notice'
+		  </where>
+     </select>
 
 	<select
       id="search_faq"

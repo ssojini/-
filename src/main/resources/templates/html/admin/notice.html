@@ -12,48 +12,14 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" 
 	integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
 		crossorigin="anonymous"></script>
-<script> 
-
-      function search_board()
-      {
-
-         var serData = $('#search_board').serialize();
-      //   var parseData =JSON.parse(serData);
-
-         
-         $.ajax({
-            url: '/admin/search_notice',
-            method: 'post',
-            data: serData,
-            dataType: 'json',   
-            cache: false,     
-            success: function(res){
-
-            	var cnt = res.length;
-               for(var i=0; i<cnt; i++)
-               {
-            	   $('#found tbody').append( '<tr>'
-            	   							+ '<td>'+res[i].adnum+'</td>'
-            	   							+'<td>'+
-            	   								'<a href = "/health/detail_notice/'+ res[i].adnum + '">'  + res[i].title + '</a>'
-            	   							+'</td>'
-            	   							+'<td>'+res[i].author+'</td>'
-            	   							+'<td>'+res[i].hit+'</td>'
-            	   							+'<td>'+res[i].adate+'</td>'
-            	   							+ '</tr>'
-            	   );            	   
-               
-               }
-            }, 
-            error: function(xhr,status,err){
-               alert('에러'+err);
-            }
-         });
-   
-         return false;
-      }
-      
- </script>      
+	<script> 
+	
+	      function search_board()
+	      {
+	    	  location.href = "/health/board?name="+"[[${name}]]"+"&title="+encodeURI($("#input").val());
+	      }
+	      
+	</script>      
 </head>
 <body>
 <div> 
@@ -62,12 +28,10 @@
 <div class= "container">
 	<h5 style="text-align:left; margin-top:20px; font-size:1em; font-weight:bold; color:black;">공지 사항</h5>
 	
-	<form id="search_board" onsubmit='return search_board();'>
-		<div style= "float: right"> 
-			<input type="text" id='input' name='input' placeholder='제목을 입력하세요'> 
-			<button type="submit">검색</button>
-		</div>
-	</form>
+	<div style= "float: right"> 
+		<input type="text" id='input' name='input' placeholder='제목을 입력하세요'> 
+		<button type="button" onclick="search_board();">검색</button>
+	</div>
 	
 	<table class="table table-hover" id="found">
 		<thead>
@@ -95,7 +59,7 @@
 		</tr>
 		</tbody>
 	</table>
-	
+
 	<div id="pagination" style=" margin-left:150px; padding-top:20px; text-align: center; width: 80%;" >
 		<span th:if="${pageAdminBoard.getNumber() gt 9}"><a
 			th:href="@{/health/board?name=notice(page=${pageAdminBoard.getNumber()/10*10-1})}">이전</a></span>

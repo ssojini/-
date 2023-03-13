@@ -41,7 +41,6 @@ import com.example.demo.vo.Main_Title;
 import com.example.demo.vo.MapInfo;
 import com.example.demo.vo.OneBoard;
 import com.example.demo.vo.User;
-import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -384,10 +383,15 @@ public class HealthController {
 		
 		@GetMapping("/board") 
 		public String faq(Model m, HttpSession session,
-							String name,
+							String name, String title,
 							@PageableDefault(size=10, sort="adnum", page=0) Pageable pageable)
 		{
-			Page<AdminBoard> pageAdminBoard = pagesvc.getNoticeOrFAQ(pageable, name);
+			Page<AdminBoard> pageAdminBoard = null;
+			if (title == null) {
+				pageAdminBoard = pagesvc.getNoticeOrFAQ(pageable, name);
+			} else {
+				pageAdminBoard = pagesvc.getNoticeOrFAQByTitle(pageable, name, title);
+			}
 			
 			m.addAttribute("pageAdminBoard", pageAdminBoard);
 			m.addAttribute("name", name);

@@ -34,7 +34,7 @@ crossorigin="anonymous"></script>
            	var cnt = res.length;
              for(var i=0; i<cnt; i++)
              {
-          	   $('#found tbody').append( '<tr>'
+          	   $('#found tbody').html( '<tr>'
           	   							+ '<td>'+res[i].qnum+'</td>'
           	   							+'<td>'+
           	   								'<a href = "/health/detail_q/'+ res[i].qnum + '">'  + res[i].title + '</a>'

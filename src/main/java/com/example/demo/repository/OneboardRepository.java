@@ -23,6 +23,7 @@ public interface OneboardRepository extends JpaRepository<OneBoard, Integer>{
             + "START WITH anum = 0 "
             + "CONNECT BY PRIOR qnum = anum "
             + "ORDER SIBLINGS BY qnum DESC", nativeQuery = true)
-   Page<OneBoard> findQAList(Pageable pageable);
+   
+    Page<OneBoard> findQAListByTitleContainingOrderByQdateDesc(Pageable pageable, String title);
 
 }
