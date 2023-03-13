@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +27,6 @@ import com.example.demo.service.PagingService;
 import com.example.demo.vo.AdminAttachBoard;
 import com.example.demo.vo.AdminBoard;
 import com.example.demo.vo.OneBoard;
-import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -46,11 +44,11 @@ public class AdminBoardController
 	
 	@GetMapping("/qaList") 
 	public String qaList(Model m,
-			HttpSession session,
+			HttpSession session, String title,
 			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
 )
 	{
-		Page<OneBoard> pageOneboard = pagesvc.getAllList(pageable);
+		Page<OneBoard> pageOneboard = pagesvc.getAllList(pageable, title);
 		m.addAttribute("pageOneboard", pageOneboard);
 		
 		return "html/admin/qaList";
@@ -115,11 +113,16 @@ public class AdminBoardController
 	
 	@GetMapping("/board") 
 	public String notice(Model m, HttpSession session, 
-			String name,
+			String name, String title,
 			@PageableDefault(size=10, sort="adnum", page=0) Pageable pageable)
 	{
-		Page<AdminBoard> pageAdminBoard = pagesvc.getNoticeOrFAQ(pageable, name);
-
+		Page<AdminBoard> pageAdminBoard = null;
+		if (title == null) {
+			pageAdminBoard = pagesvc.getNoticeOrFAQ(pageable, name);
+		} else {
+			pageAdminBoard = pagesvc.getNoticeOrFAQByTitle(pageable, name, title);
+		}
+		
 		m.addAttribute("pageAdminBoard", pageAdminBoard);
 		m.addAttribute("name", name);
 		
@@ -263,7 +266,9 @@ public class AdminBoardController
     @ResponseBody
     public String search_notice(@RequestParam String input)
     {
-       return absvc.search_notice(input).toJSONString();
+		log.info("서치:"+ absvc.search_notice(input).size());
+
+    	return absvc.search_notice(input).toJSONString();
     }
 	
     @PostMapping("/search_faq")

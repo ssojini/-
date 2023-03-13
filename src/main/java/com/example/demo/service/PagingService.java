@@ -32,12 +32,17 @@ public class PagingService
 		return repo.getQnaByAuthor(pageable,userid);
 	}
 	
-	public Page<OneBoard> getAllList(Pageable pageale)
+	public Page<OneBoard> getAllList(Pageable pageale, String title)
 	{
-		return repo.findQAList(pageale);
+		return repo.findQAListByTitleContainingOrderByQdateDesc(pageale, title);
 	}
 	public Page<AdminBoard> getNoticeOrFAQ(Pageable pageable, String name)
 	{
 		return admin_repo.findByNameOrderByAdateDesc(pageable, name);
 	}
+
+	public Page<AdminBoard> getNoticeOrFAQByTitle(Pageable pageable, String name, String title) {
+		return admin_repo.findByNameAndTitleContainingOrderByAdateDesc(pageable, name, title);
+	}
+	
 }

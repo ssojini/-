@@ -13,5 +13,6 @@ public interface AdminboardRepository extends JpaRepository<AdminBoard, Integer>
 	public Page<AdminBoard> findAll(Pageable pageable);
 	public Page<AdminBoard> findAllByOrderByAdateDesc(Pageable pageable);
 	public Page<AdminBoard> findByNameOrderByAdateDesc(Pageable pageable , String name);
+	public Page<AdminBoard> findByNameAndTitleContainingOrderByAdateDesc(Pageable pageable, String name, String title);
 
 }
