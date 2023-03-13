@@ -2,6 +2,7 @@ package com.example.demo.vo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor 
 @NoArgsConstructor 
 @Entity
+@Table(name="health_center")
 public class MapInfo {
 	@Id
 	private String center_name; //이름

@@ -52,6 +52,9 @@
 					alert(res.msg);	
 				}
 			},error:function(xhr,status,err){
+				console.log(xhr);
+				console.log(status);
+				console.log(err);
 				alert("로그인 실패");
 			}
 		});
