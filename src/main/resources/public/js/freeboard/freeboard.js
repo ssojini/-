@@ -8,14 +8,14 @@ function addFreeboard() {
 
 function search_freeboard_onkeypress(event) {
 	if (event.keyCode == 13) {
-		location.href = "/freeboard?bname="+$("#bname").val()+"&title="+event.target.value;
+		location.href = "/freeboard?bname="+$("#bname").val()+"&title="+encodeURI(event.target.value);
 	}
 }
 function search_freeboard_onclick() {
+	location.href = "/freeboard?bname="+$("bname").val()+"&title="+encodeURI($("#search_freeboard_input").val());
 	$("#search_freeboard_input").val("");
-	location.href = "/freeboard?bname="+$("bname").val()+"&title="+$("#search_freeboard_input").val();
 }
 
 function goPage(page) {
-	location.href = "/freeboard?bname="+$("#bname").val()+"&title="+$("#title").val()+"&page="+page;
+	location.href = "/freeboard?bname="+$("#bname").val()+"&title="+encodeURI($("#title").val())+"&page="+page;
 }
