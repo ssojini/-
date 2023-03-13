@@ -31,7 +31,7 @@ public class SecurityConfiguration {
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().requestMatchers("/resources/**", "/ignore2");
+		return (web) -> web.ignoring().requestMatchers("/resources/**", "/ignore","/error");
 	}
 
 	@Bean
@@ -65,6 +65,7 @@ public class SecurityConfiguration {
 						// get
 						"/health/main", // g
 						"/health/bmi", // g
+						"/health/center_search", // u
 						// post
 						"/health/cal", // g
 						"/health/getloc", // g
@@ -161,7 +162,6 @@ public class SecurityConfiguration {
 						"/health/deleteuser_check/**", // u
 						"/health/user_addinfo/**", // u
 						"/health/findpwd/**", // u
-						"/health/center_search", // u
 						"/health/qna", // u
 						"/health/writeQueB", // u
 						"/health/detailByQnum/**", // u
