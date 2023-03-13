@@ -17,6 +17,14 @@ public interface OneboardRepository extends JpaRepository<OneBoard, Integer>{
 	@Query(value = "SELECT qnum, LPAD('　', (LEVEL-1)*3, '　') || title title, author, qdate, content, hit, anum FROM queboard START WITH author = ?1 CONNECT BY PRIOR qnum = anum ORDER SIBLINGS BY qnum DESC", nativeQuery = true)
     Page<OneBoard> getQnaByAuthor(Pageable pageable, String author);
 	
+	@Query(value = "SELECT q.qnum, LPAD('　', (LEVEL-1)*3, '　') || q.title AS title, q.author, q.qdate, q.content, q.hit, q.anum "
+    	    + "FROM queBoard q "
+    	    + "WHERE q.title LIKE %?2% AND (q.author = ?1 OR q.author = 'admin') "
+    	    + "START WITH q.anum = 0 "
+    	    + "CONNECT BY PRIOR q.qnum = q.anum "
+    	    + "ORDER SIBLINGS BY q.qnum DESC", nativeQuery = true)
+	Page<OneBoard> getQnaByAuthorAndTitle(Pageable pageable, String userid, String title);
+	
 	//관리자용 1:1문의 리스트 전체 가져오기
     @Query(value = "SELECT qnum, LPAD('　', (LEVEL-1)*3, '　') || title title, author, qdate, content, hit, anum "
             + "FROM queBoard "
@@ -24,6 +32,17 @@ public interface OneboardRepository extends JpaRepository<OneBoard, Integer>{
             + "CONNECT BY PRIOR qnum = anum "
             + "ORDER SIBLINGS BY qnum DESC", nativeQuery = true)
    
-    Page<OneBoard> findQAListByTitleContainingOrderByQdateDesc(Pageable pageable, String title);
+    Page<OneBoard> findQAList(Pageable pageable);
+    
+    @Query(value = "SELECT q.qnum, LPAD('　', (LEVEL-1)*3, '　') || q.title AS title, q.author, q.qdate, q.content, q.hit, q.anum "
+    	    + "FROM queBoard q "
+    	    + "WHERE q.title LIKE %?1% "
+    	    + "START WITH q.anum = 0 "
+    	    + "CONNECT BY PRIOR q.qnum = q.anum "
+    	    + "ORDER SIBLINGS BY q.qnum DESC", nativeQuery = true)
+    public Page<OneBoard> findQAListByTitle(Pageable pageable, String title);
+    
+    
+
 
 }

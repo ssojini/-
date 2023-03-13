@@ -48,7 +48,14 @@ public class AdminBoardController
 			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
 )
 	{
-		Page<OneBoard> pageOneboard = pagesvc.getAllList(pageable, title);
+		Page<OneBoard> pageOneboard =null;
+		if(title ==null) {
+			pageOneboard = pagesvc.getAllList(pageable);
+		}else {
+			pageOneboard = pagesvc.getAllListByTitle(pageable, title);
+
+		}
+		
 		m.addAttribute("pageOneboard", pageOneboard);
 		
 		return "html/admin/qaList";
@@ -262,22 +269,7 @@ public class AdminBoardController
 		return map;
 	}
 	
-    @PostMapping("/search_notice")
-    @ResponseBody
-    public String search_notice(@RequestParam String input)
-    {
-		log.info("서치:"+ absvc.search_notice(input).size());
 
-    	return absvc.search_notice(input).toJSONString();
-    }
-	
-    @PostMapping("/search_faq")
-    @ResponseBody
-    public String search_faq(@RequestParam String input)
-    {
-       return absvc.search_faq(input).toJSONString();
-    }
-    
     @PostMapping("/search_qna")
     @ResponseBody
     public String search_qna(@RequestParam String input, HttpSession session)

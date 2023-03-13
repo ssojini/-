@@ -237,15 +237,22 @@ public class HealthController {
 	
 	@GetMapping("/qna")
 	public String qa(Model m, 
-			HttpSession session,
+			HttpSession session, String title, String author,
 			@PageableDefault(size=10, sort="qnum"/*, direction = Sort.Direction.DESC */, page=0) Pageable pageable
 			)
 	{
-		
-		String userid = (String)session.getAttribute("userid");
-		m.addAttribute("userid", userid);
-		
-		Page<OneBoard> pageOneboard = pagesvc.getList(pageable, userid);
+		System.out.println("title:"+title);
+		author = (String)session.getAttribute("userid");
+		System.out.println("author:"+author);
+		m.addAttribute("userid", author);
+		Page<OneBoard> pageOneboard =null;
+		if(title==null) {
+			pageOneboard = pagesvc.getList(pageable, author);
+		}else {
+			System.out.println("search");
+			pageOneboard = pagesvc.getListByTitle(pageable, author, title);
+		}
+
 		m.addAttribute("pageOneboard", pageOneboard);
 		
 		return "html/admin/qna";
