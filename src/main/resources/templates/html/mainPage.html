@@ -360,13 +360,16 @@
 						<label for="male">남</label> 
 						<input type="radio" id="female" name="gender" value="여자"> <label for="female">여</label>
 					</div>
-				<div class="meal_bottom">
-					<div>
-						<input id="current_weight" type="text" placeholder="현재 몸무게">
-					</div>
-					<div style="padding-top:5px;">
-						<input id="goal_weight" type="text" placeholder="목표 몸무게">
-					</div>
+					<div class="meal_bottom">
+						<div>
+							<input id="current_weight" type="text" placeholder="현재 몸무게">
+						</div>
+						<div style="padding-top:5px;">
+							<input id="goal_weight" type="text" placeholder="목표 몸무게">
+						</div>
+						<div style="">
+					    	<button onclick="recommendDiet();" style="margin:10px;">추천받기</button>
+				    	</div>
 					</div>
 					<div id="chatgpt_output" style="color:#000000;"></div>
 				</div>

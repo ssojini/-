@@ -286,12 +286,16 @@ public class HealthController {
 	@GetMapping("/edit_q/{num}")
 	public String editTestForm(@PathVariable("num") int num, Model m, HttpSession session)
 	{
-		OneBoard oneb = absvc.detailByQnum(num);
-		m.addAttribute("oneb", oneb);
-		m.addAttribute("qnum", num);
 		String userid = (String)session.getAttribute("userid");
-		m.addAttribute("userid", userid);
-		return "html/admin/edit_q";
+		OneBoard oneb = absvc.detailByQnum(num);
+		if (userid.equals("admin") || userid.equals(oneb.getAuthor())) {
+			m.addAttribute("oneb", oneb);
+			m.addAttribute("qnum", num);
+			m.addAttribute("userid", userid);
+			return "html/admin/edit_q";
+		} else {
+			return "html/security/denied";
+		}
 	}
 	
 	@PostMapping("/edit_q/{qnum}")
