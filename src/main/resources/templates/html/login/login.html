@@ -24,6 +24,13 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+	window.onload = function() {
+		denied = "[[${denied}]]";
+		console.log(denied);
+		if (denied == "true") {
+			alert("로그인이 필요합니다.");
+		}
+	};
 	function login(){
 		var url = window.location.href;
 		console.log(url);

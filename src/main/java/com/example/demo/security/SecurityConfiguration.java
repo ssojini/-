@@ -377,7 +377,7 @@ public class SecurityConfiguration {
 				 */
 
 				// 로그인
-				.formLogin().loginPage("/team/login") // 접속 차단시 로그인 페이지로 가게 하기
+				.formLogin().loginPage("/team/login?denied=true") // 접속 차단시 로그인 페이지로 가게 하기
 				.loginProcessingUrl("/doLogin") // post 로그인
 				.defaultSuccessUrl("/team/loginsuccess") // 로그인 성공시 URL
 				.failureUrl("/team/login-error") // 로그인 실패시 URL

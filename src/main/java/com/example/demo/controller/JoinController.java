@@ -113,8 +113,9 @@ public class JoinController
 	/*----------------- [상욱 시작] ----------------- */
 	
 	@GetMapping({"/","/login"})
-	public String login()
+	public String login(Model model, boolean denied)
 	{
+		model.addAttribute("denied",denied);
 		return "html/login/login";
 	}
 	/* Spring Security 에서는 필요 없음
