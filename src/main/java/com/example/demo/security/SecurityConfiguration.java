@@ -16,7 +16,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.example.demo.service.UserService;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfiguration {
 	@Autowired
 	DataSource dataSource;    // JDBC Authentication에 필요함
