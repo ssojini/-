@@ -9,53 +9,14 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
 crossorigin="anonymous"></script>
 
-<script type="text/javascript">
+	<script> 
 	
-	var userid = '[[${userid}]]';
-		if(userid=='') 
-		{
-			alert("로그인이 필요합니다.")
-			location.href= "/team/";
-		};
-
-    function search_board()
-    {
-
-       var serData = $('#search_board').serialize();
-       
-       $.ajax({
-          url: '/admin/search_qna',
-          method: 'post',
-          data: serData,
-          dataType: 'json',   
-          cache: false,     
-          success: function(res){
-	
-           	var cnt = res.length;
-             for(var i=0; i<cnt; i++)
-             {
-          	   $('#found tbody').html( '<tr>'
-          	   							+ '<td>'+res[i].qnum+'</td>'
-          	   							+'<td>'+
-          	   								'<a href = "/health/detail_q/'+ res[i].qnum + '">'  + res[i].title + '</a>'
-          	   							+'</td>'
-          	   							+'<td>'+res[i].author+'</td>'
-          	   							+'<td>'+res[i].hit+'</td>'
-          	   							+'<td>'+res[i].qdate+'</td>'
-          	   							+ '</tr>'
-          	   )            	   
-             
-             }
-          }, 
-          error: function(xhr,status,err){
-             alert('에러'+err);
-          }
-       })
- 
-       return false;
-    }
-    	
-</script>
+	      function search_board()
+	      {
+	    	  location.href = "/health/qna?"+"&title="+encodeURI($("#input").val());
+	      }
+	      
+	</script>    
 </head>
 <body>
 <div th:replace="fragments/common :: header"></div>
@@ -67,12 +28,10 @@ crossorigin="anonymous"></script>
 	<a class= "btn btn-secondary" href="/health/writeQueB">문의하기</a>
 	</div>
 	
-	<form id="search_board" onsubmit='return search_board();'>
 	<div style= "float: right"> 
 		<input type="text" id='input' name='input' placeholder='제목을 입력하세요'> 
-		<button type="submit">검색</button>
+		<button type="button" onclick="search_board()">검색</button>
 	</div>
-</form>
 	
 	<table class="table table-hover" id="found">
 		<thead>
