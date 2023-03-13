@@ -12,8 +12,8 @@ public interface FreeboardRepository extends JpaRepository<Freeboard, Integer> {
 	public Page<Freeboard> findAll(Pageable pageable);
 	public Page<Freeboard> findAllByOrderByDatetimeDesc(Pageable pageable);
 	public Page<Freeboard> findByBnameOrderByDatetimeDesc(String bname, Pageable pageable);
-	public Page<Freeboard> findByTitleOrderByDatetimeDesc(String title, Pageable page);
-	public Page<Freeboard> findByBnameAndTitleOrderByDatetimeDesc(String bname, String title, Pageable pageable);
+	public Page<Freeboard> findByTitleContainingOrderByDatetimeDesc(String title, Pageable page);
+	public Page<Freeboard> findByBnameAndTitleContainingOrderByDatetimeDesc(String bname, String title, Pageable pageable);
 	public Page<Freeboard> findAllByOrderByHitDesc(Pageable page);
 	public List<Freeboard> findAllByOrderByHitDesc();
 }

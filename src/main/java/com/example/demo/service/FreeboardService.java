@@ -42,17 +42,18 @@ public class FreeboardService {
 	}
 
 	public Page<Freeboard> getListByBnameAndTitle(String bname, String title, Pageable pageable) {
+		System.out.println("bname:"+bname);
 		if (title == null || title.equals("")) {
-			if (bname == null || bname.equals("")) {
+			if (bname == null || bname.equals("") || bname.equals("undefined")) {
 				return repo.findAllByOrderByDatetimeDesc(pageable);
 			} else {
 				return repo.findByBnameOrderByDatetimeDesc(bname, pageable);
 			}
 		} else {
-			if (bname == null || bname.equals("")) {
-				return repo.findByTitleOrderByDatetimeDesc(title, pageable);
+			if (bname == null || bname.equals("") || bname.equals("undefined")) {
+				return repo.findByTitleContainingOrderByDatetimeDesc(title, pageable);
 			} else {
-				return repo.findByBnameAndTitleOrderByDatetimeDesc(bname, title, pageable);
+				return repo.findByBnameAndTitleContainingOrderByDatetimeDesc(bname, title, pageable);
 			}
 		}
 	}
